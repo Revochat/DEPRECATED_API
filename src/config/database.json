@@ -1,0 +1,35 @@
+{
+    "database_name": "Revochat",
+    "database_version": "1.0",
+    "database_description": "Revochat DB",
+    "tables": [
+        {
+            "table_name": "ERROR",
+            "columns" : [
+                {
+                    "name": "message",
+                    "type": "TEXT"
+                }
+            ]
+        },
+        { 
+            "table_name": "users",
+            "columns": [
+                {
+                    "name": "token",
+                    "type": "TEXT",
+                    "length": 2048
+                },
+                {
+                    "name": "name",
+                    "type": "TEXT",
+                    "length": 255
+                },
+                {
+                    "name": "created_at",
+                    "type": "DATE"
+                }
+            ]
+        }
+    ]
+}
