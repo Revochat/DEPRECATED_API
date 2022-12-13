@@ -15,6 +15,7 @@ export default new class Routers implements RouterInterface { // This is the cla
         this.app = express()
         this.start()
         this.server = this.app.listen(this.port)
+        console.log('server listen on port: '+this.port)
     }
     iterate = (obj: any, path: string = ""): void => { // This is the function that iterates through the routes
         Object.keys(obj).forEach(key => {
