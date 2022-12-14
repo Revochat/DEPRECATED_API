@@ -12,7 +12,7 @@
                 }
             ]
         },
-        { 
+        {
             "table_name": "users",
             "columns": [
                 {
@@ -21,13 +21,30 @@
                     "length": 2048
                 },
                 {
-                    "name": "name",
+                    "name": "username",
                     "type": "TEXT",
                     "length": 255
                 },
                 {
+                    "name": "tag",
+                    "type": "INTEGER"
+                },
+                {
+                    "name": "password",
+                    "type": "TEXT",
+                    "length": 2048
+                },
+                {
                     "name": "created_at",
                     "type": "DATE"
+                },
+                {
+                    "name": "updated_at",
+                    "type": "DATE"
+                },
+                {
+                    "name" : "last_connection",
+                    "type" : "DATE"
                 }
             ]
         }

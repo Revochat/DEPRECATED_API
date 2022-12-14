@@ -3,7 +3,8 @@
 export * from "./default.database"
 export * from "./model.database"
 export * from "./interface.database"
+export * from "./users.database"
 
-import { DB_Modal } from "./model.database"
+import DB_Manager from "./default.database"
 
-export default new DB_Modal() // This is the default database exported from the database module
+export default new DB_Manager() // This is the default database exported from the database module

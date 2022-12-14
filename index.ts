@@ -11,9 +11,9 @@ Client.on("error", (error: Error | string) => {
     console.log(error)
 })
 
-Client.on("connect", (client: string) => {
+Client.on("connect", (username: string, password: string) => {
     console.log("Sa log quand un mec se connecte (l'interface ClientEvents y'a ip, publicAddress, etc...)")
-    console.log(client)
+    console.log(username, password)
 })
 
 Client.on("channel", token => {
