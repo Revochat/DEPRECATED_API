@@ -8,7 +8,7 @@ export const RouteIntercept = {
     connect : (req: express.Request, res: express.Response) => {
         const { username, password } = req.params
         Emitter.emit("connect", username, password)
-        DB_Manager.userTable()
+        DB_Manager.users
         .createUser({username: username, password: password, created_at: new Date().toUTCString(), updated_at: new Date().toUTCString(), last_connection: new Date().toUTCString() })
         .then(() => {
             console.log("User created")}).catch((err) => {console.log("User not created", err)})

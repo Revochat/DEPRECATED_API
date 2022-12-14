@@ -3,14 +3,11 @@ import { UserDatabase } from "./users.database";
 
 export default class DB_Manager extends DB_Modal { // This is the class for the database manager
     
+    public users: UserDatabase = new UserDatabase()
+
     constructor() {
         super();
         this.createTableFromConfig()
-    }
-
-
-    public userTable(): UserDatabase {
-        return new UserDatabase()
     }
     
 }
