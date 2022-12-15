@@ -1,14 +1,14 @@
 import { UserInterface } from "../client/";
 import { Database } from "sqlite3";
 
-class UserDatabase {
+class UserDatabase { // user database class
     protected db: Database;
 
     constructor(database: Database){
         this.db = database
     }
 
-    public generateUserTag(): number {
+    public generateUserTag(): number { // generate a random tag for the user (NEEDS AN UPDATE)
         return Math.floor(1000 + Math.random() * 9000);
     } 
 

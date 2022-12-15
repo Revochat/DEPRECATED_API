@@ -21,6 +21,11 @@ export const Intercept = { // Intercept the requests and responses and route the
                 res: RouteIntercept.register
             },
 
+            Connect: {
+                path: "/connect/:username/:password",
+                res: RouteIntercept.connect
+            },
+
             GetUser: {
                 path: "/getUser/:token",
                 res: RouteIntercept.getUser

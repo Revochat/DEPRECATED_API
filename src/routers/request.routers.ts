@@ -6,9 +6,10 @@ import { Status } from "./interfaces.routers"
 import bcrypt from "bcrypt"
 
 export const RouteIntercept = {
-    register : (req: express.Request, res: express.Response) => {
+    register : (req: express.Request, res: express.Response) => { // Register a new user
         const { username, password } = req.params
         Emitter.emit("register", username, password)
+        // CHECK IF USER IS NOT ALREADY REGISTERED AND PASSWORD RIGHT FORMAT > 6 char 
         DB_Manager.users
         .createUser({username: username, password: bcrypt.hashSync(password, 10), created_at: new Date().toUTCString(), updated_at: new Date().toUTCString(), last_connection: new Date().toUTCString() })
         .then(() => {
@@ -19,18 +20,17 @@ export const RouteIntercept = {
                 .setMessage(`You are connected as ID: ${username} with password: ${password}`)
         )
     },
-    connect : (req: express.Request, res: express.Response) => {
+    connect : (req: express.Request, res: express.Response) => { // Connect a user
         const { username, password } = req.params
-        Emitter.emit("connect", username
-        , password
-        )
+        Emitter.emit("connect", username, password)
+        // NEED TO CHECK IF THE USER EXISTS IN THE DATABASE AND IF THE PASSWORD IS CORRECT
         res.json(
             RouteResponse
                 .setStatus(Status.success)
                 .setMessage(`You are connected as ID: ${username} with password: ${password}`)
         )
     },
-    getUser : (req: express.Request, res: express.Response) => {
+    getUser : (req: express.Request, res: express.Response) => { // Get the user ID
         const { token } = req.params
         Emitter.emit("getUser", token)
         res.json(
@@ -50,7 +50,7 @@ export const RouteIntercept = {
     },
 
 
-    error : (req: express.Request, response: express.Response | null): void => {
+    error : (req: express.Request, response: express.Response | null): void => { // Error handler
         // Emitter.emit("error", req.header('x-forwarded-for') || req.connection.remoteAddress)
         response == null ? new Error("Unauthorized function manipulation") : 
         response.json(

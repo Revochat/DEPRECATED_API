@@ -6,6 +6,7 @@ TO DO LIST:
 - optimisation of the tag system (until then it's a mess but we count from 1 to 9999 to find any jumps)
 - message system (Web3 and Server chat)
 - audio chat / video chat
+- files upload handling  
 - self destruct system for messages
 - 2FA
 - github permissions (can wait until there are more collaborators)
