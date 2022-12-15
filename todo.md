@@ -1,36 +1,23 @@
 TO DO LIST:
-
-- MAKE ROUTERS
-- INTERFACES FOR THE ROUTERS
-
-- CLIENT SIDE API
-- FUNCTIONS FOR THE CLIENT SIDE API
-
-- DEFINE USER OBJECT
-- MAKE USER INTERFACE
-
-- DATABASE POUR JUSTE ENREGISTRER LE WALLET TOKEN
- -> table user avec wallet token, username, password (généré par nous), created_at, last_connection
  
+- implement user functions (Luc)
+- automatisation of inserts (Léo)
 
-revochat.fr/api/
--> /client/ 
-   -> /messages/{id}
-   -> /
+- optimisation of the tag system (until then it's a mess but we count from 1 to 9999 to find any jumps)
+- message system (Web3 and Server chat)
+- audio chat / video chat
+- self destruct system for messages
+- 2FA
+- github permissions (can wait until there are more collaborators)
 
+Just some ideas for the payed subscription:
 
----------------
+   Video chat
+   spotify integration
+   custom badge
+   text formatting (markdown)
+   custom profile
 
-EMITTERS: 
+some other ideas:
 
- ROUTERS:
-
-- readyRoute (route, params) -> when all the routes are ready
-- loadRoute (route, params) -> when the routes are loading
-
-REQUESTS:
-
-- errors (errors) -> when there is an error
-- channel (token) -> when request a channel
-- messages (publicAddress) -> when a message is sent to someone ( /!\ CAN'T INTERCEPT THE MESSAGE /!\ )
-
+- add a "last seen" system ?

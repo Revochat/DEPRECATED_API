@@ -6,3 +6,10 @@ to install all the dependencies
 <br />
 to run the project
 ``` npx nodemon ```
+
+# Organisation of the API
+
+revochat.fr/api/
+-> /client/ 
+   -> /messages/{id}
+   -> /
