@@ -6,6 +6,7 @@ import { Status } from "./interfaces.routers"
 import bcrypt from "bcrypt"
 
 export const RouteIntercept = {
+
     register : (req: express.Request, res: express.Response) => { // Register a new user
         const { username, password } = req.params
         Emitter.emit("register", username, password)
@@ -20,6 +21,7 @@ export const RouteIntercept = {
                 .setMessage(`You are connected as ID: ${username} with password: ${password}`)
         )
     },
+
     connect : (req: express.Request, res: express.Response) => { // Connect a user
         const { username, password } = req.params
         Emitter.emit("connect", username, password)
@@ -30,9 +32,11 @@ export const RouteIntercept = {
                 .setMessage(`You are connected as ID: ${username} with password: ${password}`)
         )
     },
+    
     getUser : (req: express.Request, res: express.Response) => { // Get the user ID
         const { token } = req.params
         Emitter.emit("getUser", token)
+        // GET THE USER ID FROM THE TOKEN
         res.json(
             RouteResponse
                 .setStatus(Status.success)
@@ -49,8 +53,18 @@ export const RouteIntercept = {
         )
     },
 
+    messages: (req: express.Request, res: express.Response): void => {
+        Emitter.emit("messages", req.params.token)
+        res.json(
+            RouteResponse
+                .setStatus(Status.success)
+                .setMessage(`You are sending a message to the user ID: ${req.params.token}`)
+        )
+    },
 
-    error : (req: express.Request, response: express.Response | null): void => { // Error handler
+
+    // ERROR HANDLER OF WRONG ROUTES
+    error : (response: express.Response | null): void => { // Error handler
         // Emitter.emit("error", req.header('x-forwarded-for') || req.connection.remoteAddress)
         response == null ? new Error("Unauthorized function manipulation") : 
         response.json(
