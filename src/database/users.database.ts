@@ -21,8 +21,9 @@ class UserDatabase { // user database class
         })
     }
 
-    public async getUser(username: string | number): Promise<boolean> { // check if a user exists in the database
+    public async getUser(username: string, password: string): Promise<boolean> { // check if a user exists in the database
         return new Promise((resolve, reject) => {
+            if (this.checkCredentials(username, password)) reject("Invalid credentials")
             if (typeof username === "number") {
                 this.db.get(`SELECT * FROM users WHERE tag=${username}`, (err, row) => {
                     if(err) resolve(false);
@@ -30,12 +31,17 @@ class UserDatabase { // user database class
                 })
             } else {
                 this.db.get(`SELECT * FROM users WHERE username="${username}"`, (err, row) => {
-                    if (err) reject();
+                    if (err) reject("User already exists");
                     if(row == undefined) resolve(false);
                     if(row) resolve(true);
                 })
             }
         })
+    }
+
+    public checkCredentials(username: string, password: string): boolean { // check if the password is correct
+        if (username.length < 4 && password.length < 6) return false;
+        return true;
     }
 
     public async getUserByToken(token: number): Promise<UserInterface | null> { // get a user from the database

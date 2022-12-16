@@ -11,20 +11,27 @@ export const RouteIntercept = {
     register : async (req: express.Request, res: express.Response) => { // Register a new user
         const { username, password } = req.params
         Emitter.emit("register", username, password)
-        // CHECK IF USER IS NOT ALREADY REGISTERED AND PASSWORD RIGHT FORMAT > 6 char 
-
-        if (await DB_Manager.users.getUser(username)) {
+        try {
+            if (await DB_Manager.users.getUser(username, password)) {
+                res.json(
+                    RouteResponse
+                        .setStatus(Status.error)
+                        .setMessage(`User already exists`)
+                )
+            } else {
+                await DB_Manager.users.createUser({username: username, password: bcrypt.hashSync(password, 10), created_at: new Date().toUTCString(), updated_at: new Date().toUTCString(), last_connection: new Date().toUTCString()})
+                res.json(
+                    RouteResponse
+                        .setStatus(Status.success)
+                        .setMessage(`User created`)
+                )
+            }
+        }
+        catch (err) {
             res.json(
                 RouteResponse
                     .setStatus(Status.error)
-                    .setMessage(`User already exists`)
-            )
-        } else {
-            await DB_Manager.users.createUser({username: username, password: bcrypt.hashSync(password, 10), created_at: new Date().toUTCString(), updated_at: new Date().toUTCString(), last_connection: new Date().toUTCString()})
-            res.json(
-                RouteResponse
-                    .setStatus(Status.success)
-                    .setMessage(`You are connected as ID: ${username} with password: ${password}`)
+                    .setMessage(err as string)
             )
         }
     },
@@ -71,7 +78,7 @@ export const RouteIntercept = {
 
 
     // ERROR HANDLER OF WRONG ROUTES
-    error : (response: express.Response | null): void => { // Error handler
+    error : (_: any, response: express.Response | null): void => { // Error handler
         // Emitter.emit("error", req.header('x-forwarded-for') || req.connection.remoteAddress)
         response == null ? new Error("Unauthorized function manipulation") : 
         response.json(
