@@ -1,6 +1,3 @@
-import express from 'express'
-import { Server } from 'http'
-
 export enum Status { // This is the enum that is used to create the status response
     'success' = 'success',
     'error' = 'error',

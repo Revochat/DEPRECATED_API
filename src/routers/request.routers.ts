@@ -1,3 +1,4 @@
+
 import Emitter from "../client/client.emitter"
 import DB_Manager from "../database/"
 import { RouteResponse } from "./interfaces.routers"
@@ -7,19 +8,25 @@ import bcrypt from "bcrypt"
 
 export const RouteIntercept = {
 
-    register : (req: express.Request, res: express.Response) => { // Register a new user
+    register : async (req: express.Request, res: express.Response) => { // Register a new user
         const { username, password } = req.params
         Emitter.emit("register", username, password)
         // CHECK IF USER IS NOT ALREADY REGISTERED AND PASSWORD RIGHT FORMAT > 6 char 
-        DB_Manager.users
-        .createUser({username: username, password: bcrypt.hashSync(password, 10), created_at: new Date().toUTCString(), updated_at: new Date().toUTCString(), last_connection: new Date().toUTCString() })
-        .then(() => {
-            console.log("User created")}).catch((err) => {console.log("User not created", err)})
-        res.json(
-            RouteResponse
-                .setStatus(Status.success)
-                .setMessage(`You are connected as ID: ${username} with password: ${password}`)
-        )
+
+        if (await DB_Manager.users.getUser(username)) {
+            res.json(
+                RouteResponse
+                    .setStatus(Status.error)
+                    .setMessage(`User already exists`)
+            )
+        } else {
+            await DB_Manager.users.createUser({username: username, password: bcrypt.hashSync(password, 10), created_at: new Date().toUTCString(), updated_at: new Date().toUTCString(), last_connection: new Date().toUTCString()})
+            res.json(
+                RouteResponse
+                    .setStatus(Status.success)
+                    .setMessage(`You are connected as ID: ${username} with password: ${password}`)
+            )
+        }
     },
 
     connect : (req: express.Request, res: express.Response) => { // Connect a user

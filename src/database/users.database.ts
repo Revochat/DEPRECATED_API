@@ -21,7 +21,24 @@ class UserDatabase { // user database class
         })
     }
 
-    public async getUser(token: number): Promise<UserInterface | null> { // get a user from the database
+    public async getUser(username: string | number): Promise<boolean> { // check if a user exists in the database
+        return new Promise((resolve, reject) => {
+            if (typeof username === "number") {
+                this.db.get(`SELECT * FROM users WHERE tag=${username}`, (err, row) => {
+                    if(err) resolve(false);
+                    if(row) resolve(true);
+                })
+            } else {
+                this.db.get(`SELECT * FROM users WHERE username="${username}"`, (err, row) => {
+                    if (err) reject();
+                    if(row == undefined) resolve(false);
+                    if(row) resolve(true);
+                })
+            }
+        })
+    }
+
+    public async getUserByToken(token: number): Promise<UserInterface | null> { // get a user from the database
         return new Promise((resolve, reject) => {
             this.db.get(`SELECT * FROM users WHERE token=${token}`, (err, row) => {
                 if(err) reject(null);

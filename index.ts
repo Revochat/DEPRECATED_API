@@ -1,21 +1,16 @@
-import Client, { ClientEvents, RouterInterface, DatabaseInterface} from "./src";
+import Client, {RouterInterface, DatabaseInterface} from "./src";
 
 Client.on("ready", (routes: RouterInterface, database: DatabaseInterface) => {
-    console.log("On est prêt !")
-    console.log("Tu peux utiliser les routes et la base de données !")
-    console.log(routes.reload()) // par exemple je reload les routes quand je veux et quand tout est pret à fonctionner
+    console.log("API is ready to use")
+    // console.log(routes.reload()) // reload the routes to add new routes or remove old routes
 })
 
-Client.on("error", (error: Error | string) => {
-    console.log("Sa log l'erreur quand un mec cherche une route qui existe pas (son ip)")
+Client.on("error", (error: Error | string) => { // Error handler no route found
     console.log(error)
 })
 
-Client.on("connect", (username: string, password: string) => {
-    console.log("Sa log quand un mec se connecte (l'interface ClientEvents y'a ip, publicAddress, etc...)")
+Client.on("connect", (username: string, password: string) => { // Connect a user
     console.log(username, password)
 })
 
-Client.on("channel", token => {
-    console.log("channel tok :" + token)
-})
+Client.on("register", (username: string, password: string) => {}) // Register a new user
