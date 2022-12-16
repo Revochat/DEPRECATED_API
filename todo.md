@@ -1,4 +1,6 @@
 TO DO LIST:
+
+/!\ WEB-TRC AND CONNECTION TO SMART CONTRACT PRIORITY /!\
  
 - implement user functions (Luc)
 - automatisation of inserts (Léo)
