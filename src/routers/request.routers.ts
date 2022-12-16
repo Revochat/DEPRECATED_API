@@ -1,10 +1,11 @@
 
 import Emitter from "../client/client.emitter"
 import DB_Manager from "../database/"
-import { RouteResponse } from "./interfaces.routers"
+import { RouteResponse} from "./interfaces.routers"
 import express from "express"
 import { Status } from "./interfaces.routers"
 import bcrypt from "bcrypt"
+import { User, UserConnect, UserInterface } from "../client"
 
 export const RouteIntercept = {
 
@@ -12,39 +13,59 @@ export const RouteIntercept = {
         const { username, password } = req.params
         Emitter.emit("register", username, password)
         try {
-            if (await DB_Manager.users.getUser(username, password)) {
+            var user = await DB_Manager.users.getUser(username, password);
+            if (typeof user === "boolean")
+            await DB_Manager.users.createUser({username: username, password: bcrypt.hashSync(password, 10), created_at: new Date().toUTCString(), updated_at: new Date().toUTCString(), last_connection: new Date().toUTCString()}),
                 res.json(
-                    RouteResponse
-                        .setStatus(Status.error)
-                        .setMessage(`User already exists`)
-                )
-            } else {
-                await DB_Manager.users.createUser({username: username, password: bcrypt.hashSync(password, 10), created_at: new Date().toUTCString(), updated_at: new Date().toUTCString(), last_connection: new Date().toUTCString()})
-                res.json(
-                    RouteResponse
+                    new RouteResponse()
                         .setStatus(Status.success)
-                        .setMessage(`User created`)
+                        .setMessage(`You are registered as ${username}`)
                 )
-            }
+            else 
+                res.json(
+                    new RouteResponse()
+                        .setStatus(Status.error)
+                        .setMessage(`Error User already exists`)
+                )
         }
         catch (err) {
             res.json(
-                RouteResponse
+                new RouteResponse()
                     .setStatus(Status.error)
                     .setMessage(err as string)
             )
         }
     },
 
-    connect : (req: express.Request, res: express.Response) => { // Connect a user
+    connect : async (req: express.Request, res: express.Response) => { // Connect a user
         const { username, password } = req.params
-        Emitter.emit("connect", username, password)
-        // NEED TO CHECK IF THE USER EXISTS IN THE DATABASE AND IF THE PASSWORD IS CORRECT
-        res.json(
-            RouteResponse
-                .setStatus(Status.success)
-                .setMessage(`You are connected as ID: ${username} with password: ${password}`)
-        )
+        try {
+            var user: boolean | UserInterface = await DB_Manager.users.getUser(username, password);
+            Emitter.emit("connect", username, password)
+            // NEED TO CHECK IF THE USER EXISTS IN THE DATABASE AND IF THE PASSWORD IS CORRECT
+            if (typeof user === "object") {
+                if (await bcrypt.compare(password, user.password)) 
+                    res.json(
+                        new RouteResponse()
+                            .setStatus(Status.success)
+                            .setMessage(`You are connected as ${username}`)
+                            .setData(user as UserInterface)
+                    )
+            else 
+                res.json(
+                    new RouteResponse()
+                        .setStatus(Status.success)
+                        .setMessage(`Error`)
+                )              
+            }
+        }
+        catch(err) {
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage(err as string)
+            )
+        }
     },
     
     getUser : (req: express.Request, res: express.Response) => { // Get the user ID
@@ -52,7 +73,7 @@ export const RouteIntercept = {
         Emitter.emit("getUser", token)
         // GET THE USER ID FROM THE TOKEN
         res.json(
-            RouteResponse
+            new RouteResponse()
                 .setStatus(Status.success)
                 .setMessage(`You are getting the user ID: ${token}`)
         )
@@ -61,7 +82,7 @@ export const RouteIntercept = {
     channel: (req: express.Request, res: express.Response): void => {
         Emitter.emit("channel", req.params.token)
         res.json(
-            RouteResponse
+            new RouteResponse()
                 .setStatus(Status.success)
                 .setMessage(`You are in the channel ID: ${req.params.token}`)
         )
@@ -70,7 +91,7 @@ export const RouteIntercept = {
     messages: (req: express.Request, res: express.Response): void => {
         Emitter.emit("messages", req.params.token)
         res.json(
-            RouteResponse
+            new RouteResponse()
                 .setStatus(Status.success)
                 .setMessage(`You are sending a message to the user ID: ${req.params.token}`)
         )
@@ -82,7 +103,7 @@ export const RouteIntercept = {
         // Emitter.emit("error", req.header('x-forwarded-for') || req.connection.remoteAddress)
         response == null ? new Error("Unauthorized function manipulation") : 
         response.json(
-            RouteResponse
+            new RouteResponse()
                 .setStatus(Status.error)
                 .setMessage("Unauthorized")
         )

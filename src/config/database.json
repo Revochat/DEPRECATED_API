@@ -26,10 +26,6 @@
                     "length": 255
                 },
                 {
-                    "name": "tag",
-                    "type": "INTEGER"
-                },
-                {
                     "name": "password",
                     "type": "TEXT",
                     "length": 2048

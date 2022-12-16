@@ -6,3 +6,11 @@ export interface UserInterface { // This is the interface for the user in the da
     created_at: string;
     last_connection: string;
 }
+
+export interface UserConnect {
+    token: number;
+    username: string;
+    created_at: string;
+    updated_at: string;
+    last_connection: string;
+}

@@ -19,7 +19,7 @@ export interface Route { // This is the interface that is used to create the rou
 export interface InterceptRoute { // This is the interface that is used to create the response
     status: Status,
     message: string,
-    data?: InterceptRoute_Channel | InterceptRoute_Connect | InterceptRoute_Error | InterceptRoute_Messages
+    data?: object
 }
 
 export interface InterceptRoute_Connect { // This is the interface that is used to create the connect response
@@ -42,10 +42,10 @@ export interface InterceptRoute_Messages { // This is the interface that is used
 
 export interface Routes extends Array<Route>{} // This is the interface that is used to create the routes
 
-export const RouteResponse = new class RouteResponse implements InterceptRoute { // This is the class that is used to create the response
+export class RouteResponse implements InterceptRoute { // This is the class that is used to create the response
     public status!: Status
     public message!: string
-    public data?: InterceptRoute_Channel | InterceptRoute_Connect | InterceptRoute_Error | InterceptRoute_Messages
+    public data?: object
     setStatus(status: Status): this {
         this.status = status
         return this
@@ -54,9 +54,15 @@ export const RouteResponse = new class RouteResponse implements InterceptRoute {
         this.message = message
         return this
     }
-    setData(data: InterceptRoute_Channel | InterceptRoute_Connect | InterceptRoute_Error | InterceptRoute_Messages): this {
+    setData(data: object): this {
         this.data = data
         return this
+    }
+
+    clear() {
+        this.status = Status.error
+        this.message = ""
+        this.data = undefined
     }
 }
 

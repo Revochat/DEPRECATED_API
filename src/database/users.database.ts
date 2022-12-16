@@ -1,5 +1,5 @@
-import { UserInterface } from "../client/";
 import { Database } from "sqlite3";
+import { UserInterface } from "../client/";
 
 class UserDatabase { // user database class
     protected db: Database;
@@ -14,33 +14,26 @@ class UserDatabase { // user database class
 
     public async createUser(user: UserInterface): Promise<boolean | string> { // create a user in the database
         return new Promise((resolve, reject) => {
-            this.db.exec(`INSERT INTO users(username, tag, password, created_at, updated_at, last_connection) VALUES("${user.username}","${this.generateUserTag()}","${user.password}","${user.created_at}","${user.updated_at}","${user.last_connection}")`, (err) => {
+            this.db.exec(`INSERT INTO users(username, password, created_at, updated_at, last_connection) VALUES("${user.username}","${user.password}","${user.created_at}","${user.updated_at}","${user.last_connection}")`, (err) => {
                 if(err) reject(err);
                 resolve(false);
             })
         })
     }
 
-    public async getUser(username: string, password: string): Promise<boolean> { // check if a user exists in the database
+    public async getUser(username: string, password: string): Promise<boolean | UserInterface> { // check if a user exists in the database
         return new Promise((resolve, reject) => {
-            if (this.checkCredentials(username, password)) reject("Invalid credentials")
-            if (typeof username === "number") {
-                this.db.get(`SELECT * FROM users WHERE tag=${username}`, (err, row) => {
-                    if(err) resolve(false);
-                    if(row) resolve(true);
-                })
-            } else {
-                this.db.get(`SELECT * FROM users WHERE username="${username}"`, (err, row) => {
-                    if (err) reject("User already exists");
-                    if(row == undefined) resolve(false);
-                    if(row) resolve(true);
-                })
-            }
+            if (!this.checkCredentials(username, password)) reject("Invalid credentials")
+            this.db.get(`SELECT * FROM users WHERE username="${username}" LIMIT 1`, (err: Error | null, row: any) => {
+                if (err) reject("Error while getting user");
+                if(row == undefined) resolve(false);
+                if(row) resolve(row);
+            })
         })
     }
 
     public checkCredentials(username: string, password: string): boolean { // check if the password is correct
-        if (username.length < 4 && password.length < 6) return false;
+        if (username.length < 4 || password.length < 6) return false;
         return true;
     }
 
