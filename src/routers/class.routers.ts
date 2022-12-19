@@ -18,14 +18,16 @@ export default new class Routers implements RouterInterface { // This is the cla
         console.log('server listen on port: '+this.port)
     }
     iterate = (obj: any, path: string = ""): void => { // This is the function that iterates through the routes
+        let method = "get"
         Object.keys(obj).forEach(key => {
+            if(key === "method") method = obj[key]
             if(key === "path") path += obj[key]
-
             if (typeof obj[key] === 'object' && obj[key] !== null) 
                 this.iterate(obj[key], path)
              else if (typeof obj[key] === 'function'){ 
                 if(path.includes("*")) path = "*"
-                this.app.get(path, obj[key]), Emitter.emit("loadRoute", `${path}`, obj[key])
+                if(method === "post") this.app.post(path,  obj[key])
+                else this.app.get(path,  obj[key])
             }
         })
     }

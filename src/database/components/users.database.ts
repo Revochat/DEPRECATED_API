@@ -1,5 +1,6 @@
 import { Database } from "sqlite3";
-import { UserInterface } from "../client/";
+import { UserInterface } from "../../client";
+import uuid from "uuid";
 
 class UserDatabase { // user database class
     protected db: Database;
@@ -8,9 +9,9 @@ class UserDatabase { // user database class
         this.db = database
     }
 
-    public generateUserTag(): number { // generate a random tag for the user (NEEDS AN UPDATE)
-        return Math.floor(1000 + Math.random() * 9000);
-    } 
+    public generateUserToken(): string { // generate a random token for the user (NEEDS AN UPDATE)
+        return "RVC_" + uuid.v4() + Math.floor(1000 + Math.random() * 9000);
+    }
 
     public async createUser(user: UserInterface): Promise<boolean | string> { // create a user in the database
         return new Promise((resolve, reject) => {

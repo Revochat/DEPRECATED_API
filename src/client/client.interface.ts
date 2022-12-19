@@ -1,5 +1,5 @@
 export interface UserInterface { // This is the interface for the user in the database
-    token?: number;
+    token: string;
     username: string;
     password: string;
     updated_at: string;
@@ -8,7 +8,7 @@ export interface UserInterface { // This is the interface for the user in the da
 }
 
 export interface UserConnect {
-    token: number;
+    token: string;
     username: string;
     created_at: string;
     updated_at: string;

@@ -4,18 +4,18 @@ import DB_Manager from "../database/"
 import { RouteResponse} from "./interfaces.routers"
 import express from "express"
 import { Status } from "./interfaces.routers"
-import bcrypt from "bcrypt"
+import bcrypt, { hashSync } from "bcrypt"
 import { User, UserConnect, UserInterface } from "../client"
 
 export const RouteIntercept = {
 
     register : async (req: express.Request, res: express.Response) => { // Register a new user
         const { username, password } = req.params
-        Emitter.emit("register", username, password)
+        Emitter.emit("register", username)
         try {
             var user = await DB_Manager.users.getUser(username, password);
             if (typeof user === "boolean")
-            await DB_Manager.users.createUser({username: username, password: bcrypt.hashSync(password, 10), created_at: new Date().toUTCString(), updated_at: new Date().toUTCString(), last_connection: new Date().toUTCString()}),
+            await DB_Manager.users.createUser({token: DB_Manager.users.generateUserToken() ,username: username, password: bcrypt.hashSync(password, 10), created_at: new Date().toUTCString(), updated_at: new Date().toUTCString(), last_connection: new Date().toUTCString()}),
                 res.json(
                     new RouteResponse()
                         .setStatus(Status.success)

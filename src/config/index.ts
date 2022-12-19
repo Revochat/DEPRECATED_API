@@ -17,6 +17,6 @@ export const config = { // This is the config file for the RevoAPI. You can chan
 
     properties : {
         port: 3000,
-        readyEventTimeout: 2000,
+        readyEventTimeout: 500,
     }
 }

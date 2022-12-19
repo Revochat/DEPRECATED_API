@@ -1,5 +1,5 @@
 import { DB_Modal } from "./model.database";
-import UserDatabase from "./users.database";
+import UserDatabase from "./components/users.database";
 
 export default class DB_Manager extends DB_Modal { // This is the class for the database manager
     

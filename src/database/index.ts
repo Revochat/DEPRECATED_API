@@ -3,7 +3,7 @@
 export * from "./default.database"
 export * from "./model.database"
 export * from "./interface.database"
-export * from "./users.database"
+export * from "./components/users.database"
 
 import DB_Manager from "./default.database"
 
