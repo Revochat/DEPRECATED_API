@@ -1,6 +1,7 @@
 import { Database } from "sqlite3";
 import { UserInterface } from "../../client";
-import uuid from "uuid";
+import {v4} from "uuid";
+import { InsertUser } from "./sql/sql.database";
 
 class UserDatabase { // user database class
     protected db: Database;
@@ -10,21 +11,23 @@ class UserDatabase { // user database class
     }
 
     public generateUserToken(): string { // generate a random token for the user (NEEDS AN UPDATE)
-        return "RVC_" + uuid.v4() + Math.floor(1000 + Math.random() * 9000);
+        return "RVC_" + v4().split("-").join("").toUpperCase() + Math.floor(100000 + Math.random() * 900000);
     }
 
     public async createUser(user: UserInterface): Promise<boolean | string> { // create a user in the database
         return new Promise((resolve, reject) => {
-            this.db.exec(`INSERT INTO users(username, password, created_at, updated_at, last_connection) VALUES("${user.username}","${user.password}","${user.created_at}","${user.updated_at}","${user.last_connection}")`, (err) => {
-                if(err) reject(err);
+            this.db.exec(InsertUser(user), (err) => {
+                if(err) reject("Error while creating user");
                 resolve(false);
             })
         })
     }
 
-    public async getUser(username: string, password: string): Promise<boolean | UserInterface> { // check if a user exists in the database
+    public async getUser(username: string, password?: string): Promise<boolean | UserInterface> { // check if a user exists in the database
         return new Promise((resolve, reject) => {
-            if (!this.checkCredentials(username, password)) reject("Invalid credentials")
+            if(password) {
+                if (!this.checkCredentials(username, password)) reject("Invalid credentials")
+            }
             this.db.get(`SELECT * FROM users WHERE username="${username}" LIMIT 1`, (err: Error | null, row: any) => {
                 if (err) reject("Error while getting user");
                 if(row == undefined) resolve(false);

@@ -12,6 +12,7 @@ export const RouteIntercept = {
     register : async (req: express.Request, res: express.Response) => { // Register a new user
         const { username, password } = req.params
         Emitter.emit("register", username)
+        console.log("I'm here: " + username + " " + password)
         try {
             var user = await DB_Manager.users.getUser(username, password);
             if (typeof user === "boolean")
@@ -29,6 +30,8 @@ export const RouteIntercept = {
                 )
         }
         catch (err) {
+            console.log("Here, I'm an error")
+            console.log(err)
             res.json(
                 new RouteResponse()
                     .setStatus(Status.error)

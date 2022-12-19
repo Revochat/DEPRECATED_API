@@ -1,8 +1,7 @@
 import { Database } from "sqlite3";
-import { I_Database_Table } from "./interface.database"
+import { I_Database_Table } from "../interface.database"
 
-
-const Config = require("../config/database.json");
+const Config = require("../../config/database.json");
 
 export class DB_Modal { // This is the class for the database model (the database itself)
     protected db: Database;

@@ -1,7 +1,7 @@
 // Description: This file is used to export all the database files
 
 export * from "./default.database"
-export * from "./model.database"
+export * from "./components/model.database"
 export * from "./interface.database"
 export * from "./components/users.database"
 
