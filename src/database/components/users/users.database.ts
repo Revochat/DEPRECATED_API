@@ -1,7 +1,7 @@
 import { Database } from "sqlite3";
-import { UserInterface } from "../../client";
+import { UserInterface } from "../../../client";
 import {v4} from "uuid";
-import { InsertUser } from "./sql/sql.database";
+import { InsertUser } from "../sql/sql.database";
 
 class UserDatabase { // user database class
     protected db: Database;
