@@ -1,37 +1,24 @@
 
-import Emitter from "../client/client.emitter"
-import DB_Manager from "../database/"
+import Emitter from "../client/emitter.client"
+
 import { RouteResponse} from "./interfaces.routers"
 import express from "express"
 import { Status } from "./interfaces.routers"
 import bcrypt, { hashSync } from "bcrypt"
-import { User, UserConnect, UserInterface } from "../client"
 
 export const RouteIntercept = {
 
     register : async (req: express.Request, res: express.Response) => { // Register a new user
         const { username, password } = req.params
         Emitter.emit("register", username)
-        console.log("I'm here: " + username + " " + password)
         try {
-            var user = await DB_Manager.users.getUser(username, password);
-            if (typeof user === "boolean")
-            await DB_Manager.users.createUser({token: DB_Manager.users.generateUserToken() ,username: username, password: bcrypt.hashSync(password, 10), created_at: new Date().toUTCString(), updated_at: new Date().toUTCString(), last_connection: new Date().toUTCString()}),
-                res.json(
-                    new RouteResponse()
-                        .setStatus(Status.success)
-                        .setMessage(`You are registered as ${username}`)
-                )
-            else 
-                res.json(
-                    new RouteResponse()
-                        .setStatus(Status.error)
-                        .setMessage(`Error User already exists`)
-                )
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.success)
+                    .setMessage(`You are registering the user: ${username}`)
+            )
         }
         catch (err) {
-            console.log("Here, I'm an error")
-            console.log(err)
             res.json(
                 new RouteResponse()
                     .setStatus(Status.error)
@@ -43,24 +30,11 @@ export const RouteIntercept = {
     connect : async (req: express.Request, res: express.Response) => { // Connect a user
         const { username, password } = req.params
         try {
-            var user: boolean | UserInterface = await DB_Manager.users.getUser(username, password);
-            Emitter.emit("connect", username, password)
-            // NEED TO CHECK IF THE USER EXISTS IN THE DATABASE AND IF THE PASSWORD IS CORRECT
-            if (typeof user === "object") {
-                if (await bcrypt.compare(password, user.password)) 
-                    res.json(
-                        new RouteResponse()
-                            .setStatus(Status.success)
-                            .setMessage(`You are connected as ${username}`)
-                            .setData(user as UserInterface)
-                    )
-            else 
-                res.json(
-                    new RouteResponse()
-                        .setStatus(Status.success)
-                        .setMessage(`Error`)
-                )              
-            }
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.success)
+                    .setMessage(`You are registering the user: ${username}`)
+            )
         }
         catch(err) {
             res.json(

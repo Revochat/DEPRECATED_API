@@ -67,7 +67,6 @@ export class RouteResponse implements InterceptRoute { // This is the class that
 }
 
 export interface RouterInterface {  // This is the interface that is used to create the router
-    start: () => void;
-    reload: () => void;
-    stop: () => void;
+    reload() : void;
+    stop(): void;
 }

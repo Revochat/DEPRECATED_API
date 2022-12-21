@@ -1,5 +1,11 @@
 export default "./database.json"
 
+import dotenv from "dotenv";
+dotenv.config();
+
+const MONGO_USERNAME = process.env.MONGO_USERNAME;
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
+
 export const config = { // This is the config file for the RevoAPI. You can change the port, the timeout, and the application name, version, description, and owners.
     application: {
         name: "RevoChat",
@@ -18,5 +24,9 @@ export const config = { // This is the config file for the RevoAPI. You can chan
     properties : {
         port: 3000,
         readyEventTimeout: 500,
+    },
+    mongo: {
+        username: MONGO_USERNAME,
+        url: (process.env.MONGO_URL?.replace("<USERNAME>", MONGO_USERNAME!).replace("<PASSWORD>", MONGO_PASSWORD!))!,
     }
 }
