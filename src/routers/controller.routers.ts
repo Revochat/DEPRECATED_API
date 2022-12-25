@@ -6,6 +6,7 @@ import Emitter from "../client/emitter.client"
 import { RouterInterface, Status } from "./interfaces.routers";
 import { config } from "../config";
 import Logger from "../client/logger.client";
+import DB_Connect from "../database/connect.database";
 
 export default new class Controller implements RouterInterface { // This is the class that starts the server
     static  app: express.Express;
@@ -16,7 +17,7 @@ export default new class Controller implements RouterInterface { // This is the 
         Controller.app = express()
         Controller.server = Controller.app.listen(Controller.port)
         Controller.start()
-        console.log('server listen on port: '+Controller.port)
+        Logger.success("Server started on port "+Controller.port)
     }
 
     protected static iterate = (obj: any, path: string = ""): void => { // This is the function that iterates through the routes
@@ -48,10 +49,14 @@ export default new class Controller implements RouterInterface { // This is the 
     }
 
     public static start() { // This is the function that starts the server
+        Logger.beautifulSpace()
         Logger.info("Starting server...")
-        Controller.rules()
-        Controller.iterate(Intercept)
-        Emitter.emit("readyRoute", this)
+        DB_Connect().then(() => {
+            Controller.rules()
+            Controller.iterate(Intercept)
+            Emitter.emit("readyRoute", this)
+            Logger.beautifulSpace()
+        })
     }
     public reload(){ // This is the function that reloads the server
         Controller.server.close()

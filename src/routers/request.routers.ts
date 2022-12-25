@@ -4,7 +4,6 @@ import Emitter from "../client/emitter.client"
 import { RouteResponse} from "./interfaces.routers"
 import express from "express"
 import { Status } from "./interfaces.routers"
-import bcrypt, { hashSync } from "bcrypt"
 
 export const RouteIntercept = {
 
