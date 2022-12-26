@@ -6,6 +6,7 @@ import Controller from "./routers/controller.routers"
 export * from "./routers/"
 export * from "./config/"
 export * from "./client/"
+export * from "./database/"
 
 export default Client
 

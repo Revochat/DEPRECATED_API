@@ -1,5 +1,7 @@
 import { UserCreate, UserConnect, UserFind } from './users'
 
+export * from './interface.database'
+
 export default {
     users: {
         create: UserCreate,
@@ -7,3 +9,4 @@ export default {
         log: UserConnect
     },
 }
+
