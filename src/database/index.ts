@@ -1,12 +1,21 @@
-import { UserCreate, UserConnect, UserFind } from './users'
+import { UserCreate, UserConnect, UserExist, UserGetOne, UserGetAll, UserFindByUsername, UserFindByToken } from './users'
 
 export * from './interface.database'
 
 export default {
     users: {
         create: UserCreate,
-        find: UserFind,
-        log: UserConnect
+        exist: UserExist,
+        log: UserConnect,
+        get: {
+            one: UserGetOne,
+            all: UserGetAll
+        },
+        find: {
+            username: UserFindByUsername,
+            token: UserFindByToken
+        },
+        connect: UserConnect
     },
 }
 

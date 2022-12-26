@@ -1,17 +1,15 @@
 import Client, {RouterInterface, IDatabase} from "./src";
 import Logger from "./src/client/logger.client";
+import bcrypt from "bcrypt";
 
-
-Client.on("ready", (routes: RouterInterface, database: IDatabase) => {
+Client.on("ready", async (routes: RouterInterface, database: IDatabase) => {
     Logger.success("Client ready")
-    database.users.create({
-        username: "test",
-        password: "test",
-        token: "test",
-        updated_at: new Date().toLocaleString(),
-        created_at: new Date().toLocaleString(),
-        last_connection: new Date().toLocaleString(),
-    })
+    try {
+        var user = await database.users.connect({username: "ByLife", password: "123456"})
+        Logger.success(user)
+    } catch (error) {
+        Logger.error(error)
+    }
 })
 
 
