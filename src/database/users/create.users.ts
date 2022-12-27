@@ -1,5 +1,5 @@
-import User, {IUserModel} from "../models/User";
+import User, {IUser} from "../models/User";
 
-export async function UserCreate(user: IUserModel) {
+export async function UserCreate(user: IUser) {
     return User.create(user);
 }

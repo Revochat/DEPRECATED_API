@@ -1,6 +1,7 @@
 import Client, {RouterInterface, IDatabase} from "./src";
 import Logger from "./src/client/logger.client";
-import bcrypt from "bcrypt";
+import * as uuid from "uuid"
+
 
 Client.on("ready", async (routes: RouterInterface, database: IDatabase) => {
     Logger.success("Client ready")
@@ -11,5 +12,3 @@ Client.on("ready", async (routes: RouterInterface, database: IDatabase) => {
         Logger.error(error)
     }
 })
-
-

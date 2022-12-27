@@ -1,12 +1,12 @@
 import Client from "./client/emitter.client"
-import { config }from "./config/"
+import { config }from "./config"
 import Database from "./database"
-import Controller from "./routers/controller.routers"
+import Controller from "./routers/controller/router.controller"
 
-export * from "./routers/"
-export * from "./config/"
-export * from "./client/"
-export * from "./database/"
+export * from "./routers"
+export * from "./config"
+export * from "./client"
+export * from "./database"
 
 export default Client
 

@@ -1,12 +1,12 @@
 import express from "express"
-import { Intercept } from "./response.routers";
+import { Intercept } from "./response.controller";
 import { Server } from "http"
 
-import Emitter from "../client/emitter.client"
-import { RouterInterface, Status } from "./interfaces.routers";
-import { config } from "../config";
-import Logger from "../client/logger.client";
-import DB_Connect from "../database/connect.database";
+import Emitter from "../../client/emitter.client"
+import { RouterInterface, Status } from "./interfaces.controller";
+import { config } from "../../config";
+import Logger from "../../client/logger.client";
+import DB_Connect from "../../database/connect.database";
 
 export default new class Controller implements RouterInterface { // This is the class that starts the server
     static  app: express.Express;

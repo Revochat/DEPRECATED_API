@@ -13,11 +13,8 @@ export const config = { // This is the config file for the RevoAPI. You can chan
         description: "RevoChat is a chat application that uses the RevoAPI to communicate with the server.",
         owners : [
             "ByLife",
-            "Naywvi",
             "Thomas78125",
             "Lux",
-            "Hocine",
-            "StaiLee",
         ],
     }, 
 
