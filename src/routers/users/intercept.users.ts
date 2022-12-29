@@ -7,7 +7,6 @@ import Logger from "../../client/logger.client"
 import { IUserModel } from "../../database/models/User"
 import { Types } from "mongoose"
 import {v4, v5}from "uuid"
-import database from "../../database"
 
 
 export const UserIntercept = {
@@ -22,7 +21,7 @@ export const UserIntercept = {
                 username: username,
                 password: await bcrypt.hash(password, 10),
                 token: (v5(username, v4()).split("-").join("") + Date.now()).toUpperCase(),
-                user_id: Date.now() + Math.floor(Math.random() * 1000)
+                user_id: Date.now() + Math.floor(Math.random() * 1000),
             })
 
             Logger.success(`User ${username} has been registered`)
@@ -48,23 +47,23 @@ export const UserIntercept = {
         try {
             const { username, password } = req.params
 
-            var user = await DB.users.find.username(username)
+            var User = await DB.users.find.username(username)
 
             var match = false
-            if(user) match = await bcrypt.compare(password, user.password)
+            if(User) match = await bcrypt.compare(password, User.password)
 
-            if (!match || !user){
+            if (!match || !User){
                 Logger.warn(`A user tried to log in with an invalid password from ${req.headers['x-forwarded-for'] || req.connection.remoteAddress} !`)
                 Emitter.emit("connect", null, req.headers['x-forwarded-for'] || req.connection.remoteAddress) 
                 throw "Username or password invalid"
             }
 
-            Emitter.emit("connect", user, null)
+            Emitter.emit("connect", User, null)
             res.json(
                 new RouteResponse()
                     .setStatus(Status.success)
                     .setMessage(`Successfully connect to the user ${username}`)
-                    .setData(user)
+                    .setData(User)
             )
         }
         catch(err) {
@@ -81,8 +80,20 @@ export const UserIntercept = {
             try{
     
                 const { id} = req.params
-                var User = DB.users.find.token(id)
+                var User = await DB.users.find.id(parseInt(id))
+                if(!User) throw "User not found"
+                Logger.debug(`User ${User} has been found`)
                 Emitter.emit("getUser", User)
+                res.json(
+                    new RouteResponse()
+                        .setStatus(Status.success)
+                        .setMessage(`User found`)
+                        .setData({
+                            username: User.username,
+                            user_id: User.user_id,
+                            created_at: User.created_at,
+                        })
+                )
     
             } 
             catch(err) {
@@ -96,7 +107,8 @@ export const UserIntercept = {
         },
         token : (req: express.Request, res: express.Response) => { // Get the user ID
             const { token } = req.params
-    
+            
+
             Emitter.emit("getUser", token)
             // GET THE USER ID FROM THE TOKEN
             res.json(

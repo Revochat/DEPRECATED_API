@@ -1,5 +1,5 @@
-import { FilterQuery, QueryOptions, QueryWithHelpers } from "mongoose"
-import {IUser} from "./models/User"
+import { FilterQuery, QueryOptions, QueryWithHelpers, Types } from "mongoose"
+import {IUser, IUserModel} from "./models/User"
 
 export interface IDatabase {
     users: {
@@ -13,6 +13,7 @@ export interface IDatabase {
         find: {
             username: (username: string) => Promise<null | QueryWithHelpers<any, any>>
             token: (token: string) => Promise<null | QueryWithHelpers<any, any>>
+            id: (ID: number) => Promise<(IUserModel & {_id: Types.ObjectId;}) | null>
         },
         connect: ({username, password} : {username: string, password: string}) => Promise<boolean>
     }

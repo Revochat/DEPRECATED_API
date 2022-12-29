@@ -1,4 +1,4 @@
-import { FilterQuery, QueryOptions, QueryWithHelpers } from "mongoose";
+import { FilterQuery, QueryOptions, QueryWithHelpers, Types } from "mongoose";
 import User, {IUserModel, IUser } from "../models/User"
 
 export async function UserExist(query: FilterQuery<IUserModel>, options: QueryOptions<unknown> | null = {projection: {_id: 1}}): Promise<boolean> {
@@ -40,6 +40,15 @@ export async function UserFindByUsername(username: string): Promise<null | Query
 export async function UserFindByToken(token: string): Promise<null | QueryWithHelpers<any, any>> {
     return new Promise((resolve, reject) => {
         User.findOne({token}, null, (err, user) => {
+            if(err) reject(err);
+            resolve(user);
+        })
+    })
+}
+
+export async function UserFindByID(ID: number): Promise<(IUserModel & {_id: Types.ObjectId}) | null> {
+    return new Promise((resolve, reject) => {
+        User.findOne({user_id: ID}, null, (err, user) => {
             if(err) reject(err);
             resolve(user);
         })

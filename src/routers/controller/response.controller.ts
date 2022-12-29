@@ -1,4 +1,4 @@
-import { ErrorRouter } from "../errors/router.errors"
+import { ErrorRouter } from "../errors/"
 import { UserRouter } from "../users"
 
 

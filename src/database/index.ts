@@ -1,4 +1,4 @@
-import { UserCreate, UserConnect, UserExist, UserGetOne, UserGetAll, UserFindByUsername, UserFindByToken } from './users'
+import { UserCreate, UserConnect, UserExist, UserGetOne, UserGetAll, UserFindByUsername, UserFindByToken, UserFindByID } from './users'
 
 export * from './interface.database'
 
@@ -13,7 +13,8 @@ export default {
         },
         find: {
             username: UserFindByUsername,
-            token: UserFindByToken
+            token: UserFindByToken,
+            id: UserFindByID
         },
         connect: UserConnect
     },
