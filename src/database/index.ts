@@ -1,3 +1,4 @@
+import { MessageCreate } from './messages/create.messages'
 import { UserCreate, UserConnect, UserExist, UserGetOne, UserGetAll, UserFindByUsername, UserFindByToken, UserFindByID } from './users'
 
 export * from './interface.database'
@@ -18,5 +19,8 @@ export default {
         },
         connect: UserConnect
     },
+    messages: {
+        create: MessageCreate
+    }
 }
 

@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@mapbox/node-pre-gyp": "^1.0.10",
+    "@signalapp/libsignal-client": "^0.21.1",
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.14",
     "bcrypt": "^5.1.0",
