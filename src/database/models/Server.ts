@@ -12,6 +12,7 @@ export interface IServerModel extends IServer, Document {}
 const ServerSchema = new Schema({
     server_id: { type: Number, required: true, unique: true, index: true },
     server_name: { type: String, required: true },
+    Channels: { type: Array, required: false, default: [] },
     updated_at: { type: String, required: true, default: Date.toLocaleString() },
     created_at: { type: String, required: true, default: Date.toLocaleString() },
 });

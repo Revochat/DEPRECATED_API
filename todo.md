@@ -1,12 +1,10 @@
 TO DO LIST:
-
-/!\ WEB-TRC AND CONNECTION TO SMART CONTRACT PRIORITY /!\
  
-- implement user functions (Luc)
-- automatisation of inserts (Léo)
-
-- optimisation of the tag system (until then it's a mess but we count from 1 to 9999 to find any jumps)
+- [ ] 1. Web-TRC 
+- Smart contract connection
+- tag system
 - message system (Web3 and Server chat)
+- encryption system
 - audio chat / video chat
 - files upload handling  
 - self destruct system for messages

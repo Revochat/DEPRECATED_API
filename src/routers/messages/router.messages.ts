@@ -7,5 +7,15 @@ export const MessagesRouter = {
         method: "GET",
         path: "/send/:token/:message",
         res: MessagesIntercept.send
+    },
+    Delete : {
+        method: "GET",
+        path: "/delete/:token/:message",
+        res: MessagesIntercept.delete
+    },
+    get : {
+        method: "GET",
+        path: "/get/:token/:message",
+        res: MessagesIntercept.get
     }
 }

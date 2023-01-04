@@ -40,78 +40,56 @@ export const MessagesIntercept = {
             )
         }
     },
-    // get : async (req: express.Request, res: express.Response) => { // Get a message
-    //     const {message_id} = req.params
-    //     try {
-    //         var Message = await DB.messages.find.id(message_id)
-    //         if(!Message) throw "Message not found"
-    //         Logger.debug(`Message ${Message} has been found`)
-    //         Emitter.emit("getMessage", Message)
-    //         res.json(
-    //             new RouteResponse()
-    //                 .setStatus(Status.success)
-    //                 .setMessage(`Message found`)
-    //                 .setData(Message)
-    //         )
-    //     }
 
-    //     catch (err) {
-    //         res.json(
-    //             new RouteResponse()
-    //                 .setStatus(Status.error)
-    //                 .setMessage(err as string)
-    //         )
-    //     }
-    // },
+    get : async (req: express.Request, res: express.Response) => { // Get a message
+        const {message_id} = req.params
+        try {
+            var Message = await DB.messages.find.id(message_id)
+            if(!Message) throw "Message not found"
+            Logger.debug(`Message ${Message} has been found`)
+            Emitter.emit("getMessage", Message)
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.success)
+                    .setMessage(`Message found`)
+                    .setData(Message)
+            )
+        }
 
-    // delete : async (req: express.Request, res: express.Response) => { // Delete a message
-    //     const {message_id} = req.params
-    //     try {
-    //         var Message = await DB.messages.find.id(message_id)
-    //         if(!Message) throw "Message not found"
-    //         Logger.debug(`Message ${Message} has been found`)
-    //         Emitter.emit("deleteMessage", Message)
-    //         res.json(
-    //             new RouteResponse()
-    //                 .setStatus(Status.success)
-    //                 .setMessage(`Message deleted`)
-    //                 .setData(Message)
-    //         )
-    //     }
+        catch (err) {
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage(err as string)
+            )
+        }
+    },
 
-    //     catch (err) {
-    //         res.json(
-    //             new RouteResponse()
-    //                 .setStatus(Status.error)
-    //                 .setMessage(err as string)
-    //         )
-    //     }
-    // },
+    delete : async (req: express.Request, res: express.Response) => { // Delete a message
+        const {message_id} = req.params
+        try {
+            var Message = await DB.messages.find.id(message_id)
+            if(!Message) throw "Message not found"
+            Logger.debug(`Message ${Message} has been found`)
+            Emitter.emit("deleteMessage", Message)
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.success)
+                    .setMessage(`Message deleted`)
+                    .setData(Message)
+            )
+        }
 
-    // getMessages : async (req: express.Request, res: express.Response) => { // Get messages in a channel (latest 50 messages)
-    //     const {channel_id} = req.params
-    //     try {
-    //         var Messages = await DB.messages.find.channel(channel_id)
-    //         if(!Messages) throw "Messages not found"
-    //         Logger.debug(`Messages ${Messages} has been found`)
-    //         Emitter.emit("getMessages", Messages)
-    //         res.json(
-    //             new RouteResponse()
-    //                 .setStatus(Status.success)
-    //                 .setMessage(`Messages found`)
-    //                 .setData(Messages)
-    //         )
-    //     }
+        catch (err) {
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage(err as string)
+            )
+        }
+    }
 
-    //     catch (err) {
-    //         res.json(
-    //             new RouteResponse()
-    //                 .setStatus(Status.error)
-    //                 .setMessage(err as string)
-    //         )
-    //     }
-    // }
-
+    // Get messages in a channel (latest 50 messages)
     // get messages from specific user in a channel
     // get messages that match a specific string in a channel
 }
