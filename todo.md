@@ -1,10 +1,12 @@
 TO DO LIST:
+
+- message system (Web3 and Server chat)
+- invite to channel/server system
+ - encryption system
  
 - [ ] 1. Web-TRC 
 - Smart contract connection
 - tag system
-- message system (Web3 and Server chat)
-- encryption system
 - audio chat / video chat
 - files upload handling  
 - self destruct system for messages

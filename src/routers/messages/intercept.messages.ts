@@ -13,6 +13,13 @@ export const MessagesIntercept = {
             var User = await DB.users.find.token(token)
             if(!User) throw "User not found"
 
+            if (!message) throw "Message cannot be empty"
+
+            if (message.length > 2000) throw "Message cannot be longer than 2000 characters"
+
+            var Channel = await DB.channels.find.id(channel_id) //if channel id is not found throw error
+            if(!Channel) throw "Channel not found"
+
             var Message: IMessageModel = await DB.messages.create({
                 // generate a random ID for the message
                 message_id: parseInt((v5(message, v4()).split("-").join("") + Date.now()).toUpperCase()),
@@ -44,6 +51,8 @@ export const MessagesIntercept = {
     get : async (req: express.Request, res: express.Response) => { // Get a message
         const {message_id} = req.params
         try {
+            if (!message_id) throw "Message ID cannot be empty"
+
             var Message = await DB.messages.find.id(message_id)
             if(!Message) throw "Message not found"
             Logger.debug(`Message ${Message} has been found`)
@@ -68,8 +77,11 @@ export const MessagesIntercept = {
     delete : async (req: express.Request, res: express.Response) => { // Delete a message
         const {message_id} = req.params
         try {
+            if (!message_id) throw "Message ID cannot be empty"
+
             var Message = await DB.messages.find.id(message_id)
             if(!Message) throw "Message not found"
+         
             Logger.debug(`Message ${Message} has been found`)
             Emitter.emit("deleteMessage", Message)
             res.json(
@@ -88,8 +100,4 @@ export const MessagesIntercept = {
             )
         }
     }
-
-    // Get messages in a channel (latest 50 messages)
-    // get messages from specific user in a channel
-    // get messages that match a specific string in a channel
 }

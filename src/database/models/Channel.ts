@@ -1,5 +1,5 @@
 import mongoose, {Document, Schema} from "mongoose";
-
+import {IMessageModel} from "./Message";
 export interface IChannel { // This is the interface for the channel in the database
     server_id: number;
     channel_id: number;

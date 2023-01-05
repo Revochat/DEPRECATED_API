@@ -1,33 +1,57 @@
 
-import { ChannelsIntercept } from "./intercept.channels";
+import { ChannelsInterceptEssentials } from "./intercept.channels.essentials";
+import {ChannelsInterceptModeration} from "./intercept.channels.moderation"
 
 export const ChannelsRouter = {
     path: "/client",
 
+    // Essentials
+
     Create : {
         method: "GET",
         path: "/create/:token/:channel",
-        res: ChannelsIntercept.create
+        res: ChannelsInterceptEssentials.create
     },
     Get : {
         method: "GET",
 
         path: "/get/:token/:channel",
-        res: ChannelsIntercept.get
+        res: ChannelsInterceptEssentials.get
         
     },
     Delete : {
         method: "GET",
         path: "/delete/:token/:channel",
-        res: ChannelsIntercept.delete
+        res: ChannelsInterceptEssentials.delete
     },
     Update : {
         method: "GET",
         path: "/update/:token/:channel/:newchannel",
 
-        res: ChannelsIntercept.update
-    }
+        res: ChannelsInterceptEssentials.update
+    },
+    Join : {
+        method: "GET",
+        path: "/join/:token/:channel",
+        res: ChannelsInterceptEssentials.join
+    },
+    Leave : {
+        method: "GET",
+        path: "/leave/:token/:channel",
+        res: ChannelsInterceptEssentials.leave
+    },
+    GetMessages : {
+        method: "GET",
+        path: "/getmessages/:token/:channel/:limit",
+        res: ChannelsInterceptEssentials.getMessages
+    },
 
-    // kick and invite members ?
+    // Moderation
+
+    Kick : {
+        method: "GET",
+        path: "/kick/:token/:channel/:user",
+        res: ChannelsInterceptModeration.kick
+    },
 
 }

@@ -1,6 +1,6 @@
-import { MessageCreate, MessageFindOne, MessageDelete} from './messages/create.messages'
+import { MessageCreate, MessageFindOne, MessageDelete, MessageFindUser, MessageFindChannel} from './messages/create.messages'
 import { UserCreate, UserConnect, UserExist, UserGetOne, UserGetAll, UserFindByUsername, UserFindByToken, UserFindByID } from './users'
-import { ChannelCreate, ChannelFindOne, ChannelDelete } from './channels/create.channels'
+import { ChannelCreate, ChannelFindOne, ChannelDelete, GetXNumberofMessages } from './channels/create.channels'
 
 export * from './interface.database'
 
@@ -23,14 +23,17 @@ export default {
     messages: {
         create: MessageCreate,
         find: {
-            id: MessageFindOne
+            id: MessageFindOne,
+            user: MessageFindUser,
+            channel: MessageFindChannel
         },
         delete: MessageDelete
     },
     channels: {
         create: ChannelCreate,
         find: {
-            id: ChannelFindOne
+            id: ChannelFindOne,
+            messages: GetXNumberofMessages
         },
         delete: ChannelDelete            
     },
