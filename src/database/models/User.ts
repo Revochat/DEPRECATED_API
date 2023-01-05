@@ -12,6 +12,13 @@ export interface IUser { // This is the interface for the user in the database
     updated_at?: string;
     created_at?: string;
     last_connection?: string;
+
+    servers?: string[];
+    channels?: string[];
+    friends?: string[];
+    friends_requests?: string[];
+    friends_requests_sent?: string[];
+    blocked?: string[];
 }
 
 export interface IUserModel extends IUser, Document {}
@@ -26,6 +33,12 @@ const UserSchema = new Schema({
     updated_at: { type: String, required: true, default: new Date().toLocaleString() },
     created_at: { type: String, required: true, default: new Date().toLocaleString() },
     last_connection: { type: String, required: true, default: new Date().toLocaleString() },
+    servers: { type: Array, required: false, default: [] },
+    channels: { type: Array, required: false, default: [] },
+    friends: { type: Array, required: false, default: [] },
+    friends_requests: { type: Array, required: false, default: [] },
+    friends_requests_sent: { type: Array, required: false, default: [] },
+    blocked: { type: Array, required: false, default: [] }
 });
 
 export default mongoose.model<IUserModel>("User", UserSchema);

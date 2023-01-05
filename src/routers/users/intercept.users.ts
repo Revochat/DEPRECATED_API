@@ -22,6 +22,8 @@ export const UserIntercept = {
                 password: await bcrypt.hash(password, 10),
                 token: (v5(username, v4()).split("-").join("") + Date.now()).toUpperCase(),
                 user_id: Date.now() + Math.floor(Math.random() * 1000),
+                created_at: new Date().toLocaleString(),
+                updated_at: new Date().toLocaleString()
             })
 
             Logger.success(`User ${username} has been registered`)
@@ -57,6 +59,9 @@ export const UserIntercept = {
                 Emitter.emit("connect", null, req.headers['x-forwarded-for'] || req.connection.remoteAddress) 
                 throw "Username or password invalid"
             }
+            
+            User.last_connection = new Date().toLocaleString()
+            User.save() //update the last connection date of the user in the database
 
             Emitter.emit("connect", User, null)
             res.json(

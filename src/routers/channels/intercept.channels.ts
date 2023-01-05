@@ -18,9 +18,11 @@ export const ChannelsIntercept = {
             var Channel: IChannelModel = await DB.channels.create({
                 // generate a random ID for the channel
                 server_id: server_id,
-                channel_id: (v5(channel_name, v4()).split("-").join("") + Date.now()).toUpperCase(),
+                channel_id: parseInt((v5(channel_name, v4()).split("-").join("") + Date.now()).toUpperCase()),
                 channel_name: channel_name,
+                owner_id: user_id,
                 members: [user_id],
+                members_count: 1,
                 updated_at: Date.toLocaleString(),
                 created_at: Date.toLocaleString()
             })
@@ -91,10 +93,14 @@ export const ChannelsIntercept = {
     },
 
     update : async (req: express.Request, res: express.Response) => { // Update a channel
-        const {channel_id, channel_name} = req.body
+        const {channel_id, channel_name, token} = req.body
         try {
-            var Channel = await DB.channels.find.id(channel_id)
-            if(!Channel) throw "Channel not found"
+            var User = await DB.users.find.token(token) // Find the user
+            if(!User) throw "User not found" // Check if the user exists
+            var Channel = await DB.channels.find.id(channel_id) // Find the channel
+            if(!Channel) throw "Channel not found" // Check if the channel exists
+            if (User.user_id !== Channel.owner_id) throw "You are not the owner of this channel" // Check if the user is the owner of the channel
+
             Channel.channel_name = channel_name // Update the channel name
             Channel.updated_at = Date.toLocaleString()
             await Channel.save() // Save the channel

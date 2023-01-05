@@ -15,7 +15,7 @@ export const MessagesIntercept = {
 
             var Message: IMessageModel = await DB.messages.create({
                 // generate a random ID for the message
-                message_id: (v5(message, v4()).split("-").join("") + Date.now()).toUpperCase(),
+                message_id: parseInt((v5(message, v4()).split("-").join("") + Date.now()).toUpperCase()),
                 user_id: user_id,
                 channel_id: channel_id,
                 message: message,
