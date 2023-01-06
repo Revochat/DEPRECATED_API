@@ -7,7 +7,6 @@ import { IChannelModel } from "../../database/models/Channel"
 import { v4, v5 } from "uuid"
 
 export const ChannelsInterceptEssentials = {
-
     create : async (req: express.Request, res: express.Response) => { // Create a channel
         const {user_id , token, channel_name, server_id} = req.body
         try {

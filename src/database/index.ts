@@ -16,7 +16,8 @@ export default {
         find: {
             username: UserFindByUsername,
             token: UserFindByToken,
-            id: UserFindByID
+            id: UserFindByID,
+            many: UserGetAll
         },
         connect: UserConnect
     },
@@ -38,11 +39,12 @@ export default {
         delete: ChannelDelete            
     },
     servers: {
-        create: () => {},
+        create: ChannelCreate,
         find: {
-            id: () => {}
+            id: ChannelFindOne,
+            messages: GetXNumberofMessages
         },
-        delete: () => {}
+        delete: ChannelDelete
     }
 }
 

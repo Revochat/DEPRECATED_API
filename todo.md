@@ -1,10 +1,11 @@
 TO DO LIST:
 
-- message system (Web3 and Server chat)
+- message system (Web3 and Server chat) (option = everyone can msg you or only friends, blocked users refuse to receive messages, test functions)
 - invite to channel/server system
  - encryption system
  
 - [ ] 1. Web-TRC 
+ - rate limit system ?
 - Smart contract connection
 - tag system
 - audio chat / video chat

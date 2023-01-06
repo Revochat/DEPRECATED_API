@@ -1,5 +1,4 @@
 import { EventEmitter } from "events";
-import chalk from "chalk";
 
 EventEmitter.defaultMaxListeners = 200;
 

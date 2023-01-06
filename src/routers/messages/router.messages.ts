@@ -1,7 +1,7 @@
 import { MessagesIntercept } from "./intercept.messages"
 
 export const MessagesRouter = {
-    path: "/client",
+    path: "/message",
 
     Send : {
         method: "GET",

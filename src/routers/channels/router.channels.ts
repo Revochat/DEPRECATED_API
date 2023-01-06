@@ -3,7 +3,7 @@ import { ChannelsInterceptEssentials } from "./intercept.channels.essentials";
 import {ChannelsInterceptModeration} from "./intercept.channels.moderation"
 
 export const ChannelsRouter = {
-    path: "/client",
+    path: "/channel",
 
     // Essentials
 

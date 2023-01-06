@@ -1,8 +1,15 @@
 import { ErrorIntercept } from "../errors/intercept.errors"
-import { UserIntercept } from "../users/intercept.users"
-
+import { UserInterceptEssentials } from "../users/intercept.users.essentials"
+import { UserInterceptSocials } from "../users/intercept.users.socials"
+// import { ChannelIntercept } from "../channels/intercept.channels"
+// import { ServerIntercept } from "../servers/intercept.servers"
+import { MessagesIntercept } from "../messages/intercept.messages"
 
 export const RouteIntercept = {
-    UserIntercept,
+    UserInterceptEssentials,
+    UserInterceptSocials,
+    // ChannelIntercept,
+    // ServerIntercept,
+    MessagesIntercept,
     ErrorIntercept
 }
