@@ -46,18 +46,6 @@ export const UserRouter = {
         res: UserInterceptEssentials.update.wallet_token
     },
 
-    AddServer: {
-        method: "GET",
-        path: "/add/server/:token/:server",
-        res: UserInterceptSocials.addServer
-    },
-
-    RemoveServer: {
-        method: "GET",
-        path: "/remove/server/:token/:server",
-        res: UserInterceptSocials.removeServer
-    },
-
     AddFriend: {
         method: "GET",
         path: "/add/friend/:token/:friend",
@@ -80,18 +68,6 @@ export const UserRouter = {
         method: "GET",
         path: "/remove/blocked/:token/:blocked",
         res: UserInterceptSocials.removeBlocked
-    },
-
-    AddChannel: { 
-        method: "GET",
-        path: "/add/channel/:token/:channel",
-        res: UserInterceptSocials.addChannel
-    },
-
-    RemoveChannel: {
-        method: "GET",
-        path: "/remove/channel/:token/:channel",
-        res: UserInterceptSocials.removeChannel
     },
 
     AddFriendRequest: {
@@ -122,6 +98,12 @@ export const UserRouter = {
         method: "GET",
         path: "/get/channels/:token",
         res: UserInterceptSocials.getChannels
+    },
+
+    GetServers: {
+        method: "GET",
+        path: "/get/servers/:token",
+        res: UserInterceptSocials.getServers
     },
 
     GetFriendRequests: {

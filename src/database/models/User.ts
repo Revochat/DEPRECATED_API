@@ -13,12 +13,12 @@ export interface IUser { // This is the interface for the user in the database
     created_at?: string;
     last_connection?: string;
 
-    servers?: string[];
-    channels?: string[];
-    friends?: string[];
-    friends_requests?: string[];
-    friends_requests_sent?: string[];
-    blocked?: string[];
+    servers?: number[];
+    channels?: number[];
+    friends?: number[];
+    friends_requests?: number[];
+    friends_requests_sent?: number[];
+    blocked?: number[];
 }
 
 export interface IUserModel extends IUser, Document {}

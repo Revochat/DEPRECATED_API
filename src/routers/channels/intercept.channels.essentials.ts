@@ -8,22 +8,49 @@ import { v4, v5 } from "uuid"
 
 export const ChannelsInterceptEssentials = {
     create : async (req: express.Request, res: express.Response) => { // Create a channel
-        const {user_id , token, channel_name, server_id} = req.body
+        const {user_id, token, channel_name, server_id} = req.body
+
         try {
             var User = await DB.users.find.token(token)
             if(!User) throw "User not found"
 
-            var Channel: IChannelModel = await DB.channels.create({
-                // generate a random ID for the channel
-                server_id: server_id,
-                channel_id: parseInt((v5(channel_name, v4()).split("-").join("") + Date.now()).toUpperCase()),
-                channel_name: channel_name,
-                owner_id: user_id,
-                members: [user_id],
-                members_count: 1,
-                updated_at: Date.toLocaleString(),
-                created_at: Date.toLocaleString()
-            })
+            if (server_id) { // If the channel is a server channel
+                var Server = await DB.servers.find.id(server_id)
+                if(!Server) throw "Server not found"
+                if (!Server.members.includes(user_id)) throw "You are not a member of this server"
+
+                // permissions check TODO
+
+                var Channel = await DB.channels.create({
+                    channel_id: Date.now() + Math.floor(Math.random() * 1000),
+                    channel_name: channel_name,
+                    owner_id: user_id,
+                    server_id: server_id,
+                    members: [user_id],
+                    members_count: 1,
+                    created_at: new Date().toLocaleString(),
+                    updated_at: new Date().toLocaleString()
+                })
+            } else { // If the channel is a DM channel
+
+                console.log("Creating DM channel")
+                var Channel = await DB.channels.create({
+                    channel_id: Date.now() + Math.floor(Math.random() * 1000),
+                    channel_name: channel_name,
+                    owner_id: user_id,
+                    members: [user_id],
+                    members_count: 1,
+                    created_at: new Date().toLocaleString(),
+                    updated_at: new Date().toLocaleString()
+                })
+            }
+
+            await Channel.save()
+
+            // Add the channel to the user
+            User.channels.push(Channel.channel_id)
+            await User.save()
+    
             Logger.debug(`Channel ${Channel} has been created`)
             Emitter.emit("createChannel", Channel)
             res.json(
@@ -73,9 +100,18 @@ export const ChannelsInterceptEssentials = {
             var Channel = await DB.channels.find.id(channel_id) // Find the channel
             if(!Channel) throw "Channel not found"
 
-
             var User = await DB.users.find.token(token) // Find the user
             if(!User) throw "User not found"
+
+            // remove the channel from the members 
+            for (let i = 0; i < Channel.members.length; i++) {
+                const member_id = Channel.members[i];
+                var Member = await DB.users.find.id(member_id)
+                if(!Member) throw "Member not found"
+                if (!Member.channels) throw "Member has no channels" // Check if the member has channels
+                // Member.channels = Member.channels.filter((channel) => channel !== Channel.channel_id) //COMPILE ERROR
+                await Member.save()
+            }
 
             if (User.user_id !== Channel.owner_id) throw "You are not the owner of this channel" // Check if the user is the owner of the channel
             await Channel.delete()

@@ -1,11 +1,11 @@
 import mongoose, {Document, Schema} from "mongoose";
 import {IMessageModel} from "./Message";
 export interface IChannel { // This is the interface for the channel in the database
-    server_id: number;
+    server_id?: number;
     channel_id: number;
     owner_id: string;
     channel_name: string;
-    members: string[];
+    members: number[];
     members_count: number;
     updated_at: string;
     created_at: string;

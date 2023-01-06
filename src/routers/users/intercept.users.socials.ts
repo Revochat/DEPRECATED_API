@@ -10,110 +10,6 @@ import {v4, v5}from "uuid"
 
 export const UserInterceptSocials = {
 
-    addServer : async (req: express.Request, res: express.Response) => { // Add a server to the user
-        try {
-            const { token, server_id } = req.params
-            var User = await DB.users.find.token(token)
-            if(!User) throw "User not found"
-            User.servers.push(server_id)
-            User.updated_at = new Date().toLocaleString()
-            User.save()
-            Logger.debug(`User ${User} has been updated`)
-            Emitter.emit("addServer", User)
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Server added`)
-                    .setData(User)
-            )
-        }
-        catch(err) {
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage(err as string)
-            )
-        }
-    },
-
-    removeServer : async (req: express.Request, res: express.Response) => { // Remove a server from the user
-        try {
-            const { token, server_id } = req.params
-            var User = await DB.users.find.token(token)
-            if(!User) throw "User not found"
-            User.servers.splice(User.servers.indexOf(server_id), 1)
-            User.updated_at = new Date().toLocaleString()
-            User.save()
-            Logger.debug(`User ${User} has been updated`)
-            Emitter.emit("removeServer", User)
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Server removed`)
-                    .setData(User)
-            )
-        }
-        catch(err) {
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage(err as string)
-            )
-        }
-    },
-
-    addChannel : async (req: express.Request, res: express.Response) => { // Add a channel to the user
-        try {
-            const { token, channel_id } = req.params
-            var User = await DB.users.find.token(token)
-            if(!User) throw "User not found"
-            User.channels.push(channel_id)
-            User.updated_at = new Date().toLocaleString()
-            User.save()
-            Logger.debug(`User ${User} has been updated`)
-            Emitter.emit("addChannel", User)
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Channel added`)
-                    .setData(User)
-            )
-        }
-        catch(err) {
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage(err as string)
-            )
-        }
-    },
-
-    removeChannel : async (req: express.Request, res: express.Response) => { // Remove a channel from the user
-        try {
-            const { token, channel_id } = req.params
-            var User = await DB.users.find.token(token)
-            if(!User) throw "User not found"
-            User.channels.splice(User.channels.indexOf(channel_id), 1)
-            User.updated_at = new Date().toLocaleString()
-            User.save()
-            Logger.debug(`User ${User} has been updated`)
-            Emitter.emit("removeChannel", User)
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Channel removed`)
-                    .setData(User)
-            )
-        }
-        catch(err) {
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage(err as string)
-            )
-        }
-    },
-
     addFriend : async (req: express.Request, res: express.Response) => { // Add a friend to the user
         try {
             const { token, friend_id } = req.params
@@ -276,6 +172,28 @@ export const UserInterceptSocials = {
                     .setStatus(Status.success)
                     .setMessage(`Channels found`)
                     .setData(Channels)
+            )
+        }
+        catch(err) {
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage(err as string)
+            )
+        }
+    },
+
+    getServers : async (req: express.Request, res: express.Response) => { // Get the servers of the user
+        try {
+            const { token } = req.params
+            var User = await DB.users.find.token(token)
+            if(!User) throw "User not found"
+            var Servers = User.servers
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.success)
+                    .setMessage(`Servers found`)
+                    .setData(Servers)
             )
         }
         catch(err) {
