@@ -9,7 +9,6 @@ export const ServersRouter = {
         res: ServerIntercept.getChannels
     },
     getMembers : {
-
         method: "GET",
         path: "/getMembers/:token/:server",
         res: ServerIntercept.getMembers

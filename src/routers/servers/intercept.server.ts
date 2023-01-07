@@ -9,10 +9,9 @@ import { Types } from "mongoose"
 import {v4, v5}from "uuid"
 
 export const ServerIntercept = {
-    getChannels: async (req: any, res: any) => {
-
+    getChannels: async (req: any, res: any) => {    
+        
     },
-
 
     getServer: async (req: any, res: any) => {
 
