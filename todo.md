@@ -24,3 +24,4 @@ Just some ideas for the payed subscription:
    custom profile
    
 (server boosts ?)
+chiffrer nom de serveur et nom de channel et friends ?

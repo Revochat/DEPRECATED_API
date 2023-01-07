@@ -96,6 +96,7 @@ export const UserInterceptSocials = {
                 Logger.debug(`User ${User} has been updated`)
                 
                 res.json(
+
                     new RouteResponse()
                         .setStatus(Status.success)
                         .setMessage(`Friend request sent`)
@@ -119,114 +120,82 @@ export const UserInterceptSocials = {
             if(!User) throw "User not found"
 
             // Check if the friend is not added
-            if(!User.friends.includes(friend_id)) throw "User not added"
+            if(!User.friends.includes(friend_id)) { // If the friend is not added, check if the user has a friend request from the friend
 
-            User.friends.splice(User.friends.indexOf(friend_id), 1)
-            User.updated_at = new Date().toLocaleString()
-            User.save()
+                // Check if the user has a friend request from the friend
+                if(User.friends_requests_received.includes(friend_id)) {
+                    
+                    // Remove the friend request from the user
+                    User.friends_requests_received.splice(User.friends_requests_received.indexOf(friend_id), 1)
+                    User.updated_at = new Date().toLocaleString()
+                    User.save()
 
-            // update the friend
-            var Friend = await DB.users.find.id(parseInt(friend_id))
-            if(!Friend) throw "Friend not found"
-            if (Friend.friends) Friend.friends.splice(Friend.friends.indexOf(User.id.toString()), 1)
-            Friend.updated_at = new Date().toLocaleString()
-            Friend.save()
+                    // update the friend
+                    var Friend = await DB.users.find.id(parseInt(friend_id))
+                    if(!Friend) throw "Friend not found"
+                    if (Friend.friends_requests_sent) Friend.friends_requests_sent.splice(Friend.friends_requests_sent.indexOf(Friend.user_id), 1)
+                    Friend.updated_at = new Date().toLocaleString()
+                    Friend.save()
+                    Logger.debug(`User ${User} has been updated`)
+                    Logger.debug(`User ${Friend} has been updated`)
+                    Emitter.emit("removeFriend", User)
+                    res.json(
+                        new RouteResponse()
+                            .setStatus(Status.success)
+                            .setMessage(`Friend Request_received removed`)
+                            .setData(User)
+                    )
+                } else if (User.friends_requests_sent.includes(friend_id)) { // Check if the user has sent a friend request to the friend
 
-            Logger.debug(`User ${User} has been updated`)
-            Emitter.emit("removeFriend", User)
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Friend removed`)
-                    .setData(User)
-            )
-        }
-        catch(err) {
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage(err as string)
-            )
-        }
-    },
+                    // Remove the friend request from the user
+                    User.friends_requests_sent.splice(User.friends_requests_sent.indexOf(friend_id), 1)
+                    User.updated_at = new Date().toLocaleString()
+                    User.save()
 
-    getFriends : async (req: express.Request, res: express.Response) => { // Get the friends of the user
-        try {
-            const { token } = req.params
-            var User = await DB.users.find.token(token)
-            if(!User) throw "User not found"
-            var Friends = await DB.users.find.many(User.friends)
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Friends found`)
-                    .setData(Friends)
-            )
-        }
-        catch(err) {
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage(err as string)
-            )
-        }
-    },
-    getFriendRequests : async (req: express.Request, res: express.Response) => { // Get the friend requests of the user
-        try {
-            const { token } = req.params
-            var User = await DB.users.find.token(token)
-            if(!User) throw "User not found"
-            var Friends = await DB.users.find.many(User.friends_requests)
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Friend requests found`)
-                    .setData(Friends)
-            )
-        }
-        catch(err) {
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage(err as string)
-            )
-        }
-    },
+                    // update the friend
+                    var Friend = await DB.users.find.id(parseInt(friend_id))
+                    if(!Friend) throw "Friend not found"
+                    if (Friend.friends_requests_received) Friend.friends_requests_received.splice(Friend.friends_requests_received.indexOf(User.id.toString()), 1)
+                    Friend.updated_at = new Date().toLocaleString()
+                    Friend.save()
+                    Logger.debug(`User ${User} has been updated`)
+                    Logger.debug(`User ${Friend} has been updated`)
+                    Emitter.emit("removeFriend", User)
+                    res.json(
+                        new RouteResponse()
+                            .setStatus(Status.success)
+                            .setMessage(`Friend Request_sent removed`)
+                            .setData(User)
+                    )
+                }
 
-    getChannels : async (req: express.Request, res: express.Response) => { // Get the channels of the user
-        try {
-            const { token } = req.params
-            var User = await DB.users.find.token(token)
-            if(!User) throw "User not found"
-            var Channels = User.channels
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Channels found`)
-                    .setData(Channels)
-            )
-        }
-        catch(err) {
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage(err as string)
-            )
-        }
-    },
+                res.json(
+                    new RouteResponse()
+                        .setStatus(Status.success)
+                        .setMessage(`Error removing friend`)
+                )
 
-    getServers : async (req: express.Request, res: express.Response) => { // Get the servers of the user
-        try {
-            const { token } = req.params
-            var User = await DB.users.find.token(token)
-            if(!User) throw "User not found"
-            var Servers = User.servers
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Servers found`)
-                    .setData(Servers)
-            )
+            } else { // If the friend is added, remove the friend from the user
+                User.friends.splice(User.friends.indexOf(friend_id), 1)
+                User.updated_at = new Date().toLocaleString()
+                User.save()
+
+                // update the friend
+                var Friend = await DB.users.find.id(parseInt(friend_id))
+                if(!Friend) throw "Friend not found"
+                if (Friend.friends) Friend.friends.splice(Friend.friends.indexOf(User.id.toString()), 1)
+                Friend.updated_at = new Date().toLocaleString()
+                Friend.save()
+
+                Logger.debug(`User ${User} has been updated`)
+                Emitter.emit("removeFriend", User)
+                res.json(
+                    new RouteResponse()
+                        .setStatus(Status.success)
+                        .setMessage(`Friend removed`)
+                        .setData(User)
+                )
+            }
         }
         catch(err) {
             res.json(
@@ -278,102 +247,6 @@ export const UserInterceptSocials = {
                     .setStatus(Status.success)
                     .setMessage(`Blocked removed`)
                     .setData(User)
-            )
-        }
-        catch(err) {
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage(err as string)
-            )
-        }
-    },
-
-    getBlocked: async (req: express.Request, res: express.Response) => { // Get the blocked users of the user
-        try {
-            const { token } = req.params
-            var User = await DB.users.find.token(token)
-            if(!User) throw "User not found"
-            var Blocked = await DB.users.find.many(User.blocked)
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Blocked found`)
-                    .setData(Blocked)
-            )
-        }
-        catch(err) {
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage(err as string)
-            )
-        }
-    },
-
-    addFriendRequestSent: async (req: express.Request, res: express.Response) => { // Add a friend request sent to the user
-        try {
-            const { token, friend_id } = req.params
-            var User = await DB.users.find.token(token)
-            if(!User) throw "User not found"
-            User.friend_requests_sent.push(friend_id)
-            User.updated_at = new Date().toLocaleString()
-            User.save()
-            Logger.debug(`User ${User} has been updated`)
-            Emitter.emit("addFriendRequestSent", User)
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Friend request sent added`)
-                    .setData(User)
-            )
-        }
-        catch(err) {
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage(err as string)
-            )
-        }
-    },
-
-    removeFriendRequestSent: async (req: express.Request, res: express.Response) => { // Remove a friend request sent from the user
-        try {
-            const { token, friend_id } = req.params
-            var User = await DB.users.find.token(token)
-            if(!User) throw "User not found"
-            User.friend_requests_sent.splice(User.friend_requests_sent.indexOf(friend_id), 1)
-            User.updated_at = new Date().toLocaleString()
-            User.save()
-            Logger.debug(`User ${User} has been updated`)
-            Emitter.emit("removeFriendRequestSent", User)
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Friend request sent removed`)
-                    .setData(User)
-            )
-        }
-        catch(err) {
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage(err as string)
-            )
-        }
-    },
-
-    getFriendRequestsSent: async (req: express.Request, res: express.Response) => { // Get the friend requests sent of the user
-        try {
-            const { token } = req.params
-            var User = await DB.users.find.token(token)
-            if(!User) throw "User not found"
-            var FriendRequestsSent = await DB.users.find.many(User.friend_requests_sent)
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Friend requests sent found`)
-                    .setData(FriendRequestsSent)
             )
         }
         catch(err) {

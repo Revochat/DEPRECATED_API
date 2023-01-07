@@ -60,49 +60,13 @@ export const UserRouter = {
 
     AddBlocked: {
         method: "GET",
-        path: "/add/blocked/:token/:blocked",
+        path: "/add/blocked/:token/:blocked_id",
         res: UserInterceptSocials.addBlocked
     },
 
     RemoveBlocked: {
         method: "GET",
-        path: "/remove/blocked/:token/:blocked",
+        path: "/remove/blocked/:token/:blocked_id",
         res: UserInterceptSocials.removeBlocked
-    },
-
-    GetBlocked: {
-        method: "GET",
-        path: "/get/blocked/:token",
-        res: UserInterceptSocials.getBlocked
-    },
-
-    GetFriends: {
-        method: "GET",
-        path: "/get/friends/:token",
-        res: UserInterceptSocials.getFriends
-    },
-
-    GetChannels: {
-        method: "GET",
-        path: "/get/channels/:token",
-        res: UserInterceptSocials.getChannels
-    },
-
-    GetServers: {
-        method: "GET",
-        path: "/get/servers/:token",
-        res: UserInterceptSocials.getServers
-    },
-
-    GetFriendRequests: {
-        method: "GET",
-        path: "/get/friendrequests/:token",
-        res: UserInterceptSocials.getFriendRequests
-    },
-
-    GetFriendRequestsSent: {
-        method: "GET",
-        path: "/get/friendrequestssent/:token",
-        res: UserInterceptSocials.getFriendRequestsSent
     }
 }
