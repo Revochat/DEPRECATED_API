@@ -110,5 +110,11 @@ export const UserRouter = {
         method: "GET",
         path: "/get/friendrequests/:token",
         res: UserInterceptSocials.getFriendRequests
+    },
+
+    GetFriendRequestsSent: {
+        method: "GET",
+        path: "/get/friendrequestssent/:token",
+        res: UserInterceptSocials.getFriendRequestsSent
     }
 }

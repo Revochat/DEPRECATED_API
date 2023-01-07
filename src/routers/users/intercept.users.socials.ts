@@ -277,6 +277,79 @@ export const UserInterceptSocials = {
                     .setMessage(err as string)
             )
         }
+    },
+
+    addFriendRequestSent: async (req: express.Request, res: express.Response) => { // Add a friend request sent to the user
+        try {
+            const { token, friend_id } = req.params
+            var User = await DB.users.find.token(token)
+            if(!User) throw "User not found"
+            User.friend_requests_sent.push(friend_id)
+            User.updated_at = new Date().toLocaleString()
+            User.save()
+            Logger.debug(`User ${User} has been updated`)
+            Emitter.emit("addFriendRequestSent", User)
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.success)
+                    .setMessage(`Friend request sent added`)
+                    .setData(User)
+            )
+        }
+        catch(err) {
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage(err as string)
+            )
+        }
+    },
+
+    removeFriendRequestSent: async (req: express.Request, res: express.Response) => { // Remove a friend request sent from the user
+        try {
+            const { token, friend_id } = req.params
+            var User = await DB.users.find.token(token)
+            if(!User) throw "User not found"
+            User.friend_requests_sent.splice(User.friend_requests_sent.indexOf(friend_id), 1)
+            User.updated_at = new Date().toLocaleString()
+            User.save()
+            Logger.debug(`User ${User} has been updated`)
+            Emitter.emit("removeFriendRequestSent", User)
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.success)
+                    .setMessage(`Friend request sent removed`)
+                    .setData(User)
+            )
+        }
+        catch(err) {
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage(err as string)
+            )
+        }
+    },
+
+    getFriendRequestsSent: async (req: express.Request, res: express.Response) => { // Get the friend requests sent of the user
+        try {
+            const { token } = req.params
+            var User = await DB.users.find.token(token)
+            if(!User) throw "User not found"
+            var FriendRequestsSent = await DB.users.find.many(User.friend_requests_sent)
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.success)
+                    .setMessage(`Friend requests sent found`)
+                    .setData(FriendRequestsSent)
+            )
+        }
+        catch(err) {
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage(err as string)
+            )
+        }
     }
-    
 }

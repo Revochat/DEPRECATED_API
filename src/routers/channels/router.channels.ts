@@ -9,7 +9,7 @@ export const ChannelsRouter = {
 
     Create : {
         method: "GET",
-        path: "/create/:token/:channel",
+        path: "/create/:token/:channelName",
         res: ChannelsInterceptEssentials.create
     },
     Get : {
@@ -44,6 +44,19 @@ export const ChannelsRouter = {
         method: "GET",
         path: "/getmessages/:token/:channel/:limit",
         res: ChannelsInterceptEssentials.getMessages
+    },
+
+    // Messages 
+
+    SendMessage : {
+        method: "GET",
+        path: "/sendmessage/:token/:channel/:message",
+        res: ChannelsInterceptEssentials.sendMessage
+    },
+    DeleteMessage : {
+        method: "GET",
+        path: "/deletemessage/:token/:channel/:message",
+        res: ChannelsInterceptEssentials.deleteMessage
     },
 
     // Moderation

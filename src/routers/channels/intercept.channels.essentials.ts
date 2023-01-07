@@ -3,7 +3,7 @@ import { RouteResponse, Status } from "../controller"
 import Emitter from "../../client/emitter.client"
 import Logger from "../../client/logger.client"
 import DB from "../../database"
-import { IChannelModel } from "../../database/models/Channel"
+import { IMessageModel } from "../../database/models/Message"
 import { v4, v5 } from "uuid"
 
 export const ChannelsInterceptEssentials = {
@@ -262,6 +262,75 @@ export const ChannelsInterceptEssentials = {
                     .setStatus(Status.success)
                     .setMessage(`Channel messages`)
                     .setData(Messages)
+            )
+        }
+        catch (err) {
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage(err as string)
+            )
+        }
+    },
+
+    sendMessage : async (req: express.Request, res: express.Response) => { // Send a message to a channel
+        const {channel_id, user_id, message} = req.body
+        try {
+            var Channel = await DB.channels.find.id(channel_id)
+            if(!Channel) throw "Channel not found"
+            Logger.debug(`Sending message to channel ${Channel}`)
+
+            // Check if the user is in the channel
+            if (!Channel.members.includes(user_id)) throw "You are not in this channel"
+
+            var Message: IMessageModel = await DB.messages.create({ // Create the message
+                message_id: parseInt((v5(message, v4()).split("-").join("") + Date.now()).toUpperCase()),
+                channel_id,
+                user_id,
+                message,
+                created_at: Date.toLocaleString(),
+                updated_at: Date.toLocaleString()
+            })
+            await Message.save() // Save the message to the database
+
+            Emitter.emit("sendMessage", Message) // Emit the message to the client
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.success)
+                    .setMessage(`Message sent`)
+                    .setData(Message)
+            )
+        }
+        catch (err) {
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage(err as string)
+            )
+        }
+    },
+
+    deleteMessage : async (req: express.Request, res: express.Response) => { // Delete a message from a channel
+        const {channel_id, user_id, message_id} = req.body
+        try {
+            var Channel = await DB.channels.find.id(channel_id)
+            if(!Channel) throw "Channel not found"
+            Logger.debug(`Deleting message from channel ${Channel}`)
+
+            // Check if the user is in the channel
+            if (!Channel.members.includes(user_id)) throw "You are not in this channel"
+
+            // Delete the message
+            var Message = await DB.messages.find.id(message_id)
+            if(!Message) throw "Message not found"
+            await Message.delete()
+
+            Emitter.emit("deleteMessage", Message)
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.success)
+                    .setMessage(`Message deleted`)
+                    .setData(Message)
             )
         }
         catch (err) {
