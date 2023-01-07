@@ -59,7 +59,10 @@ export const UserInterceptEssentials = {
                 Emitter.emit("connect", null, req.headers['x-forwarded-for'] || req.connection.remoteAddress) 
                 throw "Username or password invalid"
             }
-            
+
+            // refresh the token of the user to avoid the token to be the same as the previous one
+            User.token = (v5(username + Date.now(), v4()).split("-").join("") + Date.now()).toUpperCase() // generate a new token
+
             User.last_connection = new Date().toLocaleString()
             User.save() //update the last connection date of the user in the database
 
@@ -101,15 +104,17 @@ export const UserInterceptEssentials = {
         }
     },
 
-    update : {
+    update : { 
         username : async (req: express.Request, res: express.Response) => { // Update the username
             try {
-                const { token, username } = req.params
+                const { token, newusername } = req.params
+
                 var User = await DB.users.find.token(token)
                 if(!User) throw "User not found"
-                User.username = username
+                User.username = newusername
                 User.updated_at = new Date().toLocaleString()
-                User.save()
+                User.save() //update the username of the user in the database
+
                 Logger.debug(`User ${User} has been updated`)
                 Emitter.emit("updateUsername", User)
                 res.json(
@@ -129,10 +134,10 @@ export const UserInterceptEssentials = {
         },
         password : async (req: express.Request, res: express.Response) => { // Update the password
             try {
-                const { token, password } = req.params
+                const { token, newpassword } = req.params
                 var User = await DB.users.find.token(token)
                 if(!User) throw "User not found"
-                User.password = await bcrypt.hash(password, 10)
+                User.password = await bcrypt.hash(newpassword, 10)
                 User.updated_at = new Date().toLocaleString()
                 User.save()
                 Logger.debug(`User ${User} has been updated`)
@@ -154,10 +159,10 @@ export const UserInterceptEssentials = {
         },
         profile_picture : async (req: express.Request, res: express.Response) => { // Update the profile picture
             try {
-                const { token, profile_picture } = req.params
+                const { token, newprofile_picture } = req.params
                 var User = await DB.users.find.token(token)
                 if(!User) throw "User not found"
-                User.profile_picture = profile_picture
+                User.profile_picture = newprofile_picture
                 User.updated_at = new Date().toLocaleString()
                 User.save()
                 Logger.debug(`User ${User} has been updated`)
@@ -179,10 +184,10 @@ export const UserInterceptEssentials = {
         },
         wallet_token : async (req: express.Request, res: express.Response) => { // Update the wallet token
             try {
-                const { token, wallet_token } = req.params
+                const { token, newwallet_token } = req.params
                 var User = await DB.users.find.token(token)
                 if(!User) throw "User not found"
-                User.wallet_token = wallet_token
+                User.wallet_token = newwallet_token
                 User.updated_at = new Date().toLocaleString()
                 User.save()
                 Logger.debug(`User ${User} has been updated`)

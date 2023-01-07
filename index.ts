@@ -6,7 +6,6 @@ import * as uuid from "uuid"
 Client.on("ready", async (routes: RouterInterface, database: IDatabase) => {
     Logger.success("Client ready")
     try {
-
         
     } catch (error) {
         Logger.error(error)

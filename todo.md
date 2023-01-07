@@ -1,11 +1,12 @@
 TO DO LIST:
 
-- message system (Web3 and Server chat) (option = everyone can msg you or only friends, blocked users refuse to receive messages, test functions)
+- convert to hexadecimal user_id when sent (BYLIFE)
+- message system (Web3 and Server chat) (option = everyone can msg you or only friends, blocked users refuse to receive messages), typecheck password, message and other input (length ?)
 - invite to channel/server system
- - encryption system
- 
-- [ ] 1. Web-TRC 
- - rate limit system ?
+- encryption system
+- rate limit login(5 tries before 5 minutes ban), rate limit api
+- clear useless dependencies
+- Web-TRC 
 - Smart contract connection
 - tag system
 - audio chat / video chat
@@ -16,12 +17,10 @@ TO DO LIST:
 
 Just some ideas for the payed subscription:
 
-   Video chat
-   spotify integration
-   custom badge
+   Video chat / audio chat quality
+   spotify integration, vscode integration, youtube integration ..
+   custom badge 
    text formatting (markdown)
    custom profile
-
-some other ideas:
-
-- add a "last seen" system ?
+   
+(server boosts ?)

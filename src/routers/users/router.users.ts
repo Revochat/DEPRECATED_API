@@ -36,25 +36,25 @@ export const UserRouter = {
 
     UpdateProfilePicture: {
         method: "GET",
-        path: "/update/profilepicture/:token/:newprofilepicture",
+        path: "/update/profilepicture/:token/:newprofile_picture",
         res: UserInterceptEssentials.update.profile_picture
     },
 
     UpdateWalletToken: {
         method: "GET",
-        path: "/update/wallettoken/:token/:newwallettoken",
+        path: "/update/wallettoken/:token/:newwallet_token",
         res: UserInterceptEssentials.update.wallet_token
     },
 
     AddFriend: {
         method: "GET",
-        path: "/add/friend/:token/:friend",
+        path: "/add/friend/:token/:friend_id",
         res: UserInterceptSocials.addFriend
     },
 
     RemoveFriend: {
         method: "GET",
-        path: "/remove/friend/:token/:friend",
+        path: "/remove/friend/:token/:friend_id",
         res: UserInterceptSocials.removeFriend
     },
 
@@ -68,18 +68,6 @@ export const UserRouter = {
         method: "GET",
         path: "/remove/blocked/:token/:blocked",
         res: UserInterceptSocials.removeBlocked
-    },
-
-    AddFriendRequest: {
-        method: "GET",
-        path: "/add/friendrequest/:token/:friendrequest",
-        res: UserInterceptSocials.addFriendRequest
-    },
-
-    RemoveFriendRequest: {
-        method: "GET",
-        path: "/remove/friendrequest/:token/:friendrequest",
-        res: UserInterceptSocials.removeFriendRequest
     },
 
     GetBlocked: {

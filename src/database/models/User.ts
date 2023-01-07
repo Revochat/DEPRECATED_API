@@ -4,7 +4,7 @@ export interface IUser { // This is the interface for the user in the database
     user_id: number;
     token: string;
 
-    wallet_token?: string | null;
+    wallet_token?: number | null;
     username: string;
     password: string;
     profile_picture?: string;
@@ -16,7 +16,7 @@ export interface IUser { // This is the interface for the user in the database
     servers?: number[];
     channels?: number[];
     friends?: number[];
-    friends_requests?: number[];
+    friends_requests_received?: number[];
     friends_requests_sent?: number[];
     blocked?: number[];
 }
@@ -28,7 +28,7 @@ const UserSchema = new Schema({
     token: { type: String, required: true, unique: true, index: true },
     username: { type: String, required: true, unique: true, index: true },
     password: { type: String, required: true },
-    wallet_token: { type: String, unique: true, index: true, default: null, sparse: true },
+    wallet_token: { type: String, required: false, unique: true, index: true, default: 0, sparse: true },
     profile_picture: {type: String, data: Buffer, contentType: String, default: "default_img_01.png" },
     updated_at: { type: String, required: true, default: new Date().toLocaleString() },
     created_at: { type: String, required: true, default: new Date().toLocaleString() },
@@ -36,7 +36,7 @@ const UserSchema = new Schema({
     servers: { type: Array, required: false, default: [] },
     channels: { type: Array, required: false, default: [] },
     friends: { type: Array, required: false, default: [] },
-    friends_requests: { type: Array, required: false, default: [] },
+    friends_requests_received: { type: Array, required: false, default: [] },
     friends_requests_sent: { type: Array, required: false, default: [] },
     blocked: { type: Array, required: false, default: [] }
 });
