@@ -7,14 +7,16 @@ import { RouterInterface, Status } from "./interfaces.controller";
 import { config } from "../../config";
 import Logger from "../../client/logger.client";
 import DB_Connect from "../../database/connect.database";
+import bodyParser from "body-parser";
 
 export default new class Controller implements RouterInterface { // This is the class that starts the server
-    static  app: express.Express;
-    static  port: number;
+    static app: express.Express;
+    static port: number;
     static server: Server;
     constructor(){
         Controller.port = config.properties.port
         Controller.app = express()
+        Controller.app.use(express.json()) // To parse the incoming requests with JSON payloads
         Controller.server = Controller.app.listen(Controller.port)
         Controller.start()
         Logger.success("Server started on port "+Controller.port)
@@ -39,6 +41,7 @@ export default new class Controller implements RouterInterface { // This is the 
     protected static rules() { // This is the function that sets the API rules
         Controller.app.use((req, res, next) => {
             res.header("Access-Control-Allow-Origin", "*")
+            res.header('Content-Type', 'application/json')
             res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
             if (req.method === 'OPTIONS') {
                 res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')

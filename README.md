@@ -14,3 +14,5 @@ revochat.fr/api/
 -> /client/ 
    -> /client/get/friends/:token
    -> /channel/create/:token/:channelName
+   
+   -> /server/get/:token

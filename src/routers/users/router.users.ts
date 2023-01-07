@@ -34,11 +34,11 @@ export const UserRouter = {
         res: UserInterceptEssentials.update.password
     },
 
-    UpdateProfilePicture: {
-        method: "GET",
-        path: "/update/profilepicture/:token/:newprofile_picture",
-        res: UserInterceptEssentials.update.profile_picture
-    },
+    // UpdateProfilePicture: {
+    //     method: "GET",
+    //     path: "/update/profilepicture/:token/:newprofile_picture",
+    //     res: UserInterceptEssentials.update.profile_picture
+    // },
 
     UpdateWalletToken: {
         method: "GET",

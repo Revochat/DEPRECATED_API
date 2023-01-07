@@ -1,7 +1,7 @@
 TO DO LIST:
 
 - convert to hexadecimal user_id when sent (BYLIFE)
-- message system (Web3 and Server chat) (option = everyone can msg you or only friends, blocked users refuse to receive messages), typecheck password, message and other input (length ?)
+- message system (Web3 and Server chat) (option = everyone can msg you or only friends, blocked users refuse to receive messages), typecheck password, message and other input (length ?), update channel more fields
 - invite to channel/server system
 - encryption system
 - rate limit login(5 tries before 5 minutes ban), rate limit api

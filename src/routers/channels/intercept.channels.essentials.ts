@@ -8,7 +8,17 @@ import { v4, v5 } from "uuid"
 
 export const ChannelsInterceptEssentials = {
     create : async (req: express.Request, res: express.Response) => { // Create a channel
-        const {user_id, token, channel_name, server_id} = req.body
+        const { server_id, user_id } = req.body
+        const { channel_name, token } = req.params
+
+        if (!channel_name || !token || !user_id || channel_name.length >= 30 || token.length !== 45 || user_id.length !== 13 || (server_id && server_id.length !== 13) || (!server_id && server_id !== undefined)){ //type check
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
 
         try {
             var User = await DB.users.find.token(token)
@@ -71,8 +81,24 @@ export const ChannelsInterceptEssentials = {
     },
 
     get : async (req: express.Request, res: express.Response) => { // Get a channel data by ID
-        const {channel_id} = req.params
+        const {channel_id, token} = req.params
+
+        if (!channel_id || !token || channel_id.length !== 13 || token.length !== 45){ //type check
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
+
         try {
+            var User = await DB.users.find.token(token)
+            if(!User) throw "User not found"
+
+            // Check if the user is a member of the channel
+            if (!User.channels.includes(channel_id)) throw "You are not a member of this channel"
+
             var Channel = await DB.channels.find.id(channel_id)
             if(!Channel) throw "Channel not found"
             Logger.debug(`Channel ${Channel} has been found`)
@@ -94,8 +120,18 @@ export const ChannelsInterceptEssentials = {
         }
     },
 
-    delete : async (req: express.Request, res: express.Response) => { // Delete a channel
+    remove : async (req: express.Request, res: express.Response) => { // Delete a channel
         const {channel_id, token} = req.params
+
+        if (!channel_id || !token || channel_id.length !== 13 || token.length !== 45){ //type check
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
+
         try {
             var Channel = await DB.channels.find.id(channel_id) // Find the channel
             if(!Channel) throw "Channel not found"
@@ -103,18 +139,23 @@ export const ChannelsInterceptEssentials = {
             var User = await DB.users.find.token(token) // Find the user
             if(!User) throw "User not found"
 
+            console.log(User.user_id, Channel.owner_id)
+            if (User.user_id !== Channel.owner_id) throw "You are not the owner of this channel" // Check if the user is the owner of the channel
+            await Channel.delete()
+
             // remove the channel from the members 
             for (let i = 0; i < Channel.members.length; i++) {
                 const member_id = Channel.members[i];
                 var Member = await DB.users.find.id(member_id)
                 if(!Member) throw "Member not found"
-                if (!Member.channels) throw "Member has no channels" // Check if the member has channels
-                // Member.channels = Member.channels.filter((channel) => channel !== Channel.channel_id) //COMPILE ERROR
+                var channel_id_temp = Channel.channel_id // temp variable to prevent error
+                console.log(channel_id_temp)
+                if (Member.channels && Channel) {
+                    Member.channels = Member.channels.filter((channel) => channel !== channel_id_temp)
+                }
+
                 await Member.save()
             }
-
-            if (User.user_id !== Channel.owner_id) throw "You are not the owner of this channel" // Check if the user is the owner of the channel
-            await Channel.delete()
 
             Logger.debug(`Channel ${Channel} has been deleted`)
             Emitter.emit("deleteChannel", Channel)
@@ -135,7 +176,18 @@ export const ChannelsInterceptEssentials = {
     },
 
     update : async (req: express.Request, res: express.Response) => { // Update a channel
-        const {channel_id, channel_name, token} = req.body
+        const {channel_name} = req.body
+        const {channel_id, token} = req.params
+
+        if (!channel_id || !token || channel_id.length !== 13 || token.length !== 45 || channel_name.length >= 30){ //type check
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
+
         try {
             var User = await DB.users.find.token(token) // Find the user
             if(!User) throw "User not found" // Check if the user exists
@@ -165,20 +217,37 @@ export const ChannelsInterceptEssentials = {
     },
 
     join : async (req: express.Request, res: express.Response) => { // Join a channel
-        const {channel_id, user_id} = req.body
+        const {channel_id, token} = req.params
+
+        if (!channel_id || !token || channel_id.length !== 13 || token.length !== 45){ //type check
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
+
         try {
             var Channel = await DB.channels.find.id(channel_id)
             if(!Channel) throw "Channel not found"
-            Logger.debug(`User ${user_id} has joined channel ${Channel}`)
 
-            // Check if the user is already in the channel
-            if (Channel.members.includes(user_id)) throw "You are already in this channel"
+            // Check if the user is in the channel
+            var User = await DB.users.find.token(token)
+            if(!User) throw "User not found"
+
+            if (Channel.members.includes(User.user_id)) throw "You are already in this channel"
 
             // Add the user to the channel
-            Channel.members.push(user_id)
+            Channel.members.push(User.user_id)
             Channel.members_count = Channel.members.length
             await Channel.save()
 
+            // Add the channel to the user
+            User.channels.push(Channel.channel_id)
+            await User.save()
+
+            Logger.debug(`User ${User} has joined channel ${Channel}`)
             Emitter.emit("joinChannel", Channel)
             res.json(
                 new RouteResponse()
@@ -197,16 +266,33 @@ export const ChannelsInterceptEssentials = {
     },
 
     leave : async (req: express.Request, res: express.Response) => { // Leave a channel
-        const {channel_id, user_id} = req.body
+        const {channel_id, token} = req.params
+
+        if (!channel_id || !token || channel_id.length !== 13 || token.length !== 45){ //type check
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
+
         try {
             var Channel = await DB.channels.find.id(channel_id)
             if(!Channel) throw "Channel not found"
-            Logger.debug(`User ${user_id} has left channel ${Channel}`)
+
+            // Check if the user is in the channel
+            var User = await DB.users.find.token(token)
+            if(!User) throw "User not found"
+
+            if (!Channel.members.includes(User.user_id)) throw "You are not in this channel"
 
             // Remove the user from the channel
-            Channel.members = Channel.members.filter((member) => member !== user_id) // Remove the user from the channel
-            Channel.members_count = Channel.members_count-1 // Update the members count
+            Channel.members = Channel.members.filter((member) => member !== User.user_id)
+            Channel.members_count = Channel.members.length
             await Channel.save()
+
+            Logger.debug(`User ${User.user_id} has left channel ${Channel}`)
             Emitter.emit("leaveChannel", Channel)
             res.json(
                 new RouteResponse()
@@ -225,10 +311,27 @@ export const ChannelsInterceptEssentials = {
     },
 
     getMembers : async (req: express.Request, res: express.Response) => { // Get the members of a channel
-        const {channel_id} = req.params
+        const {channel_id, token} = req.params
+
+        if (!channel_id || !token || channel_id.length !== 13 || token.length !== 45){ //type check
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
+
         try {
             var Channel = await DB.channels.find.id(channel_id)
             if(!Channel) throw "Channel not found"
+
+            // Check if the user is in the channel
+            var User = await DB.users.find.token(token)
+            if(!User) throw "User not found"
+
+            if (!Channel.members.includes(User.user_id)) throw "You are not in this channel"
+
             Logger.debug(`Getting members of channel ${Channel}`)
             res.json(
                 new RouteResponse()
@@ -250,7 +353,21 @@ export const ChannelsInterceptEssentials = {
 
     getMessages : async (req: express.Request, res: express.Response) => { // Get the x number of last messages of a channel
         const {channel_id, limit} = req.params
+
+        if (!channel_id || !limit || channel_id.length !== 13 || limit.length > 3){ //type check
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
+
         try {
+            if (!limit) throw "Limit not provided"
+
+            if (parseInt(limit) > 100) throw "Limit is too high"
+
             var Channel = await DB.channels.find.id(channel_id)
             if(!Channel) throw "Channel not found"
             Logger.debug(`Getting messages of channel ${Channel}`)
@@ -275,6 +392,16 @@ export const ChannelsInterceptEssentials = {
 
     sendMessage : async (req: express.Request, res: express.Response) => { // Send a message to a channel
         const {channel_id, user_id, message} = req.body
+
+        if (!channel_id || !user_id || !message || channel_id.length !== 13 || user_id.length !== 13 || message.length > 1000){ //type check
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
+
         try {
             var Channel = await DB.channels.find.id(channel_id)
             if(!Channel) throw "Channel not found"
@@ -312,6 +439,16 @@ export const ChannelsInterceptEssentials = {
 
     deleteMessage : async (req: express.Request, res: express.Response) => { // Delete a message from a channel
         const {channel_id, user_id, message_id} = req.body
+
+        if (!channel_id || !user_id || !message_id || channel_id.length !== 13 || user_id.length !== 13 || message_id.length !== 13){ //type check
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
+        
         try {
             var Channel = await DB.channels.find.id(channel_id)
             if(!Channel) throw "Channel not found"

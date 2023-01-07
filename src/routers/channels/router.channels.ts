@@ -9,35 +9,35 @@ export const ChannelsRouter = {
 
     Create : {
         method: "GET",
-        path: "/create/:token/:channelName",
+        path: "/create/:token/:channel_name",
         res: ChannelsInterceptEssentials.create
     },
     Get : {
         method: "GET",
 
-        path: "/get/:token/:channel",
+        path: "/get/:token/:channel_id",
         res: ChannelsInterceptEssentials.get
         
     },
     Delete : {
         method: "GET",
-        path: "/delete/:token/:channel",
-        res: ChannelsInterceptEssentials.delete
+        path: "/remove/:token/:channel_id",
+        res: ChannelsInterceptEssentials.remove
     },
     Update : {
         method: "GET",
-        path: "/update/:token/:channel/:newchannel",
+        path: "/update/:token/:channel_id",
 
         res: ChannelsInterceptEssentials.update
     },
     Join : {
         method: "GET",
-        path: "/join/:token/:channel",
+        path: "/join/:token/:channel_id",
         res: ChannelsInterceptEssentials.join
     },
     Leave : {
         method: "GET",
-        path: "/leave/:token/:channel",
+        path: "/leave/:token/:channel_id",
         res: ChannelsInterceptEssentials.leave
     },
     GetMessages : {
@@ -46,16 +46,22 @@ export const ChannelsRouter = {
         res: ChannelsInterceptEssentials.getMessages
     },
 
-    // Messages 
+    GetMembers : {
+        method: "GET",
+        path: "/getmembers/:token/:channel_id",
+        res: ChannelsInterceptEssentials.getMembers
+    },
+
+    // Messages
 
     SendMessage : {
         method: "GET",
-        path: "/sendmessage/:token/:channel/:message",
+        path: "/sendmessage/:token/:channel_id/:message",
         res: ChannelsInterceptEssentials.sendMessage
     },
     DeleteMessage : {
         method: "GET",
-        path: "/deletemessage/:token/:channel/:message",
+        path: "/deletemessage/:token/:channel_id/:message",
         res: ChannelsInterceptEssentials.deleteMessage
     },
 
@@ -63,7 +69,7 @@ export const ChannelsRouter = {
 
     Kick : {
         method: "GET",
-        path: "/kick/:token/:channel/:user",
+        path: "/kick/:token/:channel_id/:user",
         res: ChannelsInterceptModeration.kick
     },
 

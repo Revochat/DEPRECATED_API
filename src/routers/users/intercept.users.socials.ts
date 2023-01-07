@@ -13,10 +13,12 @@ export const UserInterceptSocials = {
     addFriend : async (req: express.Request, res: express.Response) => { // Add a friend to the user
         try {
             const { token, friend_id } = req.params
+
+            // if token or friend_id badly formatted
+            if(!token || !friend_id || token.length !== 45 || friend_id.length !== 13) throw "Badly formatted"
+
             var User = await DB.users.find.token(token)
             if(!User) throw "User not found"
-
-            //TEST CASES
 
             // Check if the friend is already added
             if(User.friends.includes(friend_id)) throw "User already added"
@@ -116,6 +118,10 @@ export const UserInterceptSocials = {
     removeFriend : async (req: express.Request, res: express.Response) => { // Remove a friend from the user
         try {
             const { token, friend_id } = req.params
+
+            // if token or friend_id badly formatted
+            if(!token || !friend_id || token.length !== 45 || friend_id.length !== 13) throw "Badly formatted"
+
             var User = await DB.users.find.token(token)
             if(!User) throw "User not found"
 
@@ -124,7 +130,7 @@ export const UserInterceptSocials = {
 
                 // Check if the user has a friend request from the friend
                 if(User.friends_requests_received.includes(friend_id)) {
-                    
+
                     // Remove the friend request from the user
                     User.friends_requests_received.splice(User.friends_requests_received.indexOf(friend_id), 1)
                     User.updated_at = new Date().toLocaleString()
@@ -209,6 +215,10 @@ export const UserInterceptSocials = {
     addBlocked: async (req: express.Request, res: express.Response) => { // Add a blocked user to the user
         try {
             const { token, blocked_id } = req.params
+
+            // if token or blocked_id badly formatted
+            if(!token || !blocked_id || token.length !== 45 || blocked_id.length !== 13) throw "Badly formatted"
+
             var User = await DB.users.find.token(token)
             if(!User) throw "User not found"
             User.blocked.push(blocked_id)
@@ -235,6 +245,10 @@ export const UserInterceptSocials = {
     removeBlocked: async (req: express.Request, res: express.Response) => { // Remove a blocked user from the user
         try {
             const { token, blocked_id } = req.params
+
+            // if token or blocked_id badly formatted
+            if(!token || !blocked_id || token.length !== 45 || blocked_id.length !== 13) throw "Badly formatted"
+
             var User = await DB.users.find.token(token)
             if(!User) throw "User not found"
             User.blocked.splice(User.blocked.indexOf(blocked_id), 1)

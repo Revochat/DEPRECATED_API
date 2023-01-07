@@ -14,6 +14,9 @@ export const UserInterceptEssentials = {
         try {
             const { username, password } = req.params
 
+            // if username or password badly formatted
+            if(!username || !password || username.length >= 20 ||password.length >= 30) throw "Badly formatted"
+
             var user = await DB.users.find.username(username)
             if (user) throw "User already exists"
 
@@ -48,6 +51,9 @@ export const UserInterceptEssentials = {
     connect : async (req: express.Request, res: express.Response) => { // Connect a user
         try {
             const { username, password } = req.params
+
+            // if username or password badly formatted
+            if(!username || !password || username.length >= 20 ||password.length >= 30) throw "Badly formatted"
 
             var User = await DB.users.find.username(username)
 
@@ -86,6 +92,10 @@ export const UserInterceptEssentials = {
     getUser : async (req: express.Request, res: express.Response) => { // Get a user
         try {
             const { token } = req.params
+
+            // if token badly formatted
+            if(!token || token.length !== 45) throw "Badly formatted"
+
             var User = await DB.users.find.token(token)
             if(!User) throw "User not found"
             res.json(
@@ -108,6 +118,9 @@ export const UserInterceptEssentials = {
         username : async (req: express.Request, res: express.Response) => { // Update the username
             try {
                 const { token, newusername } = req.params
+
+                // if token or newusername badly formatted
+                if(!token || !newusername || token.length !== 45 || newusername.length >= 20) throw "Badly formatted"
 
                 var User = await DB.users.find.token(token)
                 if(!User) throw "User not found"
@@ -135,6 +148,10 @@ export const UserInterceptEssentials = {
         password : async (req: express.Request, res: express.Response) => { // Update the password
             try {
                 const { token, newpassword } = req.params
+
+                // if token or newpassword badly formatted
+                if(!token || !newpassword || token.length !== 45 || newpassword.length >= 30) throw "Badly formatted"
+
                 var User = await DB.users.find.token(token)
                 if(!User) throw "User not found"
                 User.password = await bcrypt.hash(newpassword, 10)
@@ -160,6 +177,12 @@ export const UserInterceptEssentials = {
         profile_picture : async (req: express.Request, res: express.Response) => { // Update the profile picture
             try {
                 const { token, newprofile_picture } = req.params
+
+                // PROFILE PICTURE HANDLE
+
+                // if token or newprofile_picture badly formatted
+                if(!token || !newprofile_picture || token.length !== 45 || newprofile_picture.length >= 100) throw "Badly formatted"
+
                 var User = await DB.users.find.token(token)
                 if(!User) throw "User not found"
                 User.profile_picture = newprofile_picture
