@@ -8,11 +8,13 @@ import { config } from "../../config";
 import Logger from "../../client/logger.client";
 import DB_Connect from "../../database/connect.database";
 import bodyParser from "body-parser";
+import ServerSocket from "../../socket";
 
-export default new class Controller implements RouterInterface { // This is the class that starts the server
+export default class Controller implements RouterInterface { // This is the class that starts the server
     static app: express.Express;
     static port: number;
     static server: Server;
+    
     constructor(){
         Controller.port = config.properties.port
         Controller.app = express()
@@ -58,6 +60,7 @@ export default new class Controller implements RouterInterface { // This is the 
             Controller.rules()
             Controller.iterate(Intercept)
             Emitter.emit("readyRoute", this)
+            new ServerSocket(Controller.server)
             Logger.beautifulSpace()
         })
     }
