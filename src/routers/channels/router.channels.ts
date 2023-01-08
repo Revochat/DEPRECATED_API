@@ -10,19 +10,19 @@ export const ChannelsRouter = {
     Create : {
         method: "GET",
         path: "/create/:token/:channel_name",
-        res: ChannelsInterceptEssentials.create
+        res: ChannelsInterceptEssentials.management.create
     },
     Get : {
         method: "GET",
 
         path: "/get/:token/:channel_id",
-        res: ChannelsInterceptEssentials.get
+        res: ChannelsInterceptEssentials.get.get
         
     },
     Delete : {
         method: "GET",
         path: "/remove/:token/:channel_id",
-        res: ChannelsInterceptEssentials.remove
+        res: ChannelsInterceptEssentials.management.remove
     },
     Update : {
         method: "GET",
@@ -43,13 +43,13 @@ export const ChannelsRouter = {
     GetMessages : {
         method: "GET",
         path: "/getmessages/:token/:channel/:limit",
-        res: ChannelsInterceptEssentials.getMessages
+        res: ChannelsInterceptEssentials.get.getMessages
     },
 
     GetMembers : {
         method: "GET",
         path: "/getmembers/:token/:channel_id",
-        res: ChannelsInterceptEssentials.getMembers
+        res: ChannelsInterceptEssentials.get.getMembers
     },
 
     // Messages
@@ -57,12 +57,12 @@ export const ChannelsRouter = {
     SendMessage : {
         method: "GET",
         path: "/sendmessage/:token/:channel_id/:message",
-        res: ChannelsInterceptEssentials.sendMessage
+        res: ChannelsInterceptEssentials.messages.sendMessage
     },
     DeleteMessage : {
         method: "GET",
         path: "/deletemessage/:token/:channel_id/:message",
-        res: ChannelsInterceptEssentials.deleteMessage
+        res: ChannelsInterceptEssentials.messages.deleteMessage
     },
 
     // Moderation

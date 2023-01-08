@@ -7,7 +7,6 @@ import { RouterInterface, Status } from "./interfaces.controller";
 import { config } from "../../config";
 import Logger from "../../client/logger.client";
 import DB_Connect from "../../database/connect.database";
-import bodyParser from "body-parser";
 import ServerSocket from "../../socket";
 
 export default class Controller implements RouterInterface { // This is the class that starts the server

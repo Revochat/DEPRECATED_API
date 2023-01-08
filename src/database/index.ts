@@ -1,6 +1,6 @@
-import { MessageCreate, MessageFindOne, MessageDelete, MessageFindUser, MessageFindChannel} from './messages/create.messages'
+import { MessageCreate, MessageFindOne, MessageDelete, MessageFindUser, MessageFindChannel} from './messages/'
 import { UserCreate, UserConnect, UserExist, UserGetOne, UserGetAll, UserFindByUsername, UserFindByToken, UserFindByID } from './users'
-import { ChannelCreate, ChannelFindOne, ChannelDelete, GetXNumberofMessages } from './channels/create.channels'
+import { ChannelCreate, ChannelFindOne, ChannelDelete, GetXNumberofMessages } from './channels'
 
 export * from './interface.database'
 
