@@ -11,14 +11,14 @@ export const UserRouter = {
     },
 
     Connect: {
-        method: "GET",
-        path: "/connect/:username/:password",
+        method: "POST",
+        path: "/connect/",
         res: UserInterceptEssentials.connect
     },
 
     GetUser: {
-        method: "GET",
-        path: "/get/user/:token",
+        method: "POST",
+        path: "/get/user/",
         res: UserInterceptEssentials.getUser
     },
 

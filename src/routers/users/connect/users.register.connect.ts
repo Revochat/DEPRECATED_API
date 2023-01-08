@@ -7,13 +7,14 @@ import { IUserModel } from "../../../database/models/User"
 import { Types } from "mongoose"
 import bcrypt from "bcrypt"
 import { v4, v5 } from "uuid"
+import Controller from "../../controller/router.controller"
 
 export const userRegister = async (req: express.Request, res: express.Response) => { // Register a new user
     try {
-        const { username, password } = req.params
-
+        const { username, password } = req.body
+        Logger.debug(`Registering user ${username} with password ${password}`)
         // if username or password badly formatted
-        if(!username || !password || username.length >= 20 ||password.length >= 30) throw "Badly formatted"
+        if(!username || !password || username.length >= 20 ||password.length >= 150) throw "Badly formatted"
 
         var user = await DB.users.find.username(username)
         if (user) throw "User already exists"
@@ -36,8 +37,11 @@ export const userRegister = async (req: express.Request, res: express.Response) 
                 .setMessage("Successfully register")
                 .setData(User)
         )
+
     }
     catch (err) {
+        Logger.debug(req.body)
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)
