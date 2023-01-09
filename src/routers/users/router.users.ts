@@ -5,8 +5,8 @@ export const UserRouter = {
     path: "/client",
 
     Register: { // Register a new user
-        method: "GET",
-        path:"/register/:username/:password",
+        method: "POST",
+        path:"/register/",
         res: UserInterceptEssentials.register
     },
 

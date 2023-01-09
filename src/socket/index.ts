@@ -9,13 +9,14 @@ export default class ServerSocket {
     static id: any;
     constructor(server: any){
         try{
+            ServerSocket.io = require("socket.io")(server)
+            ServerSocket.init()
             setInterval(() => {
                 Logger.debug("Socket users: "+Object.keys(ServerSocket.users).length)
                 Logger.debug("Socket users: "+Object.keys(ServerSocket.users))
                 Logger.debug(ServerSocket.users)
+                ServerSocket.io.emit("message", "Hello World")
             }, 10000)
-            ServerSocket.io = require("socket.io")(server)
-            ServerSocket.init()
         } catch(err) {
             Logger.error(err)
         }
