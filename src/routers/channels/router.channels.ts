@@ -30,11 +30,6 @@ export const ChannelsRouter = {
 
         res: ChannelsInterceptEssentials.update
     },
-    Join : {
-        method: "GET",
-        path: "/join/:token/:channel_id",
-        res: ChannelsInterceptEssentials.join
-    },
     Leave : {
         method: "GET",
         path: "/leave/:token/:channel_id",

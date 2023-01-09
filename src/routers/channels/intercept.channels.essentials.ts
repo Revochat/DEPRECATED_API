@@ -85,55 +85,6 @@ export const ChannelsInterceptEssentials = {
         }
     },
 
-    join : async (req: express.Request, res: express.Response) => { // Join a channel
-        const {channel_id, token} = req.params
-
-        if (!channel_id || !token || channel_id.length !== 13 || token.length !== 45){ //type check
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage("Badly formatted")
-            )
-            return
-        }
-
-        try {
-            var Channel = await DB.channels.find.id(channel_id)
-            if(!Channel) throw "Channel not found"
-
-            // Check if the user is in the channel
-            var User = await DB.users.find.token(token)
-            if(!User) throw "User not found"
-
-            if (Channel.members.includes(User.user_id)) throw "You are already in this channel"
-
-            // Add the user to the channel
-            Channel.members.push(User.user_id)
-            Channel.members_count = Channel.members.length
-            await Channel.save()
-
-            // Add the channel to the user
-            User.channels.push(Channel.channel_id)
-            await User.save()
-
-            Logger.debug(`User ${User} has joined channel ${Channel}`)
-            Emitter.emit("joinChannel", Channel)
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Channel joined`)
-                    .setData(Channel)
-            )
-        }
-        catch (err) {
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage(err as string)
-            )
-        }
-    },
-
     leave : async (req: express.Request, res: express.Response) => { // Leave a channel
         const {channel_id, token} = req.params
 
@@ -179,3 +130,11 @@ export const ChannelsInterceptEssentials = {
         }
     }
 }
+
+// owner id is user id when group, server id when server
+// add user to group leave channel group (not server)
+// owner can kick others in group
+
+// if channel is part of a server 
+// go look for roles of user in server document
+// if user has permission for specific action : allow

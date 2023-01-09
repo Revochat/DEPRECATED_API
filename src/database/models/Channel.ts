@@ -22,6 +22,15 @@ const ChannelSchema = new Schema({
     members_count: { type: Number, required: true, default: 0 },
     updated_at: { type: String, required: true, default: Date.toLocaleString() },
     created_at: { type: String, required: true, default: Date.toLocaleString() },
+
+    // perm channel: { // array of channel permissions
+    //     create: boolean, // array ..
+    //     delete: boolean,
+    //     edit: boolean,
+    //     view: boolean,
+    //     manage: boolean
+    //     move: boolean
+    // }
 });
 
 export default mongoose.model<IChannelModel>("Channel", ChannelSchema);
