@@ -6,20 +6,20 @@ import DB from "../../database"
 
 import { create, remove } from "./management"
 import { update } from "./update/"
-import { get, getMembers, getMessages } from "./get/"
+import { getChannel, getMembers, getMessages } from "./get/"
 import { sendMessage, deleteMessage } from "./messages"
 
 export const ChannelsInterceptEssentials = {
 
     update: update,
     get: {
-        get: get,
-        getMembers: getMembers,
-        getMessages: getMessages
+        channel: getChannel,
+        members: getMembers,
+        messages: getMessages
     },
     messages: {
-        sendMessage: sendMessage,
-        deleteMessage: deleteMessage
+        send: sendMessage,
+        delete: deleteMessage
     },
     management: {
         create: create,

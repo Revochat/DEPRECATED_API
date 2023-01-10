@@ -1,12 +1,14 @@
 import { passwordUpdate, pfpUpdate, usernameUpdate, walletUpdate } from "./update"
-import { userLogin, userRegister } from "./connect"
+import { userLogin, userRegister, userConnect } from "./connect"
 import { getUser } from "./get"
 
 
 export const UserInterceptEssentials = {
     register : userRegister,
 
-    connect : userLogin,
+    login : userLogin,
+
+    connect : userConnect,
 
     getUser : getUser,
 

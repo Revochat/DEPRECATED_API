@@ -5,7 +5,7 @@ import Logger from "../../../client/logger.client"
 import DB from "../../../database"
 
 
-export const get = async (req: express.Request, res: express.Response) => { // Get a channel data by ID
+export const getChannel = async (req: express.Request, res: express.Response) => { // Get a channel data by ID
     const {channel_id, token} = req.params
 
     if (!channel_id || !token || channel_id.length !== 13 || token.length !== 45){ //type check

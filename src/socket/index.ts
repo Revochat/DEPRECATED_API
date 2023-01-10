@@ -1,41 +1,53 @@
 import { Socket } from "socket.io"
+import axios, {AxiosResponse} from "axios";
 import Logger from "../client/logger.client"
-import DB from "../database"
 
 export default class ServerSocket {
     static io: Socket;
     static users: any = {};
+    static channels: any = {};
     static id: any;
+
     constructor(server: any){
         try{
             ServerSocket.io = require("socket.io")(server)
-            ServerSocket.init()
         } catch(err) {
             Logger.error(err)
         }
     }
 
-    static async init(){
-        ServerSocket.io.on("connection", (socket: Socket) => {
-            Logger.debug("Socket connected: "+socket.id)
-            ServerSocket.users[socket.id] = null
-            socket.on("disconnect", () => {
-                delete ServerSocket.users[socket.id]
-                Logger.debug("Socket disconnected: "+socket.id)
-            })
-            socket.on("login", async (token: string) => {
+    static add(type: string, name: string, path: string, params: string[], socket: Socket) {
+        // Get the method from the router structure and translate it to a socket to make request to the API
+        ServerSocket.channels[name] = {
+            sock: async (data: Object ) => {
                 try {
-                    const User = await DB.users.find.token(token)
-                    Logger.debug("User: "+ token)
-                    if(!User) ServerSocket.io.to(socket.id).emit("ready", null)
-                    ServerSocket.users[socket.id] = User
-                    Logger.debug(User)
-                    ServerSocket.io.to(socket.id).emit("ready", User)
-                }
-                catch(err) {
-                    Logger.error(err)
-                }
-            })
+                    // Check if data keys are in the tab
+                    Object.keys(data).length != params.length ? new Error("Missing data") : null
+                    for (let i = 0; i < params.length; i++) {
+                        Object.keys(data).forEach(key => {
+                            if(key === params[i]) throw `Missing ${params[i]}`
+                        })
+                    }
+                    const res: AxiosResponse = type == "GET" ? await axios.get(path, data) : await axios.post(path, data)
+                    socket.emit(name, res.data)
+                } catch(err) {
+                    socket.emit(name, err)
+                }  
+            },
+            name: name,
+            params: params,
+            path: path,
+            type: type
+        }
+
+        Logger.debug(ServerSocket.channels)
+    }
+
+    static run(){
+        ServerSocket.io.on("connection", (socket: Socket) => {
+            Object.keys(ServerSocket.channels).forEach(key => {
+                socket.on(key, ServerSocket.channels[key]())
+            })    
         })
     }
 }

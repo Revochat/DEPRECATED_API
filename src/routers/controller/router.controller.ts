@@ -23,18 +23,22 @@ export default class Controller implements RouterInterface { // This is the clas
         Logger.success("Server started on port "+Controller.port)
     }
 
-    protected static iterate = (obj: any, path: string = ""): void => { // This is the function that iterates through the routes
+    protected static iterate = (obj: any, name: string = "", path: string = "", socketing: boolean = false, description: string = ""): void => { // This is the function that iterates through the routes
         let method = "GET"
         Object.keys(obj).forEach(key => {
             if(key === "method") method = obj[key].toUpperCase()
             if(key === "path") path += obj[key]
-            if (typeof obj[key] === 'object' && obj[key] !== null) 
-                this.iterate(obj[key], path)
-             else if (typeof obj[key] === 'function'){ 
+            if(key === "name") name = obj[key]
+            if(key === "description") description = obj[key]
+            if(key === "socketing") socketing = obj[key]
+            if (typeof obj[key] === 'object' && obj[key] !== null)
+                this.iterate(obj[key], name, path, socketing, description)
+             else if (typeof obj[key] === 'function'){
                 if(path.includes("*")) path = "*"
                 if(method === "POST") this.app.post(path,  obj[key])
+                if(socketing) ServerSocket.add(method, name, path, obj[key].parameters, obj[key].socket)
                 else this.app.get(path,  obj[key])
-                Logger.info("Route: "+method+" "+path)
+                Logger.info(`Route: [${method}] ${path} [SOCKET] ${socketing} -> ${description}`)
             }
         })
     }
