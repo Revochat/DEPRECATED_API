@@ -21,29 +21,7 @@ const ServerSchema = new Schema({
     updated_at: { type: String, required: true, default: Date.toLocaleString() },
     created_at: { type: String, required: true, default: Date.toLocaleString() },
 
-    // perm server: {
-    //     edit: boolean, // edit server name, icon, etc
-    //     manage: boolean // make roles
-    //     invite: boolean // invite users
-    // }
-
-    // perm user: {
-    //    kick: boolean,
-    //    ban: boolean,
-    //    timeout int,
-    //    manage: boolean // attribute roles 
-    // }
-
-    // perm channel: { // array of channel permissions, this one is general and channel permissions override this one ?
-    //     create: boolean, // array ..
-    //     delete: boolean,
-    //     edit: boolean,
-    //     view: boolean,
-    //     manage: boolean,
-    //     move: boolean // move channel to another category
-    // }
-
-    // permission_id : { type: Number, required: true, default: 0 } ?
+    permissions_id: { type: Array, required: false, default: [] }, // array of permissions id (roles id) in ascending order (index 0 is highest level)
 });
 
 export default mongoose.model<IServerModel>("Server", ServerSchema);

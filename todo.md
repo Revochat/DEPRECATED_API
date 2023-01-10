@@ -23,4 +23,6 @@ Just some ideas for the payed subscription:
    custom profile
    
 (server boosts ?)
+(bots)
 chiffrer nom de serveur et nom de channel et friends ?
+slowmode cote client ?
