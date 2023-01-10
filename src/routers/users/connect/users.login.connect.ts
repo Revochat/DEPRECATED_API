@@ -12,7 +12,7 @@ export const userLogin = async (req: express.Request, res: express.Response) => 
         const { username, password } = req.params
 
         // if username or password badly formatted
-        if(!username || !password || username.length >= 20 ||password.length >= 30) throw "Badly formatted"
+        if(!username || !password || username.length >= 150 ||password.length >= 30) throw "Badly formatted"
 
         var User = await DB.users.find.username(username)
 

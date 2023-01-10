@@ -1,0 +1,5 @@
+export enum TOKEN {
+    DEFAULT_TOKEN_LENGTH = 45,
+    MAX_TOKEN_LENGTH = 60,
+    MIN_TOKEN_LENGTH = 45,
+}
