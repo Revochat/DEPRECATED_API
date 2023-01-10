@@ -12,7 +12,7 @@ export const pfpUpdate = async (req: express.Request, res: express.Response) => 
         // PROFILE PICTURE HANDLE
 
         // if token or newprofile_picture badly formatted
-        if(!token || !newprofile_picture || token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH|| newprofile_picture.length >= UTILS.CONSTANTS.USER.) throw "Badly formatted"
+        if(!token || !newprofile_picture || token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH || newprofile_picture.length >= UTILS.CONSTANTS.USER.PROFILE_PICTURE.MAX_SIZE) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"

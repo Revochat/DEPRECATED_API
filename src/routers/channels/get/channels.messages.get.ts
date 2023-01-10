@@ -2,11 +2,12 @@ import express from "express"
 import { RouteResponse, Status } from "../../controller"
 import Logger from "../../../client/logger.client"
 import DB from "../../../database"
+import UTILS from "../../../utils"
 
 export const getMessages = async (req: express.Request, res: express.Response) => { // Get the x number of last messages of a channel
     const {channel_id, limit} = req.params
 
-    if (!channel_id || !limit || channel_id.length !== 13 || limit.length > 3){ //type check
+    if (!channel_id || !limit || channel_id.length !== UTILS.CONSTANTS.CHANNEL.ID.DEFAULT_LENGTH || limit.length > UTILS.CONSTANTS.SERVER.MESSAGE.MESSAGE_FETCH_LIMIT){ //type check
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

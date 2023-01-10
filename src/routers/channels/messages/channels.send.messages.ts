@@ -5,11 +5,12 @@ import DB from "../../../database"
 import Emitter from "../../../client/emitter.client"
 import { IMessageModel } from "../../../database/models/Message"
 import { v4, v5 } from "uuid"
+import UTILS from "../../../utils"
 
 export const sendMessage = async (req: express.Request, res: express.Response) => { // Send a message to a channel
     const {channel_id, user_id, message} = req.body
 
-    if (!channel_id || !user_id || !message || channel_id.length !== 13 || user_id.length !== 13 || message.length > 1000){ //type check
+    if (!channel_id || !user_id || !message || channel_id.length !== UTILS.CONSTANTS.CHANNEL.ID.DEFAULT_LENGTH || user_id !== UTILS.CONSTANTS.USER.ID.DEFAULT_LENGTH){ //type check
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)
@@ -17,6 +18,9 @@ export const sendMessage = async (req: express.Request, res: express.Response) =
         )
         return
     }
+
+    // get the user, if premium allow them to send longer messages PREMIUM
+    // message.length > UTILS.CONSTANTS.MESSAGE.MESSAGE.MAX_MESSAGE_LENGTH
 
     try {
         var Channel = await DB.channels.find.id(channel_id)

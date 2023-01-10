@@ -3,13 +3,14 @@ import DB from "../../../database"
 import Logger from "../../../client/logger.client"
 import { RouteResponse, Status } from "../../controller"
 import Emitter from "../../../client/emitter.client"
+import UTILS from "../../../utils"
 
 export const usernameUpdate = async (req: express.Request, res: express.Response) => { // Update the username
     try {
         const { token, newusername } = req.params
 
         // if token or newusername badly formatted
-        if(!token || !newusername || token.length !== 45 || newusername.length >= 20) throw "Badly formatted"
+        if(!token || !newusername || token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH || newusername.length >= UTILS.CONSTANTS.USER.USERNAME.MAX_LENGTH || newusername.length < UTILS.CONSTANTS.USER.USERNAME.MIN_LENGTH) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"

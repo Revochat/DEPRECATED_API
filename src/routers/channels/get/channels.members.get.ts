@@ -2,12 +2,12 @@ import express from "express"
 import { RouteResponse, Status } from "../../controller"
 import Logger from "../../../client/logger.client"
 import DB from "../../../database"
-
+import UTILS from "../../../utils"
 
 export const getMembers = async (req: express.Request, res: express.Response) => { // Get the members of a channel
     const {channel_id, token} = req.params
 
-    if (!channel_id || !token || channel_id.length !== 13 || token.length !== 45){ //type check
+    if (!channel_id || !token || channel_id.length !== UTILS.CONSTANTS.CHANNEL.ID.DEFAULT_LENGTH || token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH){ //type check
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

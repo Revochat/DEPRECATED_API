@@ -4,7 +4,9 @@ import Logger from "../../../client/logger.client"
 import { RouteResponse, Status } from "../../controller"
 import Emitter from "../../../client/emitter.client"
 import UTILS from "../../../utils"
+
 export const removeFriend = async (req: express.Request, res: express.Response) => { // Remove a friend from the user
+    
     try {
         const { token, friend_id } = req.params
 

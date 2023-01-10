@@ -3,13 +3,16 @@ import { RouteResponse, Status } from "../../controller"
 import Emitter from "../../../client/emitter.client"
 import Logger from "../../../client/logger.client"
 import DB from "../../../database"
-
+import UTILS from "../../../utils"
 export const create = async (req: express.Request, res: express.Response) => { // Create a channel
-    const { server_id, user_id } = req.body
+    const { server_id, user_id, channel_type } = req.body
     const { channel_name, token } = req.params
 
-    if (!channel_name || !token || !user_id || channel_name.length >= 30 || token.length !== 45 || user_id.length !== 13 || (server_id && server_id.length !== 13) || (!server_id && server_id !== undefined)){ //type check
-        res.json(
+    if (!channel_name || !token || !user_id || channel_name.length >= UTILS.CONSTANTS.CHANNEL.NAME.MAX_NAME_LENGTH || channel_name.length <= UTILS.CONSTANTS.CHANNEL.NAME.MIN_NAME_LENGTH ||
+        token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH || user_id.length !== UTILS.CONSTANTS.USER.ID.DEFAULT_LENGTH || channel_type !== "text" || channel_type !== "voice" ||
+        ((server_id && server_id.length !== UTILS.CONSTANTS.SERVER.SERVER.DEFAULT_ID_LENGTH) || (!server_id && server_id !== undefined))) {
+        
+            res.json(
             new RouteResponse()
                 .setStatus(Status.error)
                 .setMessage("Badly formatted")
@@ -31,6 +34,7 @@ export const create = async (req: express.Request, res: express.Response) => { /
             var Channel = await DB.channels.create({
                 channel_id: Date.now() + Math.floor(Math.random() * 1000),
                 channel_name: channel_name,
+                channel_type: channel_type,
                 owner_id: user_id,
                 server_id: server_id,
                 members: [user_id],
@@ -44,6 +48,7 @@ export const create = async (req: express.Request, res: express.Response) => { /
             var Channel = await DB.channels.create({
                 channel_id: Date.now() + Math.floor(Math.random() * 1000),
                 channel_name: channel_name,
+                channel_type: channel_type,
                 owner_id: user_id,
                 members: [user_id],
                 members_count: 1,

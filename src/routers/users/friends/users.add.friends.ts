@@ -4,7 +4,6 @@ import Logger from "../../../client/logger.client"
 import { RouteResponse, Status } from "../../controller"
 import Emitter from "../../../client/emitter.client"
 import UTILS from "../../../utils"
-import { CONSTANTS } from "../../../utils/constants"
 
 
 export const addFriend = async (req: express.Request, res: express.Response) => { // Add a friend to the user

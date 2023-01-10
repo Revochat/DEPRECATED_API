@@ -3,12 +3,14 @@ import { RouteResponse, Status } from "../../controller"
 import Logger from "../../../client/logger.client"
 import DB from "../../../database"
 import Emitter from "../../../client/emitter.client"
+import UTILS from "../../../utils"
 
 export const deleteMessage = async (req: express.Request, res: express.Response) => { // Delete a message from a channel
     const {channel_id, user_id, message_id} = req.body
 
-    if (!channel_id || !user_id || !message_id || channel_id.length !== 13 || user_id.length !== 13 || message_id.length !== 13){ //type check
-        res.json(
+    if (!channel_id || !user_id || !message_id || channel_id.length !== UTILS.CONSTANTS.CHANNEL.ID.DEFAULT_LENGTH || message_id.length !== UTILS.CONSTANTS.MESSAGE.ID.DEFAULT_LENGTH || user_id !== UTILS.CONSTANTS.USER.ID.DEFAULT_LENGTH){ //type check
+        
+            res.json(
             new RouteResponse()
                 .setStatus(Status.error)
                 .setMessage("Badly formatted")

@@ -5,6 +5,7 @@ export interface IChannel { // This is the interface for the channel in the data
     channel_id: number;
     owner_id: number;
     channel_name: string;
+    channel_type: "text" | "voice";
     members: number[];
     members_count: number;
     updated_at: string;
@@ -18,6 +19,7 @@ const ChannelSchema = new Schema({
     channel_id: { type: Number, required: true, unique: true, index: true },
     owner_id: { type: Number, required: true, index: true },
     channel_name: { type: String, required: true },
+    channel_type: { type: String, required: true, default: "text" },
     members: { type: Array, required: true, default: [] },
     members_count: { type: Number, required: true, default: 0 },
     updated_at: { type: String, required: true, default: Date.toLocaleString() },

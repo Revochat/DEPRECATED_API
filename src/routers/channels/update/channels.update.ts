@@ -3,12 +3,13 @@ import { RouteResponse, Status } from "../../controller"
 import Emitter from "../../../client/emitter.client"
 import Logger from "../../../client/logger.client"
 import DB from "../../../database"
+import UTILS from "../../../utils"
 
 export const update = async (req: express.Request, res: express.Response) => { // Update a channel
     const {channel_name} = req.body
     const {channel_id, token} = req.params
 
-    if (!channel_id || !token || channel_id.length !== 13 || token.length !== 45 || channel_name.length >= 30){ //type check
+    if (!channel_id || !token || channel_id.length !== UTILS.CONSTANTS.CHANNEL.ID.DEFAULT_LENGTH || token.length !== UTILS.CONSTANTS.CHANNEL.ID.DEFAULT_TOKEN_LENGTH || channel_name.length >= UTILS.CONSTANTS.CHANNEL.NAME.MAX_NAME_LENGTH || channel_name.length < UTILS.CONSTANTS.CHANNEL.NAME.MIN_NAME_LENGTH){ //type check
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

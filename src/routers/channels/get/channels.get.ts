@@ -3,12 +3,12 @@ import { RouteResponse, Status } from "../../controller"
 import Emitter from "../../../client/emitter.client"
 import Logger from "../../../client/logger.client"
 import DB from "../../../database"
-
+import UTILS from "../../../utils"
 
 export const getChannel = async (req: express.Request, res: express.Response) => { // Get a channel data by ID
     const {channel_id, token} = req.params
 
-    if (!channel_id || !token || channel_id.length !== 13 || token.length !== 45){ //type check
+    if (!channel_id || !token || channel_id.length !== UTILS.CONSTANTS.CHANNEL.ID.DEFAULT_LENGTH || token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH){ //type check
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

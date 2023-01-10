@@ -1,6 +1,5 @@
 TO DO LIST:
 
-- adapt with constants in functions
 - bearer token
 - message reaction
 - convert to hexadecimal user_id when sent (BYLIFE)
@@ -14,9 +13,11 @@ TO DO LIST:
 - audio chat / video chat
 - screenshare
 - files upload handling  
-- self destruct system for messages
+- self destruct system for messages (mass delete messages function)
 - 2FA
 - github permissions (can wait until there are more collaborators)
+
+
 
 Just some ideas for the payed subscription:
 
@@ -26,8 +27,10 @@ Just some ideas for the payed subscription:
    text formatting (markdown)
    custom profile
 
-polls ?
-(server boosts ?)
-(bots)
-chiffrer nom de serveur et nom de channel et friends ?
-slowmode cote client ?
+Future Updates ? :
+
+   polls ?
+   (server boosts ?)
+   (bots)
+   chiffrer nom de serveur et nom de channel et friends ?
+   slowmode cote client ?

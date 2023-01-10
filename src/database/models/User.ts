@@ -28,6 +28,7 @@ const UserSchema = new Schema({
     token: { type: String, required: true, unique: true, index: true },
     username: { type: String, required: true, unique: true, index: true },
     password: { type: String, required: true },
+    premium: { type: Boolean, required: true, default: false },
     wallet_token: { type: String, required: false, unique: true, index: true, sparse: true },
     profile_picture: {type: String, data: Buffer, contentType: String, default: "default_img_01.png" },
     updated_at: { type: String, required: true, default: new Date().toLocaleString() },
