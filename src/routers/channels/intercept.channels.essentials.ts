@@ -130,11 +130,3 @@ export const ChannelsInterceptEssentials = {
         }
     }
 }
-
-// owner id is user id when group, server id when server
-// add user to group leave channel group (not server)
-// owner can kick others in group
-
-// if channel is part of a server 
-// go look for roles of user in server document
-// if user has permission for specific action : allow

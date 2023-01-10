@@ -30,7 +30,7 @@ Just some ideas for the payed subscription:
    custom profile
 
 Future Updates ? :
-
+   server logs
    polls ?
    (server boosts ?)
    (bots)
