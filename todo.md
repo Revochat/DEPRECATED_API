@@ -2,17 +2,17 @@ TO DO LIST:
 
 - bearer token
 - message reaction
-- convert to hexadecimal user_id when sent (BYLIFE)
-- message system (Web3 and Server chat) (option = everyone can msg you or only friends), update channel more fields, on register channel with only oneself
+- convert to hexadecimal user_id when sent (BLF)
+- (option = everyone can msg you or only friends), tag people, on register create a channel with only oneself
 - server system
+- web3 chat / smart contract connection
 - encryption system
 - rate limit login(5 tries before 5 minutes ban), rate limit api
 - clear useless dependencies
-- Web-TRC 
-- Smart contract connection
+- Web-TRC
 - audio chat / video chat
 - screenshare
-- files upload handling  
+- files upload handling
 - self destruct system for messages (mass delete messages function)
 - 2FA
 - github permissions (can wait until there are more collaborators)
