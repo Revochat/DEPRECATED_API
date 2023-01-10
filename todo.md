@@ -2,8 +2,10 @@ TO DO LIST:
 
 - bearer token
 - message reaction
+- categories for sync perms in servers
+- user status
 - convert to hexadecimal user_id when sent (BLF)
-- (option = everyone can msg you or only friends), tag people, on register create a channel with only oneself
+- (option = everyone can msg you or only friends), tag people, on register create a channel with only oneself, check if channel is voice that no message can be sent, channels local permissions
 - server system
 - web3 chat / smart contract connection
 - encryption system
@@ -33,4 +35,4 @@ Future Updates ? :
    (server boosts ?)
    (bots)
    chiffrer nom de serveur et nom de channel et friends ?
-   slowmode cote client ?
+   slowmode client side ? timeout client side too

@@ -5,38 +5,49 @@ export interface IRole { // This is the interface for the role in the database
     role_id: number;
     role_name: string;
     role_color: string;
+    role_position: number;
 
     permissions: { // array of users id
-        channel: { // channel permissions
-            create: boolean;
-            delete: boolean;
-            view: boolean; // view the channel
-            access: boolean; // access to the channel: text or voice
-            move: boolean; // move channel to another category
-            manage: boolean; // manage channel name, who can view it 
-        }
-    
-        message: {
-            send: boolean; // send messages
-            delete: boolean; // delete others messages
-            pin: boolean; // pin, unpin
-        }
-    
-        vocal: {
-            speak: boolean; // speak
-            video: boolean; // video
-            manage: boolean; // mute, deafen, disconnect users
-        }
-    
-        reaction: {
-           add: boolean, // add reaction
-           remove: boolean // remove others reactions
-        }
 
-        role: {
-            create: boolean; // create a role
-            delete: boolean; // delete roles (only inferior roles to the one who has access)
-        }
+            server: {
+                manage: boolean; // manage server name, icon, description, etc..
+
+                role: {
+                    create: boolean; // create roles/permissions
+                    manage: boolean; // manage member roles
+                },
+
+                member: {
+                    manage: boolean; // mute, deafen, disconnect users
+                    kick: boolean;
+                    ban: boolean;
+                },
+
+                channel: {
+                    create: boolean;
+                    delete: boolean;
+                    view: boolean; // view channel
+                    interact: boolean; // can a user join the vocal channel or type in chat
+                    speak: boolean; // can a user speak in vocal channel
+                    video: boolean; // share video
+                    move: boolean; // move channel to another category
+                    manage: boolean; // manage channels name, who can view it..
+                },
+    
+                message: {
+                    send: boolean; 
+                    delete: boolean;
+                    // pin: boolean; // manage messages: pin, unpin
+                    mentions: boolean; // mention everyone, here, roles
+                    send_file: boolean;
+                    // use commands..
+                }
+
+                // reactions: {
+                //     add: boolean;
+                //     remove: boolean;
+                // }
+            }
     }
 }
 
@@ -45,37 +56,45 @@ export interface IRoleModel extends IRole, Document {}
 const RoleSchema = new Schema({
     role_id: { type: Number, required: true, unique: true, index: true },
     role_name: { type: String, required: true },
+    role_color: { type: String, required: true, default: "#000000" },
+    role_position: { type: Number, required: true, default: 0 },
 
-    permissions: { // array of users id
-        channel: { // channel permissions
-            create: { type: Boolean, required: true, default: false },
-            delete: { type: Boolean, required: true, default: false },
-            view: { type: Boolean, required: true, default: false }, // view channel
-            move: { type: Boolean, required: true, default: false }, // move channel to another category
-            manage: { type: Boolean, required: true, default: false }
-        },
+    permissions: {
+        required: true,
+        default: {
+            server: {
+                manage: { type: Boolean, required: true, default: false },
 
-        message: {
-            send: { type: Boolean, required: true, default: false },
-            delete: { type: Boolean, required: true, default: false },
-            manage: { type: Boolean, required: true, default: false },
-        },
+                roles: {
+                    create: { type: Boolean, required: true, default: false },
+                    manage: { type: Boolean, required: true, default: false },
+                },
 
-        vocal: {
-            join: { type: Boolean, required: true, default: false },
-            speak: { type: Boolean, required: true, default: false },
-            video: { type: Boolean, required: true, default: false },
-            manage: { type: Boolean, required: true, default: false },
-        },
+                member: {
+                    manage: { type: Boolean, required: true, default: false },
+                    kick: { type: Boolean, required: true, default: false },
+                    ban: { type: Boolean, required: true, default: false },
+                },
 
-        reactions: {
-            add: { type: Boolean, required: true, default: false },
-            remove: { type: Boolean, required: true, default: false },
-        },
+                channels: {
+                    create: { type: Boolean, required: true, default: false },
+                    delete: { type: Boolean, required: true, default: false },
+                    view: { type: Boolean, required: true, default: true },
+                    interact: { type: Boolean, required: true, default: true },
+                    speak: { type: Boolean, required: true, default: true },
+                    video: { type: Boolean, required: true, default: true },
+                    move: { type: Boolean, required: true, default: false },
+                    manage: { type: Boolean, required: true, default: false }
+                },
 
-        role: {
-            create: { type: Boolean, required: true, default: false },
-            delete: { type: Boolean, required: true, default: false },
+                messages: {
+                    send: { type: Boolean, required: true, default: true },
+                    delete: { type: Boolean, required: true, default: false },
+                    // pin: { type: Boolean, required: true, default: true },
+                    mentions: { type: Boolean, required: true, default: true },
+                    send_file: { type: Boolean, required: true, default: true }
+                }
+            }
         }
     }
 });
