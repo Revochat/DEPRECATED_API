@@ -8,4 +8,5 @@ import { v4, v5 } from "uuid"
 import Controller from "../../controller/router.controller"
 
 export const userConnect = async (req: express.Request, res: express.Response) => { // Login a user
+    
 }

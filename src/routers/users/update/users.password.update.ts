@@ -4,13 +4,14 @@ import Logger from "../../../client/logger.client"
 import { RouteResponse, Status } from "../../controller"
 import Emitter from "../../../client/emitter.client"
 import bcrypt from "bcrypt"
+import UTILS from "../../../utils"
 
 export const passwordUpdate = async (req: express.Request, res: express.Response) => { // Update the password
     try {
         const { token, newpassword } = req.params
 
         // if token or newpassword badly formatted
-        if(!token || !newpassword || token.length !== 45 || newpassword.length >= 30) throw "Badly formatted"
+        if(!token || !newpassword || token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH || newpassword.length >= UTILS.CONSTANTS.USER.PASSWORD.MAX_LENGTH || newpassword.length <= UTILS.CONSTANTS.USER.PASSWORD.MIN_LENGTH) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"

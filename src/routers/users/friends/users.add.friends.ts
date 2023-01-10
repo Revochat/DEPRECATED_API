@@ -3,6 +3,8 @@ import DB from "../../../database"
 import Logger from "../../../client/logger.client"
 import { RouteResponse, Status } from "../../controller"
 import Emitter from "../../../client/emitter.client"
+import UTILS from "../../../utils"
+import { CONSTANTS } from "../../../utils/constants"
 
 
 export const addFriend = async (req: express.Request, res: express.Response) => { // Add a friend to the user
@@ -10,7 +12,7 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
         const { token, friend_id } = req.params
 
         // if token or friend_id badly formatted
-        if(!token || !friend_id || token.length !== 45 || friend_id.length !== 13) throw "Badly formatted"
+        if(!token || !friend_id || token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH || friend_id.length !== UTILS.CONSTANTS.USER.ID.DEFAULT_LENGTH) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"

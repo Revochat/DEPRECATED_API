@@ -3,13 +3,14 @@ import DB from "../../../database"
 import Logger from "../../../client/logger.client"
 import { RouteResponse, Status } from "../../controller"
 import Emitter from "../../../client/emitter.client"
+import UTILS from "../../../utils"
 
 export const addBlocked =  async (req: express.Request, res: express.Response) => { // Add a blocked user to the user
     try {
         const { token, blocked_id } = req.params
 
         // if token or blocked_id badly formatted
-        if(!token || !blocked_id || token.length !== 45 || blocked_id.length !== 13) throw "Badly formatted"
+        if(!token || !blocked_id || token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH || blocked_id.length !== UTILS.CONSTANTS.USER.ID.DEFAULT_LENGTH) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"

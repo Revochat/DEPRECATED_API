@@ -1,5 +1,5 @@
 import { NAME } from "./NAME";
 
-class Name {
+export class CHANNEL_PROPERTIES {
     public static NAME = NAME;
 }

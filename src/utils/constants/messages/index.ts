@@ -1,5 +1,5 @@
 import { MESSAGE } from "./MESSAGE";
 
-export class PROPERTIES {
+export class MESSAGE_PROPERTIES {
     public static MESSAGE = MESSAGE;
 }

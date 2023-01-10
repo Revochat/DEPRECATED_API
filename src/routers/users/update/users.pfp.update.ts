@@ -3,6 +3,7 @@ import DB from "../../../database"
 import Logger from "../../../client/logger.client"
 import { RouteResponse, Status } from "../../controller"
 import Emitter from "../../../client/emitter.client"
+import UTILS from "../../../utils"
 
 export const pfpUpdate = async (req: express.Request, res: express.Response) => { // Update the profile picture
     try {
@@ -11,7 +12,7 @@ export const pfpUpdate = async (req: express.Request, res: express.Response) => 
         // PROFILE PICTURE HANDLE
 
         // if token or newprofile_picture badly formatted
-        if(!token || !newprofile_picture || token.length !== 45 || newprofile_picture.length >= 100) throw "Badly formatted"
+        if(!token || !newprofile_picture || token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH|| newprofile_picture.length >= UTILS.CONSTANTS.USER.) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"
