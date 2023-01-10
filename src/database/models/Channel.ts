@@ -25,29 +25,7 @@ const ChannelSchema = new Schema({
     updated_at: { type: String, required: true, default: Date.toLocaleString() },
     created_at: { type: String, required: true, default: Date.toLocaleString() },
 
-    permissions: { // permissions of channel
-        required: false,
-        default: {
-            channels: {
-                create: { type: Boolean, required: true, default: false },
-                delete: { type: Boolean, required: true, default: false },
-                view: { type: Boolean, required: true, default: true },
-                interact: { type: Boolean, required: true, default: true },
-                speak: { type: Boolean, required: true, default: true },
-                video: { type: Boolean, required: true, default: true },
-                move: { type: Boolean, required: true, default: false },
-                manage: { type: Boolean, required: true, default: false }
-            },
-
-            messages: {
-                send: { type: Boolean, required: true, default: true },
-                delete: { type: Boolean, required: true, default: false },
-                // pin: { type: Boolean, required: true, default: true },
-                mentions: { type: Boolean, required: true, default: true },
-                send_file: { type: Boolean, required: true, default: true }
-            }
-        }
-    }
+    permission_id: {type: String, required: true, default: null}, // list of permissions_id to track permissions (for listing permissions more efficient and indexing them)
 });
 
 export default mongoose.model<IChannelModel>("Channel", ChannelSchema);

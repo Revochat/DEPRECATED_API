@@ -1,7 +1,6 @@
 
 import { ChannelsInterceptEssentials } from "./intercept.channels.essentials";
 import { ChannelsInterceptModeration } from "./intercept.channels.moderation";
-import { ChannelsInterceptGroups } from "./intercept.channels.groups";
 
 export const ChannelsRouter = {
     path: "/channel",
@@ -92,17 +91,15 @@ export const ChannelsRouter = {
         res: ChannelsInterceptEssentials.messages.delete
     },
 
-    // Groups
-
-    Kick : {
-        name: "kick",
-        method: "GET",
-        socketing: true,
-        description: "Kick a user from a channel",
-        path: "/kick/:token/:channel_id/:user_id",
-        res: ChannelsInterceptGroups.kick
-    },
-
     // Moderation
+
+    // Kick : {
+    //     name: "kick",
+    //     method: "GET",
+    //     socketing: true,
+    //     description: "Kick a user from a channel",
+    //     path: "/kick/:token/:channel_id/:user_id",
+    //     res: ChannelsInterceptGroups.kick
+    // },
 
 }

@@ -1,7 +1,6 @@
 export * from "./router.channels"
 export * from "./intercept.channels.essentials"
 export * from "./intercept.channels.moderation"
-export * from "./intercept.channels.groups"
 
 // invite members ?
 // get messages from specific user in a channel
