@@ -1,5 +1,5 @@
 import { FilterQuery, QueryOptions, QueryWithHelpers, Types } from "mongoose"
-import {IUser, IUserModel} from "./models/User"
+import { IUser, IUserModel } from "./models/User"
 
 export interface IDatabase {
     users: {

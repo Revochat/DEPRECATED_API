@@ -1,6 +1,6 @@
 import { USER_PROPERTIES } from './users'
 import { MESSAGE_PROPERTIES } from './messages'
-import { CHANNEL_PROPERTIES } from './channels'
+import { CHANNEL_PROPERTIES} from './channels'
 import { SERVER_PROPERTIES } from './servers'
 
 export class CONSTANTS {

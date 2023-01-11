@@ -1,11 +1,13 @@
 import mongoose, { Document, Schema } from "mongoose";
-
 export interface IRole { // This is the interface for the role in the database
 
     role_id: number;
     role_name: string;
     role_color: string;
     role_position: number;
+
+    created_at: string;
+    updated_at: string;
 
     permissions: { // array of users id
 
@@ -58,8 +60,11 @@ const RoleSchema = new Schema({
     role_name: { type: String, required: true },
     role_color: { type: String, required: true, default: "#000000" },
     role_position: { type: Number, required: true, default: 0 },
+    created_at: { type: String, required: true },
+    updated_at: { type: String, required: true },
 
     permissions: {
+        type: Object,
         required: true,
         default: {
             server: {
