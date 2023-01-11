@@ -13,6 +13,7 @@ export default class Controller implements RouterInterface { // This is the clas
     static app: express.Express;
     static port: number;
     static server: Server;
+    static socket: ServerSocket;
     
     constructor(){
         Controller.port = config.properties.port
@@ -23,7 +24,7 @@ export default class Controller implements RouterInterface { // This is the clas
         Logger.success("Server started on port "+Controller.port)
     }
 
-    protected static iterate = (obj: any, name: string = "", path: string = "", socketing: boolean = false, description: string = ""): void => { // This is the function that iterates through the routes
+    protected static iterate = (obj: any, name: string = "", path: string = "", socketing: boolean = false, description: string = "", params: string[] = []): void => { // This is the function that iterates through the routes
         let method = "GET"
         Object.keys(obj).forEach(key => {
             if(key === "method") method = obj[key].toUpperCase()
@@ -31,12 +32,13 @@ export default class Controller implements RouterInterface { // This is the clas
             if(key === "name") name = obj[key]
             if(key === "description") description = obj[key]
             if(key === "socketing") socketing = obj[key]
+            if(key === "params")  params = obj[key], Logger.info(params)
             if (typeof obj[key] === 'object' && obj[key] !== null)
-                this.iterate(obj[key], name, path, socketing, description)
+                this.iterate(obj[key], name, path, socketing, description, params)
              else if (typeof obj[key] === 'function'){
                 if(path.includes("*")) path = "*"
                 if(method === "POST") this.app.post(path,  obj[key])
-                if(socketing) ServerSocket.add(method, name, path, obj[key].parameters, obj[key].socket)
+                if(socketing)  Controller.socket.add(method, name, path, params, obj[key].socket)
                 else this.app.get(path,  obj[key])
                 Logger.info(`Route: [${method}] ${path} [SOCKET] ${socketing} -> ${description}`)
             }
@@ -61,9 +63,10 @@ export default class Controller implements RouterInterface { // This is the clas
         Logger.info("Starting server...")
         DB_Connect().then(() => {
             Controller.rules()
+            Controller.socket = new ServerSocket(this.server)
             Controller.iterate(Intercept)
+            Controller.socket.run()
             Emitter.emit("readyRoute", this)
-            new ServerSocket(Controller.server)
             Logger.beautifulSpace()
         })
     }

@@ -5,5 +5,6 @@ export enum PROFILE_PICTURE {
     ALLOWED_EXTENSIONS = "jpg|jpeg|png",
     ALLOWED_MIME_TYPES = "image/jpeg|image/png",
 
-    PREMIUM_ALLOWED_EXTENSIONS = "jpg|jpeg|png|gif"
+    PREMIUM_ALLOWED_EXTENSIONS = "jpg|jpeg|png|gif",
+    PREMIUM_ALLOWED_MIME_TYPES = "image/jpeg|image/png|image/gif"
 }
