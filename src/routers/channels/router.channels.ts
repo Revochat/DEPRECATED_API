@@ -7,14 +7,14 @@ export const ChannelsRouter = {
 
     // Essentials
 
-    Create : {
-        name: "create",
-        method: "GET",
-        socketing: true,
-        description: "Create a channel",
-        path: "/create/:token/:channel_name",
-        res: ChannelsInterceptEssentials.management.create
-    },
+    // Create : {
+    //     name: "create",
+    //     method: "GET",
+    //     socketing: true,
+    //     description: "Create a channel",
+    //     path: "/create/:token/:channel_name",
+    //     res: ChannelsInterceptEssentials.management.create
+    // },
 
     GetChannel : {
         name: "getchannel",
@@ -26,14 +26,14 @@ export const ChannelsRouter = {
         
     },
 
-    Delete : {
-        name: "delete",
-        method: "GET",
-        socketing: true,
-        description: "Delete a channel",
-        path: "/remove/:token/:channel_id",
-        res: ChannelsInterceptEssentials.management.remove
-    },
+    // Delete : {
+    //     name: "delete",
+    //     method: "GET",
+    //     socketing: true,
+    //     description: "Delete a channel",
+    //     path: "/remove/:token/:channel_id",
+    //     res: ChannelsInterceptEssentials.management.remove
+    // },
 
     Update : {
         name: "update",

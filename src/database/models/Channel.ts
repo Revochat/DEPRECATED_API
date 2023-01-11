@@ -6,16 +6,15 @@ export interface IChannel { // This is the interface for the channel in the data
     owner_id?: number;
     channel_name: string;
     channel_type: number;
-    channel_env: number;
     members: number[];
     members_count: number;
     updated_at: string;
     created_at: string;
 
-    permission_id: number;
+    permissions: Object;
 }
 
-export interface IChannelModel extends IChannel, Document, IRole {}
+export interface IChannelModel extends IChannel, Document {}
 
 const ChannelSchema = new Schema({
     server_id: {type: Number, required: false, index: true}, // server id if it's a server channel
@@ -26,14 +25,34 @@ const ChannelSchema = new Schema({
 
     channel_name: { type: String, required: true },
     channel_type: { type: Number, required: true }, // 0 = HYBRID, 1 = TEXT, 2 = VOICE
-    channel_env: {type: Number, required: true, default: 0}, // 0 = dm, 1 = group, 2 = server
 
-    members: { type: Array, required: true, default: [] }, // array of user ids
+    members: { type: Map, required: true, default: [] }, // map of user_id: roles_id
     members_count: { type: Number, required: true, default: 0 },
     updated_at: { type: String, required: true, default: new Date().toLocaleString() },
     created_at: { type: String, required: true, default: new Date().toLocaleString() },
 
-    permission_id: {type: Number, required: true}, // permission id for users in channel (in group basic perms, in server perms customisable)
+    permissions: { // permissions for the channel
+        type: Object,
+        required: false,
+
+        default: { // exceptions >> {roles_id: {role_id: true, ... }, user_id: {user_id: false, ... }}
+            manage: { type: Map, required: true, default: {roles_id: {}, user_id: {}}}, // manage channel (edit title)
+            view: { type: Map, required: true, default: {roles_id: {}, user_id: {}}}, // view channel
+
+            member: {
+                invite: { type: Map, required: true, default: {roles_id: {}, user_id: {}} },
+                remove: { type: Map, required: true, default: {roles_id: {}, user_id: {}} }, // kick from channel
+            },
+
+            messages: {
+                send: { type: Map, required: true, default: {roles_id: {}, user_id: {}} },
+                delete: { type: Map, required: true, default: {roles_id: {}, user_id: {}} },
+                // pin: { type: Map, required: true, default: {roles_id: {}, user_id: {}} },
+                mentions: { type: Map, required: true, default: {roles_id: {}, user_id: {}} },
+                send_file: { type: Map, required: true, default: {roles_id: {}, user_id: {}} }
+            }
+        }
+    }
 });
 
 export default mongoose.model<IChannelModel>("Channel", ChannelSchema);

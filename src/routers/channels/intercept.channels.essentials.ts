@@ -4,7 +4,7 @@ import Emitter from "../../client/emitter.client"
 import Logger from "../../client/logger.client"
 import DB from "../../database"
 
-import { create, remove } from "./management"
+// import { create, remove } from "./management"
 import { update } from "./update/"
 import { getChannel, getMembers, getMessages } from "./get/"
 import { sendMessage, deleteMessage } from "./messages"
@@ -21,10 +21,10 @@ export const ChannelsInterceptEssentials = {
         send: sendMessage,
         delete: deleteMessage
     },
-    management: {
-        create: create,
-        remove: remove
-    },
+    // management: {
+    //     create: create,
+    //     remove: remove
+    // },
 
     addUserToChannel : async (req: express.Request, res: express.Response) => { // Add a user to a channel
         const {channel_id, token, user_id} = req.params

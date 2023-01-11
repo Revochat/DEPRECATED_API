@@ -3,6 +3,7 @@ TO DO LIST:
 - bearer token
 - message reaction
 - categories for sync perms in servers
+- notifications
 - user status
 - convert to hexadecimal user_id when sent (BLF)
 - (option = everyone can msg you or only friends), tag people, on register create a channel with only oneself, check if channel is voice that no message can be sent, channels local permissions, check max nb of channels/server

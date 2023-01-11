@@ -20,8 +20,8 @@ const ServerSchema = new Schema({
     server_name: { type: String, required: true },
     owner_id: { type: String, required: true, index: true },
     channels: { type: Array, required: false, default: [] },
-    members: { type: Map, required: false, default: [] }, // map of user_id: roles_id
-    members_count: { type: Number, required: true, default: 0 },
+    members: { type: Map, required: false, default: {} }, // map of user_id: roles_id
+    permissions: {type: Map, required: false, default: {roles_id: {}, user_id: {}}},
     updated_at: { type: String, required: true, default: Date.toLocaleString() },
     created_at: { type: String, required: true, default: Date.toLocaleString() },
 
