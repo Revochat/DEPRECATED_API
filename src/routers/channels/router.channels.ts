@@ -50,7 +50,7 @@ export const ChannelsRouter = {
         socketing: true,
         description: "Leave a channel",
         path: "/leave/:token/:channel_id",
-        res: ChannelsInterceptEssentials.leave
+        res: ChannelsInterceptEssentials.management.leave
     },
 
     GetMessages : {
