@@ -16,7 +16,3 @@ revochat.fr/api/
    -> /channel/create/:token/:channelName
    
    -> /server/get/:token
-
-
-DM = no owner id > create channel + addmembers
-GROUP = owner id > create channel + addmembers
