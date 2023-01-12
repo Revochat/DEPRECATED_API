@@ -8,7 +8,8 @@ import UTILS from "../../../utils"
 export const remove = async (req: express.Request, res: express.Response) => { // Delete a channel
     const {channel_id, token} = req.params
 
-    if (!channel_id || !token || channel_id.length !== UTILS.CONSTANTS.CHANNEL.ID.DEFAULT_LENGTH || token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH){ //type check
+    if (!channel_id || !token || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ){ //type check
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

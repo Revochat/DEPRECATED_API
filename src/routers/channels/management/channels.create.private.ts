@@ -9,8 +9,9 @@ export const create_private = async (req: express.Request, res: express.Response
     const { user_id } = req.body
     const { friend_id, token } = req.params
 
-    if (token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH || user_id.length !== UTILS.CONSTANTS.USER.ID.DEFAULT_LENGTH || 
-        friend_id.length !== UTILS.CONSTANTS.USER.ID.DEFAULT_LENGTH) {
+    if (token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
+        user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH ||
+        friend_id.length !== UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) {
 
         res.json(
             new RouteResponse()
