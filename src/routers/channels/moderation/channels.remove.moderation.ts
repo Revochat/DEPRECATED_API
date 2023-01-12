@@ -30,18 +30,19 @@ export const remove = async (req: express.Request, res: express.Response) => { /
 
         if (Channel.members.indexOf(member_id) === -1) throw "Error with the provided id"
 
-
         if (Channel.members.indexOf(user_id) === -1) throw "Error with the provided id"
 
         if (Channel.members.indexOf(user_id) !== 0) throw "You are not the owner of this channel"
 
-    
         Channel.members.splice(Channel.members.indexOf(member_id), 1)
 
         await Channel.save()
 
-        Member.channels.splice(Member.channels.indexOf(channel_id), 1)
+        if (Member.channels) Member.channels.splice(Member.channels.indexOf(parseInt(channel_id)), 1)
 
+        await Member.save()
+
+        Logger.log("Kicked " + Member.username + " from " + Channel.channel_id)
 
         Emitter.emit("channel_kick", {
             channel_id: channel_id,

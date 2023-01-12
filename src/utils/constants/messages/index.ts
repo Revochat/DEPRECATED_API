@@ -1,7 +1,7 @@
 import { ID } from "./ID";
-import { MESSAGE } from "./MESSAGE";
+import { PROPERTIES } from "./PROPERTIES";
 
 export class MESSAGE_PROPERTIES {
-    public static MESSAGE = MESSAGE;
+    public static PROPERTIES = PROPERTIES;
     public static ID = ID;
 }

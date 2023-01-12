@@ -4,14 +4,14 @@ export interface IChannel { // This is the interface for the channel in the data
     server_id?: number;
     channel_id: number;
     owner_id?: number;
-    channel_name: string;
+    channel_name?: string;
     channel_type: number;
     members: number[];
     members_count: number;
     updated_at: string;
     created_at: string;
 
-    permissions: Object;
+    permissions?: Object;
 }
 
 export interface IChannelModel extends IChannel, Document {}
@@ -23,7 +23,7 @@ const ChannelSchema = new Schema({
     // if empty, it's a DM channel, if not empty and server_id is empty, it's a group channel, if not empty and server_id is not empty, it's a server channel
     owner_id: { type: Number, required: false, index: true }, 
 
-    channel_name: { type: String, required: true },
+    channel_name: { type: String, required: false },
     channel_type: { type: Number, required: true }, // 0 = HYBRID, 1 = TEXT, 2 = VOICE
 
     members: { type: Map, required: true, default: [] }, // map of user_id: roles_id

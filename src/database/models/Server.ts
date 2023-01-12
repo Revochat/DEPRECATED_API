@@ -21,11 +21,9 @@ const ServerSchema = new Schema({
     owner_id: { type: String, required: true, index: true },
     channels: { type: Array, required: false, default: [] },
     members: { type: Map, required: false, default: {} }, // map of user_id: roles_id
-    permissions: {type: Map, required: false, default: {roles_id: {}, user_id: {}}},
+    permissions: {type: Map, required: false, default: {roles_id: {}, user_id: {}}},  // list of permissions, can print it
     updated_at: { type: String, required: true, default: Date.toLocaleString() },
-    created_at: { type: String, required: true, default: Date.toLocaleString() },
-
-    permissions_id: {type: Array, required: true, default: []} // list of permissions_id to track permissions (for listing permissions more efficient and indexing them)
+    created_at: { type: String, required: true, default: Date.toLocaleString() }
 });
 
 export default mongoose.model<IServerModel>("Server", ServerSchema);

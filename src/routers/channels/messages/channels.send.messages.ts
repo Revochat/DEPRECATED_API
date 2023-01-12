@@ -22,6 +22,11 @@ export const sendMessage = async (req: express.Request, res: express.Response) =
     // get the user, if premium allow them to send longer messages PREMIUM
     // message.length > UTILS.CONSTANTS.MESSAGE.MESSAGE.MAX_MESSAGE_LENGTH
 
+    var User = await DB.users.find.id(user_id)
+    if(!User) throw "User not found"
+
+    User.premium_expiration ? message.length > UTILS.CONSTANTS.MESSAGE.PROPERTIES.MAX_MESSAGE_LENGTH_PREMIUM : message.length > UTILS.CONSTANTS.MESSAGE.PROPERTIES.MAX_MESSAGE_LENGTH
+
     try {
         var Channel = await DB.channels.find.id(channel_id)
         if(!Channel) throw "Channel not found"
