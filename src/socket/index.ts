@@ -67,9 +67,9 @@ export default class ServerSocket {
                     Logger.debug(response.data)
 
                     ServerSocket.socket.emit(name, response.data)
-                } catch(err) {
+                } catch(err: any) {
                     Logger.error(err)
-                    ServerSocket.socket.emit(name, err)
+                    ServerSocket.socket.emit(name, err.data ? err.data : err)
                 }  
             },
             name: name,
