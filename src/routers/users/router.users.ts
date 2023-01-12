@@ -9,7 +9,7 @@ export const UserRouter = {
         description: "Register a new user",
         method: "POST",
         socketing: false,
-        path:"/register/",
+        path:"/register",
         res: UserInterceptEssentials.register
     },
 
@@ -18,7 +18,7 @@ export const UserRouter = {
         description: "Login a user with login credentials",
         method: "POST",
         socketing: false,
-        path: "/login/",
+        path: "/login",
         res: UserInterceptEssentials.login,
     },
 
@@ -27,7 +27,7 @@ export const UserRouter = {
         description: "Connect a user with a user token",
         method: "POST",
         socketing: true,
-        path: "/connect/",
+        path: "/connect",
         params: ["token"],
         res: UserInterceptEssentials.connect,
     },
@@ -66,7 +66,7 @@ export const UserRouter = {
             method: "POST",
             socketing: true,
             description: "Get a user with a token",
-            path: "/get/user/",
+            path: "/user/",
             res: UserInterceptEssentials.getUser
         },
     },
@@ -84,7 +84,7 @@ export const UserRouter = {
             method: "GET",
             socketing: true,
             description: "Add a friend to a user's friend list",
-            path: "/add/friend/:token/:friend_id",
+            path: "/friend/:token/:friend_id",
             res: UserInterceptSocials.addFriend
         },
         Blocked: {
@@ -92,7 +92,7 @@ export const UserRouter = {
             method: "GET",
             socketing: true,
             description: "Add a blocked user",
-            path: "/add/blocked/:token/:blocked_id",
+            path: "/blocked/:token/:blocked_id",
             res: UserInterceptSocials.addBlocked
         },
     },
@@ -104,7 +104,7 @@ export const UserRouter = {
             method: "GET",
             socketing: true,
             description: "Remove a friend from a user's friend list",
-            path: "/remove/friend/:token/:friend_id",
+            path: "/friend/:token/:friend_id",
             res: UserInterceptSocials.removeFriend
         },
         Blocked: {
@@ -112,7 +112,7 @@ export const UserRouter = {
             method: "GET",
             socketing: true,
             description: "Remove a blocked user",
-            path: "/remove/blocked/:token/:blocked_id",
+            path: "/blocked/:token/:blocked_id",
             res: UserInterceptSocials.removeBlocked
         }
     },

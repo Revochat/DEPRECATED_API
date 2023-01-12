@@ -23,7 +23,7 @@ export const userRegister = async (req: express.Request, res: express.Response) 
         var User: IUserModel & {_id: Types.ObjectId} = await DB.users.create({
             username: username,
             password: await bcrypt.hash(password, 10),
-            premium_expiration: null,
+            premium_expiration: new Date().toLocaleString(),
             token: (v5(username, v4()).split("-").join("") + Date.now()).toUpperCase(),
             user_id: Date.now() + Math.floor(Math.random() * 1000),
             created_at: new Date().toLocaleString(),

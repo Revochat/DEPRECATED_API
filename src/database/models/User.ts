@@ -7,7 +7,7 @@ export interface IUser { // This is the interface for the user in the database
     wallet_token?: number | null;
     username: string;
     password: string;
-    premium_expiration: Date | null;
+    premium_expiration: string;
     profile_picture?: string;
 
     updated_at?: string;
@@ -29,7 +29,7 @@ const UserSchema = new Schema({
     token: { type: String, required: true, unique: true, index: true },
     username: { type: String, required: true, unique: true, index: true },
     password: { type: String, required: true },
-    premium_expiration: { type: Date, required: true, default: null },
+    premium_expiration: { type: String, required: true, default: null },
     wallet_token: { type: String, required: false, unique: true, index: true, sparse: true },
     profile_picture: {type: String, data: Buffer, contentType: String, default: "default_img_01.png" },
     updated_at: { type: String, required: true, default: new Date().toLocaleString() },
