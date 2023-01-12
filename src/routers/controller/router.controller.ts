@@ -36,10 +36,10 @@ export default class Controller implements RouterInterface { // This is the clas
             if (typeof obj[key] === 'object' && obj[key] !== null)
                 this.iterate(obj[key], name, path, socketing, description, params)
              else if (typeof obj[key] === 'function'){
-                if(path.includes("*")) path = "*"
+                socketing ? Controller.socket.add(method, name, path, params, obj[key].socket) : null
                 if(method === "POST") this.app.post(path,  obj[key])
-                if(socketing)  Controller.socket.add(method, name, path, params, obj[key].socket)
                 else this.app.get(path,  obj[key])
+                if(path.includes("*")) path = "*" 
                 Logger.info(`Route: [${method}] ${path} [SOCKET] ${socketing} ${Logger.trace(description ? `[DESC] ${description} [PARAMS] ${params.length > 0 ? params : "MISSING"}` : "NO SOCKET DESCRIPTION")}`)
             }
         })

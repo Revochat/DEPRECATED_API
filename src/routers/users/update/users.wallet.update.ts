@@ -10,7 +10,7 @@ export const walletUpdate = async (req: express.Request, res: express.Response) 
         const { token, newwallet_token } = req.params
 
         // type check token
-        if (!token || typeof token !== "string" || token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH ) throw "Badly formatted"
+        if (!token || typeof token !== "string" || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"

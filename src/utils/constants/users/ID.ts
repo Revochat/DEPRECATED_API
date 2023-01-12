@@ -1,4 +1,4 @@
 export enum ID {
-    DEFAULT_LENGTH = 14,
+    MIN_LENGTH = 12,
     MAX_LENGTH = 20
 }

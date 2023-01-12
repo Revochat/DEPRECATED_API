@@ -11,7 +11,8 @@ export const passwordUpdate = async (req: express.Request, res: express.Response
         const { token, newpassword } = req.params
 
         // if token or newpassword badly formatted
-        if(!token || !newpassword || token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH || newpassword.length >= UTILS.CONSTANTS.USER.PASSWORD.MAX_LENGTH || newpassword.length <= UTILS.CONSTANTS.USER.PASSWORD.MIN_LENGTH) throw "Badly formatted"
+        if(!token || !newpassword || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || 
+            newpassword.length >= UTILS.CONSTANTS.USER.PASSWORD.MAX_LENGTH || newpassword.length <= UTILS.CONSTANTS.USER.PASSWORD.MIN_LENGTH) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"

@@ -10,7 +10,8 @@ export const usernameUpdate = async (req: express.Request, res: express.Response
         const { token, newusername } = req.params
 
         // if token or newusername badly formatted
-        if(!token || !newusername || token.length !== UTILS.CONSTANTS.USER.TOKEN.DEFAULT_TOKEN_LENGTH || newusername.length >= UTILS.CONSTANTS.USER.USERNAME.MAX_LENGTH || newusername.length < UTILS.CONSTANTS.USER.USERNAME.MIN_LENGTH) throw "Badly formatted"
+        if(!token || !newusername || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
+            newusername.length >= UTILS.CONSTANTS.USER.USERNAME.MAX_LENGTH || newusername.length < UTILS.CONSTANTS.USER.USERNAME.MIN_LENGTH) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"

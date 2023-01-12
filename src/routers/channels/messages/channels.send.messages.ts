@@ -10,7 +10,8 @@ import UTILS from "../../../utils"
 export const sendMessage = async (req: express.Request, res: express.Response) => { // Send a message to a channel
     const {channel_id, user_id, message} = req.body
 
-    if (!channel_id || !user_id || !message || channel_id.length !== UTILS.CONSTANTS.CHANNEL.ID.DEFAULT_LENGTH || user_id !== UTILS.CONSTANTS.USER.ID.DEFAULT_LENGTH){ //type check
+    if (!channel_id || !user_id || !message || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
+        user_id < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id > UTILS.CONSTANTS.USER.ID.MAX_LENGTH){ //type check
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)
