@@ -19,7 +19,7 @@ export const config = { // This is the config file for the RevoAPI. You can chan
 
     properties : {
         port: 3000,
-        readyEventTimeout: 500,
+        readyEventTimeout: 2500,
     },
     mongo: {
         username: MONGO_USERNAME,

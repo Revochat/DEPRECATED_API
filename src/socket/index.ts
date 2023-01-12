@@ -23,7 +23,7 @@ export default class ServerSocket {
         path = config.api.url + path
         // Get the method from the router structure and translate it to a socket to make request to the API
         ServerSocket.channels[name] = {
-            sock: async (data: Object ) => {
+            sock: async (data: any ) => {
                 try {
                     Logger.debug(`Socket ${name} called by ${ServerSocket.socket.id}`)
                     // Check if data keys are in the tab
@@ -39,9 +39,34 @@ export default class ServerSocket {
                     //     path = path.replace(`:${params[i]}`, data[params[i]])
                     // }
 
-                    const res: AxiosResponse = type == "GET" ? await axios.get(path, data) : await axios.post(path, JSON.stringify(data))
-                    Logger.debug(`Socket ${name} called by ${ServerSocket.socket.id} with data ${JSON.stringify(data)}`)
-                    ServerSocket.socket.emit(name, res.data)
+                    // Replace /:parameter1/:paramater2 to /variable1/variable2 with params string tab and the data Object
+                    if(type == "GET"){
+                        for (let i = 0; i < params.length; i++) {
+                            path = path.replace(`:${params[i]}`, data[params[i]])
+                        }
+                        Logger.debug(path)
+                    } else {
+                        var formData: any = {};
+                        Logger.debug(data)
+                        // Format the data to send to the API
+                        for (let i = 0; i < params.length; i++) {
+                            formData[params[i]] = data
+                        }
+
+                        Logger.debug(formData)
+                    }
+
+                    // Send the request to the API
+
+                    var response: AxiosResponse = await axios({
+                        method: type,
+                        url: path,
+                        data: type == "GET" ? null : formData
+                    }) 
+                    Logger.debug("Response from API :" + response)
+                    Logger.debug(response.data)
+
+                    ServerSocket.socket.emit(name, response.data)
                 } catch(err) {
                     Logger.error(err)
                     ServerSocket.socket.emit(name, err)
