@@ -36,10 +36,25 @@ export const create_private = async (req: express.Request, res: express.Response
         var Channel = await DB.channels.create({
             channel_id: Date.now() + Math.floor(Math.random() * 1000),
             channel_type: 0, // voice and text channel
+            channel_name: "Private Channel",
             members: [user_id, friend_id],
             members_count: 2,
             updated_at: new Date().toLocaleString(),
-            created_at: new Date().toLocaleString()
+            created_at: new Date().toLocaleString(),
+            permissions: {
+                manage: { roles_id: {0: false}, user_id: {}},
+                view: { roles_id: {0: true}, user_id: {}},
+                member: {
+                    invite: { roles_id: {0: false}, user_id: {}},
+                    remove: { roles_id: {0: false}, user_id: {}},
+                },
+                messages: {
+                    send: { roles_id: {0: true}, user_id: {}},
+                    delete: { roles_id: {0: false}, user_id: {}},
+                    mentions: { roles_id: {0: true}, user_id: {}},
+                    send_file: { roles_id: {0: true}, user_id: {}},
+                }
+            }
         })
         await Channel.save()
         

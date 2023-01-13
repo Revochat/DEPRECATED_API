@@ -35,7 +35,6 @@ export const remove = async (req: express.Request, res: express.Response) => { /
             var Member = await DB.users.find.id(member_id)
             if(!Member) throw "Member not found"
             var channel_id_temp = Channel.channel_id // temp variable to prevent error
-            console.log(channel_id_temp)
             if (Member.channels && Channel) {
                 Member.channels = Member.channels.filter((channel) => channel !== channel_id_temp)
             }

@@ -14,6 +14,46 @@ export interface IChannel { // This is the interface for the channel in the data
     permissions?: Object;
 }
 
+export interface IChannelPermission{
+    manage: {
+        roles_id: number[];
+        user_id: number[];
+    };
+    view: {
+        roles_id: number[];
+        user_id: number[];
+    };
+    member: {
+        invite: {
+            roles_id: number[];
+            user_id: number[];
+        };
+        remove: {
+            roles_id: number[];
+            user_id: number[];
+        };
+    },
+    message: {
+        send: {
+            roles_id: number[];
+            user_id: number[];
+        };
+        delete: {
+            roles_id: number[];
+            user_id: number[];
+        };
+        mentions: {
+            roles_id: number[];
+            user_id: number[];
+        };
+
+        send_files: {
+            roles_id: number[];
+            user_id: number[];
+        };
+    }
+}
+
 export interface IChannelModel extends IChannel, Document {}
 
 const ChannelSchema = new Schema({

@@ -10,7 +10,6 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
     try {
         Logger.debug(`User ${req.params.token} is trying to add a friend`)
         const { token, friend_id } = req.params
-        Logger.debug(friend_id.length)
 
         // if token or friend_id badly formatted
         if(!token || !friend_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||

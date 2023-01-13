@@ -21,7 +21,7 @@ const ServerSchema = new Schema({
     owner_id: { type: String, required: true, index: true },
     channels: { type: Array, required: false, default: [] },
     members: { type: Map, required: false, default: {} }, // map of user_id: roles_id
-    permissions: {type: Map, required: false, default: {roles_id: {}, user_id: {}}},  // list of permissions, can print it
+    permissions: { type: Array, required: false, default: [] }, // permissions for the server
     updated_at: { type: String, required: true, default: Date.toLocaleString() },
     created_at: { type: String, required: true, default: Date.toLocaleString() }
 });
