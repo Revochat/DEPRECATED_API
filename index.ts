@@ -20,18 +20,17 @@ Client.on("serverReady", async (routes: RouterInterface, database: IDatabase) =>
         
         // check if the role exists
         var Role = await DB.role.find.id(0)
-        if(!Role) {
-            var Role = await DB.role.create({
+        if (!Role) {
+            // create the role
+            Role = await DB.role.create({
                 role_id: 0,
-                role_name: "Default",
+                role_name: "default",
                 role_color: "#000000",
                 role_position: 0,
-                permissions: {},
                 role_members: [],
-                created_at: new Date().toLocaleString(),
-                updated_at: new Date().toLocaleString()
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
             })
-            await Role.save()
         }
 
     } catch (error) {

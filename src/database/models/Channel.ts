@@ -1,20 +1,6 @@
 import mongoose, {Document, Schema} from "mongoose";
-import {IRole, IRoleModel} from "./Role";
-export interface IChannel { // This is the interface for the channel in the database
-    server_id?: number;
-    channel_id: number;
-    owner_id?: number;
-    channel_name?: string;
-    channel_type: number;
-    members: number[];
-    members_count: number;
-    updated_at: string;
-    created_at: string;
 
-    permissions?: Object;
-}
-
-export interface IChannelPermission{
+export interface IChannelPermission {
     manage: {
         roles_id: number[];
         user_id: number[];
@@ -54,6 +40,20 @@ export interface IChannelPermission{
     }
 }
 
+export interface IChannel { // This is the interface for the channel in the database
+    server_id?: number;
+    channel_id: number;
+    owner_id?: number;
+    channel_name?: string;
+    channel_type: number;
+    members: number[];
+    members_count: number;
+    updated_at: string;
+    created_at: string;
+
+    permissions?: IChannelPermission;
+}
+
 export interface IChannelModel extends IChannel, Document {}
 
 const ChannelSchema = new Schema({
@@ -71,28 +71,8 @@ const ChannelSchema = new Schema({
     updated_at: { type: String, required: true, default: new Date().toLocaleString() },
     created_at: { type: String, required: true, default: new Date().toLocaleString() },
 
-    permissions: { // permissions for the channel
-        type: Object,
-        required: false,
-
-        default: { // exceptions >> {roles_id: {role_id: true, ... }, user_id: {user_id: false, ... }}
-            manage: { type: Map, required: true, default: {roles_id: {}, user_id: {}}}, // manage channel (edit title)
-            view: { type: Map, required: true, default: {roles_id: {}, user_id: {}}}, // view channel
-
-            member: {
-                invite: { type: Map, required: true, default: {roles_id: {}, user_id: {}} },
-                remove: { type: Map, required: true, default: {roles_id: {}, user_id: {}} }, // kick from channel
-            },
-
-            messages: {
-                send: { type: Map, required: true, default: {roles_id: {}, user_id: {}} },
-                delete: { type: Map, required: true, default: {roles_id: {}, user_id: {}} },
-                // pin: { type: Map, required: true, default: {roles_id: {}, user_id: {}} },
-                mentions: { type: Map, required: true, default: {roles_id: {}, user_id: {}} },
-                send_file: { type: Map, required: true, default: {roles_id: {}, user_id: {}} }
-            }
-        }
-    }
+    // permissions which is an object of IChannelPermission
+    permissions: { type: Object, required: false, default: {} }
 });
 
 export default mongoose.model<IChannelModel>("Channel", ChannelSchema);

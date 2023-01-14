@@ -21,9 +21,10 @@ const ServerSchema = new Schema({
     owner_id: { type: String, required: true, index: true },
     channels: { type: Array, required: false, default: [] },
     members: { type: Map, required: false, default: {} }, // map of user_id: roles_id
-    permissions: { type: Array, required: false, default: [] }, // permissions for the server
     updated_at: { type: String, required: true, default: Date.toLocaleString() },
-    created_at: { type: String, required: true, default: Date.toLocaleString() }
+    created_at: { type: String, required: true, default: Date.toLocaleString() },
+
+    permissions_id: { type: Array, required: false, default: [] } // permissions for the server
 });
 
 export default mongoose.model<IServerModel>("Server", ServerSchema);
