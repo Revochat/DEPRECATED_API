@@ -24,15 +24,10 @@ export interface IChannelPermission {
             roles_id: number[];
             user_id: number[];
         };
-        delete: {
-            roles_id: number[];
-            user_id: number[];
-        };
         mentions: {
             roles_id: number[];
             user_id: number[];
         };
-
         send_files: {
             roles_id: number[];
             user_id: number[];
@@ -45,7 +40,7 @@ export interface IChannel { // This is the interface for the channel in the data
     channel_id: number;
     owner_id?: number;
     channel_name?: string;
-    channel_type: number;
+    channel_type: string;
     members: number[];
     members_count: number;
     updated_at: string;
@@ -64,7 +59,7 @@ const ChannelSchema = new Schema({
     owner_id: { type: Number, required: false, index: true }, 
 
     channel_name: { type: String, required: false },
-    channel_type: { type: Number, required: true }, // 0 = HYBRID, 1 = TEXT, 2 = VOICE
+    channel_type: { type: String, required: true }, // 0 = HYBRID, 1 = TEXT, 2 = VOICE
 
     members: { type: Map, required: true, default: [] }, // map of user_id: roles_id
     members_count: { type: Number, required: true, default: 0 },

@@ -30,11 +30,6 @@ export const add = async (req: express.Request, res: express.Response) => { // A
 
         if (Channel.members.includes(UserToAdd.user_id)) throw "User is already in this channel" // Check if the user is already in the channel
 
-        // if channel is part of a server
-
-        // if channel is not part of a server 
-        // add the channel to the user if other user is a friend of the user
-
         if (!Channel.members) Channel.members = [] // Check if the channel has members
         Channel.members.push(UserToAdd.user_id) // Add the user to the channel
         Channel.members_count = Channel.members.length

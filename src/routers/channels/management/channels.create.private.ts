@@ -22,11 +22,8 @@ export const create_private = async (req: express.Request, res: express.Response
     }
 
     try {
-        var User = await DB.users.find.token(token)
-        if(!User) throw "User not found"
-
-        var Friend = await DB.users.find.id(parseInt(friend_id))
-        if(!Friend) throw "Friend not found"
+        var User = UTILS.FUNCTIONS.findUser(token)
+        var Friend = UTILS.FUNCTIONS.findUser(friend_id)
 
         Logger.log("Creating private channel between " + User.username + " and " + Friend.username)
 
@@ -35,27 +32,50 @@ export const create_private = async (req: express.Request, res: express.Response
         // create channel
         var Channel = await DB.channels.create({
             channel_id: Date.now() + Math.floor(Math.random() * 1000),
-            channel_type: 0, // voice and text channel
-            channel_name: "Private Channel",
-            members: [user_id, friend_id],
+            channel_type: UTILS.CONSTANTS.CHANNEL.TYPE.PRIVATE,
+            channel_name: User.username + " and " + Friend.username,
+            updated_at: new Date().toString(),
+            created_at: new Date().toString(),
+            members: [User.user_id, Friend.user_id],
             members_count: 2,
-            updated_at: new Date().toLocaleString(),
-            created_at: new Date().toLocaleString(),
+
             permissions: {
-                manage: { roles_id: {0: false}, user_id: {}},
-                view: { roles_id: {0: true}, user_id: {}},
-                member: {
-                    invite: { roles_id: {0: false}, user_id: {}},
-                    remove: { roles_id: {0: false}, user_id: {}},
+                manage: {
+                    user_id: [],
+                    roles_id: []
                 },
-                messages: {
-                    send: { roles_id: {0: true}, user_id: {}},
-                    delete: { roles_id: {0: false}, user_id: {}},
-                    mentions: { roles_id: {0: true}, user_id: {}},
-                    send_file: { roles_id: {0: true}, user_id: {}},
+                view: {
+                    user_id: [User.user_id, Friend.user_id],
+                    roles_id: []
+                },
+                message: {
+
+                    send: {
+                        user_id: [User.user_id, Friend.user_id],
+                        roles_id: []
+                    },
+                    send_files: {
+                        user_id: [User.user_id, Friend.user_id],
+                        roles_id: []
+                    },
+                    mentions: {
+                        user_id: [User.user_id, Friend.user_id],
+                        roles_id: []
+                    }
+                },
+                member: {
+                    invite: {
+                        user_id: [],
+                        roles_id: []
+                    },
+                    remove: {
+                        user_id: [],
+                        roles_id: []
+                    }
                 }
             }
         })
+
         await Channel.save()
         
         // add channel to user
