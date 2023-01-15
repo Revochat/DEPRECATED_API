@@ -23,9 +23,9 @@ export const create_group = async (req: express.Request, res: express.Response) 
     }
 
     try {
-        var User = UTILS.FUNCTIONS.findUser(token)
-        var Friend_1 = UTILS.FUNCTIONS.findUser(friend_id_1)
-        var Friend_2 = UTILS.FUNCTIONS.findUser(friend_id_2)
+        var User = await UTILS.FUNCTIONS.findUser(token)
+        var Friend_1 = await UTILS.FUNCTIONS.findUser(friend_id_1)
+        var Friend_2 = await UTILS.FUNCTIONS.findUser(friend_id_2)
 
         Logger.log("Creating private channel between " + User.username + " and " + Friend_1.username + " and " + Friend_2.username)
 

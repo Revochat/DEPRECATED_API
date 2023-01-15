@@ -22,8 +22,8 @@ export const create_private = async (req: express.Request, res: express.Response
     }
 
     try {
-        var User = UTILS.FUNCTIONS.findUser(token)
-        var Friend = UTILS.FUNCTIONS.findUser(friend_id)
+        var User = await UTILS.FUNCTIONS.findUser(token)
+        var Friend = await UTILS.FUNCTIONS.findUser(friend_id)
 
         Logger.log("Creating private channel between " + User.username + " and " + Friend.username)
 
