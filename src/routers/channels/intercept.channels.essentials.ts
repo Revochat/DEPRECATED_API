@@ -1,10 +1,5 @@
-import express from "express"
-import { RouteResponse, Status } from "../controller"
-import Emitter from "../../client/emitter.client"
-import Logger from "../../client/logger.client"
-import DB from "../../database"
-
-import { remove, leave } from "./management"
+import { remove, leave} from "./manage"
+import { create_private, create_group, create_server } from "./create"
 import { update } from "./update/"
 import { getChannel, getMembers, getMessages } from "./get/"
 import { sendMessage, deleteMessage } from "./messages"
@@ -13,6 +8,11 @@ import { add } from "./user"
 export const ChannelsInterceptEssentials = {
 
     update: update,
+    create: {
+        create_private: create_private,
+        create_group: create_group,
+        create_server: create_server
+    },
     get: {
         channel: getChannel,
         members: getMembers,
@@ -23,7 +23,6 @@ export const ChannelsInterceptEssentials = {
         delete: deleteMessage
     },
     management: {
-        // create: create,
         remove: remove,
         leave: leave
     },

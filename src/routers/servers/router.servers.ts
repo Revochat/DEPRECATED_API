@@ -3,30 +3,33 @@ import {ServerIntercept} from "./intercept.server"
 export const ServersRouter = {
     path: "/server",
 
-    getChannels : {
-        name: "getChannels",
-        method: "GET",
-        socketing: true,
-        description: "Get channels of a server",
-        path: "/get/Channels/:token/:server_id",
-        res: ServerIntercept.getChannels
-    },
+    get : {
+        path: "/get",
+        channels : {
+            name: "getChannels",
+            method: "GET",
+            socketing: true,
+            description: "Get channels of a server",
+            path: "/Channels/:token/:server_id",
+            res: ServerIntercept.get.channels
+        },
 
-    getMembers : {
-        name: "getMembers",
-        method: "GET",
-        socketing: true,
-        description: "Get members of a server",
-        path: "/get/Members/:token/:server_id",
-        res: ServerIntercept.getMembers
-    },
+        members : {
+            name: "getMembers",
+            method: "GET",
+            socketing: true,
+            description: "Get members of a server",
+            path: "/Members/:token/:server_id",
+            res: ServerIntercept.get.members
+        },
 
-    getServer : {
-        name: "getServer",
-        method: "GET",
-        socketing: true,
-        description: "Get a server",
-        path: "/get/:token/:server_id",
-        res: ServerIntercept.getServer
+        server : {
+            name: "getServer",
+            method: "GET",
+            socketing: true,
+            description: "Get a server",
+            path: "/:token/:server_id",
+            res: ServerIntercept.get.server
+        }
     }
 }

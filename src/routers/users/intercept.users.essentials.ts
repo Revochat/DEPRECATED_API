@@ -10,7 +10,9 @@ export const UserInterceptEssentials = {
 
     connect : userConnect,
 
-    getUser : getUser,
+    get: {
+        user: getUser
+    },
 
     update : { 
         username : usernameUpdate,

@@ -31,6 +31,7 @@ export const UserRouter = {
         params: ["token"],
         res: UserInterceptEssentials.connect,
     },
+
     Update: {
         path: "/update",
         Username: {
@@ -50,13 +51,21 @@ export const UserRouter = {
             res: UserInterceptEssentials.update.password
         },
         WalletToken: {
-            name: "walletlist",
+            name: "updatewallettoken",
             method: "GET",
             socketing: true,
             description: "Update a user's wallet token",
             path: "/wallettoken/:token/:newwallet_token",
             res: UserInterceptEssentials.update.wallet_token
         },
+        UpdateProfilePicture: {
+            name: "updateprofilepicture",
+            method: "GET",
+            socketing: true,
+            description: "Update a user's profile picture",
+            path: "/profilepicture/:token/:newprofile_picture",
+            res: UserInterceptEssentials.update.profile_picture
+        }
     },
 
     Get: {
@@ -67,15 +76,9 @@ export const UserRouter = {
             socketing: true,
             description: "Get a user with a token",
             path: "/user/",
-            res: UserInterceptEssentials.getUser
+            res: UserInterceptEssentials.get.user
         },
     },
-
-    // UpdateProfilePicture: { 
-    //     method: "GET",
-    //     path: "/update/profilepicture/:token/:newprofile_picture",
-    //     res: UserInterceptEssentials.update.profile_picture
-    // },
 
     Add: {
         path: "/add",
