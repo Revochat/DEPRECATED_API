@@ -1,4 +1,5 @@
 
+
 import { ChannelsInterceptEssentials } from "./intercept.channels.essentials";
 import { ChannelsInterceptModeration } from "./intercept.channels.moderation";
 
@@ -15,6 +16,7 @@ export const ChannelsRouter = {
             socketing: true,
             description: "Create a private channel",
             path: "/private/:token/:server_id/:channel_name",
+            params: ["token", "friend_id"],
             res: ChannelsInterceptEssentials.create.private
         },
         Group: {
@@ -23,6 +25,7 @@ export const ChannelsRouter = {
             socketing: true,
             description: "Create a group channel",
             path: "/group/:token/:server_id/:channel_name",
+            params: ["token", "friend_id_1", "friend_id_2"],
             res: ChannelsInterceptEssentials.create.group
         },
         Server: {
@@ -31,6 +34,7 @@ export const ChannelsRouter = {
             socketing: true,
             description: "Create a server channel",
             path: "/server/:token/:server_id/:channel_name",
+            params: ["token", "server_id", "channel_name"],
             res: ChannelsInterceptEssentials.create.server
         }
     },
@@ -41,6 +45,7 @@ export const ChannelsRouter = {
         socketing: true,
         description: "Delete a channel",
         path: "/remove/:token/:channel_id",
+        params: ["token", "channel_id"],
         res: ChannelsInterceptEssentials.management.remove
     },
 
@@ -50,6 +55,7 @@ export const ChannelsRouter = {
         socketing: true,
         description: "Update a channel",
         path: "/update/:token/:channel_id",
+        params: ["token", "channel_id", "channel_name"],
         res: ChannelsInterceptEssentials.update
     },
 
@@ -61,6 +67,7 @@ export const ChannelsRouter = {
             socketing: true,
             description: "Get a channel",
             path: "/:token/:channel_id",
+            params: ["token", "channel_id"],
             res: ChannelsInterceptEssentials.get.channel
         },
         Members : {
@@ -69,6 +76,7 @@ export const ChannelsRouter = {
             socketing: true,
             description: "Get members from a channel",
             path: "/members/:token/:channel_id",
+            params: ["token", "channel_id"],
             res: ChannelsInterceptEssentials.get.members
         },
         Messages : {
@@ -77,6 +85,7 @@ export const ChannelsRouter = {
             socketing: true,
             description: "Get messages from a channel",
             path: "/messages/:token/:channel_id/:limit",
+            params: ["token", "channel_id", "limit"],
             res: ChannelsInterceptEssentials.get.messages
         }
     },

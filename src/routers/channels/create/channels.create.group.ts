@@ -6,11 +6,10 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const create_group = async (req: express.Request, res: express.Response) => { // Create a private channel
-    const { user_id, friend_id_1, friend_id_2 } = req.body
+    const { friend_id_1, friend_id_2 } = req.body
     const { token } = req.params
 
     if (token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
-        user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH ||
         friend_id_1.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_1.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH ||
         friend_id_2.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_2.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) {
 
@@ -23,7 +22,7 @@ export const create_group = async (req: express.Request, res: express.Response) 
     }
 
     try {
-        var User = await UTILS.FUNCTIONS.find.user(user_id)
+        var User = await UTILS.FUNCTIONS.find.user(token)
         var Friend_1 = await UTILS.FUNCTIONS.find.user(friend_id_1)
         var Friend_2 = await UTILS.FUNCTIONS.find.user(friend_id_2)
 
@@ -34,9 +33,9 @@ export const create_group = async (req: express.Request, res: express.Response) 
         var Channel = await DB.channels.create({
             channel_id: Date.now() + Math.floor(Math.random() * 1000),
             channel_type: UTILS.CONSTANTS.CHANNEL.TYPE.PRIVATE,
-            channel_name: User.username + " and " + Friend_1.username,
-            updated_at: new Date().toString(),
-            created_at: new Date().toString(),
+            channel_name: User.username + " and " + Friend_1.username + " and " + Friend_2.username,
+            updated_at: new Date().toLocaleString(),
+            created_at: new Date().toLocaleString(),
             members: [User.user_id, Friend_1.user_id, Friend_2.user_id],
             members_count: 3,
             owner_id: User.user_id,

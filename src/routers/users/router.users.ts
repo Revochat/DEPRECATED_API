@@ -10,6 +10,7 @@ export const UserRouter = {
         method: "POST",
         socketing: false,
         path:"/register",
+        params: ["username", "password"],
         res: UserInterceptEssentials.register
     },
 
@@ -19,6 +20,7 @@ export const UserRouter = {
         method: "POST",
         socketing: false,
         path: "/login",
+        params: ["username", "password"],
         res: UserInterceptEssentials.login,
     },
 
@@ -40,6 +42,7 @@ export const UserRouter = {
             socketing: true,
             description: "Update a user's username",
             path: "/username/:token/:newusername",
+            params: ["token", "newusername"],
             res: UserInterceptEssentials.update.username
         },
         Password: {
@@ -48,6 +51,7 @@ export const UserRouter = {
             socketing: true,
             description: "Update a user's password",
             path: "/password/:token/:newpassword",
+            params: ["token", "newpassword"],
             res: UserInterceptEssentials.update.password
         },
         WalletToken: {
@@ -56,6 +60,7 @@ export const UserRouter = {
             socketing: true,
             description: "Update a user's wallet token",
             path: "/wallettoken/:token/:newwallet_token",
+            params: ["token", "newwallet_token"],
             res: UserInterceptEssentials.update.wallet_token
         },
         UpdateProfilePicture: {
@@ -64,6 +69,7 @@ export const UserRouter = {
             socketing: true,
             description: "Update a user's profile picture",
             path: "/profilepicture/:token/:newprofile_picture",
+            params: ["token", "newprofile_picture"],
             res: UserInterceptEssentials.update.profile_picture
         }
     },
@@ -76,6 +82,7 @@ export const UserRouter = {
             socketing: true,
             description: "Get a user with a token",
             path: "/user/",
+            params: ["token"],
             res: UserInterceptEssentials.get.user
         },
     },
@@ -88,6 +95,7 @@ export const UserRouter = {
             socketing: true,
             description: "Add a friend to a user's friend list",
             path: "/friend/:token/:friend_id",
+            params: ["token", "friend_id"],
             res: UserInterceptSocials.addFriend
         },
         Blocked: {
@@ -96,6 +104,7 @@ export const UserRouter = {
             socketing: true,
             description: "Add a blocked user",
             path: "/blocked/:token/:blocked_id",
+            params: ["token", "blocked_id"],
             res: UserInterceptSocials.addBlocked
         },
     },
@@ -108,6 +117,7 @@ export const UserRouter = {
             socketing: true,
             description: "Remove a friend from a user's friend list",
             path: "/friend/:token/:friend_id",
+            params: ["token", "friend_id"],
             res: UserInterceptSocials.removeFriend
         },
         Blocked: {
@@ -116,6 +126,7 @@ export const UserRouter = {
             socketing: true,
             description: "Remove a blocked user",
             path: "/blocked/:token/:blocked_id",
+            params: ["token", "blocked_id"],
             res: UserInterceptSocials.removeBlocked
         }
     },

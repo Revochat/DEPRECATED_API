@@ -6,11 +6,9 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const create_private = async (req: express.Request, res: express.Response) => { // Create a private channel
-    const { user_id } = req.body
     const { friend_id, token } = req.params
 
     if (token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
-        user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH ||
         friend_id.length !== UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) {
 
         res.json(
@@ -22,6 +20,7 @@ export const create_private = async (req: express.Request, res: express.Response
     }
 
     try {
+        
         var User = await UTILS.FUNCTIONS.find.user(token)
         var Friend = await UTILS.FUNCTIONS.find.user(friend_id)
 
@@ -34,8 +33,8 @@ export const create_private = async (req: express.Request, res: express.Response
             channel_id: Date.now() + Math.floor(Math.random() * 1000),
             channel_type: UTILS.CONSTANTS.CHANNEL.TYPE.PRIVATE,
             channel_name: User.username + " and " + Friend.username,
-            updated_at: new Date().toString(),
-            created_at: new Date().toString(),
+            updated_at: new Date().toLocaleString(),
+            created_at: new Date().toLocaleString(),
             members: [User.user_id, Friend.user_id],
             members_count: 2,
             
@@ -57,8 +56,8 @@ export const create_private = async (req: express.Request, res: express.Response
 
         // send channel to user and friend
         Emitter.emit("channelCreatePrivate", {
-            user_id: user_id,
-            friend_id: friend_id,
+            user_id: User.user_id,
+            friend_id: Friend.friend_id,
             channel: Channel
         })
 

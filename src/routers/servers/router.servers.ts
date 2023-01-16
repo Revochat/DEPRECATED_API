@@ -11,6 +11,7 @@ export const ServersRouter = {
             socketing: true,
             description: "Get channels of a server",
             path: "/channels/:token/:server_id",
+            params: ["token", "server_id"],
             res: ServerIntercept.get.channels
         },
 
@@ -20,6 +21,7 @@ export const ServersRouter = {
             socketing: true,
             description: "Get members of a server",
             path: "/members/:token/:server_id",
+            params: ["token", "server_id"],
             res: ServerIntercept.get.members
         },
 
@@ -29,27 +31,31 @@ export const ServersRouter = {
             socketing: true,
             description: "Get a server",
             path: "/:token/:server_id",
+            params: ["token", "server_id"],
             res: ServerIntercept.get.server
         }
     },
 
-    Create : {
-        name: "create",
-        method: "GET",
-        socketing: true,
-        description: "Create a server",
-        path: "/create/:token/:server_name",
-        res: ServerIntercept.create
+    manage : {
+        create : {
+            name: "create",
+            method: "GET",
+            socketing: true,
+            description: "Create a server",
+            path: "/create/:token/:server_name",
+            params: ["token", "server_name"],
+            res: ServerIntercept.manage.create
+        },
+        remove : {
+            name: "remove",
+            method: "GET",
+            socketing: true,
+            description: "Remove a server",
+            path: "/remove/:token/:server_id",
+            params: ["token", "server_id"],
+            res: ServerIntercept.manage.remove
+        }
     },
-
-    // Delete : {
-    //     name: "delete",
-    //     method: "GET",
-    //     socketing: true,
-    //     description: "Delete a server",
-    //     path: "/remove/:token/:server_id",
-    //     res: ServerIntercept.delete
-    // },
 
     // Update : {
     //     name: "update",

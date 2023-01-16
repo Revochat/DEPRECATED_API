@@ -24,28 +24,28 @@ export const create = async (req: express.Request, res: express.Response) => { /
         if(!User) throw "User not found"
 
         // create the server
-        // var Server = await DB.servers.create({ 
-        //     server_id: parseInt(server_id),
-        //     server_name: server_name,
-        //     owner_id: User.id,
-        //     channels: [],
-        //     members: new Map([[User.id, [111]]]),
-        //     members_count: 1,
-        //     updated_at: Date.toLocaleString(),
-        //     created_at: Date.toLocaleString(),
-        //     permissions_id: []
-        // })
-        // if(!Server) throw "Server not created"
+        var Server = await DB.servers.create({ 
+            server_id: parseInt(server_id),
+            server_name: server_name,
+            owner_id: User.id,
+            channels: [],
+            members: new Map([[User.id, []]]),
+            members_count: 1,
+            updated_at: new Date().toLocaleString(),
+            created_at: new Date().toLocaleString(),
+            permissions_id: []
+        })
+        if(!Server) throw "Server not created"
 
-        // Server.save() // save the server
+        Server.save() // save the server
 
-        // Emitter.emit("server", User.id, Server) // send the server to the user
+        Emitter.emit("server", User.id, Server) // send the server to the user
 
-        // res.json(
-        //     new RouteResponse()
-        //         .setStatus(Status.success)
-        //         .setMessage("Server created")
-        // )
+        res.json(
+            new RouteResponse()
+                .setStatus(Status.success)
+                .setMessage("Server created")
+        )
     }
 
     catch (err) {

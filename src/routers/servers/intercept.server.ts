@@ -1,8 +1,11 @@
 import { getServer, getMembers, getChannels} from "./get"
-import { create } from "./create"
+import { create, remove } from "./manage"
 
 export const ServerIntercept = {
-    create: create,
+    manage: {
+        create: create,
+        remove: remove
+    },
     get: {
         server: getServer,
         members: getMembers,

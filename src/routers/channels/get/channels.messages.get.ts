@@ -5,10 +5,11 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const getMessages = async (req: express.Request, res: express.Response) => { // Get the x number of last messages of a channel
-    const {channel_id, limit} = req.params
+    const {channel_id, limit, token} = req.params
 
     if (!channel_id || !limit || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH || 
-        limit.length > UTILS.CONSTANTS.SERVER.MESSAGE.MESSAGE_FETCH_LIMIT){ //type check
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
+        limit.length > UTILS.CONSTANTS.SERVER.MESSAGE.MAX_FETCH_LIMIT || limit.length < UTILS.CONSTANTS.SERVER.MESSAGE.MIN_FETCH_LIMIT){ //type check
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)
@@ -18,6 +19,8 @@ export const getMessages = async (req: express.Request, res: express.Response) =
     }
 
     try {
+        UTILS.FUNCTIONS.find.user(token) // Find the user
+
         if (!limit) throw "Limit not provided"
 
         if (parseInt(limit) > 100) throw "Limit is too high"

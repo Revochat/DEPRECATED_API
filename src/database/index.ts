@@ -43,7 +43,7 @@ export default {
     servers: {
         create: ServerCreate,
         find: {
-            findOne: ServerFindOne,
+            id: ServerFindOne,
         },
         delete: ServerDelete
     },
