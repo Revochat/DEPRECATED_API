@@ -23,9 +23,9 @@ export const create_group = async (req: express.Request, res: express.Response) 
     }
 
     try {
-        var User = await UTILS.FUNCTIONS.findUser(token)
-        var Friend_1 = await UTILS.FUNCTIONS.findUser(friend_id_1)
-        var Friend_2 = await UTILS.FUNCTIONS.findUser(friend_id_2)
+        var User = await UTILS.FUNCTIONS.find.user(token)
+        var Friend_1 = await UTILS.FUNCTIONS.find.user(friend_id_1)
+        var Friend_2 = await UTILS.FUNCTIONS.find.user(friend_id_2)
 
         Logger.log("Creating private channel between " + User.username + " and " + Friend_1.username + " and " + Friend_2.username)
 
@@ -38,43 +38,10 @@ export const create_group = async (req: express.Request, res: express.Response) 
             updated_at: new Date().toString(),
             created_at: new Date().toString(),
             members: [User.user_id, Friend_1.user_id, Friend_2.user_id],
-            members_count: 2,
+            members_count: 3,
             owner_id: User.user_id,
-            permissions: {
-                manage: {
-                    user_id: [],
-                    roles_id: []
-                },
-                view: {
-                    user_id: [User.user_id, Friend_1.user_id, Friend_2.user_id],
-                    roles_id: []
-                },
-                message: {
-
-                    send: {
-                        user_id: [User.user_id, Friend_1.user_id, Friend_2.user_id],
-                        roles_id: []
-                    },
-                    send_files: {
-                        user_id: [User.user_id, Friend_1.user_id, Friend_2.user_id],
-                        roles_id: []
-                    },
-                    mentions: {
-                        user_id: [User.user_id, Friend_1.user_id, Friend_2.user_id],
-                        roles_id: []
-                    }
-                },
-                member: {
-                    invite: {
-                        user_id: [User.user_id, Friend_1.user_id, Friend_2.user_id],
-                        roles_id: []
-                    },
-                    remove: {
-                        user_id: [],
-                        roles_id: []
-                    }
-                }
-            }
+            
+            permissions: UTILS.CONSTANTS.PERMISSIONS.GROUP(User, Friend_1, Friend_2)
         })
 
         User.channels.push(Channel.channel_id) // save the channel id to the user

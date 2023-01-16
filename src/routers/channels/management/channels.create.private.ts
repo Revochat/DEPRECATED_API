@@ -22,8 +22,8 @@ export const create_private = async (req: express.Request, res: express.Response
     }
 
     try {
-        var User = await UTILS.FUNCTIONS.findUser(token)
-        var Friend = await UTILS.FUNCTIONS.findUser(friend_id)
+        var User = await UTILS.FUNCTIONS.find.user(token)
+        var Friend = await UTILS.FUNCTIONS.find.user(friend_id)
 
         Logger.log("Creating private channel between " + User.username + " and " + Friend.username)
 
@@ -38,42 +38,8 @@ export const create_private = async (req: express.Request, res: express.Response
             created_at: new Date().toString(),
             members: [User.user_id, Friend.user_id],
             members_count: 2,
-
-            permissions: {
-                manage: {
-                    user_id: [],
-                    roles_id: []
-                },
-                view: {
-                    user_id: [User.user_id, Friend.user_id],
-                    roles_id: []
-                },
-                message: {
-
-                    send: {
-                        user_id: [User.user_id, Friend.user_id],
-                        roles_id: []
-                    },
-                    send_files: {
-                        user_id: [User.user_id, Friend.user_id],
-                        roles_id: []
-                    },
-                    mentions: {
-                        user_id: [User.user_id, Friend.user_id],
-                        roles_id: []
-                    }
-                },
-                member: {
-                    invite: {
-                        user_id: [],
-                        roles_id: []
-                    },
-                    remove: {
-                        user_id: [],
-                        roles_id: []
-                    }
-                }
-            }
+            
+            permissions: UTILS.CONSTANTS.PERMISSIONS.PRIVATE(User, Friend)
         })
 
         await Channel.save()

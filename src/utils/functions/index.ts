@@ -1,5 +1,8 @@
-import {findUser} from "./find"
+import {findUser, findServer} from "./find"
 
 export class FUNCTIONS {
-    static findUser = findUser
+    static find = {
+        user: findUser,
+        server: findServer
+    }
 }

@@ -4,7 +4,7 @@ export interface IServer { // This is the interface for the server in the databa
     server_id: number;
     server_name: string;
     owner_id: string;
-    channels: string[];
+    channels: number[];
     members: string[];
     members_count: number;
     updated_at: string;
