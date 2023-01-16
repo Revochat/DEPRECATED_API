@@ -5,7 +5,7 @@ export interface IServer { // This is the interface for the server in the databa
     server_name: string;
     owner_id: string;
     channels: number[];
-    members: string[];
+    members?: Map<number, number[]>; // map of user_id: roles_id
     members_count: number;
     updated_at: string;
     created_at: string;

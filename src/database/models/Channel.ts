@@ -46,7 +46,7 @@ export interface IChannel { // This is the interface for the channel in the data
     updated_at: string;
     created_at: string;
 
-    permissions?: IChannelPermission | undefined;
+    permissions?: IChannelPermission;
 }
 
 export interface IChannelModel extends IChannel, Document {}

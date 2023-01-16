@@ -6,16 +6,20 @@ import { IUserModel } from '../../../database/models/User';
 import UTILS from '../../../utils';
 
 export const getMembers = async (req: Request, res: Response) => {
-    const server_id = req.params.server_id;
-    const user_id = req.params.user_id;
+    const { server_id, token } = req.params
 
     // Check if server exists and if user is a member of the server 
 
     try {
         var Server = await UTILS.FUNCTIONS.find.server(parseInt(server_id))
-        var User = await UTILS.FUNCTIONS.find.user(user_id)
+        var User = await UTILS.FUNCTIONS.find.user(token)
 
-        if (!Server.members.includes(User.user_id)) throw "You are not a member of this server"
+
+        if (!Server) throw "Server not found"
+        if (!User) throw "User not found"
+
+        if (!Server.members) throw "Server has no members" // This should never happen but typescript doesn't know that 
+        if (!Server.members.has(User.id)) throw "User not a member of server"
 
         // Get members of server and send to client 
 
@@ -23,10 +27,10 @@ export const getMembers = async (req: Request, res: Response) => {
 
         // Get members of server 
 
-        for (var i = 0; i < Server.members.length; i++) {
-            var Member = await UTILS.FUNCTIONS.find.user(Server.members[i])
-            Members.push(Member)
-        }
+        Server.members.forEach(async (value, key) => {
+            var Member = await UTILS.FUNCTIONS.find.userID(key)
+            if (Member) Members.push(Member)
+        })
 
         // Send members to client
         res.json(

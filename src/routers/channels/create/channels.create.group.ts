@@ -23,7 +23,7 @@ export const create_group = async (req: express.Request, res: express.Response) 
     }
 
     try {
-        var User = await UTILS.FUNCTIONS.find.user(token)
+        var User = await UTILS.FUNCTIONS.find.user(user_id)
         var Friend_1 = await UTILS.FUNCTIONS.find.user(friend_id_1)
         var Friend_2 = await UTILS.FUNCTIONS.find.user(friend_id_2)
 

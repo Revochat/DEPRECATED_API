@@ -10,7 +10,7 @@ export const ServersRouter = {
             method: "GET",
             socketing: true,
             description: "Get channels of a server",
-            path: "/Channels/:token/:server_id",
+            path: "/channels/:token/:server_id",
             res: ServerIntercept.get.channels
         },
 
@@ -19,7 +19,7 @@ export const ServersRouter = {
             method: "GET",
             socketing: true,
             description: "Get members of a server",
-            path: "/Members/:token/:server_id",
+            path: "/members/:token/:server_id",
             res: ServerIntercept.get.members
         },
 
@@ -31,5 +31,34 @@ export const ServersRouter = {
             path: "/:token/:server_id",
             res: ServerIntercept.get.server
         }
-    }
+    },
+
+    Create : {
+        name: "create",
+        method: "GET",
+        socketing: true,
+        description: "Create a server",
+        path: "/create/:token/:server_name",
+        res: ServerIntercept.create
+    },
+
+    // Delete : {
+    //     name: "delete",
+    //     method: "GET",
+    //     socketing: true,
+    //     description: "Delete a server",
+    //     path: "/remove/:token/:server_id",
+    //     res: ServerIntercept.delete
+    // },
+
+    // Update : {
+    //     name: "update",
+    //     method: "GET",
+    //     socketing: true,
+    //     description: "Update a server",
+    //     path: "/update/:token/:server_id",
+    //     res: ServerIntercept.update
+    // },
+
+    // user add, remove, update roles, ..
 }

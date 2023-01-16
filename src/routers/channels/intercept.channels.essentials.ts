@@ -9,9 +9,9 @@ export const ChannelsInterceptEssentials = {
 
     update: update,
     create: {
-        create_private: create_private,
-        create_group: create_group,
-        create_server: create_server
+        private: create_private,
+        group: create_group,
+        server: create_server
     },
     get: {
         channel: getChannel,
