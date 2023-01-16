@@ -10,9 +10,7 @@ to run the project
 # Organisation of the API
 
 revochat.fr/api/
--> /v1/
--> /client/ 
+-> /v1/ 
    -> /client/get/friends/:token
    -> /channel/create/:token/:channelName
-   
    -> /server/get/:token

@@ -8,10 +8,10 @@ import { v4, v5 } from "uuid"
 import UTILS from "../../../utils"
 
 export const sendMessage = async (req: express.Request, res: express.Response) => { // Send a message to a channel
-    const {channel_id, user_id, message} = req.body
+    const {channel_id, token, message} = req.body
 
-    if (!channel_id || !user_id || !message || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        user_id < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id > UTILS.CONSTANTS.USER.ID.MAX_LENGTH){ //type check
+    if (!channel_id || !token || !message || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
+        token < UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || token > UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH){ //type check
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)
@@ -23,10 +23,9 @@ export const sendMessage = async (req: express.Request, res: express.Response) =
     // get the user, if premium allow them to send longer messages PREMIUM
     // message.length > UTILS.CONSTANTS.MESSAGE.MESSAGE.MAX_MESSAGE_LENGTH
 
-    var User = await DB.users.find.id(user_id)
-    if(!User) throw "User not found"
+    var User = await UTILS.FUNCTIONS.find.user(token) // Find the user
 
-    User.premium_expiration ? message.length > UTILS.CONSTANTS.MESSAGE.PROPERTIES.MAX_MESSAGE_LENGTH_PREMIUM : message.length > UTILS.CONSTANTS.MESSAGE.PROPERTIES.MAX_MESSAGE_LENGTH
+    User.premium_expiration ? message.length > UTILS.CONSTANTS.MESSAGE.PROPERTIES.MAX_MESSAGE_LENGTH_PREMIUM : message.length > UTILS.CONSTANTS.MESSAGE.PROPERTIES.MAX_MESSAGE_LENGTH // Check if the message is too long
 
     try {
         var Channel = await DB.channels.find.id(channel_id)
@@ -34,12 +33,12 @@ export const sendMessage = async (req: express.Request, res: express.Response) =
         Logger.debug(`Sending message to channel ${Channel}`)
 
         // Check if the user is in the channel
-        if (!Channel.members.includes(user_id)) throw "You are not in this channel"
+        if (!Channel.members.includes(User.user_id)) throw "You are not in this channel"
 
         var Message: IMessageModel = await DB.messages.create({ // Create the message
             message_id: parseInt((v5(message, v4()).split("-").join("") + Date.now()).toUpperCase()),
             channel_id,
-            user_id,
+            user_id: User.user_id,
             message,
             created_at: Date.toLocaleString(),
             updated_at: Date.toLocaleString()

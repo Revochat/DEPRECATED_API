@@ -99,6 +99,7 @@ export const ChannelsRouter = {
         socketing: true,
         description: "Send a message to a channel",
         path: "/messages/send/:token/:channel_id/:message",
+        params: ["token", "channel_id", "message"],
         res: ChannelsInterceptEssentials.messages.send
     },
 
@@ -108,6 +109,7 @@ export const ChannelsRouter = {
         socketing: true,
         description: "Delete a message from a channel",
         path: "/messages/delete/:token/:channel_id/:message_id",
+        params: ["token", "channel_id", "message_id"],
         res: ChannelsInterceptEssentials.messages.delete
     },
 
@@ -119,6 +121,7 @@ export const ChannelsRouter = {
         socketing: true,
         description: "Kick a user from a channel",
         path: "/kick/:token/:channel_id/:user_id",
+        params: ["token", "channel_id", "user_id", "member_id"],
         res: ChannelsInterceptModeration.kick
     },
 

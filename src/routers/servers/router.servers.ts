@@ -1,4 +1,4 @@
-import {ServerIntercept} from "./intercept.server"
+import {ServerIntercept} from "./intercept.servers"
 
 export const ServersRouter = {
     path: "/server",

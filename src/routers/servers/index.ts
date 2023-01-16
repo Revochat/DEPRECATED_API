@@ -1,4 +1,4 @@
-export * from "./intercept.server"
+export * from "./intercept.servers"
 export * from "./router.servers"
 // export * from "./router.servers"
 

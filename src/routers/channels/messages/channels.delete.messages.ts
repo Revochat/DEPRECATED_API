@@ -6,11 +6,11 @@ import Emitter from "../../../client/emitter.client"
 import UTILS from "../../../utils"
 
 export const deleteMessage = async (req: express.Request, res: express.Response) => { // Delete a message from a channel
-    const {channel_id, user_id, message_id} = req.body
+    const {channel_id, token, message_id} = req.body
 
-    if (!channel_id || !user_id || !message_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
+    if (!channel_id || !token || !message_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
         message_id.length < UTILS.CONSTANTS.MESSAGE.ID.MIN_LENGTH || message_id.length > UTILS.CONSTANTS.MESSAGE.ID.MAX_LENGTH ||
-        user_id < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id > UTILS.CONSTANTS.USER.ID.MAX_LENGTH){ //type check
+        token < UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || token > UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH){ //type check
         
             res.json(
             new RouteResponse()
@@ -21,12 +21,14 @@ export const deleteMessage = async (req: express.Request, res: express.Response)
     }
 
     try {
+        var User = await UTILS.FUNCTIONS.find.user(token) // Find the user
+
         var Channel = await DB.channels.find.id(channel_id)
         if(!Channel) throw "Channel not found"
         Logger.debug(`Deleting message from channel ${Channel}`)
 
         // Check if the user is in the channel
-        if (!Channel.members.includes(user_id)) throw "You are not in this channel"
+        if (!Channel.members.includes(User.user_id)) throw "You are not in this channel"
 
         // Delete the message
         var Message = await DB.messages.find.id(message_id)

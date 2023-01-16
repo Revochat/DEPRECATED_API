@@ -1,18 +1,18 @@
 TO DO LIST:
 
 - bearer token
-- message reaction
+- check clear dependencies (BLF)
+- convert to hexadecimal user_id when sent (BLF)
+- Web-RTC
 - categories for sync perms in servers
 - notifications
 - user status (online, offline, idle, dnd)
-- convert to hexadecimal user_id when sent (BLF)
+- reactions
 - (option = everyone can msg you or only friends), tag people, on register create a channel with only oneself, check if channel is voice that no message can be sent, check max nb of channels/server, channel update, server perm
-- server system
 - web3 chat / smart contract connection
-- encryption system
-- rate limit login(5 tries before 5 minutes ban), rate limit api
-- clear useless dependencies
-- Web-RTC
+- encryption system (Lux)
+- rate limit login(5 tries before 5 minutes ban), rate limit api (BLF but we need to check how we are going to do it)
+- sounds (Lux)
 - audio chat / video chat
 - screenshare
 - files upload handling
