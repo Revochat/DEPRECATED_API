@@ -6,9 +6,8 @@ TO DO LIST:
 - Web-RTC
 - categories for sync perms in servers
 - notifications
-- user status (online, offline, idle, dnd)
 - reactions
-- (option = everyone can msg you or only friends), tag people, on register create a channel with only oneself, check if channel is voice that no message can be sent, check max nb of channels/server, channel update, server perm
+- (option = everyone can msg you or only friends), tag people, check if channel is voice that no message can be sent, channel update, server perm, get user status and set it
 - web3 chat / smart contract connection
 - encryption system (Lux)
 - rate limit login(5 tries before 5 minutes ban), rate limit api (BLF but we need to check how we are going to do it)

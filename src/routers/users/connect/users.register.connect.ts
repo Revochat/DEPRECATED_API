@@ -30,6 +30,22 @@ export const userRegister = async (req: express.Request, res: express.Response) 
             updated_at: new Date().toLocaleString()
         })
 
+        // create a channel where there only is the user
+        var Channel = await DB.channels.create({
+            channel_id: Date.now() + Math.floor(Math.random() * 1000),
+            channel_type: UTILS.CONSTANTS.CHANNEL.TYPE.PRIVATE,
+            channel_name: "Me",
+            updated_at: new Date().toLocaleString(),
+            created_at: new Date().toLocaleString(),
+            members: [User.user_id],
+            members_count: 1,
+            
+            permissions: UTILS.CONSTANTS.PERMISSIONS.SOLO(User)
+        })
+
+        User.channels = [Channel.channel_id]
+        User.save()
+
         Logger.success(`User ${username} has been registered`)
         Emitter.emit("register", User)
 

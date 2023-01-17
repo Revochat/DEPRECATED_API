@@ -23,6 +23,8 @@ export const create = async (req: express.Request, res: express.Response) => { /
         var User = await DB.users.find.token(token) // Find the user
         if(!User) throw "User not found"
 
+        if (User.server.length >= UTILS.CONSTANTS.SERVER.MAX_SERVER) throw "You have reached the maximum number of created servers"
+
         // create the server
         var Server = await DB.servers.create({ 
             server_id: parseInt(server_id),
