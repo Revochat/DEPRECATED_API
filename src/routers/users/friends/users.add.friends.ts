@@ -11,12 +11,10 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
         Logger.debug(`User ${req.params.token} is trying to add a friend`)
         const { token, friend_id } = req.params
 
-        // if token or friend_id badly formatted
         if(!token || !friend_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
-            friend_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
+            friend_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted" // Type Check
 
-        var User = await DB.users.find.token(token)
-        if(!User) throw "User not found"
+        var User = await UTILS.FUNCTIONS.find.user.token(token) // Find the user
 
         // Check if the friend is already added
         if(User.friends.includes(friend_id)) throw "User already added"
@@ -28,8 +26,7 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
         if(User.blocked.includes(friend_id)) throw "User is blocked"
 
         //Check if the friend exists
-        var Friend = await DB.users.find.id(parseInt(friend_id))
-        if(!Friend) throw "Friend not found"
+        var Friend = await UTILS.FUNCTIONS.find.user.id(parseInt(friend_id))
 
         if (Friend.blocked) { // Check if user is already blocked by the friend in the database
             if(Friend.blocked.includes(User.id.toString())) throw "User is blocked"

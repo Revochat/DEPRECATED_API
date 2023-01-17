@@ -20,10 +20,7 @@ export const sendMessage = async (req: express.Request, res: express.Response) =
         return
     }
 
-    // get the user, if premium allow them to send longer messages PREMIUM
-    // message.length > UTILS.CONSTANTS.MESSAGE.MESSAGE.MAX_MESSAGE_LENGTH
-
-    var User = await UTILS.FUNCTIONS.find.user(token) // Find the user
+    var User = await UTILS.FUNCTIONS.find.user.token(token) // Find the user
 
     User.premium_expiration ? message.length > UTILS.CONSTANTS.MESSAGE.PROPERTIES.MAX_MESSAGE_LENGTH_PREMIUM : message.length > UTILS.CONSTANTS.MESSAGE.PROPERTIES.MAX_MESSAGE_LENGTH // Check if the message is too long
 

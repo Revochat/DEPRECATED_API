@@ -1,24 +1,25 @@
 TO DO LIST:
 
 - bearer token
-- check clear dependencies (BLF)
+- check clear dependencies (BLF), names in models (channel_type, user_id or type, id)
 - convert to hexadecimal user_id when sent (BLF)
 - Web-RTC
-- categories for sync perms in servers
 - notifications
-- reactions
-- (option = everyone can msg you or only friends), tag people, check if channel is voice that no message can be sent, channel update, server perm, get user status and set it
+- (option = everyone can msg you or only friends pv chan create), tag people, check if channel is voice that no message can be sent, channel update, server perm, get user status and set it
 - web3 chat / smart contract connection
 - encryption system (Lux)
 - rate limit login(5 tries before 5 minutes ban), rate limit api (BLF but we need to check how we are going to do it)
-- sounds (Lux)
 - audio chat / video chat
 - screenshare
 - files upload handling
 - self destruct system for messages (mass delete messages function)
-- 2FA
-- github permissions (can wait until there are more collaborators)
 
+==================== 1.0.0 ==================== (less urgent)
+- reactions
+- sounds (Lux)
+- 2FA
+- categories for sync perms in servers
+- github permissions (can wait until there are more collaborators)
 
 
 Just some ideas for the payed subscription:

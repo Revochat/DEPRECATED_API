@@ -10,6 +10,7 @@ export interface IUser { // This is the interface for the user in the database
     premium_expiration: string;
     profile_picture?: string;
 
+    message_privacy?: "everyone" | "friends";
     status?: "online" | "offline" | "idle" | "dnd";
     updated_at?: string;
     created_at?: string;
@@ -35,7 +36,8 @@ const UserSchema = new Schema({
     premium_expiration: { type: String, required: true, default: null },
     profile_picture: {type: String, data: Buffer, contentType: String, default: "default_img_01.png" },
 
-    status: { type: String, required: false, default: "online" },
+    message_privacy: { type: String, required: true, default: "friends" }, // can people send messages to you? or only friends?
+    status: { type: String, required: true, default: "online" },
     updated_at: { type: String, required: true, default: new Date().toLocaleString() },
     created_at: { type: String, required: true, default: new Date().toLocaleString() },
     last_connection: { type: String, required: true, default: new Date().toLocaleString() },

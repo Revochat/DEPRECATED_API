@@ -1,4 +1,4 @@
-import DB from "../../../database/"
+import DB from "../../../../database"
 
 // Find server by server_id and return server object if found or throw error if not found
 export async function findServer(server_id: number) { 

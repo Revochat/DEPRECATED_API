@@ -21,7 +21,7 @@ export const deleteMessage = async (req: express.Request, res: express.Response)
     }
 
     try {
-        var User = await UTILS.FUNCTIONS.find.user(token) // Find the user
+        var User = await UTILS.FUNCTIONS.find.user.token(token) // Find the user
 
         var Channel = await DB.channels.find.id(channel_id)
         if(!Channel) throw "Channel not found"

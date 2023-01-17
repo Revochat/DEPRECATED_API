@@ -19,7 +19,7 @@ export const getMessages = async (req: express.Request, res: express.Response) =
     }
 
     try {
-        UTILS.FUNCTIONS.find.user(token) // Find the user
+        UTILS.FUNCTIONS.find.user.token(token) // Find the user
 
         if (!limit) throw "Limit not provided"
 

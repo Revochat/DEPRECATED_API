@@ -21,12 +21,26 @@ export const create_private = async (req: express.Request, res: express.Response
 
     try {
         
-        var User = await UTILS.FUNCTIONS.find.user(token)
-        var Friend = await UTILS.FUNCTIONS.find.user(friend_id)
+        var User = await UTILS.FUNCTIONS.find.user.token(token)
+        var Friend = await UTILS.FUNCTIONS.find.user.id(parseInt(friend_id))
 
         Logger.log("Creating private channel between " + User.username + " and " + Friend.username)
 
         if (User.channels.length >= UTILS.CONSTANTS.CHANNEL.MAX_PRIVATE_CHANNELS) throw "You have reached the maximum number of private channels"
+
+
+
+        // check if friend is blocked by user or user is blocked by friend 
+
+        //if friend has message_privacy set to everyone or friends only
+        if (Friend.message_privacy === UTILS.CONSTANTS.MESSAGE.PROPERTIES.MESSAGE_PRIVACY_FRIENDS) {
+            if (!UTILS.FUNCTIONS.find.user.friend(User, parseInt(friend_id))) throw "Friend not found"
+        }
+
+        // check if channel already exists between users 
+        // var Channel_Exists = await UTILS.FUNCTIONS.find.channel(User, Friend)
+        // if (Channel_Exists) throw "Channel already exists"
+
 
         // create channel
         var Channel = await DB.channels.create({
@@ -57,7 +71,7 @@ export const create_private = async (req: express.Request, res: express.Response
         // send channel to user and friend
         Emitter.emit("channelCreatePrivate", {
             user_id: User.user_id,
-            friend_id: Friend.friend_id,
+            friend_id: Friend.user_id,
             channel: Channel
         })
 

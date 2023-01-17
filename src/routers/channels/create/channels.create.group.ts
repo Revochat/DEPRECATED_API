@@ -22,9 +22,9 @@ export const create_group = async (req: express.Request, res: express.Response) 
     }
 
     try {
-        var User = await UTILS.FUNCTIONS.find.user(token)
-        var Friend_1 = await UTILS.FUNCTIONS.find.user(friend_id_1)
-        var Friend_2 = await UTILS.FUNCTIONS.find.user(friend_id_2)
+        var User = await UTILS.FUNCTIONS.find.user.token(token)
+        var Friend_1 = await UTILS.FUNCTIONS.find.user.id(friend_id_1)
+        var Friend_2 = await UTILS.FUNCTIONS.find.user.id(friend_id_2)
 
         Logger.log("Creating private channel between " + User.username + " and " + Friend_1.username + " and " + Friend_2.username)
 
@@ -44,6 +44,8 @@ export const create_group = async (req: express.Request, res: express.Response) 
         })
 
         User.channels.push(Channel.channel_id) // save the channel id to the user
+        if (Friend_1.channels == null) Friend_1.channels = [] // this should never happen but typescript is annoying
+        if (Friend_2.channels == null) Friend_2.channels = []
         Friend_1.channels.push(Channel.channel_id)
         Friend_2.channels.push(Channel.channel_id)
 

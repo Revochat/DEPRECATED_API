@@ -12,7 +12,7 @@ export const getMembers = async (req: Request, res: Response) => {
 
     try {
         var Server = await UTILS.FUNCTIONS.find.server(parseInt(server_id))
-        var User = await UTILS.FUNCTIONS.find.user(token)
+        var User = await UTILS.FUNCTIONS.find.user.token(token)
 
 
         if (!Server) throw "Server not found"
@@ -28,7 +28,7 @@ export const getMembers = async (req: Request, res: Response) => {
         // Get members of server 
 
         Server.members.forEach(async (value, key) => {
-            var Member = await UTILS.FUNCTIONS.find.userID(key)
+            var Member = await UTILS.FUNCTIONS.find.user.id(key)
             if (Member) Members.push(Member)
         })
 
