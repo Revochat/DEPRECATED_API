@@ -26,7 +26,7 @@ export const getChannel = async (req: express.Request, res: express.Response) =>
         // Check if the user is a member of the channel
         if (!User.channels.includes(channel_id)) throw "You are not a member of this channel"
 
-        var Channel = await DB.channels.find.id(channel_id)
+        var Channel = await DB.channels.find.id(parseInt(channel_id))
         if(!Channel) throw "Channel not found"
         Logger.debug(`Channel ${Channel} has been found`)
         Emitter.emit("getChannel", Channel)

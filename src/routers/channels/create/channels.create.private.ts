@@ -38,8 +38,8 @@ export const create_private = async (req: express.Request, res: express.Response
         }
 
         // check if channel already exists between users 
-        // var Channel_Exists = await UTILS.FUNCTIONS.find.channel(User, Friend)
-        // if (Channel_Exists) throw "Channel already exists"
+        var Channel_Exists = await UTILS.FUNCTIONS.find.channel.friend(User, Friend) // not sure it works
+        if (Channel_Exists) throw "Channel already exists"
 
 
         // create channel

@@ -19,7 +19,7 @@ export const leave = async (req: express.Request, res: express.Response) => { //
     }
 
     try {
-        var Channel = await DB.channels.find.id(channel_id)
+        var Channel = await DB.channels.find.id(parseInt(channel_id))
         if(!Channel) throw "Channel not found"
 
         // Check if the user is in the channel

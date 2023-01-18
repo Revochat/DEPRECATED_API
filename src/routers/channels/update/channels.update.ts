@@ -23,7 +23,7 @@ export const update = async (req: express.Request, res: express.Response) => { /
     try {
         var User = await DB.users.find.token(token) // Find the user
         if(!User) throw "User not found" // Check if the user exists
-        var Channel = await DB.channels.find.id(channel_id) // Find the channel
+        var Channel = await DB.channels.find.id(parseInt(channel_id)) // Find the channel
         if(!Channel) throw "Channel not found" // Check if the channel exists
         if (User.user_id !== Channel.owner_id) throw "You are not the owner of this channel" // Check if the user is the owner of the channel
 

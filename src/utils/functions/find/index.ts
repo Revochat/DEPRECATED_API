@@ -1,3 +1,3 @@
 export * from "./user";
 export * from "./server/find.server";
-export * from "./channel/find.channel";
+export * from "./channel/";

@@ -24,7 +24,7 @@ export const remove = async (req: express.Request, res: express.Response) => { /
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"
 
-        var Channel = await DB.channels.find.id(channel_id)
+        var Channel = await DB.channels.find.id(parseInt(channel_id))
         if(!Channel) throw "Channel not found"
 
         var Member = await DB.users.find.id(member_id)

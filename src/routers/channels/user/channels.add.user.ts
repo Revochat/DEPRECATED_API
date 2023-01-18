@@ -17,7 +17,7 @@ export const add = async (req: express.Request, res: express.Response) => { // A
     }
 
     try {
-        var Channel = await DB.channels.find.id(channel_id) // Find the channel
+        var Channel = await DB.channels.find.id(parseInt(channel_id)) // Find the channel
         if(!Channel) throw "Channel not found" // Check if the channel exists
 
         var User = await DB.users.find.token(token) // Find the user

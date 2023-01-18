@@ -1,6 +1,6 @@
 import Channel from "../models/Channel";
 
-export async function ChannelFindOne(channel_id: string) {
+export async function ChannelFindOne(channel_id: number) {
     return Channel.findOne({channel_id : channel_id});
 }
 

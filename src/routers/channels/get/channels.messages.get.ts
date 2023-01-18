@@ -25,7 +25,7 @@ export const getMessages = async (req: express.Request, res: express.Response) =
 
         if (parseInt(limit) > 100) throw "Limit is too high"
 
-        var Channel = await DB.channels.find.id(channel_id)
+        var Channel = await DB.channels.find.id(parseInt(channel_id))
         if(!Channel) throw "Channel not found"
         Logger.debug(`Getting messages of channel ${Channel}`)
 
