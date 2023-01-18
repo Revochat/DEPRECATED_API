@@ -6,11 +6,11 @@ import Emitter from "../../../client/emitter.client"
 import UTILS from "../../../utils"
 
 export const deleteMessage = async (req: express.Request, res: express.Response) => { // Delete a message from a channel
-    const {channel_id, token, message_id} = req.body
+    const {channel_id, token, message_id} = req.params
 
     if (!channel_id || !token || !message_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
         message_id.length < UTILS.CONSTANTS.MESSAGE.ID.MIN_LENGTH || message_id.length > UTILS.CONSTANTS.MESSAGE.ID.MAX_LENGTH ||
-        token < UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || token > UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH){ //type check
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH){ //type check
         
             res.json(
             new RouteResponse()
@@ -23,8 +23,12 @@ export const deleteMessage = async (req: express.Request, res: express.Response)
     try {
         var User = await UTILS.FUNCTIONS.find.user.token(token) // Find the user
 
-        var Channel = await DB.channels.find.id(channel_id)
+        var Channel = await DB.channels.find.id(parseInt(channel_id))
         if(!Channel) throw "Channel not found"
+
+        // check if channel is a text channel
+        if (Channel.channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.VOICE) throw "Channel is not a text channel"
+
         Logger.debug(`Deleting message from channel ${Channel}`)
 
         // Check if the user is in the channel

@@ -6,8 +6,7 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const create_group = async (req: express.Request, res: express.Response) => { // Create a private channel
-    const { friend_id_1, friend_id_2 } = req.body
-    const { token } = req.params
+    const { token, friend_id_1, friend_id_2 } = req.params
 
     if (token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
         friend_id_1.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_1.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH ||
@@ -23,8 +22,8 @@ export const create_group = async (req: express.Request, res: express.Response) 
 
     try {
         var User = await UTILS.FUNCTIONS.find.user.token(token)
-        var Friend_1 = await UTILS.FUNCTIONS.find.user.id(friend_id_1)
-        var Friend_2 = await UTILS.FUNCTIONS.find.user.id(friend_id_2)
+        var Friend_1 = await UTILS.FUNCTIONS.find.user.id(parseInt(friend_id_1))
+        var Friend_2 = await UTILS.FUNCTIONS.find.user.id(parseInt(friend_id_2))
 
         Logger.log("Creating private channel between " + User.username + " and " + Friend_1.username + " and " + Friend_2.username)
 
@@ -32,7 +31,7 @@ export const create_group = async (req: express.Request, res: express.Response) 
 
         var Channel = await DB.channels.create({
             channel_id: Date.now() + Math.floor(Math.random() * 1000),
-            channel_type: UTILS.CONSTANTS.CHANNEL.TYPE.PRIVATE,
+            channel_type: UTILS.CONSTANTS.CHANNEL.TYPE.HYBRID,
             channel_name: User.username + " and " + Friend_1.username + " and " + Friend_2.username,
             updated_at: new Date().toLocaleString(),
             created_at: new Date().toLocaleString(),

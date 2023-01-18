@@ -10,7 +10,7 @@ import UTILS from "../../../utils"
 
 export const userConnect = async (req: express.Request, res: express.Response) => { // Connect a user
     try {
-        const { token } = req.body
+        const { token } = req.params
 
         // if username or password badly formatted
        if(token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH|| token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH) throw "Badly formatted"

@@ -45,7 +45,7 @@ export const create_private = async (req: express.Request, res: express.Response
         // create channel
         var Channel = await DB.channels.create({
             channel_id: Date.now() + Math.floor(Math.random() * 1000),
-            channel_type: UTILS.CONSTANTS.CHANNEL.TYPE.PRIVATE,
+            channel_type: UTILS.CONSTANTS.CHANNEL.TYPE.HYBRID,
             channel_name: User.username + " and " + Friend.username,
             updated_at: new Date().toLocaleString(),
             created_at: new Date().toLocaleString(),

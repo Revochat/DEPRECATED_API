@@ -14,7 +14,7 @@ export const UserRouter = {
         res: UserInterceptEssentials.register
     },
 
-    Login: {
+    Login: { // Login a user with login credentials
         name: "login",
         description: "Login a user with login credentials",
         method: "POST",
@@ -24,53 +24,56 @@ export const UserRouter = {
         res: UserInterceptEssentials.login,
     },
 
-    Connect: {
+    Connect: { // Connect a user with a user token
         name: "conn",
         description: "Connect a user with a user token",
-        method: "POST",
+        method: "GET",
         socketing: true,
-        path: "/connect",
+        path: "/connect/:token",
         params: ["token"],
         res: UserInterceptEssentials.connect,
     },
 
     Update: {
         path: "/update",
-        Username: {
-            name: "updateusername",
-            method: "GET",
-            socketing: false,
-            description: "Update a user's username",
-            path: "/username/:token/:newusername",
-            params: ["token", "newusername"],
-            res: UserInterceptEssentials.update.username
-        },
+
+        // in 1 route update the bio, username, style, banner, ..
+        // Username: {
+        //     name: "updateusername",
+        //     method: "POST",
+        //     socketing: false,
+        //     description: "Update a user's username",
+        //     path: "/username/:token/:newusername",
+        //     params: ["token", "newusername"],
+        //     res: UserInterceptEssentials.update.username
+        // },
+        // UpdateProfilePicture: {
+        //     name: "updateprofilepicture",
+        //     method: "POST",
+        //     socketing: false,
+        //     description: "Update a user's profile picture",
+        //     path: "/profilepicture/:token/:",
+        //     params: ["token", "newprofile_picture"],
+        //     res: UserInterceptEssentials.update.profile_picture
+        // }
+
         Password: {
             name: "updatepassword",
-            method: "GET",
+            method: "POST",
             socketing: false,
             description: "Update a user's password",
-            path: "/password/:token/:newpassword",
+            path: "/password/:token",
             params: ["token", "newpassword"],
             res: UserInterceptEssentials.update.password
         },
         WalletToken: {
             name: "updatewallettoken",
-            method: "GET",
+            method: "POST",
             socketing: false,
             description: "Update a user's wallet token",
-            path: "/wallettoken/:token/:newwallet_token",
+            path: "/wallettoken/:token",
             params: ["token", "newwallet_token"],
             res: UserInterceptEssentials.update.wallet_token
-        },
-        UpdateProfilePicture: {
-            name: "updateprofilepicture",
-            method: "GET",
-            socketing: false,
-            description: "Update a user's profile picture",
-            path: "/profilepicture/:token/:newprofile_picture",
-            params: ["token", "newprofile_picture"],
-            res: UserInterceptEssentials.update.profile_picture
         }
     },
 
@@ -78,13 +81,14 @@ export const UserRouter = {
         path: "/get",
         User: {
             name: "getuser",
-            method: "POST",
+            method: "GET",
             socketing: false,
             description: "Get a user with a token",
             path: "/user/",
             params: ["token"],
             res: UserInterceptEssentials.get.user
         },
+
         // User_id: {
         //     name: "getuser_id",
         //     method: "POST",
@@ -235,7 +239,7 @@ export const UserRouter = {
         path: "/add",
         Friend: {
             name: "addfriend",
-            method: "GET",
+            method: "POST",
             socketing: false,
             description: "Add a friend to a user's friend list",
             path: "/friend/:token/:friend_id",
@@ -244,7 +248,7 @@ export const UserRouter = {
         },
         Blocked: {
             name: "addblocked",
-            method: "GET",
+            method: "POST",
             socketing: false,
             description: "Add a blocked user",
             path: "/blocked/:token/:blocked_id",
@@ -257,7 +261,7 @@ export const UserRouter = {
         path: "/remove",
         Friend: {
             name: "removefriend",
-            method: "GET",
+            method: "POST",
             socketing: false,
             description: "Remove a friend from a user's friend list",
             path: "/friend/:token/:friend_id",
@@ -266,7 +270,7 @@ export const UserRouter = {
         },
         Blocked: {
             name: "removeblocked",
-            method: "GET",
+            method: "POST",
             socketing: false,
             description: "Remove a blocked user",
             path: "/blocked/:token/:blocked_id",

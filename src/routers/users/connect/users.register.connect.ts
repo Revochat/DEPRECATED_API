@@ -12,8 +12,9 @@ import UTILS from "../../../utils"
 
 export const userRegister = async (req: express.Request, res: express.Response) => { // Register a new user
     try {
+        Logger.debug(req.body)
         const { username, password } = req.body
-        Logger.debug(`Registering user ${username} with password ${password}`)
+
         // if username or password badly formatted
         if(!username || !password || username.length >= UTILS.CONSTANTS.USER.USERNAME.MAX_LENGTH || username.length <= UTILS.CONSTANTS.USER.USERNAME.MIN_LENGTH||password.length >= UTILS.CONSTANTS.USER.PASSWORD.MAX_LENGTH || password.length <= UTILS.CONSTANTS.USER.PASSWORD.MIN_LENGTH) throw "Badly formatted"
 
@@ -33,10 +34,11 @@ export const userRegister = async (req: express.Request, res: express.Response) 
         // create a channel where there only is the user
         var Channel = await DB.channels.create({
             channel_id: Date.now() + Math.floor(Math.random() * 1000),
-            channel_type: UTILS.CONSTANTS.CHANNEL.TYPE.PRIVATE,
+            channel_type: UTILS.CONSTANTS.CHANNEL.TYPE.HYBRID,
             channel_name: "Me",
             updated_at: new Date().toLocaleString(),
             created_at: new Date().toLocaleString(),
+            // add the user to the channel members
             members: [User.user_id],
             members_count: 1,
             

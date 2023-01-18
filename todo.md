@@ -1,14 +1,14 @@
 TO DO LIST:
 
 - bearer token
-- check clear dependencies (BLF), names in models (channel_type, user_id or type, id)
+- check clear dependencies, names in models (channel_type, user_id or type, id), (length of wallet token in user update method type checking) (BLF)
 - convert to hexadecimal user_id when sent (BLF)
 - Web-RTC
 - notifications
-- tag people, check if channel is voice that no message can be sent, channel update, server perm, get user status and set it
+- tag people, channel update, get user/channel/server, server perm/interactions, get user status and set it
 - web3 chat / smart contract connection
 - encryption system (Lux)
-- rate limit login(5 tries before 5 minutes ban), rate limit api (BLF but we need to check how we are going to do it)
+- rate limit login(5 tries before 5 minutes ban), rate limit api
 - audio chat / video chat
 - screenshare
 - files upload handling
@@ -36,4 +36,4 @@ Future Updates ? :
    (server boosts ?)
    (bots)
    chiffrer nom de serveur et nom de channel et friends ?
-   slowmode client side ? timeout client side too
+   slowmode client side ? timeout client side too, push to talk (client side?)

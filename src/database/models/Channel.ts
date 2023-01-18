@@ -59,9 +59,9 @@ const ChannelSchema = new Schema({
     owner_id: { type: Number, required: false, index: true }, 
 
     channel_name: { type: String, required: false },
-    channel_type: { type: String, required: true }, // 0 = HYBRID, 1 = TEXT, 2 = VOICE
+    channel_type: { type: String, required: true }, // HYBRID (for instance DMs), TEXT, VOICE
 
-    members: { type: Map, required: true, default: [] }, // map of user_id: roles_id
+    members: { type: Array, required: true, default: [] }, // map of user_id: roles_id
     members_count: { type: Number, required: true, default: 0 },
     updated_at: { type: String, required: true, default: new Date().toLocaleString() },
     created_at: { type: String, required: true, default: new Date().toLocaleString() },

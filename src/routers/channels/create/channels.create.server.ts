@@ -6,12 +6,14 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const create_server = async (req: express.Request, res: express.Response) => {
-    const { channel_name} = req.body
+    const { channel_name, channel_type} = req.body
     const { server_id, token } = req.params
 
     if (token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
         server_id.length !== UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-        channel_name.length < UTILS.CONSTANTS.CHANNEL.NAME.MIN_LENGTH || channel_name.length > UTILS.CONSTANTS.CHANNEL.NAME.MAX_LENGTH) {
+        channel_name.length < UTILS.CONSTANTS.CHANNEL.NAME.MIN_LENGTH || channel_name.length > UTILS.CONSTANTS.CHANNEL.NAME.MAX_LENGTH ||
+        channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.TEXT || channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.VOICE
+        ) {
 
         res.json(
             new RouteResponse()
@@ -32,7 +34,7 @@ export const create_server = async (req: express.Request, res: express.Response)
         // create channel
         var Channel = await DB.channels.create({
             channel_id: Date.now() + Math.floor(Math.random() * 1000),
-            channel_type: UTILS.CONSTANTS.CHANNEL.TYPE.SERVER,
+            channel_type: channel_type,
             channel_name: channel_name,
             updated_at: new Date().toLocaleString(),
             created_at: new Date().toLocaleString(),

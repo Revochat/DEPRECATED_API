@@ -12,36 +12,36 @@ export const ChannelsRouter = {
         path: "/create",
         Private: {
             name: "createPrivate",
-            method: "GET",
+            method: "POST",
             socketing: false,
             description: "Create a private channel",
-            path: "/private/:token/:server_id/:channel_name",
+            path: "/private/:token/:friend_id",
             params: ["token", "friend_id"],
             res: ChannelsInterceptEssentials.create.private
         },
         Group: {
             name: "createGroup",
-            method: "GET",
+            method: "POST",
             socketing: false,
             description: "Create a group channel",
-            path: "/group/:token/:server_id/:channel_name",
+            path: "/group/:token/:friend_id_1/:friend_id_2",
             params: ["token", "friend_id_1", "friend_id_2"],
             res: ChannelsInterceptEssentials.create.group
         },
         Server: {
             name: "createServer",
-            method: "GET",
+            method: "POST",
             socketing: false,
             description: "Create a server channel",
-            path: "/server/:token/:server_id/:channel_name",
-            params: ["token", "server_id", "channel_name"],
+            path: "/server/:token/:server_id",
+            params: ["token", "server_id", "channel_name", "channel_type"],
             res: ChannelsInterceptEssentials.create.server
         }
     },
 
     Delete : {
         name: "delete",
-        method: "GET",
+        method: "POST",
         socketing: false,
         description: "Delete a channel",
         path: "/remove/:token/:channel_id",
@@ -49,15 +49,15 @@ export const ChannelsRouter = {
         res: ChannelsInterceptEssentials.management.remove
     },
 
-    Update : {
-        name: "update",
-        method: "GET",
-        socketing: false,
-        description: "Update a channel",
-        path: "/update/:token/:channel_id",
-        params: ["token", "channel_id", "channel_name"],
-        res: ChannelsInterceptEssentials.update
-    },
+    // Update : {
+    //     name: "update",
+    //     method: "GET",
+    //     socketing: false,
+    //     description: "Update a channel",
+    //     path: "/update/:token/:channel_id",
+    //     params: ["token", "channel_id", "channel_name"],
+    //     res: ChannelsInterceptEssentials.update
+    // },
 
     get : {
         path: "/get",
@@ -170,17 +170,17 @@ export const ChannelsRouter = {
 
     SendMessage : {
         name: "sendmessage",
-        method: "GET",
+        method: "POST",
         socketing: false,
         description: "Send a message to a channel",
-        path: "/messages/send/:token/:channel_id/:message",
+        path: "/messages/send/:token/:channel_id",
         params: ["token", "channel_id", "message"],
         res: ChannelsInterceptEssentials.messages.send
     },
 
     DeleteMessage : {
         name: "deletemessage",
-        method: "GET",
+        method: "POST",
         socketing: false,
         description: "Delete a message from a channel",
         path: "/messages/delete/:token/:channel_id/:message_id",
@@ -190,14 +190,14 @@ export const ChannelsRouter = {
 
     // Moderation
 
-    Kick : {
-        name: "kick",
-        method: "GET",
-        socketing: false,
-        description: "Kick a user from a channel",
-        path: "/kick/:token/:channel_id/:user_id",
-        params: ["token", "channel_id", "user_id", "member_id"],
-        res: ChannelsInterceptModeration.kick
-    },
+    // Kick : {
+    //     name: "kick",
+    //     method: "POST",
+    //     socketing: false,
+    //     description: "Kick a user from a channel",
+    //     path: "/kick/:token/:channel_id/:user_id",
+    //     params: ["token", "channel_id", "user_id", "member_id"],
+    //     res: ChannelsInterceptModeration.kick
+    // },
 
 }

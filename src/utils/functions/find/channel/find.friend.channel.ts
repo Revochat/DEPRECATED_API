@@ -9,7 +9,7 @@ export const findChannelFriend = async (User: IUser, Friend: IUser) => { // Find
     for (var i = 0; i < Channel.length; i++) { // iterate through the channels and find the channel with the friend id
         Channeltemp = await UTILS.FUNCTIONS.find.channel.id(Channel[i]) // fetch the channel
         if (Channeltemp) { // check if the channel is a private channel
-            if (Channeltemp.channel_type === UTILS.CONSTANTS.CHANNEL.TYPE.PRIVATE) {
+            if (Channeltemp.channel_type === UTILS.CONSTANTS.CHANNEL.TYPE.HYBRID) {
                 if (Channeltemp.members.includes(Friend.user_id)) { // check if the channel has the friend id
                     break // found the channel
                 }
