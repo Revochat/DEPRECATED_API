@@ -12,11 +12,10 @@ import UTILS from "../../../utils"
 
 export const userRegister = async (req: express.Request, res: express.Response) => { // Register a new user
     try {
-        Logger.debug(req.body)
         const { username, password } = req.body
 
         // if username or password badly formatted
-        if(!username || !password || username.length >= UTILS.CONSTANTS.USER.USERNAME.MAX_LENGTH || username.length <= UTILS.CONSTANTS.USER.USERNAME.MIN_LENGTH||password.length >= UTILS.CONSTANTS.USER.PASSWORD.MAX_LENGTH || password.length <= UTILS.CONSTANTS.USER.PASSWORD.MIN_LENGTH) throw "Badly formatted"
+        if(!username || !password || username.length >= UTILS.CONSTANTS.USER.USERNAME.MAX_LENGTH || username.length <= UTILS.CONSTANTS.USER.USERNAME.MIN_LENGTH || password.length >= UTILS.CONSTANTS.USER.PASSWORD.MAX_LENGTH || password.length <= UTILS.CONSTANTS.USER.PASSWORD.MIN_LENGTH) throw "Badly formatted"
 
         var user = await DB.users.find.username(username)
         if (user) throw "User already exists"

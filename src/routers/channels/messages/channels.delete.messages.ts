@@ -6,7 +6,8 @@ import Emitter from "../../../client/emitter.client"
 import UTILS from "../../../utils"
 
 export const deleteMessage = async (req: express.Request, res: express.Response) => { // Delete a message from a channel
-    const {channel_id, token, message_id} = req.params
+    const {channel_id, message_id} = req.params
+    const token = req.token
 
     if (!channel_id || !token || !message_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
         message_id.length < UTILS.CONSTANTS.MESSAGE.ID.MIN_LENGTH || message_id.length > UTILS.CONSTANTS.MESSAGE.ID.MAX_LENGTH ||

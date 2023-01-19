@@ -62,7 +62,7 @@ export const UserRouter = {
             method: "POST",
             socketing: false,
             description: "Update a user's password",
-            path: "/password/:token",
+            path: "/password/",
             params: ["token", "newpassword"],
             res: UserInterceptEssentials.update.password
         },
@@ -71,7 +71,7 @@ export const UserRouter = {
             method: "POST",
             socketing: false,
             description: "Update a user's wallet token",
-            path: "/wallettoken/:token",
+            path: "/wallettoken/",
             params: ["token", "newwallet_token"],
             res: UserInterceptEssentials.update.wallet_token
         }
@@ -242,7 +242,7 @@ export const UserRouter = {
             method: "POST",
             socketing: false,
             description: "Add a friend to a user's friend list",
-            path: "/friend/:token/:friend_id",
+            path: "/friend/:friend_id",
             params: ["token", "friend_id"],
             res: UserInterceptSocials.addFriend
         },
@@ -251,7 +251,7 @@ export const UserRouter = {
             method: "POST",
             socketing: false,
             description: "Add a blocked user",
-            path: "/blocked/:token/:blocked_id",
+            path: "/blocked/:blocked_id",
             params: ["token", "blocked_id"],
             res: UserInterceptSocials.addBlocked
         },

@@ -8,7 +8,8 @@ import UTILS from "../../../utils"
 
 export const passwordUpdate = async (req: express.Request, res: express.Response) => { // Update the password
     try {
-        const { token, newpassword } = req.params
+        const { newpassword } = req.body
+        const token = req.token
 
         // if token or newpassword badly formatted
         if(!token || !newpassword || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || 

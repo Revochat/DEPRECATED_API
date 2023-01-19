@@ -8,7 +8,8 @@ import UTILS from "../../../utils"
 export const removeFriend = async (req: express.Request, res: express.Response) => { // Remove a friend from the user
     
     try {
-        const { token, friend_id } = req.params
+        const { friend_id } = req.params
+        const token = req.token
 
         // if token or friend_id badly formatted
         if(!token || !friend_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||

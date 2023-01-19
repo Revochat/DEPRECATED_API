@@ -7,7 +7,8 @@ import UTILS from "../../../utils"
 
 export const remove = async (req: express.Request, res: express.Response) => { // kick a member from a channel
     const { user_id, member_id } = req.body
-    const { channel_id, token } = req.params
+    const { channel_id } = req.params
+    const token = req.token
 
     if (!channel_id || !token || !user_id || !member_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || 

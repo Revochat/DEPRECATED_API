@@ -1,11 +1,10 @@
 TO DO LIST:
 
-- bearer token
-- check clear dependencies, names in models (channel_type, user_id or type, id), (length of wallet token in user update method type checking) (BLF)
+- (length of wallet token in user update method type checking) (BLF)
 - convert to hexadecimal user_id when sent (BLF)
 - Web-RTC
 - notifications
-- tag people, channel update, get user/channel/server, server perm/interactions, get user status and set it
+- tag people, channel update, get user/channel/server, server perm/interactions, get user status and set it, premium message length probably an issue
 - web3 chat / smart contract connection
 - encryption system (Lux)
 - rate limit login(5 tries before 5 minutes ban), rate limit api

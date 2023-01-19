@@ -8,7 +8,8 @@ import UTILS from "../../../utils"
 export const create_private = async (req: express.Request, res: express.Response) => { // Create a private channel
     try {
 
-    const { friend_id, token } = req.body
+    const { friend_id } = req.params
+    const token = req.token
 
     if(!token || !friend_id) return res.json(
         new RouteResponse()
@@ -36,6 +37,8 @@ export const create_private = async (req: express.Request, res: express.Response
 
 
         // check if friend is blocked by user or user is blocked by friend 
+        if (await UTILS.FUNCTIONS.find.user.blocked(User.user_id, Friend.user_id)) throw "Friend is blocked"
+        if (await UTILS.FUNCTIONS.find.user.blocked(Friend.user_id, User.user_id)) throw "You are blocked"
 
         //if friend has message_privacy set to everyone or friends only
         if (Friend.message_privacy === UTILS.CONSTANTS.MESSAGE.PROPERTIES.MESSAGE_PRIVACY_FRIENDS) {

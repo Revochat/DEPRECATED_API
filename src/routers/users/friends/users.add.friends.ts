@@ -9,7 +9,8 @@ import UTILS from "../../../utils"
 export const addFriend = async (req: express.Request, res: express.Response) => { // Add a friend to the user
     try {
         Logger.debug(`User ${req.params.token} is trying to add a friend`)
-        const { token, friend_id } = req.params
+        const { friend_id } = req.params
+        const token = req.token
 
         if(!token || !friend_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
             friend_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted" // Type Check

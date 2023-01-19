@@ -17,7 +17,8 @@ export const userConnect = async (req: express.Request, res: express.Response) =
        if(token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH|| token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
-        if(!User) throw "Token invalid"
+        if(!User) throw "Invalid token"
+
         Emitter.emit("connect", User, null)
         res.json(
             new RouteResponse()

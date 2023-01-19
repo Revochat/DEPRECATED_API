@@ -5,7 +5,7 @@ import UTILS from "../../../utils"
 
 export const getUser = async (req: express.Request, res: express.Response) => { // Get a user
     try {
-        const { token } = req.params
+        const token = req.token
 
         // if token badly formatted
         if(!token || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH) throw "Badly formatted"

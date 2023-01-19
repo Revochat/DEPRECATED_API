@@ -7,14 +7,20 @@ import UTILS from "../../../utils"
 
 export const removeBlocked = async (req: express.Request, res: express.Response) => { // Remove a blocked user from the user
     try {
-        const { token, blocked_id } = req.params
+        const { blocked_id } = req.params
+        const token = req.token
 
         // if token or blocked_id badly formatted
         if(!token || !blocked_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
             blocked_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || blocked_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
-        if(!User) throw "User not found"
+        if(!User) throw "Invalid token"
+
+        // check if the user is already blocked
+        if(!User.blocked.includes(blocked_id)) throw "User not blocked"
+
+        // remove the blocked user from the user
         User.blocked.splice(User.blocked.indexOf(blocked_id), 1)
         User.updated_at = new Date().toLocaleString()
         User.save()

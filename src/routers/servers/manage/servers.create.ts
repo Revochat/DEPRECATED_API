@@ -6,10 +6,10 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const create = async (req: express.Request, res: express.Response) => { // Create a server channel 
-    var {server_name, server_id, token} = req.params
+    var {server_name} = req.params
+    const token = req.token
 
-    if (!server_name || !server_id || !token || server_name.length < UTILS.CONSTANTS.SERVER.NAME.MIN_LENGTH || server_name.length > UTILS.CONSTANTS.SERVER.NAME.MAX_LENGTH ||
-        server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
+    if (!server_name || !token || server_name.length < UTILS.CONSTANTS.SERVER.NAME.MIN_LENGTH || server_name.length > UTILS.CONSTANTS.SERVER.NAME.MAX_LENGTH ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ){ //type check
         res.json(
             new RouteResponse()
@@ -27,7 +27,7 @@ export const create = async (req: express.Request, res: express.Response) => { /
 
         // create the server
         var Server = await DB.servers.create({ 
-            server_id: parseInt(server_id),
+            server_id: Date.now() + Math.floor(Math.random() * 1000),
             server_name: server_name,
             owner_id: User.id,
             channels: [],

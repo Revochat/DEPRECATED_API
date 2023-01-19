@@ -7,8 +7,8 @@ import UTILS from "../../../utils"
 
 export const walletUpdate = async (req: express.Request, res: express.Response) => { // Update the wallet token
     try {
-        const { token } = req.params
         const { newwallet_token } = req.body
+        const token = req.token
 
         if (!token || typeof token !== "string" || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || 
             !newwallet_token || typeof newwallet_token !== "string") throw "Badly formatted"

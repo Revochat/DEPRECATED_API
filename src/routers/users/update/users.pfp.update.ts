@@ -7,7 +7,8 @@ import UTILS from "../../../utils"
 
 export const pfpUpdate = async (req: express.Request, res: express.Response) => { // Update the profile picture
     try {
-        const { token, newprofile_picture } = req.params
+        const { newprofile_picture } = req.params
+        const token = req.token
 
         // PROFILE PICTURE HANDLE
 

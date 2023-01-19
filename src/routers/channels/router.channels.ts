@@ -12,7 +12,7 @@ export const ChannelsRouter = {
         path: "/create",
         Private: {
             name: "createPrivate",
-            method: "POST",
+            method: "GET",
             socketing: false,
             description: "Create a private channel",
             path: "/private/:friend_id",
@@ -21,7 +21,7 @@ export const ChannelsRouter = {
         },
         Group: {
             name: "createGroup",
-            method: "POST",
+            method: "GET",
             socketing: false,
             description: "Create a group channel",
             path: "/group/:friend_id_1/:friend_id_2",
@@ -30,7 +30,7 @@ export const ChannelsRouter = {
         },
         Server: {
             name: "createServer",
-            method: "POST",
+            method: "GET",
             socketing: false,
             description: "Create a server channel",
             path: "/server/:server_id",
@@ -41,10 +41,10 @@ export const ChannelsRouter = {
 
     Delete : {
         name: "delete",
-        method: "POST",
+        method: "GET",
         socketing: false,
         description: "Delete a channel",
-        path: "/remove/:token/:channel_id",
+        path: "/remove/:channel_id",
         params: ["token", "channel_id"],
         res: ChannelsInterceptEssentials.management.remove
     },
@@ -66,7 +66,7 @@ export const ChannelsRouter = {
             method: "GET",
             socketing: false,
             description: "Get a channel",
-            path: "/:token/:channel_id",
+            path: "/:channel_id",
             params: ["token", "channel_id"],
             res: ChannelsInterceptEssentials.get.channel
         },
@@ -112,7 +112,7 @@ export const ChannelsRouter = {
             method: "GET",
             socketing: false,
             description: "Get members from a channel",
-            path: "/members/:token/:channel_id",
+            path: "/members/:channel_id",
             params: ["token", "channel_id"],
             res: ChannelsInterceptEssentials.get.members
         },
@@ -158,7 +158,7 @@ export const ChannelsRouter = {
             method: "GET",
             socketing: false,
             description: "Get messages from a channel",
-            path: "/messages/:token/:channel_id/:limit",
+            path: "/messages/:channel_id/:limit",
             params: ["token", "channel_id", "limit"],
             res: ChannelsInterceptEssentials.get.messages
         },
@@ -173,17 +173,17 @@ export const ChannelsRouter = {
         method: "POST",
         socketing: false,
         description: "Send a message to a channel",
-        path: "/messages/send/:token/:channel_id",
+        path: "/messages/send/:channel_id",
         params: ["token", "channel_id", "message"],
         res: ChannelsInterceptEssentials.messages.send
     },
 
     DeleteMessage : {
         name: "deletemessage",
-        method: "POST",
+        method: "GET",
         socketing: false,
         description: "Delete a message from a channel",
-        path: "/messages/delete/:token/:channel_id/:message_id",
+        path: "/messages/delete/:channel_id/:message_id",
         params: ["token", "channel_id", "message_id"],
         res: ChannelsInterceptEssentials.messages.delete
     },

@@ -6,7 +6,8 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const leave = async (req: express.Request, res: express.Response) => { // Leave a channel
-    const {channel_id, token} = req.params
+    const {channel_id} = req.params
+    const token = req.token
 
     if (!channel_id || !token || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH){ //type check
@@ -19,6 +20,7 @@ export const leave = async (req: express.Request, res: express.Response) => { //
     }
 
     try {
+        // Check if the channel exists
         var Channel = await DB.channels.find.id(parseInt(channel_id))
         if(!Channel) throw "Channel not found"
 

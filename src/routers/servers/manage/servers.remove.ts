@@ -6,8 +6,8 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const remove = async (req: express.Request, res: express.Response) => { // Delete a server channel
-    var {server_id, token} = req.params
-
+    var {server_id} = req.params
+    const token = req.token
     if (!server_id || !token || server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ){ //type check
         res.json(

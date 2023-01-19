@@ -7,7 +7,7 @@ import UTILS from "../../../utils"
 
 export const create_group = async (req: express.Request, res: express.Response) => { // Create a private channel
     const { friend_id_1, friend_id_2 } = req.params
-    const { token } = req.body
+    const token = req.token
 
     if(!token || !friend_id_1 || !friend_id_2) return res.json(
         new RouteResponse()
