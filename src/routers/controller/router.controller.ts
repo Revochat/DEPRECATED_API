@@ -1,7 +1,7 @@
 import express from "express"
 import { Intercept } from "./response.controller";
 import { Server } from "http"
-
+import bearerToken from "express-bearer-token";
 import Emitter from "../../client/emitter.client"
 import { RouterInterface, Status } from "./interfaces.controller";
 import { config } from "../../config";
@@ -19,6 +19,7 @@ export default class Controller implements RouterInterface { // This is the clas
         Controller.port = config.properties.port
         Controller.app = express()
         Controller.app.use(express.json()) // This is the middleware that parses the body of the request to JSON format
+        Controller.app.use(bearerToken());
         Controller.server = Controller.app.listen(Controller.port)
         Controller.start()
         Logger.success("Server started on port "+Controller.port)

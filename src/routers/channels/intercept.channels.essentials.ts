@@ -1,7 +1,7 @@
 import { remove, leave} from "./manage"
-import { create_private, create_group, create_server } from "./create"
+import { create } from "./create"
 import { update } from "./update/"
-import { getChannel, getMembers, getMessages } from "./get/"
+import { get } from "./get/"
 import { sendMessage, deleteMessage } from "./messages"
 import { add } from "./user"
 
@@ -9,14 +9,14 @@ export const ChannelsInterceptEssentials = {
 
     update: update,
     create: {
-        private: create_private,
-        group: create_group,
-        server: create_server
+        private: create.private,
+        group: create.group,
+        server: create.server
     },
     get: {
-        channel: getChannel,
-        members: getMembers,
-        messages: getMessages
+        channel: get.channel,
+        members: get.members,
+        messages: get.messages
     },
     messages: {
         send: sendMessage,

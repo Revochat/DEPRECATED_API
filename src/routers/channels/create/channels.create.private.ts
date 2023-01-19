@@ -6,21 +6,26 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const create_private = async (req: express.Request, res: express.Response) => { // Create a private channel
-    const { friend_id, token } = req.params
+    try {
+
+    const { friend_id, token } = req.body
+
+    if(!token || !friend_id) return res.json(
+        new RouteResponse()
+            .setStatus(Status.error)
+            .setMessage("Badly formatted")
+        )
 
     if (token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
-        friend_id.length !== UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) {
+            friend_id.length !== UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) {
 
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
-
-    try {
-        
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
         var User = await UTILS.FUNCTIONS.find.user.token(token)
         var Friend = await UTILS.FUNCTIONS.find.user.id(parseInt(friend_id))
 

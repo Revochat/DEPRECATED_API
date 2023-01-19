@@ -1,3 +1,10 @@
-export * from "./channels.get"
-export * from "./channels.members.get"
-export * from "./channels.messages.get"
+import { getChannel } from "./channels.get";
+import { getMembers } from "./channels.members.get";
+import { getMessages } from "./channels.messages.get";
+
+
+export const get = {
+    channel: getChannel,
+    members: getMembers,
+    messages: getMessages
+}

@@ -27,9 +27,9 @@ export const UserRouter = {
     Connect: { // Connect a user with a user token
         name: "conn",
         description: "Connect a user with a user token",
-        method: "GET",
+        method: "POST",
         socketing: true,
-        path: "/connect/:token",
+        path: "/connect",
         params: ["token"],
         res: UserInterceptEssentials.connect,
     },

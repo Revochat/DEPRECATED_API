@@ -4,6 +4,7 @@ import Logger from "../client/logger.client"
 import { config } from "../config";
 import Server from "../database/models/Server";
 import { sock } from "./events";
+import { utils } from "./utils";
 
 export default class ServerSocket {
     static io: Socket;
@@ -21,17 +22,25 @@ export default class ServerSocket {
     }
 
 
-    run(){
-        ServerSocket.io.on("connection", (socket: Socket) => {
-            ServerSocket.socket = socket
-            Logger.debug("New connection from " + socket.id)
-            
-            socket.on("login", sock.login)
+    async run(){
+        try {
+            ServerSocket.io.on("connection", async (socket: Socket) => {
+                ServerSocket.socket = socket
+                Logger.debug("New connection from " + socket.id)
+                
+                socket.on("login", sock.login)
 
-            socket.on("disconnect", () => {
-                Logger.debug("User disconnected from " + socket.id)
-                delete ServerSocket.users[socket.id]
+                if(await utils.verify()){
+                    socket.on("messageCreate", () => {})
+                }
+
+                socket.on("disconnect", () => {
+                    Logger.debug("User disconnected from " + socket.id)
+                    delete ServerSocket.users[socket.id]
+                })
             })
-        })
+        } catch(err) {
+            Logger.error(err)
+        }
     }
 }

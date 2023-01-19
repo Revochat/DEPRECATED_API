@@ -15,7 +15,7 @@ export const ChannelsRouter = {
             method: "POST",
             socketing: false,
             description: "Create a private channel",
-            path: "/private/:token/:friend_id",
+            path: "/private/:friend_id",
             params: ["token", "friend_id"],
             res: ChannelsInterceptEssentials.create.private
         },
@@ -24,7 +24,7 @@ export const ChannelsRouter = {
             method: "POST",
             socketing: false,
             description: "Create a group channel",
-            path: "/group/:token/:friend_id_1/:friend_id_2",
+            path: "/group/:friend_id_1/:friend_id_2",
             params: ["token", "friend_id_1", "friend_id_2"],
             res: ChannelsInterceptEssentials.create.group
         },
@@ -33,7 +33,7 @@ export const ChannelsRouter = {
             method: "POST",
             socketing: false,
             description: "Create a server channel",
-            path: "/server/:token/:server_id",
+            path: "/server/:server_id",
             params: ["token", "server_id", "channel_name", "channel_type"],
             res: ChannelsInterceptEssentials.create.server
         }
