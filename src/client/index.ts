@@ -2,3 +2,4 @@
 
 export * from "./emitter.client";
 export * from "./logger.client";
+export * from "./emitter.interfaces";
