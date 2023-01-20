@@ -1,5 +1,6 @@
 import { IUser } from '../../../../database/models/User';
 import UTILS from '../../../index';
+import Logger from '../../../../client/logger.client';
 
 export const findChannelFriend = async (User: IUser, Friend: IUser) => { // Find a channel between two users
     var Channel = User.channels // Get the channel from the user

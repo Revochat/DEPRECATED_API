@@ -1,9 +1,9 @@
 import DB from "../../../../database"
+import { IUser } from '../../../../database/models/User';
+import UTILS from '../../../index';
 
-export const findFriendbyUser = async (token: string, friend_id: number) => {
-    var User = await DB.users.find.token(token) // Find the user in the database
-    if (!User) throw "User not found" // If the user is not found, throw an error
-    var Friend = User.friends.get(friend_id) // Get the friend from the user
-    if (!Friend) throw "Friend not found" // If the friend is not found, throw an error
-    return Friend // Return the friend
+export const findFriendbyUser = async (User: IUser, Friend: IUser) => { // find if the friend is in the user's friend list
+    if (!User.friends) throw "Friend not found"
+    if (User.friends.includes(Friend.user_id)) return true
+    return false
 }

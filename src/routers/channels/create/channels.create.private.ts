@@ -18,7 +18,7 @@ export const create_private = async (req: express.Request, res: express.Response
         )
 
     if (token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
-            friend_id.length !== UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) {
+            friend_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) {
 
             res.json(
                 new RouteResponse()
@@ -42,13 +42,12 @@ export const create_private = async (req: express.Request, res: express.Response
 
         //if friend has message_privacy set to everyone or friends only
         if (Friend.message_privacy === UTILS.CONSTANTS.MESSAGE.PROPERTIES.MESSAGE_PRIVACY_FRIENDS) {
-            if (!UTILS.FUNCTIONS.find.user.friend(User, parseInt(friend_id))) throw "Friend not found"
+            if (!UTILS.FUNCTIONS.find.user.friend(User, Friend)) throw "Friend not found"
         }
 
         // check if channel already exists between users 
         var Channel_Exists = await UTILS.FUNCTIONS.find.channel.friend(User, Friend) // not sure it works
         if (Channel_Exists) throw "Channel already exists"
-
 
         // create channel
         var Channel = await DB.channels.create({
@@ -62,7 +61,6 @@ export const create_private = async (req: express.Request, res: express.Response
             
             permissions: UTILS.CONSTANTS.PERMISSIONS.PRIVATE(User, Friend)
         })
-
         await Channel.save()
         
         // add channel to user
@@ -84,6 +82,13 @@ export const create_private = async (req: express.Request, res: express.Response
         })
 
         Logger.log("Sent private channel between " + User.username + " and " + Friend.username)
+
+        res.json(
+            new RouteResponse()
+                .setStatus(Status.success)
+                .setMessage("Private channel created")
+                .setData({ channel: Channel })
+        )
     }
     catch (err) {
         res.json(

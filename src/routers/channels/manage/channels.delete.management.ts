@@ -26,7 +26,6 @@ export const remove = async (req: express.Request, res: express.Response) => { /
         var User = await DB.users.find.token(token) // Find the user
         if(!User) throw "User not found"
 
-        console.log(User.user_id, Channel.owner_id)
         if (User.user_id !== Channel.owner_id) throw "You are not the owner of this channel" // Check if the user is the owner of the channel
         await Channel.delete()
 

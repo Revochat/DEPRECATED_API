@@ -13,7 +13,7 @@ export const sendMessage = async (req: express.Request, res: express.Response) =
     const token = req.token
 
     if (!channel_id || !token || !message || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH){ //type check
+        token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH){ //type check
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)
@@ -39,12 +39,12 @@ export const sendMessage = async (req: express.Request, res: express.Response) =
         if (!Channel.members.includes(User.user_id)) throw "You are not in this channel"
 
         var Message: IMessageModel = await DB.messages.create({ // Create the message
-            message_id: parseInt((v5(message, v4()).split("-").join("") + Date.now()).toUpperCase()),
+            message_id: Date.now() + Math.floor(Math.random() * 1000),
             channel_id: parseInt(channel_id),
             user_id: User.user_id,
             message,
-            created_at: Date.toLocaleString(),
-            updated_at: Date.toLocaleString()
+            created_at: new Date().toLocaleString(),
+            updated_at: new Date().toLocaleString()
         })
         await Message.save() // Save the message to the database
 
