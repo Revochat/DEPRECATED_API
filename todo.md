@@ -1,10 +1,9 @@
 TO DO LIST:
 
-- (length of wallet token in user update method type checking) (BLF)
 - convert to hexadecimal user_id when sent (BLF)
 - Web-RTC
 - notifications
-- tag people, channel update, get user/channel/server, server perm/interactions, get user status and set it, premium message length probably an issue
+- tag people, channel/serv/user update, get user status and set it, test message length(premium), role create/update/delete, invite and moderation of servers 
 - web3 chat / smart contract connection
 - encryption system (Lux)
 - rate limit login(5 tries before 5 minutes ban), rate limit api
@@ -12,9 +11,9 @@ TO DO LIST:
 - screenshare
 - files upload handling
 - self destruct system for messages (mass delete messages function)
+- reactions
 
 ==================== 1.0.0 ==================== (less urgent)
-- reactions
 - sounds (Lux)
 - 2FA
 - categories for sync perms in servers

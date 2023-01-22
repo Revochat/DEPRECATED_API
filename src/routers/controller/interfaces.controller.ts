@@ -54,7 +54,7 @@ export class RouteResponse implements InterceptRoute { // This is the class that
         this.message = message
         return this
     }
-    setData(data: object): this {
+    setData(data: any): this {
         this.data = data
         return this
     }

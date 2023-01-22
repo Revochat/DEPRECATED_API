@@ -66,7 +66,7 @@ export const UserRouter = {
             params: ["token", "newpassword"],
             res: UserInterceptEssentials.update.password
         },
-        WalletToken: {
+        Wallet_token: {
             name: "updatewallettoken",
             method: "POST",
             socketing: false,
@@ -79,160 +79,150 @@ export const UserRouter = {
 
     Get: {
         path: "/get",
-        User: {
-            name: "getuser",
+        User_token: {
+            name: "getuser_token",
             method: "GET",
             socketing: false,
             description: "Get a user with a token",
-            path: "/user/",
+            path: "/user/token",
             params: ["token"],
             res: UserInterceptEssentials.get.user
         },
-
-        // User_id: {
-        //     name: "getuser_id",
-        //     method: "POST",
-        //     socketing: false,
-        //     description: "Get a user with a user_id",
-        //     path: "/user_id/",
-        //     params: ["user_id"],
-        //     res: UserInterceptEssentials.get.user_id
-        // },
-        // WalletToken: {
-        //     name: "getwallettoken",
-        //     method: "POST",
-        //     socketing: false,
-        //     description: "Get a user wallet token",
-        //     path: "/wallettoken/",
-        //     params: ["wallet_token"],
-        //     res: UserInterceptEssentials.get.wallet_token
-        // },
-        // Username: {
-        //     name: "getusername",
-        //     method: "POST",
-        //     socketing: false,
-        //     description: "Get a user username",
-        //     path: "/username/",
-        //     params: ["username"],
-        //     res: UserInterceptEssentials.get.username
-        // },
-        // Premium_expiration: {
-        //     name: "getpremiumexpiration",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get a user premium expiration",
-        //     path: "/premiumexpiration/",
-        //     params: ["premium_expiration"],
-        //     res: UserInterceptEssentials.get.premium_expiration
-        // },
-        // ProfilePicture: {
-        //     name: "getprofilepicture",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get a user profile picture",
-        //     path: "/profilepicture/",
-        //     params: ["profile_picture"],
-        //     res: UserInterceptEssentials.get.profile_picture
-        // },
-        // Message_privacy: {
-        //     name: "getmessageprivacy",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get a user message privacy",
-        //     path: "/messageprivacy/",
-        //     params: ["message_privacy"],
-        //     res: UserInterceptEssentials.get.message_privacy
-        // },
-        // Status: {
-        //     name: "getstatus",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get a user status",
-        //     path: "/status/",
-        //     params: ["status"],
-        //     res: UserInterceptEssentials.get.status
-        // },
-        // Updated_at: {
-        //     name: "getupdatedat",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get a user updated at",
-        //     path: "/updatedat/",
-        //     params: ["updated_at"],
-        //     res: UserInterceptEssentials.get.updated_at
-        // },
-        // Created_at: {
-        //     name: "getcreatedat",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get a user created at",
-        //     path: "/createdat/",
-        //     params: ["created_at"],
-        //     res: UserInterceptEssentials.get.created_at
-        // },
-        // Last_connection: {
-        //     name: "getlastconnection",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get a user last connection",
-        //     path: "/lastconnection/",
-        //     params: ["last_connection"],
-        //     res: UserInterceptEssentials.get.last_connection
-        // },
-        // Servers: {
-        //     name: "getservers",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get a user servers",
-        //     path: "/servers/",
-        //     params: ["servers"],
-        //     res: UserInterceptEssentials.get.servers
-        // },
-        // Channels: {
-        //     name: "getchannels",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get a user channels",
-        //     path: "/channels/",
-        //     params: ["channels"],
-        //     res: UserInterceptEssentials.get.channels
-        // },
-        // Friends: {
-        //     name: "getfriends",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get a user friends",
-        //     path: "/friends/",
-        //     params: ["friends"],
-        //     res: UserInterceptEssentials.get.friends
-        // },
-        // Friends_requests_received: {
-        //     name: "getfriendsrequestsreceived",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get a user friends_requests_received",
-        //     path: "/friendsrequestsreceived/",
-        //     params: ["friends_requests_received"],
-        //     res: UserInterceptEssentials.get.friends_requests_received
-        // },
-        // Friends_requests_sent: {
-        //     name: "getfriendsrequestssent",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get a user friends_requests_sent",
-        //     path: "/friendsrequestssent/",
-        //     params: ["friends_requests_sent"],
-        //     res: UserInterceptEssentials.get.friends_requests_sent
-        // },
-        // Blocked: {
-        //     name: "getblocked",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get a user blocked",
-        //     path: "/blocked/",
-        //     params: ["blocked"],
-        //     res: UserInterceptEssentials.get.blocked
-        // }
+        Wallet_token: {
+            name: "getwallettoken",
+            method: "POST",
+            socketing: false,
+            description: "Get a user wallet token",
+            path: "/wallettoken/",
+            params: ["wallet_token"],
+            res: UserInterceptEssentials.get.wallet_token
+        },
+        Username: {
+            name: "getusername",
+            method: "POST",
+            socketing: false,
+            description: "Get a user username",
+            path: "/username/",
+            params: ["username"],
+            res: UserInterceptEssentials.get.username
+        },
+        Premium_expiration: {
+            name: "getpremiumexpiration",
+            method: "GET",
+            socketing: false,
+            description: "Get a user premium expiration",
+            path: "/premiumexpiration/",
+            params: ["premium_expiration"],
+            res: UserInterceptEssentials.get.premium_expiration
+        },
+        Avatar: {
+            name: "getavatar",
+            method: "GET",
+            socketing: false,
+            description: "Get a user avatar",
+            path: "/avatar/",
+            params: ["avatar"],
+            res: UserInterceptEssentials.get.avatar
+        },
+        Message_privacy: {
+            name: "getmessageprivacy",
+            method: "GET",
+            socketing: false,
+            description: "Get a user message privacy",
+            path: "/messageprivacy/",
+            params: ["message_privacy"],
+            res: UserInterceptEssentials.get.message_privacy
+        },
+        Status: {
+            name: "getstatus",
+            method: "GET",
+            socketing: false,
+            description: "Get a user status",
+            path: "/status/",
+            params: ["status"],
+            res: UserInterceptEssentials.get.status
+        },
+        Updated_at: {
+            name: "getupdatedat",
+            method: "GET",
+            socketing: false,
+            description: "Get a user updated at",
+            path: "/updatedat/",
+            params: ["updated_at"],
+            res: UserInterceptEssentials.get.updated_at
+        },
+        Created_at: {
+            name: "getcreatedat",
+            method: "GET",
+            socketing: false,
+            description: "Get a user created at",
+            path: "/createdat/",
+            params: ["created_at"],
+            res: UserInterceptEssentials.get.created_at
+        },
+        Last_connection: {
+            name: "getlastconnection",
+            method: "GET",
+            socketing: false,
+            description: "Get a user last connection",
+            path: "/lastconnection/",
+            params: ["last_connection"],
+            res: UserInterceptEssentials.get.last_connection
+        },
+        Servers: {
+            name: "getservers",
+            method: "GET",
+            socketing: false,
+            description: "Get a user servers",
+            path: "/servers/",
+            params: ["servers"],
+            res: UserInterceptEssentials.get.servers
+        },
+        Channels: {
+            name: "getchannels",
+            method: "GET",
+            socketing: false,
+            description: "Get a user channels",
+            path: "/channels/",
+            params: ["channels"],
+            res: UserInterceptEssentials.get.channels
+        },
+        Friends: {
+            name: "getfriends",
+            method: "GET",
+            socketing: false,
+            description: "Get a user friends",
+            path: "/friends/",
+            params: ["friends"],
+            res: UserInterceptEssentials.get.friends
+        },
+        Friends_requests_received: {
+            name: "getfriendsrequestsreceived",
+            method: "GET",
+            socketing: false,
+            description: "Get a user friends_requests_received",
+            path: "/friendsrequestsreceived/",
+            params: ["friends_requests_received"],
+            res: UserInterceptEssentials.get.friends_requests_received
+        },
+        Friends_requests_sent: {
+            name: "getfriendsrequestssent",
+            method: "GET",
+            socketing: false,
+            description: "Get a user friends_requests_sent",
+            path: "/friendsrequestssent/",
+            params: ["friends_requests_sent"],
+            res: UserInterceptEssentials.get.friends_requests_sent
+        },
+        Blocked: {
+            name: "getblocked",
+            method: "GET",
+            socketing: false,
+            description: "Get a user blocked",
+            path: "/blocked/",
+            params: ["blocked"],
+            res: UserInterceptEssentials.get.blocked
+        }
     },
 
     Add: {

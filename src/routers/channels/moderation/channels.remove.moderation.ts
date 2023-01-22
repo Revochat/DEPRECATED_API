@@ -33,7 +33,6 @@ export const remove = async (req: express.Request, res: express.Response) => { /
 
         if (Channel.members.indexOf(member_id) === -1) throw "Error with the provided id"
 
-
         if (Channel.members.indexOf(user_id) === -1) throw "Error with the provided id"
 
         if (Channel.members.indexOf(user_id) !== 0) throw "You are not the owner of this channel"

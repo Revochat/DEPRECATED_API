@@ -54,7 +54,7 @@ export const ChannelsRouter = {
     //     method: "GET",
     //     socketing: false,
     //     description: "Update a channel",
-    //     path: "/update/:token/:channel_id",
+    //     path: "/update/:channel_id",
     //     params: ["token", "channel_id", "channel_name"],
     //     res: ChannelsInterceptEssentials.update
     // },
@@ -70,43 +70,34 @@ export const ChannelsRouter = {
             params: ["token", "channel_id"],
             res: ChannelsInterceptEssentials.get.channel
         },
-
-        // Server_id : {
-        //     name: "getServer_id",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get server_id from a channel",
-        //     path: "/server_id/:token/:channel_id",
-        //     params: ["token", "channel_id"],
-        //     res: ChannelsInterceptEssentials.get.server_id
-        // },
-        // Owner_id : {
-        //     name: "getOwner_id",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get owner_id from a channel",
-        //     path: "/owner_id/:token/:channel_id",
-        //     params: ["token", "channel_id"],
-        //     res: ChannelsInterceptEssentials.get.owner_id
-        // },
-        // Channel_name : {
-        //     name: "getChannel_name",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get channel_name from a channel",
-        //     path: "/channel_name/:token/:channel_id",
-        //     params: ["token", "channel_id"],
-        //     res: ChannelsInterceptEssentials.get.channel_name
-        // },
-        // Channel_type : {
-        //     name: "getChannel_type",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get channel_type from a channel",
-        //     path: "/channel_type/:token/:channel_id",
-        //     params: ["token", "channel_id"],
-        //     res: ChannelsInterceptEssentials.get.channel_type
-        // },
+        
+        Owner_id : {
+            name: "getOwner_id",
+            method: "GET",
+            socketing: false,
+            description: "Get owner_id from a channel",
+            path: "/owner_id/:channel_id",
+            params: ["token", "channel_id"],
+            res: ChannelsInterceptEssentials.get.owner_id
+        },
+        Channel_name : {
+            name: "getChannel_name",
+            method: "GET",
+            socketing: false,
+            description: "Get channel_name from a channel",
+            path: "/channel_name/:channel_id",
+            params: ["token", "channel_id"],
+            res: ChannelsInterceptEssentials.get.channel_name
+        },
+        Channel_type : {
+            name: "getChannel_type",
+            method: "GET",
+            socketing: false,
+            description: "Get channel_type from a channel",
+            path: "/channel_type/:channel_id",
+            params: ["token", "channel_id"],
+            res: ChannelsInterceptEssentials.get.channel_type
+        },
         Members : {
             name: "getMembers",
             method: "GET",
@@ -116,42 +107,42 @@ export const ChannelsRouter = {
             params: ["token", "channel_id"],
             res: ChannelsInterceptEssentials.get.members
         },
-        // Members_count : {
-        //     name: "getMembers_count",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get members_count from a channel",
-        //     path: "/members_count/:token/:channel_id",
-        //     params: ["token", "channel_id"],
-        //     res: ChannelsInterceptEssentials.get.members_count
-        // },
-        // Updated_at : {
-        //     name: "getUpdated_at",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get updated_at from a channel",
-        //     path: "/updated_at/:token/:channel_id",
-        //     params: ["token", "channel_id"],
-        //     res: ChannelsInterceptEssentials.get.updated_at
-        // },
-        // Created_at : {
-        //     name: "getCreated_at",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get created_at from a channel",
-        //     path: "/created_at/:token/:channel_id",
-        //     params: ["token", "channel_id"],
-        //     res: ChannelsInterceptEssentials.get.created_at
-        // },
-        // Permissions : {
-        //     name: "getPermissions",
-        //     method: "GET",
-        //     socketing: false,
-        //     description: "Get permissions from a channel",
-        //     path: "/permissions/:token/:channel_id",
-        //     params: ["token", "channel_id"],
-        //     res: ChannelsInterceptEssentials.get.permissions
-        // },
+        Members_count : {
+            name: "getMembers_count",
+            method: "GET",
+            socketing: false,
+            description: "Get members_count from a channel",
+            path: "/members_count/:channel_id",
+            params: ["token", "channel_id"],
+            res: ChannelsInterceptEssentials.get.members_count
+        },
+        Updated_at : {
+            name: "getUpdated_at",
+            method: "GET",
+            socketing: false,
+            description: "Get updated_at from a channel",
+            path: "/updated_at/:channel_id",
+            params: ["token", "channel_id"],
+            res: ChannelsInterceptEssentials.get.updated_at
+        },
+        Created_at : {
+            name: "getCreated_at",
+            method: "GET",
+            socketing: false,
+            description: "Get created_at from a channel",
+            path: "/created_at/:channel_id",
+            params: ["token", "channel_id"],
+            res: ChannelsInterceptEssentials.get.created_at
+        },
+        Permissions : {
+            name: "getPermissions",
+            method: "GET",
+            socketing: false,
+            description: "Get permissions from a channel",
+            path: "/permissions/:channel_id",
+            params: ["token", "channel_id"],
+            res: ChannelsInterceptEssentials.get.permissions
+        },
 
         Messages : {
             name: "getMessages",
@@ -190,14 +181,14 @@ export const ChannelsRouter = {
 
     // Moderation
 
-    // Kick : {
-    //     name: "kick",
-    //     method: "POST",
-    //     socketing: false,
-    //     description: "Kick a user from a channel",
-    //     path: "/kick/:token/:channel_id/:user_id",
-    //     params: ["token", "channel_id", "user_id", "member_id"],
-    //     res: ChannelsInterceptModeration.kick
-    // },
+    Kick : {
+        name: "kick",
+        method: "POST",
+        socketing: false,
+        description: "Kick a user from a channel",
+        path: "/kick/:channel_id/:user_id",
+        params: ["token", "channel_id", "user_id", "member_id"],
+        res: ChannelsInterceptModeration.kick
+    },
 
 }
