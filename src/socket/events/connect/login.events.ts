@@ -1,7 +1,7 @@
-import socket from ".."
-import ServerSocket from ".."
-import Logger from "../../client/logger.client"
-import DB from "../../database"
+import socket from "../.."
+import ServerSocket from "../.."
+import Logger from "../../../client/logger.client"
+import DB from "../../../database"
 
 export default async (token: string) => {
     try {
