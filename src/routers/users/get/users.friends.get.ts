@@ -3,7 +3,7 @@ import DB from "../../../database"
 import { RouteResponse, Status } from "../../controller"
 import UTILS from "../../../utils"
 
-export const getUser = async (req: express.Request, res: express.Response) => { // Get a user
+export const getUserFriends = async (req: express.Request, res: express.Response) => { // Get a user
     try {
         const token = req.token
 
@@ -12,11 +12,12 @@ export const getUser = async (req: express.Request, res: express.Response) => { 
 
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"
+
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
                 .setMessage(`User found`)
-                .setData(User)
+                .setData(User.friends)
         )
     }
     catch(err) {

@@ -4,7 +4,7 @@ TO DO LIST:
 - convert to hexadecimal user_id when sent (BLF)
 - Web-RTC
 - notifications
-- tag people, channel update, get user/channel/server, server perm/interactions, get user status and set it, premium message length probably an issue
+- tag people, channel update, get user/channel/server, server perm/interactions, get user status and set it, premium message length probably an issue, fetch user channels servers basic info instead of id
 - web3 chat / smart contract connection
 - encryption system (Lux)
 - rate limit login(5 tries before 5 minutes ban), rate limit api
