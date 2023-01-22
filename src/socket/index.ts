@@ -29,11 +29,14 @@ export default class ServerSocket {
                 Logger.debug("New connection from " + socket.id)
                 
                 socket.on("login", sock.login)
-
-                if(await utils.verify()){
-                    socket.on("messageCreate", () => {})
+                Logger.warn(ServerSocket.users)
+                if(await utils.verify(socket)) {
+                    console.log("Verified")
+                    socket.on("messageCreate", sock.messageCreate)
+                } else {
+                    console.log("Not verified")
                 }
-
+            
                 socket.on("disconnect", () => {
                     Logger.debug("User disconnected from " + socket.id)
                     delete ServerSocket.users[socket.id]

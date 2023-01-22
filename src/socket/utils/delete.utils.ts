@@ -1,6 +1,7 @@
+import { Socket } from "socket.io"
 import ServerSocket from ".."
 import verifySocket from "./verify.utils"
 
-export default async () : Promise<void>=> {
-    if(await verifySocket()) delete ServerSocket.users[ServerSocket.socket.id]
+export default async (socket: Socket) : Promise<void>=> {
+    if(await verifySocket(socket)) delete ServerSocket.users[ServerSocket.socket.id]
 }
