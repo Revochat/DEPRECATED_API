@@ -16,6 +16,6 @@ request is get when you are getting data from the server and post when you are s
 
 revochat.fr/api/
 -> /v1/ 
-   -> /client/get/friends/:token
-   -> /channel/create/:token/:channelName
-   -> /server/get/:token
+   -> /client/get/friends/
+   -> /channel/create/:channelName
+   -> /server/get/
