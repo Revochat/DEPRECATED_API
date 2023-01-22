@@ -181,14 +181,14 @@ export const ChannelsRouter = {
 
     // Moderation
 
-    // Kick : {
-    //     name: "kick",
-    //     method: "POST",
-    //     socketing: false,
-    //     description: "Kick a user from a channel",
-    //     path: "/kick/:channel_id/:user_id",
-    //     params: ["token", "channel_id", "user_id", "member_id"],
-    //     res: ChannelsInterceptModeration.kick
-    // },
+    Kick : {
+        name: "kick",
+        method: "POST",
+        socketing: false,
+        description: "Kick a user from a channel",
+        path: "/kick/:channel_id/:user_id",
+        params: ["token", "channel_id", "user_id", "member_id"],
+        res: ChannelsInterceptModeration.kick
+    },
 
 }

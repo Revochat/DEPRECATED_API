@@ -5,9 +5,7 @@ import { get} from "./get/"
 
 export const UserInterceptEssentials = {
     register : userRegister,
-
     login : userLogin,
-
     connect : userConnect,
 
     get: {
@@ -27,7 +25,6 @@ export const UserInterceptEssentials = {
         blocked: get.Blocked,
         channels: get.Channels,
         last_connection: get.LastConnection,
-        
     },
 
     update : { 

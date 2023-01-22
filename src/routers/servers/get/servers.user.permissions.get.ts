@@ -1,14 +1,18 @@
+import { Request, Response } from 'express';
 import { RouteResponse, Status } from '../../controller';
 import DB from '../../../database';
-import express from 'express';
+import { IServerModel } from '../../../database/models/Server';
+import { IUserModel } from '../../../database/models/User';
 import UTILS from '../../../utils';
+import express from 'express';
 
-export const getChannels = async (req: express.Request, res: express.Response) => {
-    const {server_id} = req.params
+export const getPermissions = async (req: express.Request, res: express.Response) => { // get the permissions of a user in a server
+    const { server_id } = req.params
     const token = req.token
 
+    // type check
     if (!token || !server_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
-        server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH) { // type check 
+        server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH) {
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)
@@ -24,15 +28,17 @@ export const getChannels = async (req: express.Request, res: express.Response) =
         if (!Server) throw "Server not found"
         if (!User) throw "User not found"
 
+        if (!Server.members) throw "Server has no members" // This should never happen but typescript doesn't know that 
         if (!Server.members.has(User.id)) throw "User not a member of server"
 
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
-                .setData(Server.channels)
+                .setData(Server.members.get(User.id))
         )
-        return 
+        return
     }
+
     catch (err) {
         res.json(
             new RouteResponse()
@@ -41,5 +47,4 @@ export const getChannels = async (req: express.Request, res: express.Response) =
         )
         return
     }
-
 }

@@ -3,7 +3,7 @@ import DB from '../../../database';
 import express from 'express';
 import UTILS from '../../../utils';
 
-export const getChannels = async (req: express.Request, res: express.Response) => {
+export const getOwner = async (req: express.Request, res: express.Response) => {
     const {server_id} = req.params
     const token = req.token
 
@@ -29,7 +29,7 @@ export const getChannels = async (req: express.Request, res: express.Response) =
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
-                .setData(Server.channels)
+                .setData(Server.owner_id)
         )
         return 
     }
