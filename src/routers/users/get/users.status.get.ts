@@ -3,7 +3,7 @@ import DB from "../../../database"
 import { RouteResponse, Status } from "../../controller"
 import UTILS from "../../../utils"
 
-export const getUserStatus = async (req: express.Request, res: express.Response) => { // Get a user
+export const getStatus = async (req: express.Request, res: express.Response) => { // Get a user
     try {
         const token = req.token
 

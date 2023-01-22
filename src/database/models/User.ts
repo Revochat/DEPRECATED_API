@@ -8,7 +8,7 @@ export interface IUser { // This is the interface for the user in the database
     username: string;
     password: string;
     premium_expiration: string;
-    profile_picture?: string;
+    avatar?: string;
 
     message_privacy?: "everyone" | "friends";
     status?: "online" | "offline" | "idle" | "dnd";
@@ -34,7 +34,7 @@ const UserSchema = new Schema({
     username: { type: String, required: true, unique: true, index: true },
     password: { type: String, required: true },
     premium_expiration: { type: String, required: true, default: null },
-    profile_picture: {type: String, data: Buffer, contentType: String, default: "default_img_01.png" },
+    avatar: {type: String, data: Buffer, contentType: String, default: "default_img_01.png" },
 
     message_privacy: { type: String, required: true, default: "friends" }, // can people send messages to you? or only friends?
     status: { type: String, required: true, default: "online" },

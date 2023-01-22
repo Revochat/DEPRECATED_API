@@ -66,7 +66,7 @@ export const UserRouter = {
             params: ["token", "newpassword"],
             res: UserInterceptEssentials.update.password
         },
-        WalletToken: {
+        Wallet_token: {
             name: "updatewallettoken",
             method: "POST",
             socketing: false,
@@ -88,16 +88,7 @@ export const UserRouter = {
             params: ["token"],
             res: UserInterceptEssentials.get.user
         },
-        User_id: {
-            name: "getuser_id",
-            method: "POST",
-            socketing: false,
-            description: "Get a user with a user_id",
-            path: "/user/id",
-            params: ["user_id"],
-            res: UserInterceptEssentials.get.id
-        },
-        WalletToken: {
+        Wallet_token: {
             name: "getwallettoken",
             method: "POST",
             socketing: false,
@@ -124,14 +115,14 @@ export const UserRouter = {
             params: ["premium_expiration"],
             res: UserInterceptEssentials.get.premium_expiration
         },
-        ProfilePicture: {
-            name: "getprofilepicture",
+        Avatar: {
+            name: "getavatar",
             method: "GET",
             socketing: false,
-            description: "Get a user profile picture",
-            path: "/profilepicture/",
-            params: ["profile_picture"],
-            res: UserInterceptEssentials.get.profile_picture
+            description: "Get a user avatar",
+            path: "/avatar/",
+            params: ["avatar"],
+            res: UserInterceptEssentials.get.avatar
         },
         Message_privacy: {
             name: "getmessageprivacy",

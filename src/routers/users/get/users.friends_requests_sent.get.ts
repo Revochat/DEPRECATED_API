@@ -3,7 +3,7 @@ import DB from "../../../database"
 import { RouteResponse, Status } from "../../controller"
 import UTILS from "../../../utils"
 
-export const getUserFriendsRequestsSent = async (req: express.Request, res: express.Response) => { // Get a user
+export const getFriendsRequestsSent = async (req: express.Request, res: express.Response) => { // Get a user
     try {
         const token = req.token
 

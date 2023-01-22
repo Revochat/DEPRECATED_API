@@ -1,7 +1,6 @@
-import { passwordUpdate, pfpUpdate, usernameUpdate, walletUpdate } from "./update"
+import { passwordUpdate, avatarUpdate, usernameUpdate, walletUpdate } from "./update"
 import { userLogin, userRegister, userConnect } from "./connect"
-import { getUserbyToken, getUserbyID, getUsername, getUserFriendsRequestsSent, getUserFriendsRequestsReceived, getUserBlocked, getServers, getChannels, getUserCreatedAt, getUserFriends, getUserLastConnection, 
-         getUserMessagePrivacy, getUserPremiumExpiration, getUserProfilePicture, getUserStatus, getUserUpdatedAt, getUserWalletToken} from "./get"
+import { get} from "./get/"
 
 
 export const UserInterceptEssentials = {
@@ -12,29 +11,29 @@ export const UserInterceptEssentials = {
     connect : userConnect,
 
     get: {
-        user: getUserbyToken,
-        id: getUserbyID,
-        wallet_token: getUserWalletToken,
-        username: getUsername,
-        premium_expiration: getUserPremiumExpiration,
-        profile_picture: getUserProfilePicture,
-        message_privacy: getUserMessagePrivacy,
-        status: getUserStatus,
-        updated_at: getUserUpdatedAt,
-        created_at: getUserCreatedAt,
-        last_connection: getUserLastConnection,
-        servers: getServers,
-        channels: getChannels,
-        friends: getUserFriends,
-        friends_requests_sent: getUserFriendsRequestsSent,
-        friends_requests_received: getUserFriendsRequestsReceived,
-        blocked: getUserBlocked
+        user: get.UserbyToken,
+        username: get.Username,
+        wallet_token: get.WalletToken,
+        updated_at: get.UpdatedAt,
+        created_at: get.CreatedAt,
+        avatar: get.Avatar,
+        premium_expiration: get.PremiumExpiration,
+        status: get.Status,
+        message_privacy: get.MessagePrivacy,
+        servers: get.Servers,
+        friends: get.Friends,
+        friends_requests_received: get.FriendsRequestsReceived,
+        friends_requests_sent: get.FriendsRequestsSent,
+        blocked: get.Blocked,
+        channels: get.Channels,
+        last_connection: get.LastConnection,
+        
     },
 
     update : { 
         username : usernameUpdate,
         password : passwordUpdate,
-        profile_picture : pfpUpdate,
+        avatar : avatarUpdate,
         wallet_token: walletUpdate,
     }
 }

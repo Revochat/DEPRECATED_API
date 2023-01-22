@@ -3,7 +3,7 @@ import DB from "../../../database"
 import { RouteResponse, Status } from "../../controller"
 import UTILS from "../../../utils"
 
-export const getUserProfilePicture = async (req: express.Request, res: express.Response) => { // Get a user
+export const getAvatar = async (req: express.Request, res: express.Response) => { // Get a user avatar
     try {
         const {user_id} = req.params
 
@@ -17,7 +17,7 @@ export const getUserProfilePicture = async (req: express.Request, res: express.R
             new RouteResponse()
                 .setStatus(Status.success)
                 .setMessage(`User found`)
-                .setData(User.profile_picture)
+                .setData(User.avatar)
         )
     }
     catch(err) {

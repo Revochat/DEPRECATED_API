@@ -3,7 +3,7 @@ import DB from "../../../database"
 import { RouteResponse, Status } from "../../controller"
 import UTILS from "../../../utils"
 
-export const getUserPremiumExpiration = async (req: express.Request, res: express.Response) => { // Get a user
+export const getPremiumExpiration = async (req: express.Request, res: express.Response) => { // Get a user
     try {
         const {user_id} = req.params
 
