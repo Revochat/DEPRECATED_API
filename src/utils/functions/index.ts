@@ -1,6 +1,11 @@
 import {findUserbyToken, findServer, findUserbyID, findFriendbyUser, findChannelID, findChannelFriend, findUserBlocked} from "./find"
+import {PERMISSIONS} from "./permissions"
 
 export class FUNCTIONS {
+    static permissions = {
+        hasChannelPermission: PERMISSIONS.hasChannelPermission,
+        hasServerPermission: PERMISSIONS.hasServerPermission
+    }
     static find = {
         channel: {
             id: findChannelID,

@@ -3,7 +3,7 @@ TO DO LIST:
 - convert to hexadecimal user_id when sent (BLF)
 - Web-RTC
 - notifications
-- tag people, role create/update/delete, invite and moderation of servers, premium expiration set, avatars, channel update perm/serv update
+- tag people, premium handling, avatars, role create/update/delete, invite and moderation of servers, channel update perm/serv update
 - web3 chat / smart contract connection
 - encryption system (Lux)
 - audio chat / video chat
