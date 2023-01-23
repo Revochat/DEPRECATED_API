@@ -3,7 +3,7 @@ import axios, {AxiosResponse} from "axios";
 import Logger from "../client/logger.client"
 import { config } from "../config";
 import Server from "../database/models/Server";
-import { sock } from "./events";
+import { sock, SocketEvents } from "./events";
 import { utils } from "./utils";
 
 export default class ServerSocket {
@@ -27,8 +27,9 @@ export default class ServerSocket {
             ServerSocket.io.on("connection", async (socket: Socket) => {
                 ServerSocket.socket = socket
                 Logger.debug("New connection from " + socket.id)
+                const EventHandler = new SocketEvents(socket);
                 
-                socket.on("login", sock.login)
+                socket.on("login", EventHandler.login)
                 Logger.warn(ServerSocket.users)
                 if(await utils.verify(socket)) {
                     console.log("Verified")
