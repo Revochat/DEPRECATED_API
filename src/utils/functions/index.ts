@@ -15,7 +15,7 @@ export class FUNCTIONS {
         },
         server: findServer
     }
-
+    
     static removeSensitiveData = (user: any) => {
         delete user.password
         delete user.token

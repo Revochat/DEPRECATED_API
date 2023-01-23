@@ -3,10 +3,9 @@ TO DO LIST:
 - convert to hexadecimal user_id when sent (BLF)
 - Web-RTC
 - notifications
-- tag people, channel/serv/user update, get user status and set it, test message length(premium), role create/update/delete, invite and moderation of servers 
+- tag people, role create/update/delete, invite and moderation of servers, premium expiration set, avatars, channel update perm/serv update
 - web3 chat / smart contract connection
 - encryption system (Lux)
-- rate limit login(5 tries before 5 minutes ban), rate limit api
 - audio chat / video chat
 - screenshare
 - files upload handling

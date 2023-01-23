@@ -1,6 +1,6 @@
-import { passwordUpdate, avatarUpdate, usernameUpdate, walletUpdate } from "./update"
+import { update } from "./update"
 import { userLogin, userRegister, userConnect } from "./connect"
-import { get} from "./get/"
+import { get } from "./get/"
 
 
 export const UserInterceptEssentials = {
@@ -28,9 +28,10 @@ export const UserInterceptEssentials = {
     },
 
     update : { 
-        username : usernameUpdate,
-        password : passwordUpdate,
-        avatar : avatarUpdate,
-        wallet_token: walletUpdate,
+        username: update.username,
+        password: update.password,
+        avatar: update.avatar,
+        wallet_token: update.wallet_token,
+        status: update.status
     }
 }

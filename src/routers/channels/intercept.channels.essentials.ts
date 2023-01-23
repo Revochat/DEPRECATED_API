@@ -7,7 +7,10 @@ import { add } from "./user"
 
 export const ChannelsInterceptEssentials = {
 
-    update: update,
+    update: {
+        channel_name: update.channel_name,
+        permissions: update.permissions
+    },
     create: {
         private: create.private,
         group: create.group,

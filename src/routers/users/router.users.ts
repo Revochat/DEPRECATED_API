@@ -37,26 +37,33 @@ export const UserRouter = {
     Update: {
         path: "/update",
 
-        // in 1 route update the bio, username, style, banner, ..
-        // Username: {
-        //     name: "updateusername",
-        //     method: "POST",
-        //     socketing: false,
-        //     description: "Update a user's username",
-        //     path: "/username/:token/:newusername",
-        //     params: ["token", "newusername"],
-        //     res: UserInterceptEssentials.update.username
-        // },
+        Status: {
+            name: "updatestatus",
+            method: "POST",
+            socketing: false,
+            description: "Update a user's status",
+            path: "/status/",
+            params: ["token", "newstatus"],
+            res: UserInterceptEssentials.update.status
+        },
+        Username: {
+            name: "updateusername",
+            method: "POST",
+            socketing: false,
+            description: "Update a user's username",
+            path: "/username/:newusername",
+            params: ["token", "newusername"],
+            res: UserInterceptEssentials.update.username
+        },
         // UpdateProfilePicture: {
         //     name: "updateprofilepicture",
         //     method: "POST",
         //     socketing: false,
         //     description: "Update a user's profile picture",
-        //     path: "/profilepicture/:token/:",
+        //     path: "/profilepicture/",
         //     params: ["token", "newprofile_picture"],
-        //     res: UserInterceptEssentials.update.profile_picture
-        // }
-
+        //     res: UserInterceptEssentials.update.avatar
+        // },
         Password: {
             name: "updatepassword",
             method: "POST",
