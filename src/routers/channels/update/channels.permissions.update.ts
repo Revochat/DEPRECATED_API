@@ -26,14 +26,14 @@ export const updatePermissions = async (req: express.Request, res: express.Respo
         var Channel = await DB.channels.find.id(parseInt(channel_id)) // Find the channel
         if(!Channel) throw "Channel not found" // Check if the channel exists
 
-        if (UTILS.FUNCTIONS.permissions.hasChannelPermission(User, Channel, [UTILS.CONSTANTS.CHANNEL.PERMISSIONS.MANAGE.name]) === false) {
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage("You do not have permission to update this channel")
-            )
-            return
-        }
+        // if (UTILS.FUNCTIONS.permissions.hasChannelPermission(User, Channel, [UTILS.CONSTANTS.CHANNEL.PERMISSIONS.MANAGE.name]) === false) {
+        //     res.json(
+        //         new RouteResponse()
+        //             .setStatus(Status.error)
+        //             .setMessage("You do not have permission to update this channel")
+        //     )
+        //     return
+        // }
 
         Channel.permissions = permissions // Update the channel permissions
         Channel.updated_at = Date.toLocaleString()
