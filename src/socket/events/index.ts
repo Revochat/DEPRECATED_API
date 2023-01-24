@@ -9,29 +9,21 @@ export const sock = {
 }
 
 export class SocketEvents {
-    private socket!: Socket;
-    constructor(_socket: Socket) {
-        this.socket = _socket;
+    private socket: Socket;
+    constructor(socket: Socket){
+        this.socket = socket;
+        console.log(this.socket)
     }
 
     public get event(){
         return sock;
     }
 
-    public login(token: string){
-        const Login = new LoginEvent(this.socket);
-        console.log(this.Socket)    
-        return Login.run(token);
+    public async login(token: string) {
+        const Login = new LoginEvent(this.socket);  
+        Login.run(token);
     }
-
-    public get Socket() {
-        return this.socket;
-    }
-
-    public get SocketID() {
-        return this.socket.id;
-    }
-
+    
     public get SocketUsers() {
         return ServerSocket.users
     }

@@ -25,7 +25,6 @@ export default class ServerSocket {
     async run(){
         try {
             ServerSocket.io.on("connection", async (socket: Socket) => {
-                ServerSocket.socket = socket
                 Logger.debug("New connection from " + socket.id)
                 const EventHandler = new SocketEvents(socket);
                 

@@ -12,6 +12,7 @@ export class LoginEvent {
 
     public async run(token: string){
         try {
+            if(!this.socket) throw new Error("Socket not found")
             Logger.debug("Login event from " + this.socket)
             const User = await DB.users.find.token(token)
             Logger.debug("User: "+ token)
