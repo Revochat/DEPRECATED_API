@@ -49,15 +49,28 @@ export const ChannelsRouter = {
         res: ChannelsInterceptEssentials.management.remove
     },
 
-    // Update : {
-    //     name: "update",
-    //     method: "GET",
-    //     socketing: false,
-    //     description: "Update a channel",
-    //     path: "/update/:channel_id",
-    //     params: ["token", "channel_id", "channel_name"],
-    //     res: ChannelsInterceptEssentials.update
-    // },
+    update : {
+        path: "/update",
+
+        channel_name: {
+            name: "updateChannel_name",
+            method: "POST",
+            socketing: false,
+            description: "Update channel_name of a channel",
+            path: "/channel_name/:channel_id/",
+            params: ["token", "channel_id", "channel_name"],
+            res: ChannelsInterceptEssentials.update.channel_name
+        },
+        permissions: {
+            name: "updatePermissions",
+            method: "POST",
+            socketing: false,
+            description: "Update permissions of a channel",
+            path: "/permissions/:channel_id",
+            params: ["token", "channel_id", "permissions"],
+            res: ChannelsInterceptEssentials.update.permissions
+        }
+    },
 
     get : {
         path: "/get",
@@ -159,24 +172,27 @@ export const ChannelsRouter = {
 
     // Messages
 
-    SendMessage : {
-        name: "sendmessage",
-        method: "POST",
-        socketing: false,
-        description: "Send a message to a channel",
-        path: "/messages/send/:channel_id",
-        params: ["token", "channel_id", "message"],
-        res: ChannelsInterceptEssentials.messages.send
-    },
+    Messages : {
+        path: "/messages",
 
-    DeleteMessage : {
-        name: "deletemessage",
-        method: "GET",
-        socketing: false,
-        description: "Delete a message from a channel",
-        path: "/messages/delete/:channel_id/:message_id",
-        params: ["token", "channel_id", "message_id"],
-        res: ChannelsInterceptEssentials.messages.delete
+        Send : {
+            name: "send",
+            method: "POST",
+            socketing: false,
+            description: "Send a message to a channel",
+            path: "/send/:channel_id",
+            params: ["token", "channel_id", "message"],
+            res: ChannelsInterceptEssentials.messages.send
+        },
+        Delete : {
+            name: "delete",
+            method: "GET",
+            socketing: false,
+            description: "Delete a message from a channel",
+            path: "/delete/:channel_id/:message_id",
+            params: ["token", "channel_id", "message_id"],
+            res: ChannelsInterceptEssentials.messages.delete
+        },
     },
 
     // Moderation

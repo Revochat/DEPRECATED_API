@@ -23,10 +23,21 @@ export const sendMessage = async (req: express.Request, res: express.Response) =
     }
 
     var User = await UTILS.FUNCTIONS.find.user.token(token) // Find the user
+    if (!User) throw "User not found"
 
-    User.premium_expiration ? message.length > UTILS.CONSTANTS.MESSAGE.PROPERTIES.MAX_MESSAGE_LENGTH_PREMIUM : message.length > UTILS.CONSTANTS.MESSAGE.PROPERTIES.MAX_MESSAGE_LENGTH // Check if the message is too long
+    // Check if the user is banned
+
+    // Check if the user is muted
 
     try {
+        // check length of message
+        if (User.premium) { // if premium 
+            if (message.length > UTILS.CONSTANTS.MESSAGE.PROPERTIES.MAX_MESSAGE_LENGTH_PREMIUM || message.length < UTILS.CONSTANTS.MESSAGE.PROPERTIES.MIN_MESSAGE_LENGTH) throw "Message is too long or too short"
+        }
+        else { // if not premium
+            if (message.length > UTILS.CONSTANTS.MESSAGE.PROPERTIES.MAX_MESSAGE_LENGTH || message.length < UTILS.CONSTANTS.MESSAGE.PROPERTIES.MIN_MESSAGE_LENGTH) throw "Message is too long or too short"
+        }
+
         var Channel = await DB.channels.find.id(parseInt(channel_id))
         if(!Channel) throw "Channel not found"
 

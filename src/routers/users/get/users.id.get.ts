@@ -6,21 +6,33 @@ import UTILS from "../../../utils"
 export const getUserbyID = async (req: express.Request, res: express.Response) => { // Get a user
     try {
         const {user_id} = req.params
+        const token = req.token
 
-        // if user_id badly formatted
-        if(!user_id || user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
+        // if token or user_id badly formatted
+        if(!token || !user_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
+            !UTILS.CONSTANTS.USER.ID) throw "Badly formatted"
 
-        var User = await DB.users.find.id(parseInt(user_id))
-        if(!User) throw "User not found"
+        var User = await DB.users.find.token(token)
+        if(User) {
+            if(User.id == parseInt(user_id)) {
+                res.json(
+                    new RouteResponse()
+                        .setStatus(Status.success)
+                        .setMessage(`User found`)
+                        .setData(User)
+                )
+                return
+            }
+            User = await DB.users.find.id(parseInt(user_id))
+            if(!User) throw "User not found"
 
-        User = UTILS.FUNCTIONS.removeSensitiveData(User)
-
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.success)
-                .setMessage(`User found`)
-                .setData(User)
-        )
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.success)
+                    .setMessage(`User found`)
+                    .setData(User)
+            )
+        }
     }
     catch(err) {
         res.json(

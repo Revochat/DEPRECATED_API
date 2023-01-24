@@ -1,4 +1,13 @@
-export * from "./users.username.update"
-export * from "./users.password.update"
-export * from "./users.avatar.update"
-export * from "./users.wallet.update"
+import { avatarUpdate } from "./users.avatar.update";
+import { passwordUpdate } from "./users.password.update";
+import { usernameUpdate } from "./users.username.update";
+import { walletUpdate } from "./users.wallet.update";
+import { statusUpdate } from "./users.status.update";
+
+export const update = {
+    username: usernameUpdate,
+    password: passwordUpdate,
+    avatar: avatarUpdate,
+    wallet_token: walletUpdate,
+    status: statusUpdate,
+};

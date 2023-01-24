@@ -1,5 +1,4 @@
 import {ServerIntercept} from "./intercept.servers"
-import { update } from '../channels/update/channels.update';
 
 export const ServersRouter = {
     path: "/server",
