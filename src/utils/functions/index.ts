@@ -2,7 +2,9 @@ import {findUserbyToken, findServer, findUserbyID, findFriendbyUser, findChannel
 import {PERMISSIONS} from "./permissions"
 
 export class FUNCTIONS {
-    static permissions = {
+    static PERMISSIONS = {
+        checkChannelPermissions: PERMISSIONS.checkChannelPermissions,
+
         hasChannelPermission: PERMISSIONS.hasChannelPermission,
         hasServerPermission: PERMISSIONS.hasServerPermission
     }
