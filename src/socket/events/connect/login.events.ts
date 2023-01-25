@@ -20,10 +20,7 @@ export class LoginEvent {
             ServerSocket.users[this.socket.id] = User
             Logger.debug(ServerSocket.users)
             if(ServerSocket.users[this.socket.id].channels) {
-                for(const channel of ServerSocket.users[this.socket.id].channels){
-                    // Make user join all channels
-                    this.socket.join(channel)
-                }
+                this.socket.join(ServerSocket.users[this.socket.id].channels.map(String))
             }
             ServerSocket.io.to(this.socket.id).emit("login", User)        
         }

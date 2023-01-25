@@ -22,7 +22,7 @@ export class MessageCreate {
                 message: message
             },  utils.set.bearer(ServerSocket.users[this.socket.id].token))
             console.log(response.data)
-            ServerSocket.io.to(`${channelID}`).emit("messageCreate", response.data)
+            ServerSocket.io.in(channelID.toString()).emit("messageCreate", response.data)
             console.log("Message sent from: " + this.socket.id)
             
         } catch(err) {
