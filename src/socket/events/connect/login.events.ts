@@ -15,10 +15,8 @@ export class LoginEvent {
             if(!this.socket.id) throw new Error("Socket not found")
             Logger.debug("Login event from " + this.socket)
             const User = await DB.users.find.token(token)
-            Logger.debug("User: "+ token)
-            if(!User) ServerSocket.io.to(this.socket.id).emit("login", null)
+            if(!User) return ServerSocket.io.to(this.socket.id).emit("login", null)
             ServerSocket.users[this.socket.id] = User
-            Logger.debug(ServerSocket.users)
             if(ServerSocket.users[this.socket.id].channels) {
                 this.socket.join(ServerSocket.users[this.socket.id].channels.map(String))
             }
