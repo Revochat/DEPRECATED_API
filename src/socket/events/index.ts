@@ -4,19 +4,15 @@ import { Socket } from "socket.io";
 import ServerSocket from "..";
 import Logger from "../../client/logger.client";
 
-export const sock = {
-    login: LoginEvent,
-    messageCreate: MessageCreate
-}
-
 export class SocketEvents {
     private socket: Socket;
     constructor(socket: Socket) {
         this.socket = socket;
     }
 
-    public get event() {
-        return sock;
+    public messageCreate(channelID: number, message: any) {
+        const messageCreate = new MessageCreate(this.socket);
+        messageCreate.run(channelID, message);
     }
 
     public async login(token: string) { // This is the event that is called when the client emits "login" 

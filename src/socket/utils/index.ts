@@ -1,3 +1,4 @@
+import { setBearer } from "./bearer.utils"
 import deleteSocket from "./delete.utils"
 import { getSocketToken } from "./token.utils"
 import verifySocket from "./verify.utils"
@@ -5,5 +6,10 @@ import verifySocket from "./verify.utils"
 export const utils = {
     delete: deleteSocket,
     verify: verifySocket,
-    getToken: getSocketToken
+    get: {
+        token: getSocketToken
+    },
+    set: {
+        bearer: setBearer
+    }
 }

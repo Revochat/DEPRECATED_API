@@ -3,20 +3,31 @@ import { IMessage } from '../../../database/models/Message'
 import ServerSocket from "../../"
 import Logger from '../../../client/logger.client'
 import { Socket } from 'socket.io'
+import dotenv from 'dotenv'
+import { utils } from '../../utils'
 
-export const MessageCreate = async function (this: { login: (token: string) => Promise<void>}, channelID: number, message: IMessage) {
-    try {
-        // Use this to get socket id
-        const socket: Socket = this as any
-        Logger.error(socket.id)        
-        const response = await axios.post(`http://localhost:3000/api/v1/channel/messages/send/${channelID}`, {
-            message: message
-        },  ServerSocket.users[socket.id].token)
-        console.log(response.data)
-        ServerSocket.io.to(`${channelID}`).emit("messageCreate", response.data) // Only emit to user, need to create a way to emit to all users in a channel
-        console.log("Message sent from: " + ServerSocket.socket.id)
-        
-    } catch(err) {
-        console.log("Error while sending message from: " + ServerSocket.socket.id + " " + err)
+dotenv.config()
+
+export class MessageCreate {
+    private socket: Socket
+    
+    constructor(socket: Socket) {
+        this.socket = socket
     }
+
+    public async run(channelID: number, message: IMessage) {
+        try {
+            // Use this to get socket id  
+            const response = await axios.post(`${process.env.BASE_URI}/api/v1/channel/messages/send/${channelID}`, {
+                message: message
+            },  utils.set.bearer(ServerSocket.users[this.socket.id].token))
+            console.log(response.data)
+            ServerSocket.io.to(`${channelID}`).emit("messageCreate", response.data)
+            console.log("Message sent from: " + this.socket.id)
+            
+        } catch(err) {
+            console.log("Error while sending message from: " + this.socket.id + " " + err)
+        }
+    }
+
 }

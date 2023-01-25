@@ -1,9 +1,6 @@
 import { Socket } from "socket.io"
-import axios, {AxiosResponse} from "axios";
 import Logger from "../client/logger.client"
-import { config } from "../config";
-import Server from "../database/models/Server";
-import { sock, SocketEvents } from "./events";
+import { SocketEvents } from "./events";
 import { utils } from "./utils";
 
 export default class ServerSocket {
@@ -29,16 +26,11 @@ export default class ServerSocket {
 
                 const EventHandler = new SocketEvents(socket)
 
-                Logger.warn(ServerSocket.users)
-                if(await utils.verify(socket)) {
-                    console.log("Verified")
-                    socket.on("messageCreate", sock.messageCreate)
-                } else {
-                    console.log("Not verified")
-                }
-                  
-                // event handler for login event
-                socket.on("login", EventHandler.login.bind(EventHandler)) // bind is used to bind the context of the function to the class instance (EventHandler) so that the function can access the class properties
+
+                socket.on("messageCreate", EventHandler.messageCreate.bind(EventHandler))
+
+                
+                socket.on("login", EventHandler.login.bind(EventHandler))
 
                 socket.on("disconnect", () => {
                     Logger.debug("User disconnected from " + socket.id)
