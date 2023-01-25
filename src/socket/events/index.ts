@@ -2,6 +2,7 @@ import {LoginEvent} from "./connect/login.events";
 import { MessageCreate } from "./messages";
 import { Socket } from "socket.io";
 import ServerSocket from "..";
+import Logger from "../../client/logger.client";
 
 export const sock = {
     login: LoginEvent,
@@ -10,17 +11,16 @@ export const sock = {
 
 export class SocketEvents {
     private socket: Socket;
-    constructor(socket: Socket){
+    constructor(socket: Socket) {
         this.socket = socket;
-        console.log(this.socket)
     }
 
-    public get event(){
+    public get event() {
         return sock;
     }
 
-    public async login(token: string) {
-        const Login = new LoginEvent(this.socket);  
+    public async login(token: string) { // This is the event that is called when the client emits "login" 
+        const Login = new LoginEvent(this.socket);
         Login.run(token);
     }
     

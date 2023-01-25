@@ -26,9 +26,9 @@ export default class ServerSocket {
         try {
             ServerSocket.io.on("connection", async (socket: Socket) => {
                 Logger.debug("New connection from " + socket.id)
-                const EventHandler = new SocketEvents(socket);
-                
-                socket.on("login", EventHandler.login)
+
+                const EventHandler = new SocketEvents(socket)
+
                 Logger.warn(ServerSocket.users)
                 if(await utils.verify(socket)) {
                     console.log("Verified")
@@ -36,7 +36,10 @@ export default class ServerSocket {
                 } else {
                     console.log("Not verified")
                 }
-            
+                  
+                // event handler for login event
+                socket.on("login", EventHandler.login.bind(EventHandler)) // bind is used to bind the context of the function to the class instance (EventHandler) so that the function can access the class properties
+
                 socket.on("disconnect", () => {
                     Logger.debug("User disconnected from " + socket.id)
                     delete ServerSocket.users[socket.id]
