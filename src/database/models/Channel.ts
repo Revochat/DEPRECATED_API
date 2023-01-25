@@ -1,10 +1,11 @@
 import mongoose, {Document, Schema} from "mongoose";
 
 export interface IChannelPermission {
-    manage: {
+    admin: { // admin permission (can do everything)
         roles_id: number[];
         user_id: number[];
     };
+
     view: {
         roles_id: number[];
         user_id: number[];
@@ -33,14 +34,14 @@ export interface IChannelPermission {
             user_id: number[];
         };
     }
-}
+}    
 
 export interface IChannel { // This is the interface for the channel in the database
     server_id?: number;
     channel_id: number;
     owner_id?: number;
     channel_name?: string;
-    channel_type: string;
+    channel_type: "HYBRID" | "TEXT" | "VOICE";
     members: number[];
     members_count: number;
     updated_at: string;
