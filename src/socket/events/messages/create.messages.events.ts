@@ -1,14 +1,13 @@
 import axios from 'axios'
 import { IMessage } from '../../../database/models/Message'
 import ServerSocket from "../../"
-import Logger from '../../../client/logger.client'
 import { Socket } from 'socket.io'
 import dotenv from 'dotenv'
 import { utils } from '../../utils'
 
 dotenv.config()
 
-export class MessageCreate {
+export class MessageCreateEvent {
     private socket: Socket
     
     constructor(socket: Socket) {
@@ -23,8 +22,6 @@ export class MessageCreate {
             },  utils.set.bearer(ServerSocket.users[this.socket.id].token))
             console.log(response.data)
             ServerSocket.io.in(channelID.toString()).emit("messageCreate", response.data)
-            console.log("Message sent from: " + this.socket.id)
-            
         } catch(err) {
             console.log("Error while sending message from: " + this.socket.id + " " + err)
         }

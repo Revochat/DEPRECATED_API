@@ -1,16 +1,24 @@
-import axios from 'axios'
-import { IMessage } from '../../../database/models/Message'
 import ServerSocket from "../../"
+import dotenv from 'dotenv'
+import { Socket } from "socket.io";
+import axios from "axios";
+import { utils } from "../../utils";
 
-export default async (channelID: number, messageID: number) => {
-    try {
-        const response = await axios.get(`/api/v1/channel/messages/send/${channelID}/${messageID}`,  ServerSocket.users[ServerSocket.socket.id].token)
-        if(response.data.error) throw new Error(response.data.error)
+dotenv.config()
 
-        ServerSocket.io.to(ServerSocket.socket.id).emit("messageDelete", response.data) // Only emit to user, need to create a way to emit to all users in a channel
+export class MessageDeleteEvent {
+    private socket: Socket;
 
-        
-    } catch(err) {
-        console.log("Error while sending message from: " + ServerSocket.socket.id)
+    constructor(socket: Socket) {
+        this.socket = socket;
+    }
+
+    public async run(channelID: number, messageID: number) {
+        try {
+            const response = await axios.get(`${process.env.BASE_URI}/api/v1/channel/messages/delete/${channelID}/${messageID}`, utils.set.bearer(ServerSocket.users[this.socket.id].token))
+            ServerSocket.io.in(channelID.toString()).emit("messageDelete", response.data)
+        } catch(err) {
+            console.log(err)
+        }
     }
 }

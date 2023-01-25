@@ -1,6 +1,6 @@
 import { Socket } from 'socket.io';
 
-export class ChannelDeleteChannel {
+export class ActivityEvent {
     private socket: Socket;
 
     constructor(socket: Socket) {
@@ -8,6 +8,6 @@ export class ChannelDeleteChannel {
     }
 
     public async run() {
-
+        
     }
 }

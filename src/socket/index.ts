@@ -26,11 +26,10 @@ export default class ServerSocket {
 
                 const EventHandler = new SocketEvents(socket)
 
-
                 socket.on("messageCreate", EventHandler.messageCreate.bind(EventHandler))
-
-                
+                socket.on("messageDelete", EventHandler.messageDelete.bind(EventHandler))
                 socket.on("login", EventHandler.login.bind(EventHandler))
+                
 
                 socket.on("disconnect", () => {
                     Logger.debug("User disconnected from " + socket.id)
