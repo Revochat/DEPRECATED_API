@@ -3,7 +3,7 @@ import { IChannelPermission } from "../../../database/models/Channel";
 
 export const SERVER = ( User: IUser ) : IChannelPermission => {
     return {
-        manage: {
+        admin: {
             user_id: [],
             roles_id: []
         },

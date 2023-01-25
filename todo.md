@@ -34,3 +34,6 @@ Future Updates ? :
    (bots)
    chiffrer nom de serveur et nom de channel et friends ?
    slowmode client side ? timeout client side too, push to talk (client side?)
+   plugins for servers (shop, music, youtube together, spotify together, etc..)
+   custom emojis
+   server and user profile customization (background, color, banners..)

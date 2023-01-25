@@ -3,33 +3,33 @@ import { IChannelPermission } from "./Channel";
 
 export interface IRolePermission {
     server: {
-        manage: boolean; // manage server (edit name, icon, etc) and permissions
+        admin: boolean; // manage server (edit name, icon, etc) and permissions
 
-        member: {
+        members: {
             invite: boolean; // invite members
-            remove: boolean; // remove members
+            remove: boolean; // kick members
             ban: boolean; // ban members
-            manage: boolean; // manage members (roles, nicknames, etc)
-        };
-
-        roles: {
-            manage: boolean; // manage roles
-            give: boolean; // give roles
-        };
+            deafen: boolean; // deafen members in voice channels
+            mute_voice: boolean; // mute members in voice channels
+            mute_chat: boolean; // mute members in chat
+            move: boolean; // move members in voice channels
+            rename: boolean; // rename members
+            roles: boolean; // manage roles (create, delete, edit)
+        }
 
         channels: {
-            manage: boolean; // manage channels
+            manage: boolean; // manage channels (create, delete, edit)
             view: boolean; // view channels
             speak: boolean; // speak in voice channels
             video: boolean; // video in voice channels
-            move: boolean; // move members in voice channels
         };
 
         messages: {
             send: boolean; // send messages
-            delete: boolean; // delete messages
+            delete: boolean; // delete messages (others messages)
             mentions: boolean; // mention everyone, roles, users
             send_files: boolean; // send files
+            reactions: boolean; // add reactions
         };
     };
 }

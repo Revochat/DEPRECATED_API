@@ -1,27 +1,13 @@
-export const PERMISSIONS = {
-    MANAGE: { 
-        name: "manage",
-    },
-    VIEW: {
-        name: "view",
-    },
+export const PERMISSIONS = { // Channel permissions path constant (array is the path to the permission in the database model) NEED TO UPDATE THE PERMISSIONS AND DATABASE MODEL TOGETHER
+    ADMIN: ["admin"],
+    VIEW: ["view"],
     MEMBER: {
-        INVITE: {
-            name: "invite",
-        },
-        REMOVE: {
-            name: "remove",
-        },
+        INVITE: ["member", "invite"],
+        REMOVE: ["member", "remove"],
     },
     MESSAGE: {
-        SEND: {
-            name: "send",
-        },
-        MENTIONS: {
-            name: "mentions",
-        },
-        SEND_FILES: {
-            name: "send_files",
-        },
-    },
+        SEND: ["message", "send"],
+        MENTIONS: ["message", "mentions"],
+        SEND_FILES: ["message", "send_files"],
+    }
 };

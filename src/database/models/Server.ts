@@ -4,7 +4,7 @@ export interface IServer { // This is the interface for the server in the databa
     server_id: number;
     server_name: string;
     server_icon?: string;
-    owner_id: string;
+    owner_id: number;
     channels?: number[];
     members: Map<number, number[]>; // map of user_id: roles_id
     members_count: number;
@@ -20,7 +20,7 @@ const ServerSchema = new Schema({
     server_id: { type: Number, required: true, unique: true, index: true },
     server_name: { type: String, required: true },
     server_icon: { type: String, required: false, default: "" },
-    owner_id: { type: String, required: true, index: true },
+    owner_id: { type: Number, required: true, index: true },
     channels: { type: Array, required: false, default: [] },
     members: { type: Map, required: true, default: {} }, // map of user_id: roles_id
     members_count: { type: Number, required: true, default: 0 },

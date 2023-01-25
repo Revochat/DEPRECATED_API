@@ -9,13 +9,17 @@ to run the project
 
 # Organisation of the API
 
-- token is usually in url params and so are id's in general
-- other params such as channel_name or server_name are in the body
+- id's are usually sent in the URL
+- other params such as channel_name or server_name are in the body 
+- token is a header (Authorization: Bearer token)
 
-request is get when you are getting data from the server and post when you are sending data to the server
+Request is usually: 
+   - GET for small and non sensitive requests (get friends, get channels, get servers)
+   - POST when you are sending a lot of data and/or is sensitive (login, register, create channel, create server)
 
 revochat.fr/api/
 -> /v1/ 
-   -> /client/get/friends/
-   -> /channel/create/:channelName
-   -> /server/get/
+   -> /client/get/friends/:friend_id
+   -> /channel/create/private/:friend_id
+   -> /server/get/:server_id
+   ...

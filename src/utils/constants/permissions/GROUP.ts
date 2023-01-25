@@ -3,7 +3,7 @@ import { IChannelPermission } from "../../../database/models/Channel";
 
 export const GROUP = ( User: IUser, Friend_1: IUser, Friend_2: IUser ) : IChannelPermission => {
     return {
-        manage: {
+        admin: {
             user_id: [],
             roles_id: []
         },
