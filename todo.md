@@ -16,7 +16,6 @@ TO DO LIST:
 - sounds (Lux)
 - 2FA
 - categories for sync perms in servers
-- github permissions (can wait until there are more collaborators)
 
 
 Just some ideas for the payed subscription:
