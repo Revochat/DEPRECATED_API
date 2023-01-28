@@ -1,5 +1,6 @@
 import {get} from "./get"
 import { create, remove } from "./manage"
+import { update } from "./update"
 
 export const ServerIntercept = {
     manage: {
@@ -17,5 +18,10 @@ export const ServerIntercept = {
         server_name: get.server_name,
         owner_id: get.owner_id,
         server_icon: get.server_icon
+    },
+    update: {
+        name: update.name,
+        icon: update.icon,
+        permissions: update.permissions
     }
 }

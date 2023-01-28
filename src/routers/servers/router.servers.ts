@@ -98,6 +98,38 @@ export const ServersRouter = {
         }
     },
 
+    update: {
+        path: "/update",
+
+        Server_name: {
+            name: "updateServerName",
+            method: "GET",
+            socketing: true,
+            description: "Update server name",
+            path: "/server_name/:server_id/:server_name",
+            params: ["token", "server_id", "server_name"],
+            res: ServerIntercept.update.name
+        },
+        Server_icon: {
+            name: "updateServerIcon",
+            method: "GET",
+            socketing: true,
+            description: "Update server icon",
+            path: "/server_icon/:server_id/:server_icon",
+            params: ["token", "server_id", "server_icon"],
+            res: ServerIntercept.update.icon
+        },
+        Permissions_id: {
+            name: "updatePermissionsId",
+            method: "GET",
+            socketing: true,
+            description: "Update permissions_id",
+            path: "/permissions_id/:server_id/:permissions_id",
+            params: ["token", "server_id", "permissions_id"],
+            res: ServerIntercept.update.permissions
+        }
+    },
+
     manage : {
         create : {
             name: "create",

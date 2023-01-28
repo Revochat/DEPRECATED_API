@@ -30,7 +30,6 @@ Future Updates ? :
    server logs
    polls ?
    (server boosts ?)
-   (bots)
    chiffrer nom de serveur et nom de channel et friends ?
    slowmode client side ? timeout client side too, push to talk (client side?)
    plugins for servers (shop, music, youtube together, spotify together, etc..)
