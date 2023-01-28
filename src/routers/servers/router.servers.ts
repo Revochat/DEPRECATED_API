@@ -112,19 +112,19 @@ export const ServersRouter = {
         },
         Server_icon: {
             name: "updateServerIcon",
-            method: "GET",
+            method: "POST",
             socketing: true,
             description: "Update server icon",
-            path: "/server_icon/:server_id/:server_icon",
+            path: "/server_icon/:server_id",
             params: ["token", "server_id", "server_icon"],
             res: ServerIntercept.update.icon
         },
         Permissions_id: {
             name: "updatePermissionsId",
-            method: "GET",
+            method: "POST",
             socketing: true,
             description: "Update permissions_id",
-            path: "/permissions_id/:server_id/:permissions_id",
+            path: "/permissions_id/:server_id/",
             params: ["token", "server_id", "permissions_id"],
             res: ServerIntercept.update.permissions
         }
