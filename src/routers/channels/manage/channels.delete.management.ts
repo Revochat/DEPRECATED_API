@@ -29,6 +29,9 @@ export const remove = async (req: express.Request, res: express.Response) => { /
         if (User.user_id !== Channel.owner_id) throw "You are not the owner of this channel" // Check if the user is the owner of the channel
         await Channel.delete()
 
+        // check if the user has permission to update the channel
+        if (!UTILS.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to delete this channel"
+
         // remove the channel from the members 
         for (let i = 0; i < Channel.members.length; i++) {
             const member_id = Channel.members[i];

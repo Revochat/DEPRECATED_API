@@ -6,6 +6,9 @@ import DB from "../../database"
 import { IMessageModel } from "../../database/models/Message"
 import { v4, v5 } from "uuid"
 
+import { send } from "./channels.send.messages"
+import { remove } from "./channels.delete.messages"
+
 export const MessagesIntercept = {
     get : async (req: express.Request, res: express.Response) => { // Get a message
         const {message_id} = req.params
@@ -31,5 +34,7 @@ export const MessagesIntercept = {
                     .setMessage(err as string)
             )
         }
-    }
+    },
+    send: send,
+    remove: remove
 }

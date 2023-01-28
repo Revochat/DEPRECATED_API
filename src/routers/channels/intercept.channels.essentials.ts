@@ -2,8 +2,7 @@ import { remove, leave} from "./manage"
 import { create } from "./create"
 import { update } from "./update/"
 import { get} from "./get/"
-import { sendMessage, deleteMessage } from "./messages"
-import { add } from "./user"
+import { addMember } from "./user"
 
 export const ChannelsInterceptEssentials = {
 
@@ -28,15 +27,9 @@ export const ChannelsInterceptEssentials = {
         channel_name: get.channel_name,
         owner_id: get.owner_id
     },
-    messages: {
-        send: sendMessage,
-        delete: deleteMessage
-    },
     management: {
         remove: remove,
         leave: leave
     },
-    user: {
-        add: add
-    }
+    addMember
 }

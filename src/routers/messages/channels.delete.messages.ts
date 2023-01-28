@@ -1,11 +1,13 @@
 import express from "express"
-import { RouteResponse, Status } from "../../controller"
-import Logger from "../../../client/logger.client"
-import DB from "../../../database"
-import Emitter from "../../../client/emitter.client"
-import UTILS from "../../../utils"
+import { RouteResponse, Status } from "../controller"
+import Logger from "../../client/logger.client"
+import DB from "../../database"
+import Emitter from "../../client/emitter.client"
+import { IMessageModel } from "../../database/models/Message"
+import { v4, v5 } from "uuid"
+import UTILS from "../../utils"
 
-export const deleteMessage = async (req: express.Request, res: express.Response) => { // Delete a message from a channel
+export const remove = async (req: express.Request, res: express.Response) => { // Delete a message from a channel
     const {channel_id, message_id} = req.params
     const token = req.token
 
@@ -27,13 +29,22 @@ export const deleteMessage = async (req: express.Request, res: express.Response)
         var Channel = await DB.channels.find.id(parseInt(channel_id))
         if(!Channel) throw "Channel not found"
 
+        if (Channel.server_id) throw "Channel is not a server channel"
+
         // check if channel is a text channel
         if (Channel.channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.VOICE) throw "Channel is not a text channel"
 
-        Logger.debug(`Deleting message from channel ${Channel}`)
-
         // Check if the user is in the channel
         if (!Channel.members.includes(User.user_id)) throw "You are not in this channel"
+
+        // Check if the message is not his own message
+        var Message = await DB.messages.find.id(message_id)
+        if(!Message) throw "Message not found"
+        if (Message.user_id != User.user_id) { // If the message is not his own message
+            if (!UTILS.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to delete others messages in this channel"
+        }
+
+        Logger.debug(`Deleting message from channel ${Channel}`)
 
         // Delete the message
         var Message = await DB.messages.find.id(message_id)

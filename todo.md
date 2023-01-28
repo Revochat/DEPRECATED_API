@@ -3,7 +3,7 @@ TO DO LIST:
 - convert to hexadecimal user_id when sent (BLF)
 - Web-RTC
 - notifications
-- tag people, premium handling, avatars, role create/update/delete, invite and moderation of servers, channel update perm/serv update
+- tag people, premium handling, avatars, role create/update/delete, invite and moderation of servers, perm server/channels, checkintegrity channel perm test
 - web3 chat / smart contract connection
 - encryption system (Lux)
 - audio chat / video chat
@@ -35,3 +35,4 @@ Future Updates ? :
    plugins for servers (shop, music, youtube together, spotify together, etc..)
    custom emojis
    server and user profile customization (background, color, banners..)
+   activity, games ?

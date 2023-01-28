@@ -1,13 +1,13 @@
 import express from "express"
-import { RouteResponse, Status } from "../../controller"
-import Logger from "../../../client/logger.client"
-import DB from "../../../database"
-import Emitter from "../../../client/emitter.client"
-import { IMessageModel } from "../../../database/models/Message"
+import { RouteResponse, Status } from "../controller"
+import Logger from "../../client/logger.client"
+import DB from "../../database"
+import Emitter from "../../client/emitter.client"
+import { IMessageModel } from "../../database/models/Message"
 import { v4, v5 } from "uuid"
-import UTILS from "../../../utils"
+import UTILS from "../../utils"
 
-export const sendMessage = async (req: express.Request, res: express.Response) => { // Send a message to a channel
+export const send = async (req: express.Request, res: express.Response) => { // Send a message to a channel
     const {message} = req.body
     const {channel_id} = req.params
     const token = req.token
@@ -22,19 +22,19 @@ export const sendMessage = async (req: express.Request, res: express.Response) =
         return
     }
 
-    var User = await UTILS.FUNCTIONS.find.user.token(token) // Find the user
-    if (!User) throw "User not found"
-
     // Check if the user is banned
 
     // Check if the user is muted
 
     try {
+        var User = await UTILS.FUNCTIONS.find.user.token(token) // Find the user
+        if (!User) throw "User not found"
+        
         // check length of message
-        if (User.premium) { // if premium 
+        if (User.premium) {
             if (message.length > UTILS.CONSTANTS.MESSAGE.PROPERTIES.MAX_MESSAGE_LENGTH_PREMIUM || message.length < UTILS.CONSTANTS.MESSAGE.PROPERTIES.MIN_MESSAGE_LENGTH) throw "Message is too long or too short"
         }
-        else { // if not premium
+        else {
             if (message.length > UTILS.CONSTANTS.MESSAGE.PROPERTIES.MAX_MESSAGE_LENGTH || message.length < UTILS.CONSTANTS.MESSAGE.PROPERTIES.MIN_MESSAGE_LENGTH) throw "Message is too long or too short"
         }
 
@@ -43,6 +43,9 @@ export const sendMessage = async (req: express.Request, res: express.Response) =
 
         // check if channel is a text channel
         if (Channel.channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.VOICE) throw "Channel is not a text channel"
+
+        // Check if the user has permission to send messages
+        if (!UTILS.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.MESSAGE.SEND)) throw "You do not have permission to send messages in this channel"
 
         Logger.debug(`Sending message to channel ${Channel}`)
 

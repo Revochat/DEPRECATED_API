@@ -4,7 +4,6 @@ import Emitter from "../../../client/emitter.client"
 import Logger from "../../../client/logger.client"
 import DB from "../../../database"
 import UTILS from "../../../utils"
-import { PERMISSIONS } from '../../../utils/constants/channels/PERMISSIONS';
 
 export const updateName = async (req: express.Request, res: express.Response) => { // Update a channel
     const {channel_name} = req.body
@@ -28,39 +27,8 @@ export const updateName = async (req: express.Request, res: express.Response) =>
         var Channel = await DB.channels.find.id(parseInt(channel_id)) // Find the channel
         if(!Channel) throw "Channel not found" // Check if the channel exists
 
-        // if (Channel.server_id) { // PERMISSIONS CHECK
-        //     var Server = await DB.servers.find.id(Channel.server_id) // Find the server
-        //     if(!Server) throw "Server not found" // Check if the server exists
-        //     if (UTILS.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, [UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN]) === false) { // check in server permissions
-        //         if (UTILS.FUNCTIONS.PERMISSIONS.hasChannelPermission(User, Channel, [UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN]) === false) { // check in channel permissions
-        //             res.json(
-        //                 new RouteResponse()
-        //                     .setStatus(Status.error)
-        //                     .setMessage("You do not have permission to update this channel")
-        //             )
-        //             return
-        //         }
-        //     }
-        // } else {
-        //     if (UTILS.FUNCTIONS.PERMISSIONS.hasChannelPermission(User, Channel, [UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN]) === false) { // check in channel permissions
-        //         res.json(
-        //             new RouteResponse()
-        //                 .setStatus(Status.error)
-        //                 .setMessage("You do not have permission to update this channel")
-        //         )
-        //         return
-        //     }
-        // }
-
-        if (await !UTILS.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) { // Check if the user has permission to update the channel 
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage("You do not have permission to update this channel")
-            )
-            return
-        }
-
+        // Check if the user has permission to update the channel 
+        if (!UTILS.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to update this channel"
 
         Channel.channel_name = channel_name // Update the channel name
         Channel.updated_at = Date.toLocaleString()

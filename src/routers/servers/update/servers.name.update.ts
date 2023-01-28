@@ -32,7 +32,7 @@ export const nameUpdate = async (req: express.Request, res: express.Response) =>
 
         if(Server.owner_id !== User.id) throw "You are not the owner of this server"
 
-        // check perm
+        if (!UTILS.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to change the server name"
 
         Server.server_name = server_name
         await Server.save()

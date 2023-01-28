@@ -5,7 +5,7 @@ import Logger from "../../../client/logger.client"
 import DB from "../../../database"
 import UTILS from "../../../utils"
 
-export const add = async (req: express.Request, res: express.Response) => { // Add a user to a channel
+export const addMember = async (req: express.Request, res: express.Response) => { // Add a user to a channel
     const {channel_id, user_id} = req.params
     const token = req.token
 
@@ -27,6 +27,8 @@ export const add = async (req: express.Request, res: express.Response) => { // A
 
         var User = await DB.users.find.token(token) // Find the user
         if(!User) throw "User not found" // Check if the user exists
+
+        if (Channel.server_id) throw "This is not a dm or group channel"
         
         if (User.user_id !== Channel.owner_id) throw "You are not the owner of this channel" // Check if the user is the owner of the channel
 
@@ -34,6 +36,9 @@ export const add = async (req: express.Request, res: express.Response) => { // A
         if(!UserToAdd) throw "User to add not found" // Check if the user to add exists
 
         if (Channel.members.includes(UserToAdd.user_id)) throw "User is already in this channel" // Check if the user is already in the channel
+
+        // Check if the user has permission to update the channel 
+        if (!UTILS.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.MEMBER.INVITE)) throw "You do not have permission to update this channel"
 
         if (!Channel.members) Channel.members = [] // Check if the channel has members
         Channel.members.push(UserToAdd.user_id) // Add the user to the channel

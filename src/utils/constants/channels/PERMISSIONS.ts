@@ -9,5 +9,7 @@ export const PERMISSIONS = { // Channel permissions path constant (array is the 
         SEND: ["message", "send"],
         MENTIONS: ["message", "mentions"],
         SEND_FILES: ["message", "send_files"],
-    }
+    },
+
+    ALL: ["admin", "view", "member", "message", "invite", "remove", "send", "mentions", "send_files"]
 };

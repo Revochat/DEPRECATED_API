@@ -11,6 +11,7 @@ export const hasChannelPermission = (user: IUser, channel: IChannel, permission:
         if (channel.permissions.admin.roles_id.includes(user.user_id)) return true // If the user has an admin perm, return true
 
         const channelPermissions: any = channel.permissions // Get the channel permissions
+
         if (permission.length === 0) {
             if (channelPermissions[permission[0]].roles_id.includes(user.user_id)) return true // If the user has the permission, return true
             if (channelPermissions[permission[0]].user_id.includes(user.user_id)) return true // If the user has the permission, return true

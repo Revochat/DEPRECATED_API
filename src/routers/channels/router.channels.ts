@@ -49,6 +49,19 @@ export const ChannelsRouter = {
         res: ChannelsInterceptEssentials.management.remove
     },
 
+    add : {
+        path: "/add",
+        Member : {
+            name: "addMember",
+            method: "GET",
+            socketing: false,
+            description: "Add a member to a group channel",
+            path: "/member/:channel_id/:member_id",
+            params: ["token", "channel_id", "member_id"],
+            res: ChannelsInterceptEssentials.addMember
+        }
+    },
+
     update : {
         path: "/update",
 
@@ -167,32 +180,6 @@ export const ChannelsRouter = {
             res: ChannelsInterceptEssentials.get.messages
         },
 
-    },
-
-
-    // Messages
-
-    Messages : {
-        path: "/messages",
-
-        Send : {
-            name: "send",
-            method: "POST",
-            socketing: false,
-            description: "Send a message to a channel",
-            path: "/send/:channel_id",
-            params: ["token", "channel_id", "message"],
-            res: ChannelsInterceptEssentials.messages.send
-        },
-        Delete : {
-            name: "delete",
-            method: "GET",
-            socketing: false,
-            description: "Delete a message from a channel",
-            path: "/delete/:channel_id/:message_id",
-            params: ["token", "channel_id", "message_id"],
-            res: ChannelsInterceptEssentials.messages.delete
-        },
     },
 
     // Moderation

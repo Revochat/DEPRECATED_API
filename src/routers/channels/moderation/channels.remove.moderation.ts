@@ -31,16 +31,27 @@ export const remove = async (req: express.Request, res: express.Response) => { /
         var Member = await DB.users.find.id(member_id)
         if(!Member) throw "Member not found"
 
+        if (Channel.server_id) throw "This is not a dm or group channel" 
+
         if (Channel.members.indexOf(member_id) === -1) throw "Error with the provided id"
 
         if (Channel.members.indexOf(user_id) === -1) throw "Error with the provided id"
 
-        if (Channel.members.indexOf(user_id) !== 0) throw "You are not the owner of this channel"
+        if (Channel.owner_id !== user_id) throw "You are not the owner of this channel"
+
+        if (Channel.owner_id === member_id) throw "You cannot kick yourself"
     
         Channel.members.splice(Channel.members.indexOf(member_id), 1)
         await Channel.save()
 
         //update the member 
+        var Member = await DB.users.find.id(member_id)
+        if(!Member) throw "Member not found"
+
+        if (Member.channels) Member.channels.splice(Member.channels.indexOf(parseInt(channel_id)), 1)
+        await Member.save()
+
+        Logger.debug(`Member ${Member} has been kicked from channel ${Channel}`)
 
         Emitter.emit("channel_kick", {
             channel_id: channel_id,

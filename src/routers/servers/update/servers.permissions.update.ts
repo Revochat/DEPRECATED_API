@@ -34,7 +34,7 @@ export const permissionsUpdate = async (req: express.Request, res: express.Respo
 
         if(Server.owner_id !== User.id) throw "You are not the owner of this server"
 
-        // check the permissions of the user, if he has the permission to change the server permissions then change them
+        if (!UTILS.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to change the server icon"
 
         Emitter.emit("updateServerPermissions", Server)
 

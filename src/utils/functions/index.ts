@@ -3,6 +3,7 @@ import {PERMISSIONS} from "./permissions"
 
 export class FUNCTIONS {
     static PERMISSIONS = {
+        checkIntegrity: PERMISSIONS.checkIntegrity,
         checkChannelPermissions: PERMISSIONS.checkChannelPermissions,
 
         hasChannelPermission: PERMISSIONS.hasChannelPermission,

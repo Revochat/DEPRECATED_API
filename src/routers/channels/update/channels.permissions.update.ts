@@ -27,7 +27,11 @@ export const updatePermissions = async (req: express.Request, res: express.Respo
         if(!Channel) throw "Channel not found" // Check if the channel exists
 
         // check the integrity of permissions
-        // check perms
+        // if (!UTILS.FUNCTIONS.PERMISSIONS.checkIntegrity(permissions)) throw "Badly formatted permissions"
+
+        if (Channel.server_id) { // If the channel is a server channel = no permissions editing in private channels
+            if (!UTILS.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to update this channel"
+        }
 
         Channel.permissions = permissions // Update the channel permissions
         Channel.updated_at = Date.toLocaleString()
