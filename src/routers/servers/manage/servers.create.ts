@@ -6,12 +6,12 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const create = async (req: express.Request, res: express.Response) => { // Create a server channel 
-    var {server_name} = req.params
+    var {name} = req.params
     const token = req.token
 
-    Logger.debug(`Creating server ${server_name}`)
+    Logger.debug(`Creating server ${name}`)
 
-    if (!server_name || !token || server_name.length < UTILS.CONSTANTS.SERVER.NAME.MIN_LENGTH || server_name.length > UTILS.CONSTANTS.SERVER.NAME.MAX_LENGTH ||
+    if (!name || !token || name.length < UTILS.CONSTANTS.SERVER.NAME.MIN_LENGTH || name.length > UTILS.CONSTANTS.SERVER.NAME.MAX_LENGTH ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ){ //type check
         res.json(
             new RouteResponse()
@@ -27,19 +27,31 @@ export const create = async (req: express.Request, res: express.Response) => { /
 
         if (User.servers.length >= UTILS.CONSTANTS.SERVER.MAX_SERVER) throw "You have reached the max amount of servers"
 
+        const user_id = parseInt(User.user_id) // Get the user id and convert it to a number
+
+        const test = [new Map<number, number[]>([[user_id, []]])]
+
+
+        test.push(new Map<number, number[]>([[user_id, []]]))
+        Logger.debug(test)
+        Logger.debug(test[0].get(user_id))
+
         // create the server
         var Server = await DB.servers.create({ 
             server_id: Date.now() + Math.floor(Math.random() * 1000),
-            server_name: server_name,
-            owner_id: User.id,
+            server_name: name,
+            owner_id: user_id,
             channels: [],
-            members: new Map([[User.id, []]]),
+            // members: [new Map()],
+            members: [new Map<number, number[]>([[user_id, []]])],
             members_count: 1,
             updated_at: new Date().toLocaleString(),
             created_at: new Date().toLocaleString(),
             permissions_id: []
         })
-        if(!Server) throw "Server not created"
+
+        // add the user to the server members array of maps
+        // Server.members.push(new Map([[user_id, []]]))
 
         await Server.save() // Save the server to the database
 

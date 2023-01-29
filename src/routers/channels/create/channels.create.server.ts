@@ -31,7 +31,7 @@ export const create_server = async (req: express.Request, res: express.Response)
 
     try {
         var User = await UTILS.FUNCTIONS.find.user.token(token)
-        var Server = await UTILS.FUNCTIONS.find.server(parseInt(server_id))
+        var Server = await UTILS.FUNCTIONS.find.server.id(parseInt(server_id))
 
         Logger.log("Creating server channel for " + User.username + " in " + channel_name)
 
@@ -39,6 +39,7 @@ export const create_server = async (req: express.Request, res: express.Response)
 
         // create channel
         var Channel = await DB.channels.create({
+            server_id: parseInt(server_id),
             channel_id: Date.now() + Math.floor(Math.random() * 1000),
             channel_type: channel_type,
             channel_name: channel_name,

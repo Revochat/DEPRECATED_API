@@ -20,7 +20,7 @@ export const ServersRouter = {
             method: "GET",
             socketing: false,
             description: "Get a server name",
-            path: "/server_name/:server_id",
+            path: "/name/:server_id",
             params: ["token", "server_id"],
             res: ServerIntercept.get.server_name
         },
@@ -92,7 +92,7 @@ export const ServersRouter = {
             method: "GET",
             socketing: false,
             description: "Get server_icon of a server",
-            path: "/server_icon/:server_id",
+            path: "/icon/:server_id",
             params: ["token", "server_id"],
             res: ServerIntercept.get.server_icon
         }
@@ -106,7 +106,7 @@ export const ServersRouter = {
             method: "GET",
             socketing: true,
             description: "Update server name",
-            path: "/server_name/:server_id/:server_name",
+            path: "/name/:server_id/:name",
             params: ["token", "server_id", "server_name"],
             res: ServerIntercept.update.name
         },
@@ -115,7 +115,7 @@ export const ServersRouter = {
             method: "POST",
             socketing: true,
             description: "Update server icon",
-            path: "/server_icon/:server_id",
+            path: "/icon/:server_id",
             params: ["token", "server_id", "server_icon"],
             res: ServerIntercept.update.icon
         },
@@ -136,8 +136,8 @@ export const ServersRouter = {
             method: "GET",
             socketing: true,
             description: "Create a server",
-            path: "/create/:server_name",
-            params: ["token", "server_name"],
+            path: "/create/:name",
+            params: ["token", "name"],
             res: ServerIntercept.manage.create
         },
         remove : {
@@ -150,15 +150,6 @@ export const ServersRouter = {
             res: ServerIntercept.manage.remove
         }
     },
-
-    // Update : {
-    //     name: "update",
-    //     method: "GET",
-    //     socketing: true,
-    //     description: "Update a server",
-    //     path: "/update/:server_id",
-    //     res: ServerIntercept.update
-    // },
 
     // user add, remove, update roles, ..
 }

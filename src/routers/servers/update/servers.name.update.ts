@@ -6,14 +6,14 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const nameUpdate = async (req: express.Request, res: express.Response) => { // Update a server name
-    var {server_id, server_name} = req.params
+    var {server_id, name} = req.params
     const token = req.token
 
     Logger.debug(`Updating server name ${server_id}`)
 
-    if (!server_id || !server_name || !token || server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
+    if (!server_id || !name || !token || server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
-        server_name.length < UTILS.CONSTANTS.SERVER.NAME.MIN_LENGTH || server_name.length > UTILS.CONSTANTS.SERVER.NAME.MAX_LENGTH ){ //type check
+        name.length < UTILS.CONSTANTS.SERVER.NAME.MIN_LENGTH || name.length > UTILS.CONSTANTS.SERVER.NAME.MAX_LENGTH ){ //type check
         
         res.json(
             new RouteResponse()
@@ -34,7 +34,7 @@ export const nameUpdate = async (req: express.Request, res: express.Response) =>
 
         if (!UTILS.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to change the server name"
 
-        Server.server_name = server_name
+        Server.server_name = name
         await Server.save()
 
         Emitter.emit("updateServerName", Server)

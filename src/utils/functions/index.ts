@@ -1,4 +1,4 @@
-import {findUserbyToken, findServer, findUserbyID, findFriendbyUser, findChannelID, findChannelFriend, findUserBlocked} from "./find"
+import {findUserbyToken, findServer, findUserbyID, findFriendbyUser, findChannelID, findChannelFriend, findUserBlocked, findUserInServer} from "./find"
 import {PERMISSIONS} from "./permissions"
 
 export class FUNCTIONS {
@@ -21,7 +21,10 @@ export class FUNCTIONS {
             id: findUserbyID,
             friend: findFriendbyUser
         },
-        server: findServer
+        server: {
+            id: findServer,
+            member: findUserInServer
+        }
     }
     
     static removeSensitiveData = (user: any) => {

@@ -18,13 +18,14 @@ export const getMembersCount = async (req: express.Request, res: express.Respons
     }
 
     try {
-        var Server = await UTILS.FUNCTIONS.find.server(parseInt(server_id))
+        var Server = await UTILS.FUNCTIONS.find.server.id(parseInt(server_id))
         var User = await UTILS.FUNCTIONS.find.user.token(token)
 
         if (!Server) throw "Server not found"
         if (!User) throw "User not found"
 
-        if (!Server.members.has(User.id)) throw "User not a member of server"
+        // Check if user is a member of the server
+        if (!UTILS.FUNCTIONS.find.server.member(Server, User.id)) throw "You are not a member of this server"
 
         res.json(
             new RouteResponse()
