@@ -8,25 +8,24 @@ import { v4, v5 } from "uuid"
 import UTILS from "../../utils"
 
 export const send = async (req: express.Request, res: express.Response) => { // Send a message to a channel
-    const {message} = req.body
-    const {channel_id} = req.params
-    const token = req.token
-
-    if (!channel_id || !token || !message || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH){ //type check
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
-
-    // Check if the user is banned
-
-    // Check if the user is muted
-
     try {
+        const {message} = req.body
+        const {channel_id} = req.params
+        const token = req.token
+
+        if (!channel_id || !token || !message || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
+            token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH){ //type check
+            res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
+
+        // Check if the user is banned
+
+        // Check if the user is muted
         var User = await UTILS.FUNCTIONS.find.user.token(token) // Find the user
         if (!User) throw "User not found"
         

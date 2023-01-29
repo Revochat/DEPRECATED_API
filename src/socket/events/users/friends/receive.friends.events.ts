@@ -15,7 +15,7 @@ export class FriendRequestsReceivedEvent {
 
     public async run() {
         try {
-            const response = await axios.post(`${process.env.BASE_URI}/api/v1/client/get/friendsrequestsreceived/`, utils.set.bearer(ServerSocket.users[this.socket.id].token))
+            const response = await axios.get(`${process.env.BASE_URI}/api/v1/client/get/friendsrequestsreceived/`, utils.set.bearer(ServerSocket.users[this.socket.id].token))
             ServerSocket.io.to(this.socket.id).emit("friendRequestReceived", response.data)
         } catch(err) {
             console.log(err)

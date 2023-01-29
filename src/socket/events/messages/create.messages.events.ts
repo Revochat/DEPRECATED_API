@@ -17,7 +17,7 @@ export class MessageCreateEvent {
     public async run(channelID: number, message: IMessage) {
         try {
             // Use this to get socket id  
-            const response = await axios.post(`${process.env.BASE_URI}/api/v1/channel/messages/send/${channelID}`, {
+            const response = await axios.post(`${process.env.BASE_URI}/api/v1/message/send/${channelID}`, {
                 message: message
             },  utils.set.bearer(ServerSocket.users[this.socket.id].token))
             console.log(response.data)

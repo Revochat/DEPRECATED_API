@@ -11,8 +11,8 @@ import { remove } from "./channels.delete.messages"
 
 export const MessagesIntercept = {
     get : async (req: express.Request, res: express.Response) => { // Get a message
-        const {message_id} = req.params
         try {
+            const {message_id} = req.params
             if (!message_id) throw "Message ID cannot be empty"
 
             var Message = await DB.messages.find.id(message_id)

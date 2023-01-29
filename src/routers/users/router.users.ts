@@ -236,7 +236,7 @@ export const UserRouter = {
         path: "/add",
         Friend: {
             name: "addfriend",
-            method: "POST",
+            method: "GET",
             socketing: false,
             description: "Add a friend to a user's friend list",
             path: "/friend/:friend_id",
@@ -245,7 +245,7 @@ export const UserRouter = {
         },
         Blocked: {
             name: "addblocked",
-            method: "POST",
+            method: "GET",
             socketing: false,
             description: "Add a blocked user",
             path: "/blocked/:blocked_id",
@@ -258,19 +258,19 @@ export const UserRouter = {
         path: "/remove",
         Friend: {
             name: "removefriend",
-            method: "POST",
+            method: "GET",
             socketing: false,
             description: "Remove a friend from a user's friend list",
-            path: "/friend/:token/:friend_id",
+            path: "/friend/:friend_id",
             params: ["token", "friend_id"],
             res: UserInterceptSocials.removeFriend
         },
         Blocked: {
             name: "removeblocked",
-            method: "POST",
+            method: "GET",
             socketing: false,
             description: "Remove a blocked user",
-            path: "/blocked/:token/:blocked_id",
+            path: "/blocked/:blocked_id",
             params: ["token", "blocked_id"],
             res: UserInterceptSocials.removeBlocked
         }

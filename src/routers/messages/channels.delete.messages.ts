@@ -8,22 +8,22 @@ import { v4, v5 } from "uuid"
 import UTILS from "../../utils"
 
 export const remove = async (req: express.Request, res: express.Response) => { // Delete a message from a channel
-    const {channel_id, message_id} = req.params
-    const token = req.token
-
-    if (!channel_id || !token || !message_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        message_id.length < UTILS.CONSTANTS.MESSAGE.ID.MIN_LENGTH || message_id.length > UTILS.CONSTANTS.MESSAGE.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH){ //type check
-        
-            res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
-
     try {
+        const {channel_id, message_id} = req.params
+        const token = req.token
+
+        if (!channel_id || !token || !message_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
+            message_id.length < UTILS.CONSTANTS.MESSAGE.ID.MIN_LENGTH || message_id.length > UTILS.CONSTANTS.MESSAGE.ID.MAX_LENGTH ||
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH){ //type check
+            
+                res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
+
         var User = await UTILS.FUNCTIONS.find.user.token(token) // Find the user
 
         var Channel = await DB.channels.find.id(parseInt(channel_id))

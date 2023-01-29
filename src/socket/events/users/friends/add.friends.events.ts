@@ -15,7 +15,7 @@ export class FriendAddEvent {
 
     public async run(friendID: number) {
         try {
-            const response = await axios.post(`${process.env.BASE_URI}/api/v1/user/friends/add/${friendID}`, utils.set.bearer(ServerSocket.users[this.socket.id].token))
+            const response = await axios.get(`${process.env.BASE_URI}/api/v1/client/add/friend/${friendID}`, utils.set.bearer(ServerSocket.users[this.socket.id].token))
             ServerSocket.io.to(this.socket.id).emit("friendAdd", response.data)
         } catch(err) {
             console.log(err)

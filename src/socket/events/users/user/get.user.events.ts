@@ -1,6 +1,8 @@
 import axios from "axios";
 import ServerSocket from "../../..";
 
+
+
 async function get() {
     try {
         const response = await axios.get(`/api/v1/client/get/user/`, ServerSocket.users[ServerSocket.socket.id].token);

@@ -8,8 +8,6 @@ export class ChannelCreateEvent {
     }
 
     public async run() {
-        const socket: Socket = this.socket;
-        const token = socket.handshake.query.token;
-        console.log(token)
+        
     }
 }
