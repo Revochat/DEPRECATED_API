@@ -27,31 +27,18 @@ export const create = async (req: express.Request, res: express.Response) => { /
 
         if (User.servers.length >= UTILS.CONSTANTS.SERVER.MAX_SERVER) throw "You have reached the max amount of servers"
 
-        const user_id = parseInt(User.user_id) // Get the user id and convert it to a number
-
-        const test = [new Map<number, number[]>([[user_id, []]])]
-
-
-        test.push(new Map<number, number[]>([[user_id, []]]))
-        Logger.debug(test)
-        Logger.debug(test[0].get(user_id))
-
         // create the server
         var Server = await DB.servers.create({ 
             server_id: Date.now() + Math.floor(Math.random() * 1000),
             server_name: name,
-            owner_id: user_id,
+            owner_id: parseInt(User.user_id),
             channels: [],
-            // members: [new Map()],
-            members: [new Map<number, number[]>([[user_id, []]])],
+            members: [new Map([[String(User.user_id), []]])],
             members_count: 1,
             updated_at: new Date().toLocaleString(),
             created_at: new Date().toLocaleString(),
             permissions_id: []
         })
-
-        // add the user to the server members array of maps
-        // Server.members.push(new Map([[user_id, []]]))
 
         await Server.save() // Save the server to the database
 
