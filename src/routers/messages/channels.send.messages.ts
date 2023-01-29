@@ -46,7 +46,7 @@ export const send = async (req: express.Request, res: express.Response) => { // 
         // Check if the user has permission to send messages
         if (!UTILS.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.MESSAGE.SEND)) throw "You do not have permission to send messages in this channel"
 
-        Logger.debug(`Sending message to channel ${Channel}`)
+        Logger.debug(`Sending message to channel ${Channel.channel_id}`)
 
         // Check if the user is in the channel
         if (!Channel.members.includes(User.user_id)) throw "You are not in this channel"

@@ -25,7 +25,7 @@ export const remove = async (req: express.Request, res: express.Response) => { /
         var Server = await DB.servers.find.id(parseInt(server_id)) // Find the server
         if(!Server) throw "Server not found"
 
-        if(Server.owner_id != User.id) throw "You are not the owner of this server"
+        if(Server.owner_id != User.user_id) throw "You are not the owner of this server"
 
         Server.delete() // delete the server
 

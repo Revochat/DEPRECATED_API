@@ -32,7 +32,7 @@ export const permissionsUpdate = async (req: express.Request, res: express.Respo
         var Server = await DB.servers.find.id(parseInt(server_id)) // Find the server
         if(!Server) throw "Server not found"
 
-        if(Server.owner_id !== User.id) throw "You are not the owner of this server"
+        if(Server.owner_id !== User.user_id) throw "You are not the owner of this server"
 
         if (!UTILS.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to change the server icon"
 

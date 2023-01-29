@@ -25,7 +25,7 @@ export const getUpdatedAt = async (req: express.Request, res: express.Response) 
         if (!User) throw "User not found"
 
         // Check if user is a member of the server
-        if (!UTILS.FUNCTIONS.find.server.member(Server, User.id)) throw "You are not a member of this server"
+        if (!UTILS.FUNCTIONS.find.server.member(User.user_id, Server)) throw "You are not a member of this server"
 
         res.json(
             new RouteResponse()
