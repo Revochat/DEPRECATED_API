@@ -5,7 +5,7 @@ import Logger from "../../../client/logger.client"
 import DB from "../../../database"
 import UTILS from "../../../utils"
 
-export const remove = async (req: express.Request, res: express.Response) => { // Delete a channel
+export const removeChannel = async (req: express.Request, res: express.Response) => { // Delete a channel
     const {channel_id} = req.params
     const token = req.token
 
@@ -29,6 +29,7 @@ export const remove = async (req: express.Request, res: express.Response) => { /
         if (User.user_id !== Channel.owner_id) throw "You are not the owner of this channel" // Check if the user is the owner of the channel
 
         // check if the user has permission to update the channel
+        if (!Channel.server_id) throw "Channel is not a server channel" // only server channels can be deleted
         if (!UTILS.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to delete this channel"
 
         await Channel.delete() // delete the channel

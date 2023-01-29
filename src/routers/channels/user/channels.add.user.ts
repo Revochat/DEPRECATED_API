@@ -5,7 +5,7 @@ import Logger from "../../../client/logger.client"
 import DB from "../../../database"
 import UTILS from "../../../utils"
 
-export const addMember = async (req: express.Request, res: express.Response) => { // Add a user to a channel
+export const join = async (req: express.Request, res: express.Response) => { // Add a user to a channel
     const {channel_id, user_id} = req.params
     const token = req.token
 

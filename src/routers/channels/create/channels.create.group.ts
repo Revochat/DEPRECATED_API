@@ -9,13 +9,8 @@ export const create_group = async (req: express.Request, res: express.Response) 
     const { friend_id_1, friend_id_2 } = req.params
     const token = req.token
 
-    if(!token || !friend_id_1 || !friend_id_2) return res.json(
-        new RouteResponse()
-            .setStatus(Status.error)
-            .setMessage("Badly formatted")
-        )
-
-    if (token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
+    if (!token || !friend_id_1 || !friend_id_2 ||
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
         friend_id_1.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_1.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH ||
         friend_id_2.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_2.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) {
 

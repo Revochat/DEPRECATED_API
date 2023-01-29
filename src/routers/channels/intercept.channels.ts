@@ -1,10 +1,10 @@
-import { remove, leave} from "./manage"
+import { removeChannel } from "./manage"
 import { create } from "./create"
-import { update } from "./update/"
-import { get} from "./get/"
-import { addMember } from "./user"
+import { update } from "./update"
+import { get } from "./get"
+import { member } from "./user"
 
-export const ChannelsInterceptEssentials = {
+export const ChannelsIntercept = {
 
     update: {
         channel_name: update.channel_name,
@@ -28,8 +28,13 @@ export const ChannelsInterceptEssentials = {
         owner_id: get.owner_id
     },
     management: {
-        remove: remove,
-        leave: leave
+        remove: removeChannel,
     },
-    addMember
+    member: {
+        join: member.join,
+        leave: member.leave
+    },
+    moderation: {
+        kick: null
+    }
 }

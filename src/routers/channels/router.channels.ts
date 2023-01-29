@@ -1,12 +1,9 @@
 
 
-import { ChannelsInterceptEssentials } from "./intercept.channels.essentials";
-import { ChannelsInterceptModeration } from "./intercept.channels.moderation";
+import { ChannelsIntercept } from "./intercept.channels";
 
 export const ChannelsRouter = {
     path: "/channel",
-
-    // Essentials
 
     Create: {
         path: "/create",
@@ -17,7 +14,7 @@ export const ChannelsRouter = {
             description: "Create a private channel",
             path: "/private/:friend_id",
             params: ["token", "friend_id"],
-            res: ChannelsInterceptEssentials.create.private
+            res: ChannelsIntercept.create.private
         },
         Group: {
             name: "createGroup",
@@ -26,7 +23,7 @@ export const ChannelsRouter = {
             description: "Create a group channel",
             path: "/group/:friend_id_1/:friend_id_2",
             params: ["token", "friend_id_1", "friend_id_2"],
-            res: ChannelsInterceptEssentials.create.group
+            res: ChannelsIntercept.create.group
         },
         Server: {
             name: "createServer",
@@ -35,7 +32,7 @@ export const ChannelsRouter = {
             description: "Create a server channel",
             path: "/server/:server_id",
             params: ["token", "server_id", "channel_name", "channel_type"],
-            res: ChannelsInterceptEssentials.create.server
+            res: ChannelsIntercept.create.server
         }
     },
 
@@ -46,19 +43,29 @@ export const ChannelsRouter = {
         description: "Delete a channel",
         path: "/remove/:channel_id",
         params: ["token", "channel_id"],
-        res: ChannelsInterceptEssentials.management.remove
+        res: ChannelsIntercept.management.remove
     },
 
-    add : {
-        path: "/add",
-        Member : {
+    Member : {
+        path: "/member",
+
+        Add : {
             name: "addMember",
             method: "GET",
             socketing: false,
             description: "Add a member to a group channel",
-            path: "/member/:channel_id/:member_id",
+            path: "/add/:channel_id/:member_id",
             params: ["token", "channel_id", "member_id"],
-            res: ChannelsInterceptEssentials.addMember
+            res: ChannelsIntercept.member.join
+        },
+        Leave : {
+            name: "leaveMember",
+            method: "GET",
+            socketing: false,
+            description: "Leave a group channel",
+            path: "/leave/:channel_id",
+            params: ["token", "channel_id"],
+            res: ChannelsIntercept.member.leave
         }
     },
 
@@ -72,7 +79,7 @@ export const ChannelsRouter = {
             description: "Update channel_name of a channel",
             path: "/channel_name/:channel_id/",
             params: ["token", "channel_id", "channel_name"],
-            res: ChannelsInterceptEssentials.update.channel_name
+            res: ChannelsIntercept.update.channel_name
         },
         permissions: {
             name: "updatePermissions",
@@ -81,7 +88,7 @@ export const ChannelsRouter = {
             description: "Update permissions of a channel",
             path: "/permissions/:channel_id",
             params: ["token", "channel_id", "permissions"],
-            res: ChannelsInterceptEssentials.update.permissions
+            res: ChannelsIntercept.update.permissions
         }
     },
 
@@ -94,7 +101,7 @@ export const ChannelsRouter = {
             description: "Get a channel",
             path: "/:channel_id",
             params: ["token", "channel_id"],
-            res: ChannelsInterceptEssentials.get.channel
+            res: ChannelsIntercept.get.channel
         },
         
         Owner_id : {
@@ -104,7 +111,7 @@ export const ChannelsRouter = {
             description: "Get owner_id from a channel",
             path: "/owner_id/:channel_id",
             params: ["token", "channel_id"],
-            res: ChannelsInterceptEssentials.get.owner_id
+            res: ChannelsIntercept.get.owner_id
         },
         Channel_name : {
             name: "getChannel_name",
@@ -113,7 +120,7 @@ export const ChannelsRouter = {
             description: "Get channel_name from a channel",
             path: "/channel_name/:channel_id",
             params: ["token", "channel_id"],
-            res: ChannelsInterceptEssentials.get.channel_name
+            res: ChannelsIntercept.get.channel_name
         },
         Channel_type : {
             name: "getChannel_type",
@@ -122,7 +129,7 @@ export const ChannelsRouter = {
             description: "Get channel_type from a channel",
             path: "/channel_type/:channel_id",
             params: ["token", "channel_id"],
-            res: ChannelsInterceptEssentials.get.channel_type
+            res: ChannelsIntercept.get.channel_type
         },
         Members : {
             name: "getMembers",
@@ -131,7 +138,7 @@ export const ChannelsRouter = {
             description: "Get members from a channel",
             path: "/members/:channel_id",
             params: ["token", "channel_id"],
-            res: ChannelsInterceptEssentials.get.members
+            res: ChannelsIntercept.get.members
         },
         Members_count : {
             name: "getMembers_count",
@@ -140,7 +147,7 @@ export const ChannelsRouter = {
             description: "Get members_count from a channel",
             path: "/members_count/:channel_id",
             params: ["token", "channel_id"],
-            res: ChannelsInterceptEssentials.get.members_count
+            res: ChannelsIntercept.get.members_count
         },
         Updated_at : {
             name: "getUpdated_at",
@@ -149,7 +156,7 @@ export const ChannelsRouter = {
             description: "Get updated_at from a channel",
             path: "/updated_at/:channel_id",
             params: ["token", "channel_id"],
-            res: ChannelsInterceptEssentials.get.updated_at
+            res: ChannelsIntercept.get.updated_at
         },
         Created_at : {
             name: "getCreated_at",
@@ -158,7 +165,7 @@ export const ChannelsRouter = {
             description: "Get created_at from a channel",
             path: "/created_at/:channel_id",
             params: ["token", "channel_id"],
-            res: ChannelsInterceptEssentials.get.created_at
+            res: ChannelsIntercept.get.created_at
         },
         Permissions : {
             name: "getPermissions",
@@ -167,7 +174,7 @@ export const ChannelsRouter = {
             description: "Get permissions from a channel",
             path: "/permissions/:channel_id",
             params: ["token", "channel_id"],
-            res: ChannelsInterceptEssentials.get.permissions
+            res: ChannelsIntercept.get.permissions
         },
 
         Messages : {
@@ -177,21 +184,7 @@ export const ChannelsRouter = {
             description: "Get messages from a channel",
             path: "/messages/:channel_id/:limit",
             params: ["token", "channel_id", "limit"],
-            res: ChannelsInterceptEssentials.get.messages
+            res: ChannelsIntercept.get.messages
         },
-
     },
-
-    // Moderation
-
-    Kick : {
-        name: "kick",
-        method: "POST",
-        socketing: false,
-        description: "Kick a user from a channel",
-        path: "/kick/:channel_id/:user_id",
-        params: ["token", "channel_id", "user_id", "member_id"],
-        res: ChannelsInterceptModeration.kick
-    },
-
 }

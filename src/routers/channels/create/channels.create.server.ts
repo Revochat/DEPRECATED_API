@@ -10,13 +10,8 @@ export const create_server = async (req: express.Request, res: express.Response)
     const {server_id} = req.params
     const token = req.token
 
-    if(!token || !server_id || !channel_name || !channel_type) return res.json(
-        new RouteResponse()
-            .setStatus(Status.error)
-            .setMessage("Badly formatted")
-        )
-
-    if (token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
+    if (!token || !server_id || !channel_name || !channel_type ||
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
         server_id.length !== UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
         channel_name.length < UTILS.CONSTANTS.CHANNEL.NAME.MIN_LENGTH || channel_name.length > UTILS.CONSTANTS.CHANNEL.NAME.MAX_LENGTH ||
         channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.TEXT || channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.VOICE) {

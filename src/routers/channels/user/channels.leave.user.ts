@@ -30,6 +30,8 @@ export const leave = async (req: express.Request, res: express.Response) => { //
 
         if (!Channel.members.includes(User.user_id)) throw "You are not in this channel"
 
+        if (Channel.server_id) throw "You cannot leave a server channel"
+
         // Remove the user from the channel
         Channel.members = Channel.members.filter((member) => member !== User.user_id)
         Channel.members_count = Channel.members.length

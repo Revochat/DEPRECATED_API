@@ -1,5 +1,4 @@
-import { UserInterceptEssentials } from "./intercept.users.essentials"
-import { UserInterceptSocials } from "./intercept.users.socials"
+import { UserIntercept } from "./intercept.users"
 
 export const UserRouter = {
     path: "/client",
@@ -11,7 +10,7 @@ export const UserRouter = {
         socketing: false,
         path:"/register",
         params: ["username", "password"],
-        res: UserInterceptEssentials.register
+        res: UserIntercept.register
     },
 
     Login: { // Login a user with login credentials
@@ -21,7 +20,7 @@ export const UserRouter = {
         socketing: false,
         path: "/login",
         params: ["username", "password"],
-        res: UserInterceptEssentials.login,
+        res: UserIntercept.login,
     },
 
     Connect: { // Connect a user with a user token
@@ -31,7 +30,7 @@ export const UserRouter = {
         socketing: true,
         path: "/connect",
         params: ["token"],
-        res: UserInterceptEssentials.connect,
+        res: UserIntercept.connect,
     },
 
     Update: {
@@ -44,7 +43,7 @@ export const UserRouter = {
             description: "Update a user's status",
             path: "/status/",
             params: ["token", "newstatus"],
-            res: UserInterceptEssentials.update.status
+            res: UserIntercept.update.status
         },
         Username: {
             name: "updateusername",
@@ -53,7 +52,7 @@ export const UserRouter = {
             description: "Update a user's username",
             path: "/username/:newusername",
             params: ["token", "newusername"],
-            res: UserInterceptEssentials.update.username
+            res: UserIntercept.update.username
         },
         // UpdateProfilePicture: {
         //     name: "updateprofilepicture",
@@ -62,7 +61,7 @@ export const UserRouter = {
         //     description: "Update a user's profile picture",
         //     path: "/profilepicture/",
         //     params: ["token", "newprofile_picture"],
-        //     res: UserInterceptEssentials.update.avatar
+        //     res: UserIntercept.update.avatar
         // },
         Password: {
             name: "updatepassword",
@@ -71,7 +70,7 @@ export const UserRouter = {
             description: "Update a user's password",
             path: "/password/",
             params: ["token", "newpassword"],
-            res: UserInterceptEssentials.update.password
+            res: UserIntercept.update.password
         },
         Wallet_token: {
             name: "updatewallettoken",
@@ -80,7 +79,7 @@ export const UserRouter = {
             description: "Update a user's wallet token",
             path: "/wallettoken/",
             params: ["token", "newwallet_token"],
-            res: UserInterceptEssentials.update.wallet_token
+            res: UserIntercept.update.wallet_token
         }
     },
 
@@ -93,7 +92,7 @@ export const UserRouter = {
             description: "Get a user with a token",
             path: "/user/token",
             params: ["token"],
-            res: UserInterceptEssentials.get.user
+            res: UserIntercept.get.user
         },
         Wallet_token: {
             name: "getwallettoken",
@@ -102,7 +101,7 @@ export const UserRouter = {
             description: "Get a user wallet token",
             path: "/wallettoken/",
             params: ["wallet_token"],
-            res: UserInterceptEssentials.get.wallet_token
+            res: UserIntercept.get.wallet_token
         },
         Username: {
             name: "getusername",
@@ -111,7 +110,7 @@ export const UserRouter = {
             description: "Get a user username",
             path: "/username/",
             params: ["username"],
-            res: UserInterceptEssentials.get.username
+            res: UserIntercept.get.username
         },
         Premium_expiration: {
             name: "getpremiumexpiration",
@@ -120,7 +119,7 @@ export const UserRouter = {
             description: "Get a user premium expiration",
             path: "/premiumexpiration/",
             params: ["premium_expiration"],
-            res: UserInterceptEssentials.get.premium_expiration
+            res: UserIntercept.get.premium_expiration
         },
         Avatar: {
             name: "getavatar",
@@ -129,7 +128,7 @@ export const UserRouter = {
             description: "Get a user avatar",
             path: "/avatar/",
             params: ["avatar"],
-            res: UserInterceptEssentials.get.avatar
+            res: UserIntercept.get.avatar
         },
         Message_privacy: {
             name: "getmessageprivacy",
@@ -138,7 +137,7 @@ export const UserRouter = {
             description: "Get a user message privacy",
             path: "/messageprivacy/",
             params: ["message_privacy"],
-            res: UserInterceptEssentials.get.message_privacy
+            res: UserIntercept.get.message_privacy
         },
         Status: {
             name: "getstatus",
@@ -147,7 +146,7 @@ export const UserRouter = {
             description: "Get a user status",
             path: "/status/",
             params: ["status"],
-            res: UserInterceptEssentials.get.status
+            res: UserIntercept.get.status
         },
         Updated_at: {
             name: "getupdatedat",
@@ -156,7 +155,7 @@ export const UserRouter = {
             description: "Get a user updated at",
             path: "/updatedat/",
             params: ["updated_at"],
-            res: UserInterceptEssentials.get.updated_at
+            res: UserIntercept.get.updated_at
         },
         Created_at: {
             name: "getcreatedat",
@@ -165,7 +164,7 @@ export const UserRouter = {
             description: "Get a user created at",
             path: "/createdat/",
             params: ["created_at"],
-            res: UserInterceptEssentials.get.created_at
+            res: UserIntercept.get.created_at
         },
         Last_connection: {
             name: "getlastconnection",
@@ -174,7 +173,7 @@ export const UserRouter = {
             description: "Get a user last connection",
             path: "/lastconnection/",
             params: ["last_connection"],
-            res: UserInterceptEssentials.get.last_connection
+            res: UserIntercept.get.last_connection
         },
         Servers: {
             name: "getservers",
@@ -183,7 +182,7 @@ export const UserRouter = {
             description: "Get a user servers",
             path: "/servers/",
             params: ["servers"],
-            res: UserInterceptEssentials.get.servers
+            res: UserIntercept.get.servers
         },
         Channels: {
             name: "getchannels",
@@ -192,7 +191,7 @@ export const UserRouter = {
             description: "Get a user channels",
             path: "/channels/",
             params: ["channels"],
-            res: UserInterceptEssentials.get.channels
+            res: UserIntercept.get.channels
         },
         Friends: {
             name: "getfriends",
@@ -201,7 +200,7 @@ export const UserRouter = {
             description: "Get a user friends",
             path: "/friends/",
             params: ["friends"],
-            res: UserInterceptEssentials.get.friends
+            res: UserIntercept.get.friends
         },
         Friends_requests_received: {
             name: "getfriendsrequestsreceived",
@@ -210,7 +209,7 @@ export const UserRouter = {
             description: "Get a user friends_requests_received",
             path: "/friendsrequestsreceived/",
             params: ["friends_requests_received"],
-            res: UserInterceptEssentials.get.friends_requests_received
+            res: UserIntercept.get.friends_requests_received
         },
         Friends_requests_sent: {
             name: "getfriendsrequestssent",
@@ -219,7 +218,7 @@ export const UserRouter = {
             description: "Get a user friends_requests_sent",
             path: "/friendsrequestssent/",
             params: ["friends_requests_sent"],
-            res: UserInterceptEssentials.get.friends_requests_sent
+            res: UserIntercept.get.friends_requests_sent
         },
         Blocked: {
             name: "getblocked",
@@ -228,51 +227,51 @@ export const UserRouter = {
             description: "Get a user blocked",
             path: "/blocked/",
             params: ["blocked"],
-            res: UserInterceptEssentials.get.blocked
+            res: UserIntercept.get.blocked
         }
     },
 
-    Add: {
-        path: "/add",
-        Friend: {
+    Friends: {
+        path: "/friends",
+        Add: {
             name: "addfriend",
             method: "GET",
             socketing: false,
-            description: "Add a friend to a user's friend list",
-            path: "/friend/:friend_id",
+            description: "Add a friend",
+            path: "/add/:friend_id",
             params: ["token", "friend_id"],
-            res: UserInterceptSocials.addFriend
+            res: UserIntercept.friends.add
         },
-        Blocked: {
-            name: "addblocked",
-            method: "GET",
-            socketing: false,
-            description: "Add a blocked user",
-            path: "/blocked/:blocked_id",
-            params: ["token", "blocked_id"],
-            res: UserInterceptSocials.addBlocked
-        },
-    },
-
-    Remove: {
-        path: "/remove",
-        Friend: {
+        Remove: {
             name: "removefriend",
             method: "GET",
             socketing: false,
-            description: "Remove a friend from a user's friend list",
-            path: "/friend/:friend_id",
+            description: "Remove a friend",
+            path: "/remove/:friend_id",
             params: ["token", "friend_id"],
-            res: UserInterceptSocials.removeFriend
+            res: UserIntercept.friends.remove
+        }
+    },
+
+    Blocked: {
+        path: "/blocked",
+        Add: {
+            name: "addblocked",
+            method: "GET",
+            socketing: false,
+            description: "Add a blocked",
+            path: "/add/:blocked_id",
+            params: ["token", "blocked_id"],
+            res: UserIntercept.blocked.add
         },
-        Blocked: {
+        Remove: {
             name: "removeblocked",
             method: "GET",
             socketing: false,
-            description: "Remove a blocked user",
-            path: "/blocked/:blocked_id",
+            description: "Remove a blocked",
+            path: "/remove/:blocked_id",
             params: ["token", "blocked_id"],
-            res: UserInterceptSocials.removeBlocked
-        }
-    },
+            res: UserIntercept.blocked.remove
+        },
+    }
 }

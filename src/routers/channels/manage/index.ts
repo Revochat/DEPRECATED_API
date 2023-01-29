@@ -1,2 +1,2 @@
-export * from "./channels.delete.management"
-export * from "./channels.leave.management"
+export * from "./channels.remove.management"
+export * from "../user/channels.leave.user"

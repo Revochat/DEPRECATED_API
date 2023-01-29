@@ -1,9 +1,11 @@
 import { update } from "./update"
 import { userLogin, userRegister, userConnect } from "./connect"
-import { get } from "./get/"
+import { get } from "./get"
+import { friends } from "./friends"
+import { blocked } from "./blocked"
 
 
-export const UserInterceptEssentials = {
+export const UserIntercept = {
     register : userRegister,
     login : userLogin,
     connect : userConnect,
@@ -33,5 +35,15 @@ export const UserInterceptEssentials = {
         avatar: update.avatar,
         wallet_token: update.wallet_token,
         status: update.status
+    },
+
+    friends: {
+        add: friends.add,
+        remove: friends.remove
+    },
+
+    blocked: {
+        add: blocked.add,
+        remove: blocked.remove
     }
 }

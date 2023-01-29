@@ -11,13 +11,7 @@ export const create_private = async (req: express.Request, res: express.Response
     const { friend_id } = req.params
     const token = req.token
 
-    if(!token || !friend_id) return res.json(
-        new RouteResponse()
-            .setStatus(Status.error)
-            .setMessage("Badly formatted")
-        )
-
-    if (token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
+    if (!token || !friend_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
             friend_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) {
 
             res.json(
@@ -44,6 +38,8 @@ export const create_private = async (req: express.Request, res: express.Response
         if (Friend.message_privacy === UTILS.CONSTANTS.MESSAGE.PROPERTIES.MESSAGE_PRIVACY_FRIENDS) {
             if (!UTILS.FUNCTIONS.find.user.friend(User, Friend)) throw "Friend not found"
         }
+
+        if (User.user_id === Friend.user_id) throw "You cannot create a private channel with yourself"
 
         // check if channel already exists between users 
         var Channel_Exists = await UTILS.FUNCTIONS.find.channel.friend(User, Friend) // not sure it works
