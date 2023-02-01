@@ -2,10 +2,12 @@ import express from "express"
 import DB from "../../../database"
 import { RouteResponse, Status } from "../../controller"
 import UTILS from "../../../utils"
+import Logger from "../../../client/logger.client"
 
 export const getChannels = async (req: express.Request, res: express.Response) => { // Get a user
     try {
         const token = req.token
+        Logger.log("Getting user channels")
 
         // if token badly formatted
         if(!token || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH) throw "Badly formatted"
@@ -13,11 +15,14 @@ export const getChannels = async (req: express.Request, res: express.Response) =
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"
 
+        // fetch the user's channels from the database
+        const channels = await DB.users.find.channels(User.user_id)
+
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
-                .setMessage(`User found`)
-                .setData(User.channels)
+                .setMessage(`User channels found`)
+                .setData(channels)
         )
     }
     catch(err) {

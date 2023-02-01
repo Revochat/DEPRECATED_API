@@ -1,6 +1,10 @@
 import { FilterQuery, QueryOptions, QueryWithHelpers, Types } from "mongoose";
 import User, {IUserModel, IUser } from "../models/User"
 
+export async function UserGetAllChannels(id: number) {
+    return User.collection.find({user_id: id}).toArray();
+}
+
 export async function UserExist(query: FilterQuery<IUserModel>, options: QueryOptions<unknown> | null = {projection: {_id: 1}}): Promise<boolean> {
     return new Promise((resolve) => {
         User.findOne(query, options, (err, user) => {
