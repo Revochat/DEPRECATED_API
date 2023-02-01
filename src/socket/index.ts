@@ -29,6 +29,8 @@ export default class ServerSocket {
                 socket.on("messageCreate", EventHandler.messageCreate.bind(EventHandler))
                 socket.on("messageDelete", EventHandler.messageDelete.bind(EventHandler))
                 socket.on("login", EventHandler.login.bind(EventHandler))
+                socket.on("friendAdd", EventHandler.friendAdd.bind(EventHandler))
+                socket.on("friendRemove", EventHandler.friendRemove.bind(EventHandler))
                 
 
                 socket.on("disconnect", () => {

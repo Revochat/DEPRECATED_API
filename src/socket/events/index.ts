@@ -4,7 +4,7 @@ import { Socket } from "socket.io";
 import ServerSocket from "..";
 import { ChannelCreateEvent, ChannelsGetEvent } from "./channels";
 import { ActivityEvent } from "./users/user";
-import { FriendAddEvent, FriendRequestsReceivedEvent } from "./users/friends";
+import { FriendAddEvent, FriendRemoveEvent, FriendRequestsReceivedEvent } from "./users/friends";
 
 export class SocketEvents {
     private socket: Socket;
@@ -46,6 +46,11 @@ export class SocketEvents {
         const friendAdd = new FriendAddEvent(this.socket);
         friendAdd.run(friendID);
     }
+
+    public friendRemove(friendID: number) {
+        const friendRemove = new FriendRemoveEvent(this.socket);
+        friendRemove.run(friendID);
+    }   
 
     public friendsRequestsReceived(){
         const friendsRequestsReceived = new FriendRequestsReceivedEvent(this.socket);
