@@ -5,6 +5,7 @@ import { RouteResponse, Status } from "../../controller"
 import Emitter from "../../../client/emitter.client"
 import bcrypt from "bcrypt"
 import UTILS from "../../../utils"
+import { v4, v5 } from "uuid"
 
 export const passwordUpdate = async (req: express.Request, res: express.Response) => { // Update the password
     try {
@@ -17,6 +18,8 @@ export const passwordUpdate = async (req: express.Request, res: express.Response
 
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"
+        // refresh the token of the user to avoid the token to be the same as the previous one
+        User.token = (v5(User.username + Date.now(), v4()).split("-").join("") + Date.now()).toUpperCase() // generate a new token
         User.password = await bcrypt.hash(newpassword, 10)
         User.updated_at = new Date().toLocaleString()
         User.save()
