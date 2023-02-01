@@ -47,10 +47,6 @@ export const create_server = async (req: express.Request, res: express.Response)
         })
 
         await Channel.save()
-        
-        // add channel to user
-        User.channels.push(Channel.channel_id)
-        await User.save()
 
         // add channel to server
         if (Server.channels) Server.channels.push(Channel.channel_id)
@@ -61,8 +57,8 @@ export const create_server = async (req: express.Request, res: express.Response)
 
         // send event to client to update channels list in sidebar
         Emitter.emit("update_channels", {
-            user_id: User.user_id,
-            channels: User.channels
+            server_id: Server.server_id,
+            channels: Server.channels
         })
 
         res.json(

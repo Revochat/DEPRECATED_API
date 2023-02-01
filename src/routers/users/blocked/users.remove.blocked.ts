@@ -24,7 +24,9 @@ export const removeBlocked = async (req: express.Request, res: express.Response)
         User.blocked.splice(User.blocked.indexOf(blocked_id), 1)
         User.updated_at = new Date().toLocaleString()
         User.save()
+
         Logger.debug(`User ${User} has been updated`)
+        
         Emitter.emit("removeBlocked", User)
         res.json(
             new RouteResponse()

@@ -150,6 +150,4 @@ export const ServersRouter = {
             res: ServerIntercept.manage.remove
         }
     },
-
-    // user add, remove, update roles, ..
 }
