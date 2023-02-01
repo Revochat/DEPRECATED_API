@@ -25,7 +25,7 @@ export const getUserbyID = async (req: express.Request, res: express.Response) =
             }
             User = await DB.users.find.id(parseInt(user_id))
             if(!User) throw "User not found"
-
+            
             res.json(
                 new RouteResponse()
                     .setStatus(Status.success)
