@@ -27,7 +27,7 @@ export const getChannels = async (req: express.Request, res: express.Response) =
 
         // Check if user is a member of the server
         if (!UTILS.FUNCTIONS.find.server.member(User.user_id, Server)) throw "You are not a member of this server"
-
+        
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)

@@ -13,6 +13,10 @@ export const getServers = async (req: express.Request, res: express.Response) =>
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"
 
+        for (let i = 0; i < User.servers.length; i++) {
+            User.servers[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.servers[i])
+        }
+
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)

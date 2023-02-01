@@ -12,12 +12,11 @@ export const findChannelFriend = async (User: IUser, Friend: IUser) => { // Find
         if (Channeltemp) { // check if the channel is a private channel
             if (Channeltemp.channel_type === UTILS.CONSTANTS.CHANNEL.TYPE.HYBRID) {
                 if (Channeltemp.members.includes(Friend.user_id)) { // check if the channel has the friend id
-                    break // found the channel
+                    return Channeltemp // return the channel
                 }
             }
         }
     }
 
     if (!Channel) throw "Channel not found" // If the channel is not found, throw an error
-    return Channeltemp // Return the channel
 }

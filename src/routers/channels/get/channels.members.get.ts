@@ -29,12 +29,19 @@ export const getMembers = async (req: express.Request, res: express.Response) =>
         if (!Channel.members.includes(User.user_id)) throw "You are not in this channel"
 
         Logger.debug(`Getting members of channel ${Channel}`)
+
+        // fetch the members of the channel
+        var Members = await DB.users.find.many(Channel.members)
+
+        // Remove private info
+        Members = Members.map((member: any) => UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(member))
+
         res.json(
             new RouteResponse()
 
                 .setStatus(Status.success)
                 .setMessage(`Channel members`)
-                .setData(Channel.members)
+                .setData(Members)
         )
     }
     catch (err) {

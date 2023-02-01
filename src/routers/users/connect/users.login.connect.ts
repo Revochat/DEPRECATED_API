@@ -33,7 +33,7 @@ export const userLogin = async (req: express.Request, res: express.Response) => 
         User.friends = await DB.users.find.many(User.friends)
 
         for (let i = 0; i < User.friends.length; i++) {
-            User.friends[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO(User.friends[i])
+            User.friends[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.friends[i])
         }
 
         Emitter.emit("connect", User, null)

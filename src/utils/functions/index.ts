@@ -28,7 +28,17 @@ export class FUNCTIONS {
         }
     }
     
-    static REMOVE_PRIVATE_INFO = (user: any) => {
+    static REMOVE_OVERFLOW_INFO_SERVER = (server: any) => {
+        server.owner = undefined
+        server.members = undefined
+        server.channels = undefined
+        server.invites = undefined
+        server.bans = undefined
+        server.roles = undefined
+        server.permissions = undefined
+        return server
+    }
+    static REMOVE_PRIVATE_INFO_USER = (user: any) => {
         user.password = undefined
         user.token = undefined
         user.friends_requests_received = undefined
@@ -38,5 +48,11 @@ export class FUNCTIONS {
         user.channels = undefined
         user.friends = undefined
         return user
+    }
+    static REMOVE_OVERFLOW_INFO_CHANNEL = (channel: any) => {
+        channel.members = undefined
+        channel.messages = undefined
+        channel.permissions = undefined
+        return channel
     }
 }

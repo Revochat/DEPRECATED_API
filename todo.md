@@ -3,12 +3,13 @@ TO DO LIST:
 - convert to hexadecimal user_id when sent (BLF)
 - Web-RTC
 - notifications
-- tag people, premium handling, avatars, role create/update/delete, invite and moderation of servers, checkintegrity perm test, perm channel test, remove private info and update get with real data not id (login et user get notamment)
+- tag people, premium handling, avatars, role create/update/delete, invite and moderation of servers, checkintegrity perm test, test routes
 - encryption system (Lux)
 - audio chat / video chat
 - screenshare
 - files upload handling
 - self destruct system for messages (mass delete messages function)
+- captcha
 
 ==================== 1.0.0 ==================== (less urgent)
 - reactions

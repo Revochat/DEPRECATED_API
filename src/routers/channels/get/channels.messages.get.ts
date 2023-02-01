@@ -31,7 +31,6 @@ export const getMessages = async (req: express.Request, res: express.Response) =
         Logger.debug(`Getting messages of channel ${Channel}`)
 
         var Messages = await DB.channels.find.messages(channel_id, parseInt(limit)) // needs testing (not sure if it works)
-        console.log(Messages)
 
         res.json(
             new RouteResponse()
