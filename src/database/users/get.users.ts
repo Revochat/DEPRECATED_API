@@ -6,6 +6,15 @@ export async function UserGetAllChannels(id: number) { // Get all channels a use
     return Channel.find({members: id}) // Find all channels where the user id is in the members array
 }
 
+export async function UserGetMany(array_id: number[]): Promise<(IUserModel & {_id: Types.ObjectId})[]> {
+    return new Promise((resolve, reject) => {
+        User.find({user_id: {$in: array_id}}, null, (err, users) => {
+            if(err) reject(err);
+            resolve(users);
+        })
+    })
+}
+
 export async function UserExist(query: FilterQuery<IUserModel>, options: QueryOptions<unknown> | null = {projection: {_id: 1}}): Promise<boolean> {
     return new Promise((resolve) => {
         User.findOne(query, options, (err, user) => {
@@ -18,15 +27,6 @@ export async function UserExist(query: FilterQuery<IUserModel>, options: QueryOp
 export async function UserGetOne(query: FilterQuery<IUserModel>, options: QueryOptions<unknown> | null = {projection: {_id: 0}}): Promise<null | QueryWithHelpers<any, any>> {
     return new Promise((resolve, reject) => {
         User.findOne(query, options, (err, user) => {
-            if(err) reject(err);
-            resolve(user);
-        })
-    })
-}
-
-export async function UserGetAll(query: FilterQuery<IUserModel>, options: QueryOptions<unknown> | null = {projection: {_id: 0}}): Promise<null | QueryWithHelpers<any, any>> {
-    return new Promise((resolve, reject) => {
-        User.find(query, options, (err, user) => {
             if(err) reject(err);
             resolve(user);
         })

@@ -1,5 +1,5 @@
 import { MessageCreate, MessageFindOne, MessageDelete, MessageFindUser, MessageFindChannel} from './messages/'
-import { UserCreate, UserConnect, UserExist, UserGetOne, UserGetAll, UserFindByUsername, UserFindByToken, UserFindByID, UserGetAllChannels } from './users'
+import { UserCreate, UserConnect, UserExist, UserGetOne, UserGetMany, UserFindByUsername, UserFindByToken, UserFindByID, UserGetAllChannels } from './users'
 import { ChannelCreate, ChannelFindOne, ChannelDelete, GetXNumberofMessages, ChannelFindUser } from './channels'
 import { RoleCreate, RoleFindOne } from './roles'
 import { ServerCreate, ServerFindOne, ServerDelete, ServerFindUser } from './servers'
@@ -13,13 +13,12 @@ export default {
         log: UserConnect,
         get: {
             one: UserGetOne,
-            all: UserGetAll
         },
         find: {
             username: UserFindByUsername,
             token: UserFindByToken,
             id: UserFindByID,
-            many: UserGetAll,
+            many: UserGetMany,
             channels: UserGetAllChannels
         },
         connect: UserConnect

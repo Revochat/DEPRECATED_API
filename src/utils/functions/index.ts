@@ -27,7 +27,7 @@ export class FUNCTIONS {
         }
     }
     
-    static removeSensitiveData = (user: any) => {
+    static REMOVE_PRIVATE_INFO = (user: any) => {
         delete user.password
         delete user.token
         delete user.friends_requests_received
