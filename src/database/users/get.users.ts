@@ -1,8 +1,9 @@
 import { FilterQuery, QueryOptions, QueryWithHelpers, Types } from "mongoose";
 import User, {IUserModel, IUser } from "../models/User"
+import Channel, {IChannel} from "../models/Channel";
 
-export async function UserGetAllChannels(id: number) {
-    return User.collection.find({user_id: id}).toArray();
+export async function UserGetAllChannels(id: number) { // Get all channels a user is in by user id
+    return Channel.find({members: id}) // Find all channels where the user id is in the members array
 }
 
 export async function UserExist(query: FilterQuery<IUserModel>, options: QueryOptions<unknown> | null = {projection: {_id: 1}}): Promise<boolean> {
