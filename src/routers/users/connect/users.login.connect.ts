@@ -26,9 +26,6 @@ export const userLogin = async (req: express.Request, res: express.Response) => 
             throw "Username or password invalid"
         }
 
-        // refresh the token of the user to avoid the token to be the same as the previous one
-        User.token = (v5(username + Date.now(), v4()).split("-").join("") + Date.now()).toUpperCase() // generate a new token
-
         User.last_connection = new Date().toLocaleString()
         User.save() //update the last connection date of the user in the database
 
