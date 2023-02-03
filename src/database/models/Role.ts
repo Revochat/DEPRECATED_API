@@ -41,6 +41,7 @@ export interface IRole { // This is the interface for the role in the database
     role_members: string[];
     role_color: string;
     role_position: number;
+    role_server_id: number;
 
     created_at: string;
     updated_at: string;
@@ -56,6 +57,7 @@ const RoleSchema = new Schema({
     role_members: { type: Array, required: false, default: [] },
     role_color: { type: String, required: true, default: "#000000" },
     role_position: { type: Number, required: true, default: 0 },
+    role_server_id: { type: Number, required: true },
 
     created_at: { type: String, required: true },
     updated_at: { type: String, required: true },

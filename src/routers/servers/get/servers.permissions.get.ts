@@ -34,7 +34,7 @@ export const getPermissions = async (req: express.Request, res: express.Response
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
-                .setData(Server.permissions_id)
+                .setData(Server.roles)
         )
         return
     }

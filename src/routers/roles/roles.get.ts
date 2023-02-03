@@ -4,7 +4,7 @@ import Emitter from "../../client/emitter.client"
 import Logger from "../../client/logger.client"
 import DB from "../../database"
 
-export const getRole = async (req: express.Request, res: express.Response) => {
+export const getRole = async (req: express.Request, res: express.Response) => { // get a role by id
     try {
         const {id, server_id} = req.params
         const token = req.token
