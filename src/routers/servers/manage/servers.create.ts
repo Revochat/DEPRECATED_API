@@ -37,7 +37,7 @@ export const create = async (req: express.Request, res: express.Response) => { /
             members_count: 1,
             updated_at: new Date().toLocaleString(),
             created_at: new Date().toLocaleString(),
-            permissions_id: []
+            roles: []
         })
 
         await Server.save() // Save the server to the database

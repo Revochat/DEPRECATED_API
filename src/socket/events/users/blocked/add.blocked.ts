@@ -6,7 +6,7 @@ import { utils } from "../../../utils";
 
 dotenv.config()
 
-export class BlockedRemoveEvent {
+export class BlockedAddEvent {
     private socket: Socket;
 
     constructor(socket: Socket) {

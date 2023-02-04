@@ -17,9 +17,6 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
 
         var User = await UTILS.FUNCTIONS.find.user.token(token) // Find the user
 
-        // Check if the user is itself
-        if(User.user_id.toString() === friend_id) throw "User is itself"
-
         // Check if the friend is already added
         if(User.friends.includes(friend_id)) throw "User already added"
 
@@ -70,9 +67,6 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
             Friend.save()
             Logger.debug(`User ${Friend} has been updated`)
 
-            // cut sensitive data
-            Friend = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(Friend)
-
             // Emit the event
             Emitter.emit("addFriend", Friend)
 
@@ -98,14 +92,9 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
             User.updated_at = new Date().toLocaleString()
             User.save()
             Logger.debug(`User ${User} has been updated`)
-
-            // cut sensitive data
-            Friend = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(Friend)
-
-            // Emit the event
-            Emitter.emit("addFriend", Friend)
             
             res.json(
+
                 new RouteResponse()
                     .setStatus(Status.success)
                     .setMessage(`Friend request sent`)

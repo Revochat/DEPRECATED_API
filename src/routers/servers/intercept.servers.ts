@@ -21,7 +21,6 @@ export const ServerIntercept = {
     },
     update: {
         name: update.name,
-        icon: update.icon,
-        permissions: update.permissions
+        icon: update.icon
     }
 }

@@ -3,11 +3,9 @@ import { RouteResponse, Status } from "../controller"
 import Emitter from "../../client/emitter.client"
 import Logger from "../../client/logger.client"
 import DB from "../../database"
-import { IMessageModel } from "../../database/models/Message"
-import { v4, v5 } from "uuid"
 
-import { send } from "./channels.send.messages"
-import { remove } from "./channels.delete.messages"
+import { send } from "./message.send"
+import { remove } from "./message.remove"
 
 export const MessagesIntercept = {
     get : async (req: express.Request, res: express.Response) => { // Get a message

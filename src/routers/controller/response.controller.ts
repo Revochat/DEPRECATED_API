@@ -3,6 +3,7 @@ import { UserRouter } from "../users"
 import { ChannelsRouter } from "../channels"
 import { ServersRouter } from "../servers"
 import { MessagesRouter } from "../messages"
+import { RolesRouter } from "../roles"
 
 export const Intercept = { // Intercept the requests and responses and route them to the right function, this is the main router and all the other routers are children of this router
     ROOT: {
@@ -15,7 +16,8 @@ export const Intercept = { // Intercept the requests and responses and route the
                 Users: UserRouter,
                 Channels: ChannelsRouter,
                 Servers: ServersRouter,
-                Messages: MessagesRouter
+                Messages: MessagesRouter,
+                Roles: RolesRouter
             },
     
         },

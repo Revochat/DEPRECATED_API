@@ -26,11 +26,22 @@ export default class ServerSocket {
 
                 const EventHandler = new SocketEvents(socket)
 
+                socket.on("login", EventHandler.login.bind(EventHandler))
+
                 socket.on("messageCreate", EventHandler.messageCreate.bind(EventHandler))
                 socket.on("messageDelete", EventHandler.messageDelete.bind(EventHandler))
-                socket.on("login", EventHandler.login.bind(EventHandler))
+
                 socket.on("friendAdd", EventHandler.friendAdd.bind(EventHandler))
                 socket.on("friendRemove", EventHandler.friendRemove.bind(EventHandler))
+                //socket.on("friendRequestsReceived", EventHandler.friendRequestsReceived.bind(EventHandler))
+
+                socket.on("roleCreate", EventHandler.roleCreate.bind(EventHandler))
+                socket.on("roleDelete", EventHandler.roleDelete.bind(EventHandler))
+                socket.on("roleGet", EventHandler.roleGet.bind(EventHandler))
+
+                socket.on("channelCreate", EventHandler.channelCreate.bind(EventHandler))
+                socket.on("channelDelete", EventHandler.channelDelete.bind(EventHandler))
+                socket.on("channelsGet", EventHandler.channelsGet.bind(EventHandler))
                 
 
                 socket.on("disconnect", () => {

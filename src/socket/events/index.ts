@@ -5,6 +5,7 @@ import ServerSocket from "..";
 import { ChannelCreateEvent, ChannelsGetEvent } from "./channels";
 import { ActivityEvent } from "./users/user";
 import { FriendAddEvent, FriendRemoveEvent, FriendRequestsReceivedEvent } from "./users/friends";
+import { RoleCreateEvent } from "./roles/create.roles.event";
 
 export class SocketEvents {
     private socket: Socket;
@@ -15,6 +16,21 @@ export class SocketEvents {
     public userActivity(){ // ToDo 
         const activity = new ActivityEvent(this.socket);
         activity.run();
+    }
+
+    public roleCreate(){ // ToDo
+        const roleCreate = new RoleCreateEvent(this.socket);
+        //roleCreate.run();
+    }
+
+    public roleDelete(roleID: number){ // ToDo
+        const roleDelete = new RoleCreateEvent(this.socket);
+        roleDelete.run(roleID);
+    }
+
+    public roleGet(roleID: number){ // ToDo
+        const roleGet = new RoleCreateEvent(this.socket);
+        roleGet.run(roleID);
     }
 
     public channelCreate(){ // ToDo

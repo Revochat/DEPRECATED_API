@@ -11,7 +11,7 @@ export interface IServer { // This is the interface for the server in the databa
     updated_at: string;
     created_at: string;
 
-    permissions_id: number[];
+    roles: number[];
 }
 
 export interface IServerModel extends IServer {} // dont need to extend Document because we're not using mongoose
@@ -27,7 +27,7 @@ const ServerSchema = new Schema({
     updated_at: { type: String, required: true, default: new Date().toLocaleString() },
     created_at: { type: String, required: true, default: new Date().toLocaleString() },
 
-    permissions_id: { type: Array, required: true, default: [] } // permissions for the server
+    roles: { type: Array, required: true, default: [] } // permissions for the server
 });
 
 export default mongoose.model<IServerModel>("Server", ServerSchema);
