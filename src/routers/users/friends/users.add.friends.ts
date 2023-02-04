@@ -29,6 +29,9 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
         //Check if the friend exists
         var Friend = await UTILS.FUNCTIONS.find.user.id(parseInt(friend_id))
 
+        // Check if the user is itself
+        if(User.user_id.toString() === friend_id) throw "User is itself"
+
         if (Friend.blocked) { // Check if user is already blocked by the friend in the database
             if(Friend.blocked.includes(User.id.toString())) throw "User is blocked"
         }
@@ -42,7 +45,7 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
         if (User.friends_requests_received.includes(friend_id)) { // If the user has a friend request from the friend, accept it and remove the request from the friend
             User.friends_requests_received.splice(User.friends_requests_received.indexOf(friend_id), 1) // Remove the request from the user
             if (Friend.friends_requests_received) {
-                Friend.friends_requests_received.splice(Friend.friends_requests_received.indexOf(User.id.toString()), 1) // remove the request from the friend 
+                Friend.friends_requests_received.splice(Friend.friends_requests_received.indexOf(User.user_id.toString()), 1) // remove the request from the friend 
             }
 
             // Add the user to the friend
@@ -66,6 +69,9 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
             Friend.updated_at = new Date().toLocaleString()
             Friend.save()
             Logger.debug(`User ${Friend} has been updated`)
+
+            // cut sensitive data
+            Friend = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(Friend)
 
             // Emit the event
             Emitter.emit("addFriend", Friend)
@@ -92,9 +98,14 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
             User.updated_at = new Date().toLocaleString()
             User.save()
             Logger.debug(`User ${User} has been updated`)
+
+            // cut sensitive data
+            Friend = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(Friend)
+
+            // Emit the event
+            Emitter.emit("addFriend", Friend)
             
             res.json(
-
                 new RouteResponse()
                     .setStatus(Status.success)
                     .setMessage(`Friend request sent`)
