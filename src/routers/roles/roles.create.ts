@@ -12,6 +12,11 @@ export const createRole = async (req: express.Request, res: express.Response) =>
         
         //type checking
         if (!token) throw "Token cannot be empty"
+        if (!server_id) throw "Server id cannot be empty"
+        if (!name) throw "Name cannot be empty"
+        if (!color) throw "Color cannot be empty"
+        if (!position) throw "Position cannot be empty"
+        if (!permissions) throw "Permissions cannot be empty"
 
         var User = await DB.users.find.token(token)
         if (!User) throw "User not found"
