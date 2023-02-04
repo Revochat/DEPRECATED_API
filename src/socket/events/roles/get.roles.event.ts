@@ -23,7 +23,7 @@ export class RoleGetEvent {
 
             ServerSocket.io.in(roleID.toString()).emit("roleGet", response.data)
         } catch(err) {
-            console.log("Error while sending message from: " + this.socket.id + " " + err)
+            console.log("Error while geting role " + this.socket.id + " " + err)
         }
     }
 

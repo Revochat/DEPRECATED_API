@@ -14,16 +14,16 @@ export class RoleCreateEvent {
         this.socket = socket
     }
 
-    public async run(channelID: number, message: string) {
-        try {
-            // Use this to get socket id  
-            const response = await axios.post(`${process.env.BASE_URI}/api/v1/message/send/${channelID}`, {
-                message: message
+    public async run(roleId: number) {
+        try { // ToDo
+            // Use this to get socket id   
+            const response = await axios.post(`${process.env.BASE_URI}/api/v1/message/send/${roleId}`, {
+                //message: message
             },  utils.set.bearer(ServerSocket.users[this.socket.id].token))
             console.log(response.data)
-            ServerSocket.io.in(channelID.toString()).emit("messageCreate", response.data)
+            ServerSocket.io.in(roleId.toString()).emit("roleCreate", response.data)
         } catch(err) {
-            console.log("Error while sending message from: " + this.socket.id + " " + err)
+            console.log("Error while created a role from: " + this.socket.id + " " + err)
         }
     }
 
