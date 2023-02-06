@@ -3,6 +3,7 @@ import { RouteResponse, Status } from "../controller"
 import Emitter from "../../client/emitter.client"
 import Logger from "../../client/logger.client"
 import DB from "../../database"
+import UTILS from "../../utils"
 
 export const createRole = async (req: express.Request, res: express.Response) => {
     try {
@@ -11,12 +12,17 @@ export const createRole = async (req: express.Request, res: express.Response) =>
         const token = req.token
         
         //type checking
-        if (!token) throw "Token cannot be empty"
-        if (!server_id) throw "Server id cannot be empty"
-        if (!name) throw "Name cannot be empty"
-        if (!color) throw "Color cannot be empty"
-        if (!position) throw "Position cannot be empty"
-        if (!permissions) throw "Permissions cannot be empty"
+        if (!token || !position || !name || !color || !permissions || 
+            server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH){ //type check
+            
+                res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
 
         var User = await DB.users.find.token(token)
         if (!User) throw "User not found"
@@ -57,3 +63,4 @@ export const createRole = async (req: express.Request, res: express.Response) =>
         )
     }
 }
+

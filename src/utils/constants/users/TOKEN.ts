@@ -1,4 +1,4 @@
 export enum TOKEN {
-    MIN_TOKEN_LENGTH = 40,
-    MAX_TOKEN_LENGTH = 150
+    MIN_LENGTH = 40,
+    MAX_LENGTH = 150
 }

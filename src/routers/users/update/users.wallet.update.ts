@@ -10,7 +10,7 @@ export const walletUpdate = async (req: express.Request, res: express.Response) 
         const { newwallet_token } = req.body
         const token = req.token
 
-        if (!token || typeof token !== "string" || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || 
+        if (!token || typeof token !== "string" || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || 
             !newwallet_token || typeof newwallet_token !== "string") throw "Badly formatted"
 
         var User = await DB.users.find.token(token)

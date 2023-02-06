@@ -3,15 +3,27 @@ import { RouteResponse, Status } from "../controller"
 import Emitter from "../../client/emitter.client"
 import Logger from "../../client/logger.client"
 import DB from "../../database"
+import UTILS from "../../utils"
 
 export const removeRole = async (req: express.Request, res: express.Response) => {
     try {
-        const {role_id} = req.body
+        const {role_id_input} = req.body
         const token = req.token
+
+        const role_id = parseInt(role_id_input) //type checking
         
         //type checking
-        if (!token) throw "Token cannot be empty"
-        if (!role_id) throw "Role ID cannot be empty"
+        if (!role_id || !token || !token ||
+            role_id_input  < UTILS.CONSTANTS.ROLE.ID.MIN_LENGTH || role_id_input > UTILS.CONSTANTS.ROLE.ID.MAX_LENGTH ||
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH){ //type check
+            
+                res.json(
+                new RouteResponse()
+                    .setStatus(Status.error)
+                    .setMessage("Badly formatted")
+            )
+            return
+        }
 
         var User = await DB.users.find.token(token)
         if (!User) throw "User not found"
@@ -24,7 +36,7 @@ export const removeRole = async (req: express.Request, res: express.Response) =>
 
         // perm check
 
-        await DB.roles.remove(parseInt(role_id))
+        await DB.roles.remove(role_id_input)
 
         Logger.debug(`Role ${Role} has been removed`)
         Emitter.emit("removeRole", Role)

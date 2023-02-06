@@ -9,7 +9,7 @@ export const getUserbyID = async (req: express.Request, res: express.Response) =
         const token = req.token
 
         // if token or user_id badly formatted
-        if(!token || !user_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
+        if(!token || !user_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
             !UTILS.CONSTANTS.USER.ID) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)

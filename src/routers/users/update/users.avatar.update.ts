@@ -10,7 +10,7 @@ export const avatarUpdate = async (req: express.Request, res: express.Response) 
     const token = req.token
 
     // if token or newavatar badly formatted
-    if(!token || !newavatar || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
+    if(!token || !newavatar || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
         !UTILS.CONSTANTS.USER.PROFILE_PICTURE) throw "Badly formatted"
     
     // if user not found

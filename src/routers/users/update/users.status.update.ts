@@ -11,7 +11,7 @@ export const statusUpdate = async (req: express.Request, res: express.Response) 
         const token = req.token
 
         // if token or newstatus badly formatted
-        if(!token || !newstatus || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ||
+        if(!token || !newstatus || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
             !UTILS.CONSTANTS.USER.STATUS.includes(newstatus)) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)

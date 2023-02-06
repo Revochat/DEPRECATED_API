@@ -14,7 +14,7 @@ export const remove = async (req: express.Request, res: express.Response) => { /
 
         if (!channel_id || !token || !message_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
             message_id.length < UTILS.CONSTANTS.MESSAGE.ID.MIN_LENGTH || message_id.length > UTILS.CONSTANTS.MESSAGE.ID.MAX_LENGTH ||
-            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH){ //type check
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH){ //type check
             
                 res.json(
                 new RouteResponse()

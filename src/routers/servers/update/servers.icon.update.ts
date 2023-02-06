@@ -14,7 +14,7 @@ export const iconUpdate = async (req: express.Request, res: express.Response) =>
 
     // CHECK FOR THE AVATAR SIZE !!!
     if (!server_id || !server_icon || !token || server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_TOKEN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_TOKEN_LENGTH ){ //type check
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ){ //type check
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)
