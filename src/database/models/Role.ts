@@ -46,7 +46,7 @@ export interface IRole { // This is the interface for the role in the database
     created_at: string;
     updated_at: string;
 
-    permissions?: IChannelPermission;
+    permissions?: IRolePermission;
 }
 
 export interface IRoleModel extends IRole, Document {}

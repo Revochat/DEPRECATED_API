@@ -16,6 +16,8 @@ export const avatarUpdate = async (req: express.Request, res: express.Response) 
     // if user not found
     var User = await DB.users.find.token(token)
     if(!User) throw "User not found"
+
+    // newavatar is a file
     
     Logger.debug(`User ${User.username} has updated his avatar`)
     

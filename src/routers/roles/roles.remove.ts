@@ -34,8 +34,6 @@ export const removeRole = async (req: express.Request, res: express.Response) =>
         // check if user is in the server
         if (!User.servers.includes(Role.role_server_id)) throw "User is not in the server"
 
-        // perm check
-
         await DB.roles.remove(role_id_input)
 
         Logger.debug(`Role ${Role} has been removed`)
