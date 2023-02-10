@@ -21,14 +21,17 @@ export const userRegister = async (req: express.Request, res: express.Response) 
         var user = await DB.users.find.username(username)
         if (user) throw "User already exists"
 
+        const user_id =  Date.now() + Math.floor(Math.random() * 1000)
+
         var User: IUserModel & {_id: Types.ObjectId} = await DB.users.create({
             username: username,
             password: await bcrypt.hash(password, 10),
             premium_expiration: new Date().toLocaleString(),
             token: (v5(username, v4()).split("-").join("") + Date.now()).toUpperCase(),
-            user_id: Date.now() + Math.floor(Math.random() * 1000),
+            user_id: user_id,
             created_at: new Date().toLocaleString(),
-            updated_at: new Date().toLocaleString()
+            updated_at: new Date().toLocaleString(),
+            discriminator: UTILS.BASE[36](user_id),
         })
 
         // create a channel where there only is the user

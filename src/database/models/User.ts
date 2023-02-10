@@ -2,6 +2,7 @@ import mongoose, {Document, Schema} from "mongoose";
 
 export interface IUser { // This is the interface for the user in the database
     user_id: number;
+    discriminator: string;
     token: string;
 
     wallet_token?: number | null;
@@ -29,6 +30,7 @@ export interface IUserModel extends IUser, Document {}
 const UserSchema = new Schema({
     user_id: { type: Number, required: true, unique: true, index: true },
     token: { type: String, required: true, unique: true, index: true },
+    discriminator: { type: String, required: true, index: true },
 
     wallet_token: { type: String, required: false, unique: true, index: true, sparse: true },
     username: { type: String, required: true, unique: true, index: true },
