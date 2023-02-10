@@ -19,6 +19,21 @@ export const userConnect = async (req: express.Request, res: express.Response) =
         var User = await DB.users.find.token(token)
         if(!User) throw "Invalid token"
 
+        User.friends = await DB.users.find.many(User.friends)
+        for (let i = 0; i < User.friends.length; i++) {
+            User.friends[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.friends[i])
+        }
+
+        User.friends_requests_sent = await DB.users.find.many(User.friends_requests_sent)
+        for (let i = 0; i < User.friends_requests_sent.length; i++) {
+            User.friends_requests_sent[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.friends_requests_sent[i])
+        }
+
+        User.friends_requests_received = await DB.users.find.many(User.friends_requests_received)
+        for (let i = 0; i < User.friends_requests_received.length; i++) {
+            User.friends_requests_received[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.friends_requests_received[i])
+        }
+        
         Emitter.emit("connect", User, null)
         res.json(
             new RouteResponse()

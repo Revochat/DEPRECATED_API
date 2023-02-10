@@ -33,9 +33,9 @@ export class SocketEvents {
         roleGet.run(roleID);
     }
 
-    public channelCreate(){ // ToDo
+    public channelCreate(friendID: number){ // ToDo
         const channelCreate = new ChannelPrivateCreateEvent(this.socket);
-        channelCreate.run();
+        channelCreate.run(friendID);
     }
 
     public channelDelete(channelID: number){ // ToDo

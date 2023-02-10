@@ -20,6 +20,9 @@ export class LoginEvent {
             if(ServerSocket.users[this.socket.id].channels) { 
                 this.socket.join(ServerSocket.users[this.socket.id].channels.map(String)) // Join all channels the user is in (convert channel id to string using map)
             }
+            if(ServerSocket.users[this.socket.id].servers) { 
+                this.socket.join(ServerSocket.users[this.socket.id].servers.map(String)) // Join all channels the user is in (convert channel id to string using map)
+            }
             ServerSocket.io.to(this.socket.id).emit("login", User) // Send user data to client
         }
         catch(err) {

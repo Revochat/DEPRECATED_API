@@ -3,6 +3,7 @@ import ServerSocket from "../../"
 import { Socket } from 'socket.io'
 import dotenv from 'dotenv'
 import { utils } from '../../utils'
+import Logger from '../../../client/logger.client'
 
 dotenv.config()
 
@@ -20,6 +21,8 @@ export class MessageCreateEvent {
                 message: message
             },  utils.set.bearer(ServerSocket.users[this.socket.id].token))
             ServerSocket.io.in(channelID.toString()).emit("messageCreate", response.data)
+            ServerSocket.io.to(this.socket.id).emit("messageCreate", response.data)
+            Logger.info("Message sent from: " + this.socket.id)
         } catch(err) {
             console.log("Error while sending message from: " + this.socket.id + " " + err)
             console.log(ServerSocket.users)
