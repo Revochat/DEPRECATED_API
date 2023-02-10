@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { IMessage } from '../../../database/models/Message'
 import ServerSocket from "../../"
 import { Socket } from 'socket.io'
 import dotenv from 'dotenv'
@@ -20,11 +19,10 @@ export class MessageCreateEvent {
             const response = await axios.post(`${process.env.BASE_URI}/api/v1/message/send/${channelID}`, {
                 message: message
             },  utils.set.bearer(ServerSocket.users[this.socket.id].token))
-            console.log(response.data)
             ServerSocket.io.in(channelID.toString()).emit("messageCreate", response.data)
         } catch(err) {
             console.log("Error while sending message from: " + this.socket.id + " " + err)
+            console.log(ServerSocket.users)
         }
     }
-
 }

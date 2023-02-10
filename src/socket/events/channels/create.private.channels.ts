@@ -1,6 +1,6 @@
 import { Socket } from "socket.io";
 
-export class ChannelCreateEvent {
+export class ChannelPrivateCreateEvent {
     private socket: Socket;
 
     constructor(socket: Socket) {

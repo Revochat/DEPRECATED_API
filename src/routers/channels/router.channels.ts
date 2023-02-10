@@ -27,7 +27,7 @@ export const ChannelsRouter = {
         },
         Server: {
             name: "createServer",
-            method: "GET",
+            method: "POST",
             socketing: false,
             description: "Create a server channel",
             path: "/server/:server_id",

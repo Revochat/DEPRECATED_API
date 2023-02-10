@@ -2,7 +2,7 @@ import {LoginEvent} from "./connect/login.events";
 import { MessageCreateEvent, MessageDeleteEvent } from "./messages";
 import { Socket } from "socket.io";
 import ServerSocket from "..";
-import { ChannelCreateEvent, ChannelsGetEvent } from "./channels";
+import { ChannelDeleteChannel, ChannelPrivateCreateEvent, ChannelsGetEvent } from "./channels";
 import { ActivityEvent } from "./users/user";
 import { FriendAddEvent, FriendRemoveEvent, FriendRequestsReceivedEvent } from "./users/friends";
 import { RoleCreateEvent } from "./roles/create.roles.event";
@@ -34,13 +34,13 @@ export class SocketEvents {
     }
 
     public channelCreate(){ // ToDo
-        const channelCreate = new ChannelCreateEvent(this.socket);
+        const channelCreate = new ChannelPrivateCreateEvent(this.socket);
         channelCreate.run();
     }
 
-    public channelDelete(){ // ToDo
-        const channelDelete = new ChannelCreateEvent(this.socket);
-        channelDelete.run();
+    public channelDelete(channelID: number){ // ToDo
+        const channelDelete = new ChannelDeleteChannel(this.socket);
+        channelDelete.run(channelID);
     }
 
     public channelsGet(){ 
