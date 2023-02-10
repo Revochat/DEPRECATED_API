@@ -1,15 +1,17 @@
 TO DO LIST:
 
 - convert to hexadecimal user_id when sent (BLF)
-- Web-RTC
-- notifications
-- tag people, premium handling, invite and moderation of servers, avatars, test routes, friends request issue, channel position
-- encryption system (Lux)
-- audio chat / video chat
-- screenshare
+- avatar
 - files upload handling
-- self destruct system for messages (mass delete messages function)
+- Web-RTC (audio chat / video chat / screenshare)
+- notifications (sockets)
+- tag people
 - captcha
+
+- premium handling, invite and moderation of servers, test routes, friends request issue, channel position (Lux)
+- encryption system
+- self destruct system for messages (auto delete messages function)
+- logo
 
 ==================== 1.0.0 ==================== (less urgent)
 - reactions
