@@ -10,7 +10,7 @@ TO DO LIST:
 - tag people
 - captcha
 
-- premium handling, invite and moderation of servers, test routes, friends request issue, channel position (Lux)
+- premium handling, invite and moderation of servers, test routes, friends request issue, channel position (Lux), change user channel and server position
 - encryption system
 - self destruct system for messages (auto delete messages function)
 - logo
