@@ -8,7 +8,6 @@ import UTILS from "../../../utils"
 
 export const addFriend = async (req: express.Request, res: express.Response) => { // Add a friend to the user
     try {
-        Logger.debug(`User ${req.params.token} is trying to add a friend`)
         const { friend_id } = req.params
         const token = req.token
 
@@ -16,6 +15,7 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
             friend_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted" // Type Check
 
         var User = await UTILS.FUNCTIONS.find.user.token(token) // Find the user
+        if (!User) throw "User not found"
 
         // Check if the friend is already added
         if(User.friends.includes(friend_id)) throw "User already added"
@@ -28,6 +28,7 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
 
         //Check if the friend exists
         var Friend = await UTILS.FUNCTIONS.find.user.id(parseInt(friend_id))
+        if(!Friend) throw "Friend not found"
 
         // Check if the user is itself
         if(User.user_id.toString() === friend_id) throw "User is itself"
@@ -43,8 +44,10 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
         // DATABASE UPDATES
 
         if (User.friends_requests_received.includes(friend_id)) { // If the user has a friend request from the friend, accept it and remove the request from the friend
+            Logger.debug(`User ${User.user_id} is accepting a friend request from ${Friend.user_id}`)
+            
             User.friends_requests_received.splice(User.friends_requests_received.indexOf(friend_id), 1) // Remove the request from the user
-            if (Friend.friends_requests_received) {
+            if (Friend.friends_requests_received) { // this check is useless but it's here to avoid errors
                 Friend.friends_requests_received.splice(Friend.friends_requests_received.indexOf(User.user_id.toString()), 1) // remove the request from the friend 
             }
 
@@ -56,60 +59,67 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
             }
             // Add the friend to the user
             if (User.friends) {
-                User.friends.push(friend_id)
+                User.friends.push(Friend.user_id)
             } else {
-                User.friends = [friend_id]
+                User.friends = [Friend.user_id]
             }
 
             // Save the user
             User.updated_at = new Date().toLocaleString()
             User.save()
-            Logger.debug(`User ${User} has been updated`)
+
             // save the friend
             Friend.updated_at = new Date().toLocaleString()
             Friend.save()
-            Logger.debug(`User ${Friend} has been updated`)
-
-            // cut sensitive data
-            Friend = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(Friend)
 
             // Emit the event
             Emitter.emit("addFriend", Friend)
+
+            // cut sensitive data
+            const Friend_Public_Info = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(Friend.toObject()) // cut sensitive data and convert to object to avoid errors with mongoose
 
             // Send the response
             res.json(
                 new RouteResponse()
                     .setStatus(Status.success)
                     .setMessage(`Friend added`)
-                    .setData(Friend)
+                    .setData(Friend_Public_Info)
             )
         } else { // If the user doesn't have a friend request from the friend, send a request to the friend 
+            Logger.debug(`User ${User.user_id} is sending a friend request to ${Friend.user_id}`)
+
+            // Add the user to the friend
             if (Friend.friends_requests_received) {
                 Friend.friends_requests_received.push(User.user_id)
+            } else {
+                Friend.friends_requests_received = [User.user_id]
+            }
+
+            // Add the friend to the user
+            if (User.friends_requests_sent) {
+                User.friends_requests_sent.push(Friend.user_id)
+            } else {
                 User.friends_requests_sent = [Friend.user_id]
             }
 
             // update the friend
             Friend.updated_at = new Date().toLocaleString()
             Friend.save()
-            Logger.debug(`User ${Friend} has been updated`)
 
             // update the user 
             User.updated_at = new Date().toLocaleString()
             User.save()
-            Logger.debug(`User ${User} has been updated`)
-
-            // cut sensitive data
-            Friend = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(Friend)
 
             // Emit the event
             Emitter.emit("addFriend", Friend)
+
+            const Friend_Public_Info = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(Friend.toObject()) // cut sensitive data and convert to object to avoid errors with mongoose
             
             res.json(
                 new RouteResponse()
                     .setStatus(Status.success)
                     .setMessage(`Friend request sent`)
-                    .setData(Friend)
+                    .setData(Friend_Public_Info)
             )
         }
     }

@@ -34,14 +34,14 @@ export const getMembers = async (req: express.Request, res: express.Response) =>
         var Members = await DB.users.find.many(Channel.members)
 
         // Remove private info
-        Members = Members.map((member: any) => UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(member))
+        const Members_Public_Info = Members.map((member: any) => UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(member))
 
         res.json(
             new RouteResponse()
 
                 .setStatus(Status.success)
                 .setMessage(`Channel members`)
-                .setData(Members)
+                .setData(Members_Public_Info)
         )
     }
     catch (err) {
