@@ -42,6 +42,8 @@ export default class ServerSocket {
                 socket.on("channelCreate", EventHandler.channelCreate.bind(EventHandler))
                 socket.on("channelDelete", EventHandler.channelDelete.bind(EventHandler))
                 socket.on("channelsGet", EventHandler.channelsGet.bind(EventHandler))
+
+                socket.on("pingUser", EventHandler.pingUser.bind(EventHandler))
                 
 
                 socket.on("disconnect", () => {

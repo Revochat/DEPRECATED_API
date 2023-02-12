@@ -2,3 +2,4 @@
 //export * from "./channels"
 //export * from "./friends"
 //export * from "./get"
+export * from "./user"
