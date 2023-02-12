@@ -33,7 +33,7 @@ export const userConnect = async (req: express.Request, res: express.Response) =
         for (let i = 0; i < User.friends_requests_received.length; i++) {
             User.friends_requests_received[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.friends_requests_received[i])
         }
-        
+            
         Emitter.emit("connect", User, null)
         res.json(
             new RouteResponse()

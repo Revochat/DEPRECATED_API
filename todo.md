@@ -2,13 +2,12 @@ TO DO LIST:
 
 -Reminder for Luc: add route to load 100 by 100 the friends list (for the search bar) (exemple: someone have 250 friends, /api/friends/get/index -> /api/friends/get/1 is loading 100 friends, /api/friends/get/2 is loading the next 100 friends, /api/friends/get/3 is loading the next 50 left friends)
 
-- convert to hexadecimal user_id when sent (BLF)
 - avatar
 - files upload handling
 - Web-RTC (audio chat / video chat / screenshare)
-- notifications (sockets)
+- notifications (sockets) // Doing it (ByLife)
 - tag people
-- captcha
+- captcha (for the login, register, and rate limit)
 
 - premium handling, invite and moderation of servers, test routes, friends request issue, channel position (Lux), change user channel and server position
 - encryption system
@@ -32,6 +31,8 @@ Just some ideas for the payed subscription:
    custom profile
 
 Future Updates ? :
+   Live updates ( in necessary ?) for users
+   Urgent maintenance mode if something goes wrong (server side)
    server logs
    polls ?
    (server boosts ?)
