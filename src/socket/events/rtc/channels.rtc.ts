@@ -10,13 +10,13 @@ export class ChannelRTCEvent {
         this.socket = socket
     }
 
-    public async run(token: string){
+    public async run(channel_id: number){
         try {
             if(!this.socket.id) throw new Error("Socket not found")
             const rtc = new RTCPeerConnection()
             rtc.onicecandidate = (event) => {
                 if(event.candidate) {
-                    ServerSocket.io.to(this.socket.id).emit("iceCandidate", event.candidate)
+                    ServerSocket.io.to(channel_id.toString()).emit("iceCandidate", event.candidate)
                 }
             }
             rtc.oniceconnectionstatechange = (event) => {

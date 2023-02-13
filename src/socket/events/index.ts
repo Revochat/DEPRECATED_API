@@ -8,6 +8,7 @@ import { FriendAddEvent, FriendRemoveEvent, FriendRequestsReceivedEvent } from "
 import { RoleCreateEvent } from "./roles/create.roles.event";
 import { IMessage } from "../../database/models/Message";
 import Logger from "../../client/logger.client";
+import { CallEvent, ChannelRTCEvent } from "./rtc";
 
 export class SocketEvents {
     private socket: Socket;
@@ -18,6 +19,16 @@ export class SocketEvents {
     public disconnect() {
         delete ServerSocket.users[this.socket.id];
         Logger.debug("User disconnected from " + this.socket.id);
+    }
+
+    public callUser(candidate_id: number) {
+        const call = new CallEvent(this.socket);
+        call.run(candidate_id);
+    }
+
+    public callChannel(channel_id: number) {
+        const call = new ChannelRTCEvent(this.socket);
+        call.run(channel_id);
     }
 
     public userActivity(){ // ToDo 

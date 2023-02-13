@@ -1,1 +1,2 @@
-export * from "./rtc.calls"
+export * from "./calls.rtc"
+export * from "./channels.rtc"

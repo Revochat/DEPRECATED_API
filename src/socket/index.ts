@@ -24,7 +24,9 @@ export default class ServerSocket {
         "channelDelete", 
         "channelsGet", 
         "pingUser",
-        "disconnect"
+        "disconnect",
+        "callUser",
+        "callChannel",
     ]
 
     constructor(server: any){
