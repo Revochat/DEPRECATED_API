@@ -34,7 +34,9 @@ export const UserIntercept = {
         password: update.password,
         avatar: update.avatar,
         wallet_token: update.wallet_token,
-        status: update.status
+        status: update.status,
+        channels: update.channels,
+        servers: update.servers
     },
 
     friends: {

@@ -4,8 +4,6 @@ import Logger from "../../../client/logger.client"
 import { RouteResponse, Status } from "../../controller"
 import Emitter from "../../../client/emitter.client"
 import bcrypt from "bcrypt"
-import { v4, v5 } from "uuid"
-import Controller from "../../controller/router.controller"
 import UTILS from "../../../utils"
 
 export const userLogin = async (req: express.Request, res: express.Response) => { // Connect a user

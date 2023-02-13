@@ -80,6 +80,24 @@ export const UserRouter = {
             path: "/wallettoken/",
             params: ["token", "newwallet_token"],
             res: UserIntercept.update.wallet_token
+        },
+        Channels: {
+            name: "updatechannels",
+            method: "POST",
+            socketing: false,
+            description: "Update a user's channels",
+            path: "/channels/",
+            params: ["token", "newchannels"],
+            res: UserIntercept.update.channels
+        },
+        Servers: {
+            name: "updateservers",
+            method: "POST",
+            socketing: false,
+            description: "Update a user's servers",
+            path: "/servers/",
+            params: ["token", "newservers"],
+            res: UserIntercept.update.servers
         }
     },
 

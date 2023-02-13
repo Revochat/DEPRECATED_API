@@ -9,6 +9,14 @@ export class USER_PROPERTIES {
     static TOKEN = TOKEN;
     static PROFILE_PICTURE = PROFILE_PICTURE;
     static ID = ID;
+    static CHANNELS = {
+        MAX_LENGTH: 100,
+        MIN_LENGTH: 0
+    };
+    static SERVERS = {
+        MAX_LENGTH: 100,
+        MIN_LENGTH: 0
+    }
     static STATUS = ["online", "idle", "dnd", "offline"]
 }
 
