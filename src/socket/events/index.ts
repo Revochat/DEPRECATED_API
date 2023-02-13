@@ -7,11 +7,17 @@ import { ActivityEvent, PingEvent } from "./users/user";
 import { FriendAddEvent, FriendRemoveEvent, FriendRequestsReceivedEvent } from "./users/friends";
 import { RoleCreateEvent } from "./roles/create.roles.event";
 import { IMessage } from "../../database/models/Message";
+import Logger from "../../client/logger.client";
 
 export class SocketEvents {
     private socket: Socket;
     constructor(socket: Socket) {
         this.socket = socket;
+    }
+
+    public disconnect() {
+        delete ServerSocket.users[this.socket.id];
+        Logger.debug("User disconnected from " + this.socket.id);
     }
 
     public userActivity(){ // ToDo 

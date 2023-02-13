@@ -16,14 +16,15 @@ export default class ServerSocket {
         "messageDelete", 
         "friendAdd", 
         "friendRemove", 
-        "friendRequestsReceived", 
+        //"friendRequestsReceived", 
         "roleCreate", 
         "roleDelete", 
         "roleGet", 
         "channelCreate", 
         "channelDelete", 
         "channelsGet", 
-        "pingUser"
+        "pingUser",
+        "disconnect"
     ]
 
     constructor(server: any){
@@ -45,11 +46,6 @@ export default class ServerSocket {
                 for(let event of ServerSocket.events){
                     socket.on(event, EventHandler[event].bind(EventHandler))
                 }
-            
-                socket.on("disconnect", () => {
-                    Logger.debug("User disconnected from " + socket.id)
-                    delete ServerSocket.users[socket.id]
-                })
             })
         } catch(err) {
             Logger.error(err)
