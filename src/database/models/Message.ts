@@ -5,7 +5,6 @@ export interface IMessage { // This is the interface for the message in the data
     user_id: number;
     channel_id: number;
     message: string;
-    updated_at: string;
     created_at: string;
 }
 
@@ -16,7 +15,6 @@ const MessageSchema = new Schema({
     user_id: { type: Number, required: true, index: true },
     channel_id: { type: Number, required: true, index: true },
     message: { type: String, required: true },
-    updated_at: { type: String, required: true, default: Date.toLocaleString() },
     created_at: { type: String, required: true, default: Date.toLocaleString() },
 });
 

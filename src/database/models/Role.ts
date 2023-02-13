@@ -1,5 +1,4 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { IChannelPermission } from "./Channel";
 
 export interface IRolePermission {
     server: {

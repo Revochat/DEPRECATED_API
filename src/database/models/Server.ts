@@ -11,6 +11,7 @@ export interface IServer { // This is the interface for the server in the databa
     updated_at: string;
     created_at: string;
 
+    invite_ids?: number[];
     roles: number[];
 }
 
@@ -27,6 +28,7 @@ const ServerSchema = new Schema({
     updated_at: { type: String, required: true, default: new Date().toLocaleString() },
     created_at: { type: String, required: true, default: new Date().toLocaleString() },
 
+    invite_ids: { type: Array, required: false, default: [] },
     roles: { type: Array, required: true, default: [] } // permissions for the server
 });
 

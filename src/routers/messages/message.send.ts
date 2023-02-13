@@ -56,8 +56,7 @@ export const send = async (req: express.Request, res: express.Response) => { // 
             channel_id: parseInt(channel_id),
             user_id: User.user_id,
             message,
-            created_at: new Date().toLocaleString(),
-            updated_at: new Date().toLocaleString()
+            created_at: new Date().toLocaleString()
         })
         await Message.save() // Save the message to the database
 

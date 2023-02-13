@@ -3,6 +3,7 @@ import { UserCreate, UserConnect, UserExist, UserGetOne, UserGetMany, UserFindBy
 import { ChannelCreate, ChannelFindOne, ChannelDelete, GetXNumberofMessages, ChannelFindUser } from './channels'
 import { RoleCreate, RoleFindOne, RoleDelete, RoleUpdate } from './roles'
 import { ServerCreate, ServerFindOne, ServerDelete, ServerFindUser} from './servers'
+import { InviteCreate, InviteRemove, InviteFindOne } from './invites'
 
 export * from './interface.database'
 
@@ -56,6 +57,13 @@ export default {
             id: RoleFindOne
         },
         update: RoleUpdate
+    },
+    invites: {
+        create: InviteCreate,
+        remove: InviteRemove,
+        find: {
+            id: InviteFindOne
+        }
     }
 }
 

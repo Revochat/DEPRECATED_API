@@ -8,7 +8,7 @@ TO DO LIST:
 - captcha (for the login, register, and rate limit)
 
 -Reminder for Luc: add route to load 100 by 100 the friends list (for the search bar) (exemple: someone have 250 friends, /api/friends/get/index -> /api/friends/get/1 is loading 100 friends, /api/friends/get/2 is loading the next 100 friends, /api/friends/get/3 is loading the next 50 left friends)
-- premium handling, invite and moderation of servers, test/security routes
+- premium handling, invite/moderation of servers, test/security routes
 - encryption system
 - self destruct system for messages (auto delete messages function)
 
