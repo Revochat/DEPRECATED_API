@@ -118,6 +118,15 @@ export const ServersRouter = {
             path: "/icon/:server_id",
             params: ["token", "server_id", "server_icon"],
             res: ServerIntercept.update.icon
+        },
+        Channels: {
+            name: "updateChannels",
+            method: "GET",
+            socketing: true,
+            description: "Update channels order of a server",
+            path: "/channels/:server_id/",
+            params: ["token", "server_id", "new_channels_order"],
+            res: ServerIntercept.update.channels
         }
     },
 

@@ -8,5 +8,6 @@ export class SERVER_PROPERTIES {
     public static ID = ID;
     public static NAME = NAME;
     public static PERMISSIONS = PERMISSIONS;
-    public static MAX_SERVER = 25;
+    public static MIN_CHANNELS = 1;
+    public static MAX_CHANNELS = 50;
 }

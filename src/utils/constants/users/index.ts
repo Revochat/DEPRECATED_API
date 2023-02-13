@@ -9,6 +9,7 @@ export class USER_PROPERTIES {
     static TOKEN = TOKEN;
     static PROFILE_PICTURE = PROFILE_PICTURE;
     static ID = ID;
+    static MAX_SERVERS = 100;
     static CHANNELS = {
         MAX_LENGTH: 100,
         MIN_LENGTH: 0

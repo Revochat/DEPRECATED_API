@@ -85,7 +85,7 @@ export const UserRouter = {
             name: "updatechannels",
             method: "POST",
             socketing: false,
-            description: "Update a user's channels",
+            description: "Update a user's channels order",
             path: "/channels/",
             params: ["token", "newchannels"],
             res: UserIntercept.update.channels
@@ -94,7 +94,7 @@ export const UserRouter = {
             name: "updateservers",
             method: "POST",
             socketing: false,
-            description: "Update a user's servers",
+            description: "Update a user's servers order",
             path: "/servers/",
             params: ["token", "newservers"],
             res: UserIntercept.update.servers

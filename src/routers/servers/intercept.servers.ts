@@ -21,6 +21,7 @@ export const ServerIntercept = {
     },
     update: {
         name: update.name,
-        icon: update.icon
+        icon: update.icon,
+        channels: update.channels
     }
 }
