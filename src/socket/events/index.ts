@@ -6,6 +6,7 @@ import { ChannelDeleteChannel, ChannelPrivateCreateEvent, ChannelsGetEvent } fro
 import { ActivityEvent, PingEvent } from "./users/user";
 import { FriendAddEvent, FriendRemoveEvent, FriendRequestsReceivedEvent } from "./users/friends";
 import { RoleCreateEvent } from "./roles/create.roles.event";
+import { IMessage } from "../../database/models/Message";
 
 export class SocketEvents {
     private socket: Socket;
@@ -48,9 +49,9 @@ export class SocketEvents {
         channelsGet.run();
     }
 
-    public pingUser(user_id: number) {
+    public pingUser(user_id: number, message: IMessage) {
         const ping = new PingEvent(this.socket);
-        ping.run(user_id);
+        ping.run(user_id, message);
     }
 
     public messageCreate(channelID: number, message: any) {
