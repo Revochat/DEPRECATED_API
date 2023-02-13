@@ -10,6 +10,22 @@ export default class ServerSocket {
     static id: any;
     static socket: Socket;
 
+    static events = [
+        "login", 
+        "messageCreate", 
+        "messageDelete", 
+        "friendAdd", 
+        "friendRemove", 
+        "friendRequestsReceived", 
+        "roleCreate", 
+        "roleDelete", 
+        "roleGet", 
+        "channelCreate", 
+        "channelDelete", 
+        "channelsGet", 
+        "pingUser"
+    ]
+
     constructor(server: any){
         try{
             ServerSocket.io = require("socket.io")(server)
@@ -24,28 +40,12 @@ export default class ServerSocket {
             ServerSocket.io.on("connection", async (socket: Socket) => {
                 Logger.debug("New connection from " + socket.id)
 
-                const EventHandler = new SocketEvents(socket)
+                const EventHandler = new SocketEvents(socket) as any
 
-                socket.on("login", EventHandler.login.bind(EventHandler))
-
-                socket.on("messageCreate", EventHandler.messageCreate.bind(EventHandler))
-                socket.on("messageDelete", EventHandler.messageDelete.bind(EventHandler))
-
-                socket.on("friendAdd", EventHandler.friendAdd.bind(EventHandler))
-                socket.on("friendRemove", EventHandler.friendRemove.bind(EventHandler))
-                //socket.on("friendRequestsReceived", EventHandler.friendRequestsReceived.bind(EventHandler))
-
-                socket.on("roleCreate", EventHandler.roleCreate.bind(EventHandler))
-                socket.on("roleDelete", EventHandler.roleDelete.bind(EventHandler))
-                socket.on("roleGet", EventHandler.roleGet.bind(EventHandler))
-
-                socket.on("channelCreate", EventHandler.channelCreate.bind(EventHandler))
-                socket.on("channelDelete", EventHandler.channelDelete.bind(EventHandler))
-                socket.on("channelsGet", EventHandler.channelsGet.bind(EventHandler))
-
-                socket.on("pingUser", EventHandler.pingUser.bind(EventHandler))
-                
-
+                for(let event of ServerSocket.events){
+                    socket.on(event, EventHandler[event].bind(EventHandler))
+                }
+            
                 socket.on("disconnect", () => {
                     Logger.debug("User disconnected from " + socket.id)
                     delete ServerSocket.users[socket.id]
