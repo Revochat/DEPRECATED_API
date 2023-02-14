@@ -33,7 +33,7 @@ export const inviteGet = async (req: express.Request, res: express.Response) => 
         if(!Server) throw "Server not found"
 
         // user is not in the server
-        if (!Server.users.includes(User.id)) throw "You are not in this server"
+        if (!Server.members.includes(User.user_id)) throw "You are not in this server"
 
         // check permissions
         if (!UTILS.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to create invites"

@@ -8,15 +8,13 @@ import UTILS from "../../utils"
 export const inviteCreate = async (req: express.Request, res: express.Response) => { // Create an invite for a server
     var {server_id} = req.params
     const token = req.token
-    const {max_uses, expires_at} = req.body
-    //max use is integer ? -1 unlimited..
+    const {uses, expires_at} = req.body
 
     Logger.debug(`Creating invite for ${server_id}`)
 
-    if (!server_id || !token || !max_uses || !expires_at || 
+    if (!server_id || !token || !uses || !expires_at || 
         server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH
-        // expires_at.length < UTILS.CONSTANTS.INVITE.EXPIRES_AT.MIN_LENGTH || expires_at.length > UTILS.CONSTANTS.INVITE.EXPIRES_AT.MAX_LENGTH
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || expires_at instanceof Date || uses instanceof Number
         ) { //type check
         res.json(
             new RouteResponse()
@@ -27,6 +25,10 @@ export const inviteCreate = async (req: express.Request, res: express.Response) 
     }
 
     try {
+        if (expires_at < new Date().toLocaleString()) {
+            throw "Invalid expiration date"
+        }
+
         var User = await DB.users.find.token(token) // Find the user
         if(!User) throw "User not found"
 
@@ -43,8 +45,7 @@ export const inviteCreate = async (req: express.Request, res: express.Response) 
             invite_id: Date.now() + Math.floor(Math.random() * 1000),
             created_at: new Date().toLocaleString(),
             expires_at: new Date().toLocaleString(),
-            max_uses: 0,
-            uses: 0,
+            uses: uses,
             inviter_id: parseInt(User.user_id)
         })
 

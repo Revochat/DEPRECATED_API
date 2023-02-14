@@ -5,7 +5,6 @@ export interface IInvite {
     invite_id: number;
     created_at: string;
     expires_at: string;
-    max_uses: number;
     uses: number;
     inviter_id: number;
 }
@@ -17,8 +16,7 @@ const InviteSchema = new Schema({
     invite_id: { type: Number, required: true, unique: true, index: true },
     created_at: { type: String, required: true, default: Date.toLocaleString() },
     expires_at: { type: String, required: true, default: Date.toLocaleString() },
-    max_uses: { type: Number, required: true },
-    uses: { type: Number, required: true, default: 0 },
+    uses: { type: Number, required: true },
     inviter_id: { type: Number, required: true, index: true }
 });
 

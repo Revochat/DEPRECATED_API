@@ -9,7 +9,7 @@ export const InvitesRouter = {
         socketing: false,
         description: "Create an invite for a server",
         path: "/create/:server_id",
-        params: ["token", "server_id", "max_uses", "expires_at"],
+        params: ["token", "server_id", "uses", "expires_at"],
         res: InvitesIntercept.create
     },
 

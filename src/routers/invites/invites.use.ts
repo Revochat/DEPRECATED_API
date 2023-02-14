@@ -34,10 +34,15 @@ export const inviteUse = async (req: express.Request, res: express.Response) => 
         // check permissions
         if (!UTILS.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to create invites"
 
+
         // increment max count of invite (if max count is not -1)
-        if (Invite.max_count != -1) {
-            Invite.max_count++
-            await DB.invites.update(Invite)
+        if (Invite.uses != -1) { // if max count is not -1, decrement it
+            Invite.uses--
+            if (Invite.uses == 0) { // if max count is 0, remove the invite
+                await Invite.remove()
+            } else { // else, save the invite with the new max count
+                await Invite.save()
+            }
         }
 
         Emitter.emit("removeInvite", Invite)
