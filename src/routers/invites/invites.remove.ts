@@ -33,8 +33,7 @@ export const inviteRemove = async (req: express.Request, res: express.Response) 
         if(!Server) throw "Server not found"
 
         // check permissions
-        // if(!Server.user_ids.includes(parseInt(User.user_id))) throw "User not in server"
-        //check perm
+        if (!UTILS.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to create invites"
 
         // remove the invite
         await DB.invites.remove(parseInt(invite_id))
