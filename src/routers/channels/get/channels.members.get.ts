@@ -33,6 +33,8 @@ export const getMembers = async (req: express.Request, res: express.Response) =>
         // fetch the members of the channel
         var Members = await DB.users.find.many(Channel.members)
 
+        if(!Members) throw "Members not found"
+
         // Remove private info
         const Members_Public_Info = Members.map((member: any) => UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(member))
 

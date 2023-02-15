@@ -25,6 +25,7 @@ export class LoginEvent {
                 ServerSocket.users[this.socket.id].channels.forEach(async (channel: any) => {
                     this.socket.join(channel.channel_id.toString())
                     var members = await DB.users.find.many(channel.members)
+                    if(!members) return ServerSocket.io.to(this.socket.id).emit("login", null) 
                     for(let i = 0; i < channel.members_count; i++) {
                         channel.members[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(members[i])
                     }

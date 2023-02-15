@@ -25,6 +25,7 @@ export class ChannelsGetEvent {
             await channels.forEach(async (channel: any) => {
                 console.log(channel)
                 var members = await DB.users.find.many(channel.members)
+                if(!members) return
                 for(let i = 0; i < channel.members_count; i++) {
                     channel.members[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(members[i])
                 }

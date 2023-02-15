@@ -6,10 +6,10 @@ export async function UserGetAllChannels(id: number) { // Get all channels a use
     return Channel.find({members: id}) // Find all channels where the user id is in the members array
 }
 
-export async function UserGetMany(array_id: number[]): Promise<(IUserModel & {_id: Types.ObjectId})[]> {
+export async function UserGetMany(array_id: number[]): Promise<((IUserModel & {_id: Types.ObjectId})[]) | null> {
     return new Promise((resolve, reject) => {
         User.find({user_id: {$in: array_id}}, null, (err, users) => {
-            if(err) reject(err);
+            if(err) resolve(null)
             resolve(users);
         })
     })
