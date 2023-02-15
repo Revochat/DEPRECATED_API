@@ -21,14 +21,12 @@ export const addBlocked =  async (req: express.Request, res: express.Response) =
         if(User.blocked.includes(blocked_id)) throw "User already blocked"
 
         // check if the user exists
-        if (await DB.users.find.id(parseInt(blocked_id))) throw "User doesn't exist"
+        if (!await DB.users.find.id(parseInt(blocked_id))) throw "User doesn't exist"
 
         // add the blocked user to the user
         User.blocked.push(parseInt(blocked_id))
         User.updated_at = new Date().toLocaleString()
         User.save()
-
-        Logger.debug(`User ${User} has been updated`)
 
         Emitter.emit("addBlocked", User)
         res.json(
