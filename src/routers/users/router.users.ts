@@ -114,20 +114,20 @@ export const UserRouter = {
         },
         Wallet_token: {
             name: "getwallettoken",
-            method: "POST",
+            method: "GET",
             socketing: false,
             description: "Get a user wallet token",
-            path: "/wallettoken/",
+            path: "/wallet_token/:wallet_token",
             params: ["wallet_token"],
             res: UserIntercept.get.wallet_token
         },
         Username: {
             name: "getusername",
-            method: "POST",
+            method: "GET",
             socketing: false,
             description: "Get a user username",
-            path: "/username/",
-            params: ["username"],
+            path: "/username/:user_id",
+            params: ["user_id"],
             res: UserIntercept.get.username
         },
         Premium_expiration: {
