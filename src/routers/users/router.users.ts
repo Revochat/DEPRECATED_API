@@ -47,7 +47,7 @@ export const UserRouter = {
         },
         Username: {
             name: "updateusername",
-            method: "POST",
+            method: "GET",
             socketing: false,
             description: "Update a user's username",
             path: "/username/:newusername",

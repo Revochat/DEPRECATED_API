@@ -7,7 +7,7 @@ import UTILS from "../../../utils"
 
 export const usernameUpdate = async (req: express.Request, res: express.Response) => { // Update the username
     try {
-        const { newusername } = req.body
+        const { newusername } = req.params
         const token = req.token
 
         // if token or newusername badly formatted
