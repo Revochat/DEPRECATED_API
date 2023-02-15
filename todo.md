@@ -7,7 +7,7 @@ TO DO LIST:
 - tag people
 - captcha (for the login, register, and rate limit)
 
-- premium handling, moderation of servers, test/security routes
+- premium handling, moderation of servers, test/security routes, send message undefined typecheck, check every id returned is a struct, check for channel type/category, check for errors blocked users when friend with..
 - encryption system
 - self destruct system for messages (auto delete messages function)
 
