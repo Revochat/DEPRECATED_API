@@ -29,7 +29,6 @@ export const getChannel = async (req: express.Request, res: express.Response) =>
 
         var Channel = await DB.channels.find.id(parseInt(channel_id))
         if(!Channel) throw "Channel not found"
-        Logger.debug(`Channel ${Channel} has been found`)
         Emitter.emit("getChannel", Channel)
         res.json(
             new RouteResponse()

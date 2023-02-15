@@ -7,26 +7,26 @@ import Logger from "../../../client/logger.client";
 
 dotenv.config();
 
-
 export class ChannelsGetEvent {
     private socket: Socket;
 
     constructor(socket: Socket) {
         this.socket = socket;
     }
+    
 
     public async run() {
         try {
             const channels = ServerSocket.users[this.socket.id].channels
-            const data: AxiosResponse[] = []
+            var userChannels: any = []
             Logger.debug(`Channels: ${channels}`)
-            channels.forEach(async (channel: number) => {
-                data.push(await axios.get(`${process.env.BASE_URI}/api/v1/channel/get/${channel.toString()}`, utils.set.bearer(ServerSocket.users[this.socket.id].token)))
+            await channels.forEach(async (channel: number) => {
+                ServerSocket.io.to(this.socket.id).emit("channelsGet",  (await axios.get(`${process.env.BASE_URI}/api/v1/channel/get/${channel.toString()}`, utils.set.bearer(ServerSocket.users[this.socket.id].token))).data)
             })
-            console.log(data)
-            ServerSocket.io.to(this.socket.id).emit("channelsGet", data)
+            console.log(userChannels)
+            
         } catch(err) {
-            console.log(err)
+            Logger.error(err)
         }
     }
 }
