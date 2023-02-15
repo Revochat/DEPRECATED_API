@@ -7,12 +7,13 @@ TO DO LIST:
 - tag people
 - captcha (for the login, register, and rate limit)
 
+-Reminder for Luc: add route to load 100 by 100 the friends list (for the search bar) (exemple: someone have 250 friends, /api/friends/get/index -> /api/friends/get/1 is loading 100 friends, /api/friends/get/2 is loading the next 100 friends, /api/friends/get/3 is loading the next 50 left friends), same for channels and servers
 - premium handling, moderation of servers, test/security routes, send message undefined typecheck, check every id returned is a struct, check for channel type/category, check for errors blocked users when friend with..
 - encryption system
 - self destruct system for messages (auto delete messages function)
 
 ==================== 1.0.0 ==================== (less urgent)
--Reminder for Luc: add route to load 100 by 100 the friends list (for the search bar) (exemple: someone have 250 friends, /api/friends/get/index -> /api/friends/get/1 is loading 100 friends, /api/friends/get/2 is loading the next 100 friends, /api/friends/get/3 is loading the next 50 left friends), same for channels and servers
+- fix throw error instead of proper return with status error
 - reactions
 - web3 chat / smart contract connection
 - sounds (Lux)
