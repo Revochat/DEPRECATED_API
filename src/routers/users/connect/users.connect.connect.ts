@@ -19,6 +19,10 @@ export const userConnect = async (req: express.Request, res: express.Response) =
         var User = await DB.users.find.token(token)
         if(!User) throw "Invalid token"
 
+        User.last_connection = new Date().toLocaleString()
+        User.save() //update the last connection date of the user in the database
+
+        // fetch the user's friends info from the database
         User.friends = await DB.users.find.many(User.friends)
         for (let i = 0; i < User.friends.length; i++) {
             User.friends[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.friends[i])

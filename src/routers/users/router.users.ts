@@ -26,7 +26,7 @@ export const UserRouter = {
     Connect: { // Connect a user with a user token
         name: "conn",
         description: "Connect a user with a user token",
-        method: "POST",
+        method: "GET",
         socketing: true,
         path: "/connect",
         params: ["token"],
