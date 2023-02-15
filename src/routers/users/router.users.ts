@@ -135,8 +135,8 @@ export const UserRouter = {
             method: "GET",
             socketing: false,
             description: "Get a user premium expiration",
-            path: "/premiumexpiration/",
-            params: ["premium_expiration"],
+            path: "/premium_expiration/:user_id",
+            params: ["user_id"],
             res: UserIntercept.get.premium_expiration
         },
         Avatar: {
