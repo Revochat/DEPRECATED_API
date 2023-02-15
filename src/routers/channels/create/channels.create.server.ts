@@ -42,7 +42,7 @@ export const create_server = async (req: express.Request, res: express.Response)
             created_at: new Date().toLocaleString(),
             members: [User.user_id],
             members_count: 1,
-            
+            channel_category: "SERVER",
             permissions: UTILS.CONSTANTS.PERMISSIONS.SERVER(User)
         })
 

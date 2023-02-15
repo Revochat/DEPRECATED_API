@@ -37,6 +37,7 @@ export const create_group = async (req: express.Request, res: express.Response) 
             channel_name: User.username + " and " + Friend_1.username + " and " + Friend_2.username,
             updated_at: new Date().toLocaleString(),
             created_at: new Date().toLocaleString(),
+            channel_category: "GROUP",
             members: [User.user_id, Friend_1.user_id, Friend_2.user_id],
             members_count: 3,
             owner_id: User.user_id,

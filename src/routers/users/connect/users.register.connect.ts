@@ -37,6 +37,7 @@ export const userRegister = async (req: express.Request, res: express.Response) 
         var Channel = await DB.channels.create({
             channel_id: Date.now() + Math.floor(Math.random() * 1000),
             channel_type: UTILS.CONSTANTS.CHANNEL.TYPE.HYBRID,
+            channel_category: "DM",
             channel_name: "Me",
             updated_at: new Date().toLocaleString(),
             created_at: new Date().toLocaleString(),
@@ -47,7 +48,7 @@ export const userRegister = async (req: express.Request, res: express.Response) 
             permissions: UTILS.CONSTANTS.PERMISSIONS.SOLO(User)
         })
         if(!Channel) throw "Channel not found"
-        
+
         User.channels = [Channel.channel_id]
         User.save()
 

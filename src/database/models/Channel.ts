@@ -42,6 +42,7 @@ export interface IChannel { // This is the interface for the channel in the data
     owner_id?: number;
     channel_name?: string;
     channel_type: "HYBRID" | "TEXT" | "VOICE";
+    channel_category: "DM" | "GROUP" | "SERVER";
     members: number[];
     members_count: number;
     updated_at: string;
@@ -61,6 +62,7 @@ const ChannelSchema = new Schema({
 
     channel_name: { type: String, required: false },
     channel_type: { type: String, required: true }, // HYBRID (for instance DMs), TEXT, VOICE
+    channel_category: { type: String, required: true }, // DM, GROUP, SERVER
 
     members: { type: Array, required: true, default: [] }, // map of user_id: roles_id
     members_count: { type: Number, required: true, default: 0 },

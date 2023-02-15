@@ -53,6 +53,7 @@ export const create_private = async (req: express.Request, res: express.Response
             updated_at: new Date().toLocaleString(),
             created_at: new Date().toLocaleString(),
             members: [User.user_id, Friend.user_id],
+            channel_category: "SERVER",
             members_count: 2,
             
             permissions: UTILS.CONSTANTS.PERMISSIONS.PRIVATE(User, Friend)
