@@ -77,7 +77,7 @@ export const UserRouter = {
             method: "POST",
             socketing: false,
             description: "Update a user's wallet token",
-            path: "/wallettoken/",
+            path: "/wallet_token/",
             params: ["token", "newwallet_token"],
             res: UserIntercept.update.wallet_token
         },
