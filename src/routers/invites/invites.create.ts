@@ -51,6 +51,7 @@ export const inviteCreate = async (req: express.Request, res: express.Response) 
 
         // // add the invite to the server
         if(!Server.invite_ids) Server.invite_ids = []
+        if(!Invite) throw "Invite not found"
         Server.invite_ids.push(Invite.invite_id)
 
         await Server.save()
