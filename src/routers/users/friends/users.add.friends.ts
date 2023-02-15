@@ -64,11 +64,40 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
                 User.friends = [Friend.user_id]
             }
 
+            // check if channel already exists between users 
+            var Channel_Exists = await UTILS.FUNCTIONS.find.channel.friend(User, Friend)
+            if (Channel_Exists) throw "Channel already exists"
+
+            // create channel
+            var Channel = await DB.channels.create({
+                channel_id: Date.now() + Math.floor(Math.random() * 1000),
+                channel_type: UTILS.CONSTANTS.CHANNEL.TYPE.HYBRID,
+                channel_name: User.username + " and " + Friend.username,
+                updated_at: new Date().toLocaleString(),
+                created_at: new Date().toLocaleString(),
+                members: [User.user_id, Friend.user_id],
+                channel_category: "DM",
+                members_count: 2,
+                
+                permissions: UTILS.CONSTANTS.PERMISSIONS.PRIVATE(User, Friend)
+            })
+            if (!Channel) throw "Channel not created"
+
             // Save the user
+            if (User.channels) {
+                User.channels.push(Channel.channel_id)
+            } else {
+                User.channels = [Channel.channel_id]
+            }
             User.updated_at = new Date().toLocaleString()
             User.save()
 
-            // save the friend
+            // Save the user
+            if (Friend.channels) {
+                Friend.channels.push(Channel.channel_id)
+            } else {
+                Friend.channels = [Channel.channel_id]
+            }
             Friend.updated_at = new Date().toLocaleString()
             Friend.save()
 

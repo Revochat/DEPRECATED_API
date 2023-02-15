@@ -42,7 +42,7 @@ export const create_private = async (req: express.Request, res: express.Response
         if (User.user_id === Friend.user_id) throw "You cannot create a private channel with yourself"
 
         // check if channel already exists between users 
-        var Channel_Exists = await UTILS.FUNCTIONS.find.channel.friend(User, Friend) // not sure it works
+        var Channel_Exists = await UTILS.FUNCTIONS.find.channel.friend(User, Friend)
         if (Channel_Exists) throw "Channel already exists"
 
         // create channel
