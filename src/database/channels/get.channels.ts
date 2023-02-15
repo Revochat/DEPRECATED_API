@@ -1,5 +1,6 @@
+import { Types } from "mongoose";
 import Logger from "../../client/logger.client";
-import Channel from "../models/Channel";
+import Channel, { IChannelModel } from "../models/Channel";
 import Message from "../models/Message";
 
 export async function ChannelFindOne(channel_id: number) {
@@ -16,4 +17,13 @@ export async function GetXNumberofMessages(channel_id: string, number: number) {
     } catch(err) {
         Logger.error(err);
     }
+}
+
+export async function ChannelGetMany(array_id: number[]): Promise<(IChannelModel & {_id: Types.ObjectId})[]> {
+    return new Promise((resolve, reject) => {
+        Channel.find({channel_id: {$in: array_id}}, null, (err, channels) => {
+            if(err) reject(err);
+            resolve(channels);
+        })
+    })
 }

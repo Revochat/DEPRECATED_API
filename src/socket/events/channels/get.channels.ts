@@ -20,11 +20,9 @@ export class ChannelsGetEvent {
             const channels = ServerSocket.users[this.socket.id].channels
             var userChannels: any = []
             Logger.debug(`Channels: ${channels}`)
-            await channels.forEach(async (channel: number) => {
-                ServerSocket.io.to(this.socket.id).emit("channelsGet",  (await axios.get(`${process.env.BASE_URI}/api/v1/channel/get/${channel.toString()}`, utils.set.bearer(ServerSocket.users[this.socket.id].token))).data.data)
+            await channels.forEach(async (channel: any) => {
+                ServerSocket.io.to(this.socket.id).emit("channelsGet",  (await axios.get(`${process.env.BASE_URI}/api/v1/channel/get/${channel.channel_id.toString()}`, utils.set.bearer(ServerSocket.users[this.socket.id].token))).data.data)
             })
-            console.log(userChannels)
-            
         } catch(err) {
             Logger.error(err)
         }

@@ -37,6 +37,12 @@ export const userConnect = async (req: express.Request, res: express.Response) =
         for (let i = 0; i < User.friends_requests_received.length; i++) {
             User.friends_requests_received[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.friends_requests_received[i])
         }
+
+        User.channels = await DB.channels.find.many(User.channels)
+        for (let i = 0; i < User.channels.length; i++) {
+            User.channels[i] = User.channels[i]
+        }
+        
             
         Emitter.emit("connect", User, null)
         res.json(

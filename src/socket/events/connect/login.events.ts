@@ -20,13 +20,14 @@ export class LoginEvent {
             if(!User) return ServerSocket.io.to(this.socket.id).emit("login", null) // Send null to client if user not found
             if(!User.data) return ServerSocket.io.to(this.socket.id).emit("login", null) // Send null to client if user not found
             ServerSocket.users[this.socket.id] = User.data
-            console.log(User.data)
-            // if(ServerSocket.users[this.socket.id].channels) { 
-            //     this.socket.join(ServerSocket.users[this.socket.id].channels.map(String)) // Join all channels the user is in (convert channel id to string using map)
-            // }
-            // if(ServerSocket.users[this.socket.id].servers) { 
-            //     this.socket.join(ServerSocket.users[this.socket.id].servers.map(String)) // Join all channels the user is in (convert channel id to string using map)
-            // }
+            if(ServerSocket.users[this.socket.id].channels) { 
+                ServerSocket.users[this.socket.id].channels.forEach((channel: any) => {
+                    this.socket.join(channel.channel_id.toString())
+                })
+            }
+            if(ServerSocket.users[this.socket.id].servers) { 
+                this.socket.join(ServerSocket.users[this.socket.id].servers.map(String)) // Join all channels the user is in (convert channel id to string using map)
+            }
             ServerSocket.io.to(this.socket.id).emit("login", User.data) // Send user data to client
         }
         catch(err) {
