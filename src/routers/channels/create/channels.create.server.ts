@@ -46,6 +46,8 @@ export const create_server = async (req: express.Request, res: express.Response)
             permissions: UTILS.CONSTANTS.PERMISSIONS.SERVER(User)
         })
 
+        if(!Channel) throw "Could not create channel"
+
         await Channel.save()
 
         // add channel to server

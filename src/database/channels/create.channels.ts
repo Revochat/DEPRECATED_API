@@ -1,5 +1,10 @@
+import Logger from "../../client/logger.client";
 import Channel, {IChannel} from "../models/Channel";
 
 export async function ChannelCreate(channel: IChannel) {
-    return Channel.create(channel);
+    try {
+        return Channel.create(channel);
+    } catch(err) {
+        Logger.error(err);
+    }
 }

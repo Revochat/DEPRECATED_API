@@ -57,6 +57,9 @@ export const create_private = async (req: express.Request, res: express.Response
             
             permissions: UTILS.CONSTANTS.PERMISSIONS.PRIVATE(User, Friend)
         })
+
+        if(!Channel) throw "Channel not created"
+
         await Channel.save()
         
         // add channel to user

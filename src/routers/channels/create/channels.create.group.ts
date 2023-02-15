@@ -44,9 +44,12 @@ export const create_group = async (req: express.Request, res: express.Response) 
             permissions: UTILS.CONSTANTS.PERMISSIONS.GROUP(User, Friend_1, Friend_2)
         })
 
+        if(!Channel) throw "Failed to create channel"
+
         User.channels.push(Channel.channel_id) // save the channel id to the user
-        if (Friend_1.channels == null) Friend_1.channels = [] // this should never happen but typescript is annoying
-        if (Friend_2.channels == null) Friend_2.channels = []
+
+        if (!Friend_1.channels) Friend_1.channels = [] // this should never happen but typescript is annoying
+        if (!Friend_2.channels) Friend_2.channels = []
         Friend_1.channels.push(Channel.channel_id)
         Friend_2.channels.push(Channel.channel_id)
 

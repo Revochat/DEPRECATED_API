@@ -46,7 +46,8 @@ export const userRegister = async (req: express.Request, res: express.Response) 
             
             permissions: UTILS.CONSTANTS.PERMISSIONS.SOLO(User)
         })
-
+        if(!Channel) throw "Channel not found"
+        
         User.channels = [Channel.channel_id]
         User.save()
 
