@@ -17,7 +17,7 @@ export const getFriendsRequestsSent = async (req: express.Request, res: express.
             new RouteResponse()
                 .setStatus(Status.success)
                 .setMessage(`User found`)
-                .setData(User.friends_requests)
+                .setData(User.friends_requests_sent)
         )
     }
     catch(err) {

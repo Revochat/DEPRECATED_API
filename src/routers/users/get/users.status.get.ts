@@ -5,12 +5,12 @@ import UTILS from "../../../utils"
 
 export const getStatus = async (req: express.Request, res: express.Response) => { // Get a user
     try {
-        const token = req.token
+        const {user_id} = req.params
 
         // if token badly formatted
-        if(!token || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH) throw "Badly formatted"
+        if(!user_id || user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
 
-        var User = await DB.users.find.token(token)
+        var User = await DB.users.find.id(parseInt(user_id))
         if(!User) throw "User not found"
 
         res.json(

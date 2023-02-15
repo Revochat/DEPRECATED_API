@@ -112,15 +112,15 @@ export const UserRouter = {
             params: ["token"],
             res: UserIntercept.get.user
         },
-        Wallet_token: {
-            name: "getwallettoken",
-            method: "GET",
-            socketing: false,
-            description: "Get a user wallet token",
-            path: "/wallet_token/:wallet_token",
-            params: ["wallet_token"],
-            res: UserIntercept.get.wallet_token
-        },
+        // Wallet_token: {
+        //     name: "getwallettoken",
+        //     method: "GET",
+        //     socketing: false,
+        //     description: "Get a user wallet token",
+        //     path: "/wallet_token/:wallet_token",
+        //     params: ["wallet_token"],
+        //     res: UserIntercept.get.wallet_token
+        // },
         Username: {
             name: "getusername",
             method: "GET",
@@ -139,22 +139,22 @@ export const UserRouter = {
             params: ["user_id"],
             res: UserIntercept.get.premium_expiration
         },
-        Avatar: {
-            name: "getavatar",
-            method: "GET",
-            socketing: false,
-            description: "Get a user avatar",
-            path: "/avatar/",
-            params: ["avatar"],
-            res: UserIntercept.get.avatar
-        },
+        // Avatar: {
+        //     name: "getavatar",
+        //     method: "GET",
+        //     socketing: false,
+        //     description: "Get a user avatar",
+        //     path: "/avatar/:user_id",
+        //     params: ["user_id"],
+        //     res: UserIntercept.get.avatar
+        // },
         Message_privacy: {
             name: "getmessageprivacy",
             method: "GET",
             socketing: false,
             description: "Get a user message privacy",
-            path: "/messageprivacy/",
-            params: ["message_privacy"],
+            path: "/messageprivacy/:user_id",
+            params: ["user_id"],
             res: UserIntercept.get.message_privacy
         },
         Status: {
@@ -162,8 +162,8 @@ export const UserRouter = {
             method: "GET",
             socketing: false,
             description: "Get a user status",
-            path: "/status/",
-            params: ["status"],
+            path: "/status/:user_id",
+            params: ["user_id"],
             res: UserIntercept.get.status
         },
         Updated_at: {
@@ -171,8 +171,8 @@ export const UserRouter = {
             method: "GET",
             socketing: false,
             description: "Get a user updated at",
-            path: "/updatedat/",
-            params: ["updated_at"],
+            path: "/updated_at/:user_id",
+            params: ["user_id"],
             res: UserIntercept.get.updated_at
         },
         Created_at: {
@@ -180,8 +180,8 @@ export const UserRouter = {
             method: "GET",
             socketing: false,
             description: "Get a user created at",
-            path: "/createdat/",
-            params: ["created_at"],
+            path: "/created_at/:user_id",
+            params: ["user_id"],
             res: UserIntercept.get.created_at
         },
         Last_connection: {
@@ -189,8 +189,8 @@ export const UserRouter = {
             method: "GET",
             socketing: false,
             description: "Get a user last connection",
-            path: "/lastconnection/",
-            params: ["last_connection"],
+            path: "/last_connection/:user_id",
+            params: ["user_id"],
             res: UserIntercept.get.last_connection
         },
         Servers: {
@@ -199,7 +199,7 @@ export const UserRouter = {
             socketing: false,
             description: "Get a user servers",
             path: "/servers/",
-            params: ["servers"],
+            params: ["token"],
             res: UserIntercept.get.servers
         },
         Channels: {
@@ -208,7 +208,7 @@ export const UserRouter = {
             socketing: false,
             description: "Get a user channels",
             path: "/channels/",
-            params: ["channels"],
+            params: ["token"],
             res: UserIntercept.get.channels
         },
         Friends: {
@@ -217,7 +217,7 @@ export const UserRouter = {
             socketing: false,
             description: "Get a user friends",
             path: "/friends/",
-            params: ["friends"],
+            params: ["token"],
             res: UserIntercept.get.friends
         },
         Friends_requests_received: {
@@ -225,8 +225,8 @@ export const UserRouter = {
             method: "GET",
             socketing: false,
             description: "Get a user friends_requests_received",
-            path: "/friendsrequestsreceived/",
-            params: ["friends_requests_received"],
+            path: "/friends_requests_received/",
+            params: ["token"],
             res: UserIntercept.get.friends_requests_received
         },
         Friends_requests_sent: {
@@ -234,17 +234,17 @@ export const UserRouter = {
             method: "GET",
             socketing: false,
             description: "Get a user friends_requests_sent",
-            path: "/friendsrequestssent/",
-            params: ["friends_requests_sent"],
+            path: "/friends_requests_sent/",
+            params: ["token"],
             res: UserIntercept.get.friends_requests_sent
         },
         Blocked: {
             name: "getblocked",
             method: "GET",
             socketing: false,
-            description: "Get a user blocked",
+            description: "Get blocked users of a user",
             path: "/blocked/",
-            params: ["blocked"],
+            params: ["token"],
             res: UserIntercept.get.blocked
         }
     },
