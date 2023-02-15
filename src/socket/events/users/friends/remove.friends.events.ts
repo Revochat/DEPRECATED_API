@@ -15,7 +15,7 @@ export class FriendRemoveEvent {
 
     public async run(userID: number) {
         try {
-            const response = await axios.get(`${process.env.BASE_URI}/api/v1/client/friend/remove/${userID}`, utils.set.bearer(ServerSocket.users[this.socket.id].token))
+            const response = await axios.get(`${process.env.BASE_URI}/api/v1/client/friends/remove/${userID}`, utils.set.bearer(ServerSocket.users[this.socket.id].token))
             ServerSocket.io.to(this.socket.id).emit("friendRemove", response.data)
         } catch(err) {
             console.log(err)

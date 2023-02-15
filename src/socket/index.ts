@@ -42,7 +42,7 @@ export default class ServerSocket {
         try {
             ServerSocket.io.on("connection", async (socket: Socket) => {
                 Logger.debug("New connection from " + socket.id)
-
+                
                 const EventHandler = new SocketEvents(socket) as any
 
                 for(let event of ServerSocket.events){

@@ -5,7 +5,7 @@ import ServerSocket from "..";
 import { ChannelDeleteChannel, ChannelPrivateCreateEvent, ChannelsGetEvent } from "./channels";
 import { ActivityEvent, PingEvent } from "./users/user";
 import { FriendAddEvent, FriendRemoveEvent, FriendRequestsReceivedEvent } from "./users/friends";
-import { RoleCreateEvent } from "./roles/create.roles.event";
+import { RoleCreateEvent, RoleDeleteEvent, RoleGetEvent } from "./roles";
 import { IMessage } from "../../database/models/Message";
 import Logger from "../../client/logger.client";
 import { CallEvent, ChannelRTCEvent } from "./rtc";
@@ -42,12 +42,12 @@ export class SocketEvents {
     }
 
     public roleDelete(roleID: number){ // ToDo
-        const roleDelete = new RoleCreateEvent(this.socket);
+        const roleDelete = new RoleDeleteEvent(this.socket);
         roleDelete.run(roleID);
     }
 
     public roleGet(roleID: number){ // ToDo
-        const roleGet = new RoleCreateEvent(this.socket);
+        const roleGet = new RoleGetEvent(this.socket);
         roleGet.run(roleID);
     }
 
