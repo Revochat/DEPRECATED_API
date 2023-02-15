@@ -1,4 +1,4 @@
-# API
+# RUN
 TO LAUNCH THE PROJECT RUN:
 
 to install all the dependencies
