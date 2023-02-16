@@ -1,28 +1,31 @@
 import {findUserbyToken, findServer, findUserbyID, findFriendbyUser, findChannelID, findChannelFriend, findUserBlocked, findUserInServer} from "./find"
 import {PERMISSIONS} from "./permissions"
-import { IUser } from '../../database/models/User';
 
 export class FUNCTIONS {
-    static PERMISSIONS = {
-        checkIntegrity: PERMISSIONS.checkIntegrity,
-        checkChannelPermissions: PERMISSIONS.checkChannelPermissions,
-
-        hasChannelPermission: PERMISSIONS.hasChannelPermission,
-        hasServerPermission: PERMISSIONS.hasServerPermission
+    static CHECK: {
+        CHANNEL: {
+            PERMISSIONS: PERMISSIONS["hasChannelPermissions"],
+            INTEGRITY: PERMISSIONS["checkIntegrity"],
+        },
+        SERVER: {
+            PERMISSIONS: PERMISSIONS["hasServerPermissions"]
+        }
     }
-    static find = {
-        channel: {
+    
+    static FIND = {
+        CHANNEL: {
             id: findChannelID,
             friend: findChannelFriend
         },
 
-        user: {
+        USER: {
             blocked: findUserBlocked,
             token: findUserbyToken,
             id: findUserbyID,
             friend: findFriendbyUser
         },
-        server: {
+
+        SERVER: {
             id: findServer,
             member: findUserInServer
         }
@@ -38,6 +41,7 @@ export class FUNCTIONS {
         server.permissions = undefined
         return server
     }
+
     static REMOVE_PRIVATE_INFO_USER = (user: any) => {
         user.password = undefined
         user.token = undefined
@@ -49,6 +53,7 @@ export class FUNCTIONS {
         user.friends = undefined
         return user
     }
+    
     static REMOVE_OVERFLOW_INFO_CHANNEL = (channel: any) => {
         channel.members = undefined
         channel.messages = undefined

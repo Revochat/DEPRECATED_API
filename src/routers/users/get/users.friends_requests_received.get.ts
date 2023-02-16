@@ -13,6 +13,13 @@ export const getFriendsRequestsReceived = async (req: express.Request, res: expr
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"
 
+        // fetch the user's info from the database
+        User.friends_requests_received = await DB.users.find.many(User.friends_requests_received)
+
+        for (let i = 0; i < User.friends_requests_received.length; i++) {
+            User.friends_requests_received[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.friends_requests_received[i])
+        }
+
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)

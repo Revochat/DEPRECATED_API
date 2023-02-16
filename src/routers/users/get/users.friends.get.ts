@@ -20,7 +20,6 @@ export const getFriends = async (req: express.Request, res: express.Response) =>
         User.friends = await DB.users.find.many(User.friends)
 
         for (let i = 0; i < User.friends.length; i++) {
-            Logger.log("Removing private info from user " + User.friends[i].user_id)
             User.friends[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.friends[i])
         }
 

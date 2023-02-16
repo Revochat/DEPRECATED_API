@@ -19,11 +19,10 @@ export async function GetXNumberofMessages(channel_id: string, number: number) {
     }
 }
 
-export async function ChannelGetMany(array_id: number[]): Promise<(IChannelModel & {_id: Types.ObjectId})[]> {
-    return new Promise((resolve, reject) => {
-        Channel.find({channel_id: {$in: array_id}}, null, (err, channels) => {
-            if(err) reject(err);
-            resolve(channels);
-        })
-    })
+export async function ChannelGetMany(channel_ids: number[]) { // Get many channels from the database
+    try {
+        return Channel.find({channel_id : {$in : channel_ids}});
+    } catch(err) {
+        Logger.error(err);
+    }
 }

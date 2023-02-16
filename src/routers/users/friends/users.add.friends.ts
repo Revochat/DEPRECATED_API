@@ -14,7 +14,7 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
         if(!token || !friend_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
             friend_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted" // Type Check
 
-        var User = await UTILS.FUNCTIONS.find.user.token(token) // Find the user
+        var User = await UTILS.FUNCTIONS.FIND.USER.token(token) // Find the user
         if (!User) throw "User not found"
 
         // Check if the friend is already added
@@ -27,8 +27,7 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
         if(User.blocked.includes(friend_id)) throw "User is blocked"
 
         //Check if the friend exists
-        var Friend = await UTILS.FUNCTIONS.find.user.id(parseInt(friend_id))
-        if(!Friend) throw "Friend not found"
+        var Friend = await UTILS.FUNCTIONS.FIND.USER.id(parseInt(friend_id))
 
         // Check if the user is itself
         if(User.user_id.toString() === friend_id) throw "User is itself"
@@ -65,7 +64,7 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
             }
 
             // check if channel already exists between users 
-            var Channel_Exists = await UTILS.FUNCTIONS.find.channel.friend(User, Friend)
+            var Channel_Exists = await UTILS.FUNCTIONS.FIND.CHANNEL.friend(User, Friend)
             if (Channel_Exists) throw "Channel already exists"
 
             // create channel

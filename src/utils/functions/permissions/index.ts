@@ -1,11 +1,9 @@
-import { hasChannelPermission } from './channel.hasPermissions';
-import { hasServerPermission } from './server.hasPermissions';
-import { checkChannelPermissions } from './channel.check';
+import { hasServerPermissions } from './server.hasPermissions';
+import { hasChannelPermissions } from './channel.hasPermissions';
 import { checkIntegrity } from './integrity.permissions.check';
 
 export class PERMISSIONS {
-    static hasChannelPermission = hasChannelPermission;
-    static hasServerPermission = hasServerPermission;
-    static checkChannelPermissions = checkChannelPermissions;
-    static checkIntegrity = checkIntegrity;
+    hasServerPermissions = hasServerPermissions;
+    hasChannelPermissions = hasChannelPermissions;
+    checkIntegrity= checkIntegrity;
 }

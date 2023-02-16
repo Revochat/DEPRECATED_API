@@ -32,7 +32,7 @@ export const iconUpdate = async (req: express.Request, res: express.Response) =>
 
         if(Server.owner_id !== User.user_id) throw "You are not the owner of this server"
 
-        if (!UTILS.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to change the server icon"
+        if (!UTILS.FUNCTIONS.CHECK.SERVER.PERMISSIONS(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to change the server icon"
 
         Server.server_icon = server_icon
         await Server.save()

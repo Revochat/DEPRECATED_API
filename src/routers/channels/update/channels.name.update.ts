@@ -28,7 +28,7 @@ export const updateName = async (req: express.Request, res: express.Response) =>
         if(!Channel) throw "Channel not found" // Check if the channel exists
 
         // Check if the user has permission to update the channel 
-        if (!UTILS.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to update this channel"
+        if (!UTILS.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to update this channel"
 
         Channel.channel_name = channel_name // Update the channel name
         Channel.updated_at = Date.toLocaleString()

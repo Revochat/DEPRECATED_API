@@ -20,17 +20,15 @@ export const getMessages = async (req: express.Request, res: express.Response) =
     }
 
     try {
-        UTILS.FUNCTIONS.find.user.token(token) // Find the user
-
-        if (!limit) throw "Limit not provided"
-
-        if (parseInt(limit) > 100) throw "Limit is too high"
+        var User = await UTILS.FUNCTIONS.FIND.USER.token(token)
+        if (!User) throw "User not found"
 
         var Channel = await DB.channels.find.id(parseInt(channel_id))
         if(!Channel) throw "Channel not found"
-        Logger.debug(`Getting messages of channel ${Channel}`)
 
-        var Messages = await DB.channels.find.messages(channel_id, parseInt(limit)) // needs testing (not sure if it works)
+        if (!Channel.members.includes(User.user_id)) throw "You are not a member of this channel"
+
+        var Messages = await DB.channels.find.messages(channel_id, parseInt(limit))
 
         res.json(
             new RouteResponse()

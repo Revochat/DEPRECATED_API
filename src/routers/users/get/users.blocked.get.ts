@@ -13,6 +13,13 @@ export const getBlocked = async (req: express.Request, res: express.Response) =>
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"
 
+        // fetch blocked users from the database
+        User.blocked = await DB.users.find.many(User.blocked)
+
+        for (let i = 0; i < User.blocked.length; i++) {
+            User.blocked[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.blocked[i])
+        }
+
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)

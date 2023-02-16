@@ -21,8 +21,8 @@ export const create_private = async (req: express.Request, res: express.Response
             )
             return
         }
-        var User = await UTILS.FUNCTIONS.find.user.token(token)
-        var Friend = await UTILS.FUNCTIONS.find.user.id(parseInt(friend_id))
+        var User = await UTILS.FUNCTIONS.FIND.USER.token(token)
+        var Friend = await UTILS.FUNCTIONS.FIND.USER.id(parseInt(friend_id))
 
         Logger.log("Creating private channel between " + User.username + " and " + Friend.username)
 
@@ -31,18 +31,18 @@ export const create_private = async (req: express.Request, res: express.Response
 
 
         // check if friend is blocked by user or user is blocked by friend 
-        if (await UTILS.FUNCTIONS.find.user.blocked(User.user_id, Friend.user_id)) throw "Friend is blocked"
-        if (await UTILS.FUNCTIONS.find.user.blocked(Friend.user_id, User.user_id)) throw "You are blocked"
+        if (await UTILS.FUNCTIONS.FIND.USER.blocked(User.user_id, Friend.user_id)) throw "Friend is blocked"
+        if (await UTILS.FUNCTIONS.FIND.USER.blocked(Friend.user_id, User.user_id)) throw "You are blocked"
 
         //if friend has message_privacy set to everyone or friends only
         if (Friend.message_privacy === UTILS.CONSTANTS.MESSAGE.PROPERTIES.MESSAGE_PRIVACY_FRIENDS) {
-            if (!UTILS.FUNCTIONS.find.user.friend(User, Friend)) throw "Friend not found"
+            if (!UTILS.FUNCTIONS.FIND.USER.friend(User, Friend)) throw "Friend not found"
         }
 
         if (User.user_id === Friend.user_id) throw "You cannot create a private channel with yourself"
 
         // check if channel already exists between users 
-        var Channel_Exists = await UTILS.FUNCTIONS.find.channel.friend(User, Friend)
+        var Channel_Exists = await UTILS.FUNCTIONS.FIND.CHANNEL.friend(User, Friend)
         if (Channel_Exists) throw "Channel already exists"
 
         // create channel

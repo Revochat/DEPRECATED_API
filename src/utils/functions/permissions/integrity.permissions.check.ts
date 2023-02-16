@@ -1,9 +1,6 @@
 import UTILS from "../.."
-import DB from "../../../database"
-import { IChannel, IChannelPermission} from '../../../database/models/Channel'
-import { IUser } from '../../../database/models/User'
 
-export const checkIntegrity = async (permissions: any) => { // check integrity of permissions
+export const checkIntegrity = async (permissions: any) => { // check integrity of permissions of a channel
     const PERMISSIONS = UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ALL
     const keys = Object.keys(permissions)
     if (keys.length !== PERMISSIONS.length) return false

@@ -19,14 +19,14 @@ export const getServer = async (req: express.Request, res: express.Response) => 
     }
     
     try {
-        var Server = await UTILS.FUNCTIONS.find.server.id(parseInt(server_id))
-        var User = await UTILS.FUNCTIONS.find.user.token(token)
+        var Server = await UTILS.FUNCTIONS.FIND.SERVER.id(parseInt(server_id))
+        var User = await UTILS.FUNCTIONS.FIND.USER.token(token)
 
         if (!Server) throw "Server not found"
         if (!User) throw "User not found"
 
         // Check if user is a member of the server
-        if (!UTILS.FUNCTIONS.find.server.member(User.user_id, Server)) throw "You are not a member of this server"
+        if (!UTILS.FUNCTIONS.FIND.SERVER.member(User.user_id, Server)) throw "You are not a member of this server"
 
         res.json(
             new RouteResponse()

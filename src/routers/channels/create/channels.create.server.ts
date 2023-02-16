@@ -25,8 +25,8 @@ export const create_server = async (req: express.Request, res: express.Response)
     }
 
     try {
-        var User = await UTILS.FUNCTIONS.find.user.token(token)
-        var Server = await UTILS.FUNCTIONS.find.server.id(parseInt(server_id))
+        var User = await UTILS.FUNCTIONS.FIND.USER.token(token)
+        var Server = await UTILS.FUNCTIONS.FIND.SERVER.id(parseInt(server_id))
 
         Logger.log("Creating server channel for " + User.username + " in " + channel_name)
 

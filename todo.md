@@ -7,7 +7,7 @@ TO DO LIST:
 - tag people
 - captcha (for the login, register, and rate limit)
 
-- add route to load 100 by 100 the friends list (exemple: someone have 250 friends, /api/friends/get/index -> /api/friends/get/1 is loading 100 friends, /api/friends/get/2 is loading the next 100 friends, /api/friends/get/3 is loading the next 50 left friends), same for channels and servers
+- add route to load dynamically data (channels, messages, users, etc..)
 - check every id returned is a struct
 - premium handling, moderation of servers
 - test/security routes

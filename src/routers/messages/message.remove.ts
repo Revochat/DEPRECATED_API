@@ -24,7 +24,7 @@ export const remove = async (req: express.Request, res: express.Response) => { /
             return
         }
 
-        var User = await UTILS.FUNCTIONS.find.user.token(token) // Find the user
+        var User = await UTILS.FUNCTIONS.FIND.USER.token(token) // Find the user
 
         var Channel = await DB.channels.find.id(parseInt(channel_id))
         if(!Channel) throw "Channel not found"
@@ -41,7 +41,7 @@ export const remove = async (req: express.Request, res: express.Response) => { /
         var Message = await DB.messages.find.id(message_id)
         if(!Message) throw "Message not found"
         if (Message.user_id != User.user_id) { // If the message is not his own message
-            if (!UTILS.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to delete others messages in this channel"
+            if (!UTILS.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to delete others messages in this channel"
         }
 
         Logger.debug(`Deleting message from channel ${Channel}`)

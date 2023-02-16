@@ -30,7 +30,7 @@ export const updatePermissions = async (req: express.Request, res: express.Respo
         // if (!UTILS.FUNCTIONS.PERMISSIONS.checkIntegrity(permissions)) throw "Badly formatted permissions"
 
         if (Channel.server_id) { // If the channel is a server channel = no permissions editing in private channels
-            if (!UTILS.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to update this channel"
+            if (!UTILS.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to update this channel"
         }
 
         Channel.permissions = permissions // Update the channel permissions

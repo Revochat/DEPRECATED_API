@@ -38,7 +38,7 @@ export const join = async (req: express.Request, res: express.Response) => { // 
         if (Channel.members.includes(UserToAdd.user_id)) throw "User is already in this channel" // Check if the user is already in the channel
 
         // Check if the user has permission to update the channel 
-        if (!UTILS.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.MEMBER.INVITE)) throw "You do not have permission to update this channel"
+        if (!UTILS.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.MEMBER.INVITE)) throw "You do not have permission to update this channel"
 
         if (!Channel.members) Channel.members = [] // Check if the channel has members
         Channel.members.push(UserToAdd.user_id) // Add the user to the channel
