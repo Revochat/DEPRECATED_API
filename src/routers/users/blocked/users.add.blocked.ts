@@ -20,6 +20,12 @@ export const addBlocked =  async (req: express.Request, res: express.Response) =
         // check if the user is already blocked
         if(User.blocked.includes(blocked_id)) throw "User already blocked"
 
+        // check if the user is trying to block himself
+        if(User.id == blocked_id) throw "You can't block yourself"
+
+        // check if the user is trying to block a friend
+        if(User.friends.includes(blocked_id)) throw "You can't block a friend"
+
         // check if the user exists
         if (!await DB.users.find.id(parseInt(blocked_id))) throw "User doesn't exist"
 

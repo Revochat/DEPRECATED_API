@@ -51,7 +51,7 @@ export const send = async (req: express.Request, res: express.Response) => { // 
         // Check if the user is in the channel
         if (!Channel.members.includes(User.user_id)) throw "You are not in this channel"
 
-        var Message: IMessageModel | undefined = await DB.messages.create({ // Create the message
+        var Message = await DB.messages.create({ // Create the message
             message_id: Date.now() + Math.floor(Math.random() * 1000),
             channel_id: parseInt(channel_id),
             user_id: User.user_id,

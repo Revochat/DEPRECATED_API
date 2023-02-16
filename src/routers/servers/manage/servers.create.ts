@@ -4,6 +4,7 @@ import Emitter from "../../../client/emitter.client"
 import Logger from "../../../client/logger.client"
 import DB from "../../../database"
 import UTILS from "../../../utils"
+import { IServerModel } from '../../../database/models/Server';
 
 export const create = async (req: express.Request, res: express.Response) => { // Create a server channel 
     var {name} = req.params
