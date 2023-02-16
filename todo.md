@@ -7,7 +7,6 @@ TO DO LIST:
 - tag people
 - captcha (for the login, register, and rate limit)
 
-- check every id returned is a struct
 - premium handling, moderation of servers, check roles, send msg check ban??, server channel add member to them, get invite check perm
 - test/security routes
 - encryption system
