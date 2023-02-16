@@ -11,15 +11,7 @@ export const inviteUse = async (req: express.Request, res: express.Response) => 
 
     Logger.debug(`Using invite ${invite_id}`)
     if (!invite_id || !token || invite_id.length < UTILS.CONSTANTS.INVITE.ID.MIN_LENGTH || invite_id.length > UTILS.CONSTANTS.INVITE.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH
-        ) { //type check
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH) throw "Badly formatted"
 
     try {
         var User = await DB.users.find.token(token) // Find the user
@@ -32,7 +24,7 @@ export const inviteUse = async (req: express.Request, res: express.Response) => 
         if(!Server) throw "Server not found"
 
         // check permissions
-        if (!UTILS.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to create invites"
+        if (!UTILS.FUNCTIONS.CHECK.SERVER.PERMISSIONS(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to create invites"
 
 
         // increment max count of invite (if max count is not -1)
@@ -55,6 +47,7 @@ export const inviteUse = async (req: express.Request, res: express.Response) => 
     }
 
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

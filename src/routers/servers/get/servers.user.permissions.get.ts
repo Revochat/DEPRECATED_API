@@ -12,24 +12,17 @@ export const getPermissions = async (req: express.Request, res: express.Response
 
     // type check
     if (!token || !server_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH) {
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH) throw "Badly formatted"
 
     try {
-        var Server = await UTILS.FUNCTIONS.find.server.id(parseInt(server_id))
-        var User = await UTILS.FUNCTIONS.find.user.token(token)
+        var Server = await UTILS.FUNCTIONS.FIND.SERVER.id(parseInt(server_id))
+        var User = await UTILS.FUNCTIONS.FIND.USER.token(token)
 
         if (!Server) throw "Server not found"
         if (!User) throw "User not found"
 
         // Check if user is a member of the server
-        if (!UTILS.FUNCTIONS.find.server.member(User.user_id, Server)) throw "You are not a member of this server"
+        if (!UTILS.FUNCTIONS.FIND.SERVER.member(User.user_id, Server)) throw "You are not a member of this server"
 
         res.json(
             new RouteResponse()
@@ -40,6 +33,7 @@ export const getPermissions = async (req: express.Request, res: express.Response
     }
 
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

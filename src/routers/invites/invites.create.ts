@@ -10,24 +10,13 @@ export const inviteCreate = async (req: express.Request, res: express.Response) 
     const token = req.token
     const {uses, expires_at} = req.body
 
-    Logger.debug(`Creating invite for ${server_id}`)
-
     if (!server_id || !token || !uses || !expires_at || 
         server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || expires_at instanceof Date || uses instanceof Number
-        ) { //type check
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        ) throw "Badly formatted"
 
     try {
-        if (expires_at < new Date().toLocaleString()) {
-            throw "Invalid expiration date"
-        }
+        if (expires_at < new Date().toLocaleString()) throw "Invalid expiration date"
 
         var User = await DB.users.find.token(token) // Find the user
         if(!User) throw "User not found"
@@ -35,9 +24,7 @@ export const inviteCreate = async (req: express.Request, res: express.Response) 
         var Server = await DB.servers.find.id(parseInt(server_id)) // Find the server
         if(!Server) throw "Server not found"
 
-        if(Server.owner_id !== User.user_id) throw "You are not the owner of this server"
-
-        if (!UTILS.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to create invites"
+        if (!UTILS.FUNCTIONS.CHECK.SERVER.PERMISSIONS(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to create invites"
 
         // create an invite for the server
         var Invite = await DB.invites.create({
@@ -67,7 +54,9 @@ export const inviteCreate = async (req: express.Request, res: express.Response) 
                 })
         )
     }
+
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

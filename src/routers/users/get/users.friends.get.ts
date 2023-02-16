@@ -14,8 +14,6 @@ export const getFriends = async (req: express.Request, res: express.Response) =>
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"
 
-        Logger.log("Getting user " + User.user_id + " friends")
-
         // fetch the user's info from the database
         User.friends = await DB.users.find.many(User.friends)
 
@@ -30,7 +28,9 @@ export const getFriends = async (req: express.Request, res: express.Response) =>
                 .setData(User.friends)
         )
     }
+    
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

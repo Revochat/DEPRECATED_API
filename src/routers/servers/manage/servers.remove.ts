@@ -1,7 +1,6 @@
 import express from "express"
 import { RouteResponse, Status } from "../../controller"
 import Emitter from "../../../client/emitter.client"
-import Logger from "../../../client/logger.client"
 import DB from "../../../database"
 import UTILS from "../../../utils"
 
@@ -9,14 +8,7 @@ export const remove = async (req: express.Request, res: express.Response) => { /
     var {server_id} = req.params
     const token = req.token
     if (!server_id || !token || server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ){ //type check
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ) throw "Badly formatted"
 
     try {
         var User = await DB.users.find.token(token) // Find the user
@@ -39,6 +31,7 @@ export const remove = async (req: express.Request, res: express.Response) => { /
     }
 
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

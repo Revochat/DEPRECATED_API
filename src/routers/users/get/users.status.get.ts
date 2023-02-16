@@ -20,7 +20,9 @@ export const getStatus = async (req: express.Request, res: express.Response) => 
                 .setData(User.status)
         )
     }
+
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

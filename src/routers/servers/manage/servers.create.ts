@@ -4,7 +4,6 @@ import Emitter from "../../../client/emitter.client"
 import Logger from "../../../client/logger.client"
 import DB from "../../../database"
 import UTILS from "../../../utils"
-import { IServerModel } from '../../../database/models/Server';
 
 export const create = async (req: express.Request, res: express.Response) => { // Create a server channel 
     var {name} = req.params
@@ -13,14 +12,7 @@ export const create = async (req: express.Request, res: express.Response) => { /
     Logger.debug(`Creating server ${name}`)
 
     if (!name || !token || name.length < UTILS.CONSTANTS.SERVER.NAME.MIN_LENGTH || name.length > UTILS.CONSTANTS.SERVER.NAME.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ){ //type check
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ) throw "Badly formatted"
 
     try {
         var User = await DB.users.find.token(token) // Find the user
@@ -40,7 +32,6 @@ export const create = async (req: express.Request, res: express.Response) => { /
             created_at: new Date().toLocaleString(),
             roles: []
         })
-
         await Server.save() // Save the server to the database
 
         // add the server to the user
@@ -57,6 +48,7 @@ export const create = async (req: express.Request, res: express.Response) => { /
     }
 
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

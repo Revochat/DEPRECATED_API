@@ -12,7 +12,7 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
         const token = req.token
 
         if(!token || !friend_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-            friend_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted" // Type Check
+            friend_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
 
         var User = await UTILS.FUNCTIONS.FIND.USER.token(token) // Find the user
         if (!User) throw "User not found"
@@ -43,7 +43,6 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
         // DATABASE UPDATES
 
         if (User.friends_requests_received.includes(friend_id)) { // If the user has a friend request from the friend, accept it and remove the request from the friend
-            Logger.debug(`User ${User.user_id} is accepting a friend request from ${Friend.user_id}`)
             
             User.friends_requests_received.splice(User.friends_requests_received.indexOf(friend_id), 1) // Remove the request from the user
             if (Friend.friends_requests_received) { // this check is useless but it's here to avoid errors
@@ -114,7 +113,6 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
                     .setData(Friend_Public_Info)
             )
         } else { // If the user doesn't have a friend request from the friend, send a request to the friend 
-            Logger.debug(`User ${User.user_id} is sending a friend request to ${Friend.user_id}`)
 
             // Add the user to the friend
             if (Friend.friends_requests_received) {
@@ -151,6 +149,7 @@ export const addFriend = async (req: express.Request, res: express.Response) => 
             )
         }
     }
+
     catch (err) {
         res.status(400)
         res.json(

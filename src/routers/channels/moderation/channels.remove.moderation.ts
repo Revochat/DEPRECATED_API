@@ -12,14 +12,7 @@ export const remove = async (req: express.Request, res: express.Response) => { /
 
     if (!channel_id || !token || !user_id || !member_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || 
-        member_id.length !== UTILS.CONSTANTS.USER.ID.MIN_LENGTH || member_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) {
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        member_id.length !== UTILS.CONSTANTS.USER.ID.MIN_LENGTH || member_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
 
     try {
         var User = await DB.users.find.token(token)
@@ -51,8 +44,6 @@ export const remove = async (req: express.Request, res: express.Response) => { /
         if (Member.channels) Member.channels.splice(Member.channels.indexOf(parseInt(channel_id)), 1)
         await Member.save()
 
-        Logger.debug(`Member ${Member} has been kicked from channel ${Channel}`)
-
         Emitter.emit("channel_kick", {
             channel_id: channel_id,
             member_id: member_id,
@@ -65,7 +56,9 @@ export const remove = async (req: express.Request, res: express.Response) => { /
                 .setMessage("Member kicked")
         )
     }
+
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

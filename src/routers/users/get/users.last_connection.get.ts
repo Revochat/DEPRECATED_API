@@ -20,7 +20,9 @@ export const getLastConnection = async (req: express.Request, res: express.Respo
                 .setData(User.last_connection)
         )
     }
+
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

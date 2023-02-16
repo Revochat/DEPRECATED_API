@@ -10,14 +10,7 @@ export const leave = async (req: express.Request, res: express.Response) => { //
     const token = req.token
 
     if (!channel_id || !token || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH){ //type check
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH) throw "Badly formatted"
 
     try {
         // Check if the channel exists
@@ -37,8 +30,8 @@ export const leave = async (req: express.Request, res: express.Response) => { //
         Channel.members_count = Channel.members.length
         await Channel.save()
 
-        Logger.debug(`User ${User.user_id} has left channel ${Channel}`)
         Emitter.emit("leaveChannel", Channel)
+        
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
@@ -46,7 +39,9 @@ export const leave = async (req: express.Request, res: express.Response) => { //
                 .setData(Channel)
         )
     }
+
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

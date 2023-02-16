@@ -10,11 +10,10 @@ import UTILS from "../../../utils"
 
 export const userConnect = async (req: express.Request, res: express.Response) => { // Connect a user
     try {
-        if(!req.token) throw "Badly formatted"
         const token = req.token
 
         // if username or password badly formatted
-       if(token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH|| token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH) throw "Badly formatted"
+       if(!token || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH|| token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
         if(!User) throw "Invalid token"
@@ -45,6 +44,7 @@ export const userConnect = async (req: express.Request, res: express.Response) =
         
             
         Emitter.emit("connect", User, null)
+
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
@@ -52,6 +52,7 @@ export const userConnect = async (req: express.Request, res: express.Response) =
                 .setData(User)
         )
     }
+
     catch(err) {
         res.status(400)
         res.json(

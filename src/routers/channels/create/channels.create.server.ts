@@ -6,7 +6,7 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const create_server = async (req: express.Request, res: express.Response) => {
-    const { channel_name, channel_type} = req.body
+    const {channel_name, channel_type} = req.body
     const {server_id} = req.params
     const token = req.token
 
@@ -14,15 +14,7 @@ export const create_server = async (req: express.Request, res: express.Response)
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
         server_id.length !== UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
         channel_name.length < UTILS.CONSTANTS.CHANNEL.NAME.MIN_LENGTH || channel_name.length > UTILS.CONSTANTS.CHANNEL.NAME.MAX_LENGTH ||
-        channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.TEXT || channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.VOICE) {
-
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.TEXT || channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.VOICE) throw "Badly formatted"
 
     try {
         var User = await UTILS.FUNCTIONS.FIND.USER.token(token)
@@ -69,12 +61,14 @@ export const create_server = async (req: express.Request, res: express.Response)
                 .setMessage("Channel created")
                 .setData(Channel)
         )
-    } catch (error) {
-        Logger.error(error)
+    } 
+    catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)
-                .setMessage("Could not create channel")
+                .setMessage(err as string)
         )
+        return
     }
 }

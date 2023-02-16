@@ -9,12 +9,12 @@ export const getUserbyID = async (req: express.Request, res: express.Response) =
         const token = req.token
 
         // if token or user_id badly formatted
-        if(!token || !user_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-            !UTILS.CONSTANTS.USER.ID) throw "Badly formatted"
+        if(!token || !user_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || !UTILS.CONSTANTS.USER.ID) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
-        if(User) {
+        if(User) { // if user token is valid
             if(User.id == parseInt(user_id)) {
+                res.status(200)
                 res.json(
                     new RouteResponse()
                         .setStatus(Status.success)
@@ -23,18 +23,12 @@ export const getUserbyID = async (req: express.Request, res: express.Response) =
                 )
                 return
             }
-            User = await DB.users.find.id(parseInt(user_id))
-            if(!User) throw "User not found"
-            
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`User found`)
-                    .setData(User)
-            )
         }
+        throw "User not found"
     }
+
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

@@ -1,4 +1,5 @@
 import {findUserbyToken, findServer, findUserbyID, findFriendbyUser, findChannelID, findChannelFriend, findUserBlocked, findUserInServer} from "./find"
+import {RouteResponse, Status} from "../../routers/controller"
 import {PERMISSIONS} from "./permissions"
 
 export class FUNCTIONS {

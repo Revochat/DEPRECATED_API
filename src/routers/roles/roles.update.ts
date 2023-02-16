@@ -14,15 +14,7 @@ export const updateRole = async (req: express.Request, res: express.Response) =>
         
         //type checking
         if (!token || !name || !role_id || !permissions || !color ||
-            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH){ //type check
-            
-                res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage("Badly formatted")
-            )
-            return
-        }
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
         if (!User) throw "User not found"
@@ -32,8 +24,8 @@ export const updateRole = async (req: express.Request, res: express.Response) =>
 
         await DB.roles.update(role_id, name, color, permissions)
 
-        Logger.debug(`Role ${Role} has been updated`)
         Emitter.emit("updateRole", Role)
+        
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
@@ -43,6 +35,7 @@ export const updateRole = async (req: express.Request, res: express.Response) =>
     }
 
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

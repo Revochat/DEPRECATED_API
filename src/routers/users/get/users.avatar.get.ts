@@ -20,7 +20,9 @@ export const getAvatar = async (req: express.Request, res: express.Response) => 
                 .setData(User.avatar)
         )
     }
+    
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

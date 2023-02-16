@@ -6,7 +6,6 @@ import Emitter from "../../../client/emitter.client"
 import UTILS from "../../../utils"
 
 export const removeFriend = async (req: express.Request, res: express.Response) => { // Remove a friend from the user
-    
     try {
         const { friend_id } = req.params
         const token = req.token
@@ -32,18 +31,21 @@ export const removeFriend = async (req: express.Request, res: express.Response) 
                 // update the friend
                 var Friend = await DB.users.find.id(parseInt(friend_id))
                 if(!Friend) throw "Friend not found"
+
                 if (Friend.friends_requests_sent) Friend.friends_requests_sent.splice(Friend.friends_requests_sent.indexOf(Friend.user_id), 1)
                 Friend.updated_at = new Date().toLocaleString()
                 Friend.save()
-                Logger.debug(`User ${User} has been updated`)
-                Logger.debug(`User ${Friend} has been updated`)
+
                 Emitter.emit("removeFriend", User)
+
                 res.json(
                     new RouteResponse()
                         .setStatus(Status.success)
                         .setMessage(`Friend Request_received removed`)
                         .setData(User)
                 )
+                return
+
             } else if (User.friends_requests_sent.includes(friend_id)) { // Check if the user has sent a friend request to the friend
 
                 // Remove the friend request from the user
@@ -54,25 +56,22 @@ export const removeFriend = async (req: express.Request, res: express.Response) 
                 // update the friend
                 var Friend = await DB.users.find.id(parseInt(friend_id))
                 if(!Friend) throw "Friend not found"
+
                 if (Friend.friends_requests_received) Friend.friends_requests_received.splice(Friend.friends_requests_received.indexOf(User.id.toString()), 1)
                 Friend.updated_at = new Date().toLocaleString()
                 Friend.save()
-                Logger.debug(`User ${User} has been updated`)
-                Logger.debug(`User ${Friend} has been updated`)
+
                 Emitter.emit("removeFriend", User)
+
                 res.json(
                     new RouteResponse()
                         .setStatus(Status.success)
                         .setMessage(`Friend Request_sent removed`)
                         .setData(User)
                 )
+                return
             }
-
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.success)
-                    .setMessage(`Error removing friend`)
-            )
+            throw "Friend not found"
 
         } else { // If the friend is added, remove the friend from the user
             User.friends.splice(User.friends.indexOf(friend_id), 1)
@@ -82,12 +81,13 @@ export const removeFriend = async (req: express.Request, res: express.Response) 
             // update the friend
             var Friend = await DB.users.find.id(parseInt(friend_id))
             if(!Friend) throw "Friend not found"
+
             if (Friend.friends) Friend.friends.splice(Friend.friends.indexOf(User.id.toString()), 1)
             Friend.updated_at = new Date().toLocaleString()
             Friend.save()
 
-            Logger.debug(`User ${User} has been updated`)
             Emitter.emit("removeFriend", User)
+
             res.json(
                 new RouteResponse()
                     .setStatus(Status.success)
@@ -96,6 +96,7 @@ export const removeFriend = async (req: express.Request, res: express.Response) 
             )
         }
     }
+
     catch(err) {
         res.status(400)
         res.json(

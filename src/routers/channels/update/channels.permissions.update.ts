@@ -11,14 +11,7 @@ export const updatePermissions = async (req: express.Request, res: express.Respo
     const token = req.token
 
     if (!channel_id || !token || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ) { //type check
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ) throw "Badly formatted"
 
     try {
         var User = await DB.users.find.token(token) // Find the user
@@ -27,7 +20,7 @@ export const updatePermissions = async (req: express.Request, res: express.Respo
         if(!Channel) throw "Channel not found" // Check if the channel exists
 
         // check the integrity of permissions
-        // if (!UTILS.FUNCTIONS.PERMISSIONS.checkIntegrity(permissions)) throw "Badly formatted permissions"
+        if (await UTILS.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, permissions)) throw "Badly formatted permissions"
 
         if (Channel.server_id) { // If the channel is a server channel = no permissions editing in private channels
             if (!UTILS.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to update this channel"
@@ -45,7 +38,9 @@ export const updatePermissions = async (req: express.Request, res: express.Respo
                 .setData(Channel)
         )
     }
+
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

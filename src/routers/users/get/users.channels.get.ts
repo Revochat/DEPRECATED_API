@@ -7,7 +7,6 @@ import Logger from "../../../client/logger.client"
 export const getChannels = async (req: express.Request, res: express.Response) => { // Get a user
     try {
         const token = req.token
-        Logger.log("Getting user channels")
 
         // if token badly formatted
         if(!token || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH) throw "Badly formatted"
@@ -29,7 +28,9 @@ export const getChannels = async (req: express.Request, res: express.Response) =
                 .setData(channels)
         )
     }
+
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

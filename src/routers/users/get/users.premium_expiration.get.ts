@@ -20,7 +20,9 @@ export const getPremiumExpiration = async (req: express.Request, res: express.Re
                 .setData(User.premium_expiration)
         )
     }
+
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

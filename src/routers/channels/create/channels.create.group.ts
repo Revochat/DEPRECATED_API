@@ -12,22 +12,12 @@ export const create_group = async (req: express.Request, res: express.Response) 
     if (!token || !friend_id_1 || !friend_id_2 ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
         friend_id_1.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_1.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH ||
-        friend_id_2.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_2.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) {
-
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        friend_id_2.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_2.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
 
     try {
         var User = await UTILS.FUNCTIONS.FIND.USER.token(token)
         var Friend_1 = await UTILS.FUNCTIONS.FIND.USER.id(parseInt(friend_id_1))
         var Friend_2 = await UTILS.FUNCTIONS.FIND.USER.id(parseInt(friend_id_2))
-
-        Logger.log("Creating private channel between " + User.username + " and " + Friend_1.username + " and " + Friend_2.username)
 
         if (User.channels.length >= UTILS.CONSTANTS.CHANNEL.MAX_PRIVATE_CHANNELS) throw "You have reached the maximum number of private channels"
 
@@ -70,7 +60,9 @@ export const create_group = async (req: express.Request, res: express.Response) 
                 .setData(Channel)
         )
     }
+
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

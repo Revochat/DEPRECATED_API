@@ -20,8 +20,8 @@ export const usernameUpdate = async (req: express.Request, res: express.Response
         User.updated_at = new Date().toLocaleString()
         User.save() //update the username of the user in the database
 
-        Logger.debug(`User ${User} has been updated`)
         Emitter.emit("updateUsername", User)
+        
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
@@ -29,7 +29,9 @@ export const usernameUpdate = async (req: express.Request, res: express.Response
                 .setData(User)
         )
     }
+
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

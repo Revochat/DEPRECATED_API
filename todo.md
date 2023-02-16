@@ -7,15 +7,14 @@ TO DO LIST:
 - tag people
 - captcha (for the login, register, and rate limit)
 
-- add route to load dynamically data (channels, messages, users, etc..)
 - check every id returned is a struct
-- premium handling, moderation of servers
+- premium handling, moderation of servers, check roles, send msg check ban??, server channel add member to them, get invite check perm
 - test/security routes
 - encryption system
 - self destruct system for messages (auto delete messages function)
 
 ==================== 1.0.0 ==================== (less urgent)
-- fix throw error instead of proper return with status error
+- add route to load dynamically data (channels, messages, users, etc..)
 - reactions
 - web3 chat / smart contract connection
 - sounds (Lux)

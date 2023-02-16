@@ -20,7 +20,9 @@ export const getUpdatedAt = async (req: express.Request, res: express.Response) 
                 .setData(User.updated_at)
         )
     }
+
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

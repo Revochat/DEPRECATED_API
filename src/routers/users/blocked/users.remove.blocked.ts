@@ -26,6 +26,7 @@ export const removeBlocked = async (req: express.Request, res: express.Response)
         User.save()
         
         Emitter.emit("removeBlocked", User)
+
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
@@ -33,7 +34,9 @@ export const removeBlocked = async (req: express.Request, res: express.Response)
                 .setData(User)
         )
     }
+
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

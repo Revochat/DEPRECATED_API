@@ -14,14 +14,7 @@ export const send = async (req: express.Request, res: express.Response) => { // 
         const token = req.token
 
         if (!channel_id || !token || !message || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-            token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH){ //type check
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage("Badly formatted")
-            )
-            return
-        }
+            token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH) throw "Badly formatted"
 
         // Check if the user is banned
 
@@ -69,7 +62,9 @@ export const send = async (req: express.Request, res: express.Response) => { // 
                 .setData(Message)
         )
     }
+
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

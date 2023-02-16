@@ -19,8 +19,9 @@ export const walletUpdate = async (req: express.Request, res: express.Response) 
         User.wallet_token = newwallet_token
         User.updated_at = new Date().toLocaleString()
         User.save()
-        Logger.debug(`User ${User} has been updated`)
+
         Emitter.emit("updateWalletToken", User)
+
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
@@ -28,7 +29,9 @@ export const walletUpdate = async (req: express.Request, res: express.Response) 
                 .setData(User)
         )
     }
+
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

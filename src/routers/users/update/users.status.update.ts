@@ -21,8 +21,8 @@ export const statusUpdate = async (req: express.Request, res: express.Response) 
         User.updated_at = new Date().toLocaleString()
         User.save() //update the status of the user in the database
 
-        Logger.debug(`User ${User} has been updated`)
         Emitter.emit("updateStatus", User)
+        
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
@@ -32,6 +32,7 @@ export const statusUpdate = async (req: express.Request, res: express.Response) 
     }
     
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

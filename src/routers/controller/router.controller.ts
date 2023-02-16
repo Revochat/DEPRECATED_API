@@ -20,7 +20,7 @@ export default class Controller implements RouterInterface { // This is the clas
         windowMs: UTILS.CONSTANTS.API.RATELIMIT.TIME, // 15 minutes
         max: UTILS.CONSTANTS.API.RATELIMIT.MAX_REQUEST, // limit each IP to 500 requests per windowMs
         standardHeaders: UTILS.CONSTANTS.API.RATELIMIT.STANDARD_REQUEST === 1 ? true : false,
-        legacyHeaders: UTILS.CONSTANTS.API.RATELIMIT.TIME === 1 ? true : false, 
+        legacyHeaders: UTILS.CONSTANTS.API.RATELIMIT.LEGACY_HEADERS === 1 ? true : false,
     })
     
     constructor(){

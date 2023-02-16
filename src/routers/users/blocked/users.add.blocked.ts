@@ -10,18 +10,17 @@ export const addBlocked =  async (req: express.Request, res: express.Response) =
         const { blocked_id } = req.params
         const token = req.token
 
-        // if token or blocked_id badly formatted
-        if(!token || !blocked_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
+        if (!token || !blocked_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
             blocked_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || blocked_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
-        if(!User) throw "Invalid token"
+        if(!User) throw "User not found"
 
         // check if the user is already blocked
         if(User.blocked.includes(blocked_id)) throw "User already blocked"
 
         // check if the user is trying to block himself
-        if(User.id == blocked_id) throw "You can't block yourself"
+        if(User.user_id == blocked_id) throw "You can't block yourself"
 
         // check if the user is trying to block a friend
         if(User.friends.includes(blocked_id)) throw "You can't block a friend"
@@ -35,6 +34,7 @@ export const addBlocked =  async (req: express.Request, res: express.Response) =
         User.save()
 
         Emitter.emit("addBlocked", User)
+
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
@@ -42,7 +42,9 @@ export const addBlocked =  async (req: express.Request, res: express.Response) =
                 .setData(User)
         )
     }
+
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

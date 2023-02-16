@@ -1,10 +1,7 @@
 import express from "express"
 import { RouteResponse, Status } from "../controller"
-import Logger from "../../client/logger.client"
 import DB from "../../database"
 import Emitter from "../../client/emitter.client"
-import { IMessageModel } from "../../database/models/Message"
-import { v4, v5 } from "uuid"
 import UTILS from "../../utils"
 
 export const remove = async (req: express.Request, res: express.Response) => { // Delete a message from a channel
@@ -14,15 +11,7 @@ export const remove = async (req: express.Request, res: express.Response) => { /
 
         if (!channel_id || !token || !message_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
             message_id.length < UTILS.CONSTANTS.MESSAGE.ID.MIN_LENGTH || message_id.length > UTILS.CONSTANTS.MESSAGE.ID.MAX_LENGTH ||
-            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH){ //type check
-            
-                res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage("Badly formatted")
-            )
-            return
-        }
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH) throw "Badly formatted"
 
         var User = await UTILS.FUNCTIONS.FIND.USER.token(token) // Find the user
 
@@ -44,14 +33,13 @@ export const remove = async (req: express.Request, res: express.Response) => { /
             if (!UTILS.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to delete others messages in this channel"
         }
 
-        Logger.debug(`Deleting message from channel ${Channel}`)
-
         // Delete the message
         var Message = await DB.messages.find.id(message_id)
         if(!Message) throw "Message not found"
         await Message.delete()
 
         Emitter.emit("deleteMessage", Message)
+
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
@@ -59,7 +47,9 @@ export const remove = async (req: express.Request, res: express.Response) => { /
                 .setData(Message)
         )
     }
+
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

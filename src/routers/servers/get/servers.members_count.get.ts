@@ -8,20 +8,13 @@ export const getMembersCount = async (req: express.Request, res: express.Respons
     const token = req.token
 
     if (!token || !server_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH) { // type check 
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH) throw "Badly formatted"
 
     try {
         var Server = await UTILS.FUNCTIONS.FIND.SERVER.id(parseInt(server_id))
-        var User = await UTILS.FUNCTIONS.FIND.USER.token(token)
-
         if (!Server) throw "Server not found"
+
+        var User = await UTILS.FUNCTIONS.FIND.USER.token(token)
         if (!User) throw "User not found"
 
         // Check if user is a member of the server
@@ -34,7 +27,9 @@ export const getMembersCount = async (req: express.Request, res: express.Respons
         )
         return 
     }
+
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

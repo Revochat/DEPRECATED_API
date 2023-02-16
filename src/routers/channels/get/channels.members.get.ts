@@ -9,14 +9,7 @@ export const getMembers = async (req: express.Request, res: express.Response) =>
     const token = req.token
 
     if (!channel_id || !token || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ){ //type check
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ) throw "Badly formatted"
 
     try {
         var Channel = await DB.channels.find.id(parseInt(channel_id))
@@ -40,16 +33,15 @@ export const getMembers = async (req: express.Request, res: express.Response) =>
 
         res.json(
             new RouteResponse()
-
                 .setStatus(Status.success)
                 .setMessage(`Channel members`)
                 .setData(Members_Public_Info)
         )
     }
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
-
                 .setStatus(Status.error)
                 .setMessage(err as string)
         )

@@ -27,7 +27,9 @@ export const getFriendsRequestsSent = async (req: express.Request, res: express.
                 .setData(User.friends_requests_sent)
         )
     }
+    
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

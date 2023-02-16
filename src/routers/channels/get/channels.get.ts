@@ -10,15 +10,7 @@ export const getChannel = async (req: express.Request, res: express.Response) =>
     const token = req.token
 
     if (!channel_id || !token || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ){ //type check
-            
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ) throw "Badly formatted"
 
     try {
         var User = await DB.users.find.token(token)
@@ -29,7 +21,9 @@ export const getChannel = async (req: express.Request, res: express.Response) =>
 
         var Channel = await DB.channels.find.id(parseInt(channel_id))
         if(!Channel) throw "Channel not found"
+        
         Emitter.emit("getChannel", Channel)
+
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
@@ -39,6 +33,7 @@ export const getChannel = async (req: express.Request, res: express.Response) =>
     }
 
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

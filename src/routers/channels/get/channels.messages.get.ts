@@ -10,14 +10,7 @@ export const getMessages = async (req: express.Request, res: express.Response) =
 
     if (!token || !channel_id || !limit || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH || 
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        limit.length > UTILS.CONSTANTS.SERVER.MESSAGE.MAX_FETCH_LIMIT || limit.length < UTILS.CONSTANTS.SERVER.MESSAGE.MIN_FETCH_LIMIT) { //type check
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        limit.length > UTILS.CONSTANTS.SERVER.MESSAGE.MAX_FETCH_LIMIT || limit.length < UTILS.CONSTANTS.SERVER.MESSAGE.MIN_FETCH_LIMIT) throw "Badly formatted"
 
     try {
         var User = await UTILS.FUNCTIONS.FIND.USER.token(token)
@@ -38,6 +31,7 @@ export const getMessages = async (req: express.Request, res: express.Response) =
         )
     }
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

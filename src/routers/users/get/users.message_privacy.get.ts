@@ -12,7 +12,7 @@ export const getMessagePrivacy = async (req: express.Request, res: express.Respo
 
         var User = await DB.users.find.id(parseInt(user_id))
         if(!User) throw "User not found"
-        
+    
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
@@ -20,7 +20,9 @@ export const getMessagePrivacy = async (req: express.Request, res: express.Respo
                 .setData(User.message_privacy)
         )
     }
+
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

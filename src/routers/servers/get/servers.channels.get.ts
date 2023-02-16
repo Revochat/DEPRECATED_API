@@ -8,14 +8,7 @@ export const getChannels = async (req: express.Request, res: express.Response) =
     const token = req.token
 
     if (!token || !server_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH) { // type check 
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH) throw "Badly formatted"
 
     try {
         var Server = await UTILS.FUNCTIONS.FIND.SERVER.id(parseInt(server_id))
@@ -45,9 +38,9 @@ export const getChannels = async (req: express.Request, res: express.Response) =
                 .setStatus(Status.success)
                 .setData(ChannelsArray)
         )
-        return 
     }
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

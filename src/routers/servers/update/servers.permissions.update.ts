@@ -15,15 +15,7 @@ export const permissionsUpdate = async (req: express.Request, res: express.Respo
     // TYPE CHECK FOR THE PERMISSIONS !!!
     if (!server_id || !user_id || !permissions || !token || server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH ){ //type check
-        
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH ) throw "Badly formatted"
 
     try {
         var User = await DB.users.find.token(token) // Find the user
@@ -34,7 +26,7 @@ export const permissionsUpdate = async (req: express.Request, res: express.Respo
 
         if(Server.owner_id !== User.user_id) throw "You are not the owner of this server"
 
-        if (!UTILS.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to change the server icon"
+        if (!UTILS.FUNCTIONS.CHECK.SERVER.PERMISSIONS(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ADMIN)) throw "You do not have permission to change the server icon"
 
         Emitter.emit("updateServerPermissions", Server)
 
@@ -46,6 +38,7 @@ export const permissionsUpdate = async (req: express.Request, res: express.Respo
     }
 
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

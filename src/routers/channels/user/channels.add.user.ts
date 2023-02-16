@@ -11,15 +11,7 @@ export const join = async (req: express.Request, res: express.Response) => { // 
 
     if (!channel_id || !token || !user_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH 
-        || user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) { //type check
-            
-        res.json(
-            new RouteResponse()
-                .setStatus(Status.error)
-                .setMessage("Badly formatted")
-        )
-        return
-    }
+        || user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
 
     try {
         var Channel = await DB.channels.find.id(parseInt(channel_id)) // Find the channel
@@ -50,8 +42,8 @@ export const join = async (req: express.Request, res: express.Response) => { // 
         UserToAdd.channels.push(Channel.channel_id) // Add the channel to the user
         await UserToAdd.save() // Save the user
 
-        Logger.debug(`User ${UserToAdd} has been added to channel ${Channel}`)
         Emitter.emit("addUserToChannel", Channel, UserToAdd)
+
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
@@ -59,7 +51,9 @@ export const join = async (req: express.Request, res: express.Response) => { // 
                 .setData(Channel)
         )
     }
+
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

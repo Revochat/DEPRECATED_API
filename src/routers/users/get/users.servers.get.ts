@@ -2,6 +2,7 @@ import express from "express"
 import DB from "../../../database"
 import { RouteResponse, Status } from "../../controller"
 import UTILS from "../../../utils"
+import Logger from '../../../client/logger.client';
 
 export const getServers = async (req: express.Request, res: express.Response) => { // Get a user
     try {
@@ -20,7 +21,9 @@ export const getServers = async (req: express.Request, res: express.Response) =>
                 .setData(User.servers)
         )
     }
+
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

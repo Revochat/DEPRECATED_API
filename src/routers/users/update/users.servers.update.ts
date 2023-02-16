@@ -27,8 +27,6 @@ export const serversUpdate = async (req: express.Request, res: express.Response)
         User.updated_at = new Date().toLocaleString()
         User.save()
 
-        Logger.debug(`User ${User.username} has updated his channels`)
-
         Emitter.emit("updateChannels", User)
 
         res.json(
@@ -38,7 +36,9 @@ export const serversUpdate = async (req: express.Request, res: express.Response)
                 .setData(User)
         )
     }
+
     catch(err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

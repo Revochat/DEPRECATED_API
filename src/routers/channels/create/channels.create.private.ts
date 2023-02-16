@@ -6,29 +6,17 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const create_private = async (req: express.Request, res: express.Response) => { // Create a private channel
-    try {
-
     const { friend_id } = req.params
     const token = req.token
 
     if (!token || !friend_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-            friend_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) {
-
-            res.json(
-                new RouteResponse()
-                    .setStatus(Status.error)
-                    .setMessage("Badly formatted")
-            )
-            return
-        }
+            friend_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
+            
+    try {
         var User = await UTILS.FUNCTIONS.FIND.USER.token(token)
         var Friend = await UTILS.FUNCTIONS.FIND.USER.id(parseInt(friend_id))
 
-        Logger.log("Creating private channel between " + User.username + " and " + Friend.username)
-
         if (User.channels.length >= UTILS.CONSTANTS.CHANNEL.MAX_PRIVATE_CHANNELS) throw "You have reached the maximum number of private channels"
-
-
 
         // check if friend is blocked by user or user is blocked by friend 
         if (await UTILS.FUNCTIONS.FIND.USER.blocked(User.user_id, Friend.user_id)) throw "Friend is blocked"
@@ -72,16 +60,12 @@ export const create_private = async (req: express.Request, res: express.Response
         else Friend.channels = [Channel.channel_id]
         await Friend.save()
 
-        Logger.log("Created private channel between " + User.username + " and " + Friend.username)
-
         // send channel to user and friend
         Emitter.emit("channelCreatePrivate", {
             user_id: User.user_id,
             friend_id: Friend.user_id,
             channel: Channel
         })
-
-        Logger.log("Sent private channel between " + User.username + " and " + Friend.username)
 
         res.json(
             new RouteResponse()
@@ -90,7 +74,9 @@ export const create_private = async (req: express.Request, res: express.Response
                 .setData({ channel: Channel })
         )
     }
+
     catch (err) {
+        res.status(400)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)
