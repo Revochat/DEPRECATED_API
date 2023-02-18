@@ -1,5 +1,10 @@
 import Role, {IRole} from "../models/Role";
+import Logger from "../../client/logger.client";
 
 export async function RoleCreate(role: IRole) {
-    return Role.create(role);
+    try {
+        return Role.create(role);
+    } catch(err) {
+        Logger.error(err)
+    }
 }

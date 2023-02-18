@@ -18,7 +18,7 @@ export const walletUpdate = async (req: express.Request, res: express.Response) 
 
         User.wallet_token = newwallet_token
         User.updated_at = new Date().toLocaleString()
-        User.save()
+        await User.save()
 
         Emitter.emit("updateWalletToken", User)
 

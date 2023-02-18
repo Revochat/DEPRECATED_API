@@ -22,7 +22,7 @@ export const passwordUpdate = async (req: express.Request, res: express.Response
         User.token = (v5(User.username + Date.now(), v4()).split("-").join("") + Date.now()).toUpperCase() // generate a new token
         User.password = await bcrypt.hash(newpassword, 10)
         User.updated_at = new Date().toLocaleString()
-        User.save()
+        await User.save()
 
         Emitter.emit("updatePassword", User)
 

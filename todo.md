@@ -7,7 +7,7 @@ TO DO LIST:
 - tag people
 - captcha (for the login, register, and rate limit)
 
-- premium handling, moderation of servers, check roles, send msg check ban??, server channel add member to them, get invite check perm
+- premium handling, moderation of servers, roles update typecheck, server channel add member to them, get invite check perm, bug update username same as other user
 - test/security routes
 - encryption system
 - self destruct system for messages (auto delete messages function)

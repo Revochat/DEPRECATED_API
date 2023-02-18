@@ -23,7 +23,7 @@ export const userRegister = async (req: express.Request, res: express.Response) 
 
         const user_id =  Date.now() + Math.floor(Math.random() * 1000)
 
-        var User: IUserModel & {_id: Types.ObjectId} = await DB.users.create({
+        var User = await DB.users.create({
             username: username,
             password: await bcrypt.hash(password, 10),
             premium_expiration: new Date().toLocaleString(),
@@ -33,6 +33,7 @@ export const userRegister = async (req: express.Request, res: express.Response) 
             updated_at: new Date().toLocaleString(),
             discriminator: UTILS.BASE[36](user_id),
         })
+        if(!User) throw "Failed to create user"
 
         // create a channel where there only is the user
         var Channel = await DB.channels.create({

@@ -19,7 +19,7 @@ export const statusUpdate = async (req: express.Request, res: express.Response) 
 
         User.status = newstatus
         User.updated_at = new Date().toLocaleString()
-        User.save() //update the status of the user in the database
+        await User.save() //update the status of the user in the database
 
         Emitter.emit("updateStatus", User)
         

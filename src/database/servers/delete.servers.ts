@@ -1,5 +1,10 @@
 import Server from "../models/Server";
+import Logger from "../../client/logger.client";
 
 export async function ServerDelete(server_id: number) {
-    return Server.deleteOne({server : server_id});
+    try {
+        return Server.deleteOne({server : server_id});
+    } catch (err) {
+        Logger.error(err);
+    }
 }

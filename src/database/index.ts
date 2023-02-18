@@ -1,7 +1,7 @@
 import { MessageCreate, MessageFindOne, MessageDelete, MessageFindUser, MessageFindChannel} from './messages/'
 import { UserCreate, UserConnect, UserGetOne, UserGetMany, UserFindByUsername, UserFindByToken, UserFindByID, UserGetAllChannels } from './users'
 import { ChannelCreate, ChannelFindOne, ChannelDelete, GetXNumberofMessages, ChannelFindUser, ChannelGetMany } from './channels'
-import { RoleCreate, RoleFindOne, RoleDelete, RoleUpdate } from './roles'
+import { RoleCreate, RoleFindOne, RoleDelete, RoleUpdate, RolesFindServer } from './roles'
 import { ServerCreate, ServerFindOne, ServerDelete, ServerFindUser} from './servers'
 import { InviteCreate, InviteRemove, InviteFindOne } from './invites'
 
@@ -54,7 +54,8 @@ export default {
         create: RoleCreate,
         remove: RoleDelete,
         find: {
-            id: RoleFindOne
+            id: RoleFindOne,
+            server_id: RolesFindServer
         },
         update: RoleUpdate
     },

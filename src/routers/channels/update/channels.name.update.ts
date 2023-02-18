@@ -26,8 +26,9 @@ export const updateName = async (req: express.Request, res: express.Response) =>
         Channel.channel_name = channel_name // Update the channel name
         Channel.updated_at = Date.toLocaleString()
         await Channel.save() // Save the channel
-        Logger.debug(`Channel ${Channel} has been updated`)
+
         Emitter.emit("updateChannel", Channel)
+        
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)

@@ -24,16 +24,26 @@ export const createRole = async (req: express.Request, res: express.Response) =>
         var Server = await DB.servers.find.id(parseInt(server_id))
         if (!Server) throw "Server not found"
 
-        // // check that position is not already taken
-        // var Role = await DB.roles.find.position(parseInt(server_id), position)
-        // if (Role) throw "Position already taken"
 
-        // // check that role name is not already taken
-        // var Role = await DB.roles.find.name(parseInt(server_id), name)
-        // if (Role) throw "Role name already taken"
+        // check if user is in server
+        if (!Server.members.includes(User.user_id)) throw "User not in server"
+        // check if user has permission to create role
+        if (!UTILS.FUNCTIONS.CHECK.SERVER.PERMISSIONS(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ROLES.MANAGE)) throw "User does not have permission to create role"
 
-        // // check that role color is valid hex color code
-        // if (!UTILS.ROLES.isColorValid(color)) throw "Invalid color"
+        // check that position is not already taken
+        var Roles = await DB.roles.find.server_id(parseInt(server_id))
+        if (!Roles) throw "No roles found"
+
+        Roles.forEach(async (role: any) => { // if position is taken, move all roles with position >= position up one
+            if (role.role_position >= position) {
+                role.role_position++
+                role.updated_at = new Date().toString()
+                await role.save()
+            }
+        })
+
+        // check that role color is valid hex color code
+        if (!UTILS.FUNCTIONS.CHECK.ROLE.COLOR(color)) throw "Invalid color"
 
         // create role
         var Role = await DB.roles.create({
@@ -47,6 +57,7 @@ export const createRole = async (req: express.Request, res: express.Response) =>
             created_at: new Date().toString(),
             updated_at: new Date().toString()
         })
+        if (!Role) throw "Failed to create role"
 
         // add id to server roles
         Server.roles.push(Role.role_id)
@@ -70,4 +81,3 @@ export const createRole = async (req: express.Request, res: express.Response) =>
         )
     }
 }
-

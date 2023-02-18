@@ -32,6 +32,8 @@ export const create = async (req: express.Request, res: express.Response) => { /
             created_at: new Date().toLocaleString(),
             roles: []
         })
+        if (!Server) throw "Failed to create server"
+        
         await Server.save() // Save the server to the database
 
         // add the server to the user

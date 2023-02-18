@@ -25,7 +25,7 @@ export const serversUpdate = async (req: express.Request, res: express.Response)
 
         User.servers = newservers
         User.updated_at = new Date().toLocaleString()
-        User.save()
+        await User.save()
 
         Emitter.emit("updateChannels", User)
 

@@ -1,5 +1,10 @@
 import Role from "../models/Role";
+import Logger from "../../client/logger.client";
 
 export async function RoleDelete(id: number) {
-    return Role.findByIdAndDelete(id);
+    try {
+        return Role.findByIdAndDelete(id);
+    } catch (err) {
+        Logger.error(err);
+    }
 }

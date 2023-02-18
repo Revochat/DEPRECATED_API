@@ -16,6 +16,7 @@ export const getChannels = async (req: express.Request, res: express.Response) =
 
         // fetch the user's channels from the database
         const channels = await DB.users.find.channels(User.user_id)
+        if(!channels) throw "Failed to fetch channels"
 
         for (let i = 0; i < channels.length; i++) {
             channels[i] = UTILS.FUNCTIONS.REMOVE_OVERFLOW_INFO_CHANNEL(channels[i])

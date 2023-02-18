@@ -10,6 +10,9 @@ export class FUNCTIONS {
         },
         SERVER: {
             PERMISSIONS: PERMISSIONS["hasServerPermissions"]
+        },
+        ROLE: {
+            COLOR: PERMISSIONS["checkRoleColor"]
         }
     }
     
