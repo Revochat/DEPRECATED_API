@@ -1,5 +1,6 @@
 TO DO LIST:
 
+- remove intercept
 - avatar
 - files upload handling
 - Web-RTC (audio chat / video chat / screenshare)
