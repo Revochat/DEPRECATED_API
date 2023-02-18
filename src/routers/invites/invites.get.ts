@@ -19,8 +19,6 @@ export const inviteGet = async (req: express.Request, res: express.Response) => 
         var Invite = await DB.invites.find.id(parseInt(invite_id))
         if (!Invite) throw "Invite not found"
 
-        // fetch server of the invite and check if user has permissions
-
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)

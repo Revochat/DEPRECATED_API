@@ -8,7 +8,7 @@ import UTILS from "../../utils"
 
 export const updateRole = async (req: express.Request, res: express.Response) => {
     try {
-        const {role_id, name, color} = req.body
+        const {role_id, name, color, position} = req.body
         const permissions = req.body.permissions as IRolePermission
         const token = req.token
         
@@ -21,6 +21,30 @@ export const updateRole = async (req: express.Request, res: express.Response) =>
 
         var Role = await DB.roles.find.id(role_id)
         if (!Role) throw "Role not found"
+
+        var Server = await DB.servers.find.id(Role.role_server_id)
+        if (!Server) throw "Server not found"
+
+        // check if user is in server
+        if (!Server.members.includes(User.user_id)) throw "User not in server"
+        // check if user has permission to create role
+        if (!UTILS.FUNCTIONS.CHECK.SERVER.PERMISSIONS(User, Server, UTILS.CONSTANTS.SERVER.PERMISSIONS.ROLES.MANAGE)) throw "User does not have permission to create role"
+
+        // check that position is not already taken
+        var Roles = await DB.roles.find.server_id(Server.server_id)
+        if (!Roles) throw "No roles found"
+
+        Roles.forEach(async (role: any) => { // if position is taken, move all roles with position >= position up one
+            if (role.role_position >= position) {
+                role.role_position++
+                role.updated_at = new Date().toString()
+                await role.save()
+            }
+        })
+
+        // check that role color is valid hex color code
+        if (!UTILS.FUNCTIONS.CHECK.ROLE.COLOR(color)) throw "Invalid color"
+  
 
         await DB.roles.update(role_id, name, color, permissions)
 
