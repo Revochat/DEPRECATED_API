@@ -23,6 +23,7 @@ export const removeChannel = async (req: express.Request, res: express.Response)
 
         // check if the user has permission to update the channel
         if (!Channel.server_id) throw "Channel is not a server channel" // only server channels can be deleted
+        
         if (!UTILS.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to delete this channel"
 
         await Channel.delete() // delete the channel
@@ -36,7 +37,6 @@ export const removeChannel = async (req: express.Request, res: express.Response)
             if (Member.channels && Channel) {
                 Member.channels = Member.channels.filter((channel) => channel !== channel_id_temp)
             }
-
             await Member.save()
         }
 

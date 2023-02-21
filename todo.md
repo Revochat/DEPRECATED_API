@@ -8,7 +8,7 @@ TO DO LIST:
 - tag people
 - captcha (for the login, register, and rate limit)
 
-- premium handling, moderation of servers, server channel add member to them
+- premium handling, moderation of servers
 - test/security routes
 - encryption system
 - self destruct system for messages (auto delete messages function)
