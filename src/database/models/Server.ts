@@ -10,6 +10,8 @@ export interface IServer { // This is the interface for the server in the databa
     members_count: number;
     updated_at: string;
     created_at: string;
+    banned_users?: number[];
+    timeouts?: number[];
 
     invite_ids?: number[];
     roles: number[];
@@ -27,6 +29,8 @@ const ServerSchema = new Schema({
     members_count: { type: Number, required: true, default: 0 },
     updated_at: { type: String, required: true, default: new Date().toLocaleString() },
     created_at: { type: String, required: true, default: new Date().toLocaleString() },
+    banned_users: { type: Array, required: false, default: [] },
+    timeouts: { type: Array, required: false, default: [] },
 
     invite_ids: { type: Array, required: false, default: [] },
     roles: { type: Array, required: true, default: [] } // permissions for the server
