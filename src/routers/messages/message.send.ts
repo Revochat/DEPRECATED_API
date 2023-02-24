@@ -39,6 +39,18 @@ export const send = async (req: express.Request, res: express.Response) => { // 
         // check if channel is a text channel
         if (Channel.channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.VOICE) throw "Channel is not a text channel"
 
+        // if channel has a server id check if the user is in the server
+        if (Channel.server_id) {
+            var Server = await DB.servers.find.id(Channel.server_id)
+            if (!Server) throw "Server not found"
+
+            if (!Server.members.includes(User.user_id)) throw "You are not in this server"
+
+            // Is the user in timeout
+            if (!Server.timeouts) Server.timeouts = []
+            if (Server.timeouts.includes(User.user_id)) throw "You are in timeout"
+        }
+
         // Check if the user has permission to send messages
         if (!UTILS.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.MESSAGE.SEND)) throw "You do not have permission to send messages in this channel"
 

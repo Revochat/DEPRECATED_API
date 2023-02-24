@@ -7,19 +7,20 @@ TO DO LIST:
 - notifications (sockets) // Doing it (ByLife)
 - tag people
 - captcha (for the login, register, and rate limit)
-
-- premium handling
-- test/security routes
-- encryption system
 - self destruct system for messages (auto delete messages function)
 
-==================== 1.0.0 ==================== (less urgent)
+- test/security routes
+- encryption system
+
+==================== 1.0.0 ====================
+
+- premium handling (need more options)
 - add route to load dynamically data (channels, messages, users, etc..)
 - reactions
 - web3 chat / smart contract connection
 - sounds (Lux)
 - 2FA
-- categories for sync perms in servers
+- categories to sync perms in servers
 
 
 Just some ideas for the payed subscription:
