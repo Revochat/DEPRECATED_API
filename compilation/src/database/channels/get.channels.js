@@ -38,15 +38,14 @@ function GetXNumberofMessages(channel_id, number) {
     });
 }
 exports.GetXNumberofMessages = GetXNumberofMessages;
-function ChannelGetMany(array_id) {
+function ChannelGetMany(channel_ids) {
     return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((resolve, reject) => {
-            Channel_1.default.find({ channel_id: { $in: array_id } }, null, (err, channels) => {
-                if (err)
-                    reject(err);
-                resolve(channels);
-            });
-        });
+        try {
+            return Channel_1.default.find({ channel_id: { $in: channel_ids } });
+        }
+        catch (err) {
+            logger_client_1.default.error(err);
+        }
     });
 }
 exports.ChannelGetMany = ChannelGetMany;

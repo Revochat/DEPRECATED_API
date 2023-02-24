@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.statusUpdate = void 0;
 const database_1 = __importDefault(require("../../../database"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
 const utils_1 = __importDefault(require("../../../utils"));
@@ -31,8 +30,7 @@ const statusUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             throw "User not found";
         User.status = newstatus;
         User.updated_at = new Date().toLocaleString();
-        User.save(); //update the status of the user in the database
-        logger_client_1.default.debug(`User ${User} has been updated`);
+        yield User.save(); //update the status of the user in the database
         emitter_client_1.default.emit("updateStatus", User);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
@@ -40,6 +38,7 @@ const statusUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             .setData(User));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addFriend = void 0;
 const database_1 = __importDefault(require("../../../database"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
 const utils_1 = __importDefault(require("../../../utils"));
@@ -24,8 +23,8 @@ const addFriend = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const token = req.token;
         if (!token || !friend_id || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
             friend_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH)
-            throw "Badly formatted"; // Type Check
-        var User = yield utils_1.default.FUNCTIONS.find.user.token(token); // Find the user
+            throw "Badly formatted";
+        var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token); // Find the user
         if (!User)
             throw "User not found";
         // Check if the friend is already added
@@ -38,9 +37,7 @@ const addFriend = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (User.blocked.includes(friend_id))
             throw "User is blocked";
         //Check if the friend exists
-        var Friend = yield utils_1.default.FUNCTIONS.find.user.id(parseInt(friend_id));
-        if (!Friend)
-            throw "Friend not found";
+        var Friend = yield utils_1.default.FUNCTIONS.FIND.USER.id(parseInt(friend_id));
         // Check if the user is itself
         if (User.user_id.toString() === friend_id)
             throw "User is itself";
@@ -54,7 +51,6 @@ const addFriend = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         // DATABASE UPDATES
         if (User.friends_requests_received.includes(friend_id)) { // If the user has a friend request from the friend, accept it and remove the request from the friend
-            logger_client_1.default.debug(`User ${User.user_id} is accepting a friend request from ${Friend.user_id}`);
             User.friends_requests_received.splice(User.friends_requests_received.indexOf(friend_id), 1); // Remove the request from the user
             if (Friend.friends_requests_received) { // this check is useless but it's here to avoid errors
                 Friend.friends_requests_received.splice(Friend.friends_requests_received.indexOf(User.user_id.toString()), 1); // remove the request from the friend 
@@ -74,7 +70,7 @@ const addFriend = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 User.friends = [Friend.user_id];
             }
             // check if channel already exists between users 
-            var Channel_Exists = yield utils_1.default.FUNCTIONS.find.channel.friend(User, Friend);
+            var Channel_Exists = yield utils_1.default.FUNCTIONS.FIND.CHANNEL.friend(User, Friend);
             if (Channel_Exists)
                 throw "Channel already exists";
             // create channel
@@ -120,7 +116,6 @@ const addFriend = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 .setData(Friend_Public_Info));
         }
         else { // If the user doesn't have a friend request from the friend, send a request to the friend 
-            logger_client_1.default.debug(`User ${User.user_id} is sending a friend request to ${Friend.user_id}`);
             // Add the user to the friend
             if (Friend.friends_requests_received) {
                 Friend.friends_requests_received.push(User.user_id);

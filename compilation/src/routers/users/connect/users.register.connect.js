@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userRegister = void 0;
 const database_1 = __importDefault(require("../../../database"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -24,7 +23,8 @@ const userRegister = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const { username, password } = req.body;
         // if username or password badly formatted
-        if (!username || !password || username.length >= utils_1.default.CONSTANTS.USER.USERNAME.MAX_LENGTH || username.length <= utils_1.default.CONSTANTS.USER.USERNAME.MIN_LENGTH || password.length >= utils_1.default.CONSTANTS.USER.PASSWORD.MAX_LENGTH || password.length <= utils_1.default.CONSTANTS.USER.PASSWORD.MIN_LENGTH)
+        if (!username || !password || username.length >= utils_1.default.CONSTANTS.USER.USERNAME.MAX_LENGTH || username.length <= utils_1.default.CONSTANTS.USER.USERNAME.MIN_LENGTH ||
+            password.length >= utils_1.default.CONSTANTS.USER.PASSWORD.MAX_LENGTH || password.length <= utils_1.default.CONSTANTS.USER.PASSWORD.MIN_LENGTH)
             throw "Badly formatted";
         var user = yield database_1.default.users.find.username(username);
         if (user)
@@ -40,6 +40,8 @@ const userRegister = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             updated_at: new Date().toLocaleString(),
             discriminator: utils_1.default.BASE[36](user_id),
         });
+        if (!User)
+            throw "Failed to create user";
         // create a channel where there only is the user
         var Channel = yield database_1.default.channels.create({
             channel_id: Date.now() + Math.floor(Math.random() * 1000),
@@ -57,7 +59,6 @@ const userRegister = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             throw "Channel not found";
         User.channels = [Channel.channel_id];
         User.save();
-        logger_client_1.default.success(`User ${username} has been registered`);
         emitter_client_1.default.emit("register", User);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
@@ -65,7 +66,6 @@ const userRegister = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             .setData(User));
     }
     catch (err) {
-        logger_client_1.default.debug(req.body);
         res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)

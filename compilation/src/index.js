@@ -21,6 +21,7 @@ const emitter_client_1 = __importDefault(require("./client/emitter.client"));
 const config_1 = require("./config");
 const database_1 = __importDefault(require("./database"));
 const router_controller_1 = __importDefault(require("./routers/controller/router.controller"));
+require("./console");
 __exportStar(require("./routers"), exports);
 __exportStar(require("./config"), exports);
 __exportStar(require("./client"), exports);

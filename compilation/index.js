@@ -16,15 +16,4 @@ const src_1 = __importDefault(require("./src"));
 const logger_client_1 = __importDefault(require("./src/client/logger.client"));
 src_1.default.on("serverReady", (routes, database) => __awaiter(void 0, void 0, void 0, function* () {
     logger_client_1.default.success("Client ready");
-    try {
-        // Logger.debug("Trying to get a channel")
-        // const channel = await axios.post("http://localhost:3000/api/v1/client/register/", {
-        //     username: "test123",
-        //     password: "test123"
-        // })
-        // Logger.debug(channel)
-    }
-    catch (error) {
-        logger_client_1.default.error(error);
-    }
 }));

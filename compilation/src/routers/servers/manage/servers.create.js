@@ -23,12 +23,8 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.token;
     logger_client_1.default.debug(`Creating server ${name}`);
     if (!name || !token || name.length < utils_1.default.CONSTANTS.SERVER.NAME.MIN_LENGTH || name.length > utils_1.default.CONSTANTS.SERVER.NAME.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH) { //type check
-        res.json(new controller_1.RouteResponse()
-            .setStatus(controller_1.Status.error)
-            .setMessage("Badly formatted"));
-        return;
-    }
+        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
+        throw "Badly formatted";
     try {
         var User = yield database_1.default.users.find.token(token); // Find the user
         if (!User)
@@ -47,6 +43,8 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             created_at: new Date().toLocaleString(),
             roles: []
         });
+        if (!Server)
+            throw "Failed to create server";
         yield Server.save(); // Save the server to the database
         // add the server to the user
         User.servers.push(Server.server_id);
@@ -57,6 +55,7 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             .setMessage("Server created"));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

@@ -15,19 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeChannel = void 0;
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const removeChannel = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { channel_id } = req.params;
     const token = req.token;
     if (!channel_id || !token || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH) { //type check
-        res.json(new controller_1.RouteResponse()
-            .setStatus(controller_1.Status.error)
-            .setMessage("Badly formatted"));
-        return;
-    }
+        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
+        throw "Badly formatted";
     try {
         var Channel = yield database_1.default.channels.find.id(parseInt(channel_id)); // Find the channel
         if (!Channel)
@@ -40,7 +35,7 @@ const removeChannel = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         // check if the user has permission to update the channel
         if (!Channel.server_id)
             throw "Channel is not a server channel"; // only server channels can be deleted
-        if (!utils_1.default.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, utils_1.default.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN))
+        if (!utils_1.default.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, utils_1.default.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN))
             throw "You do not have permission to delete this channel";
         yield Channel.delete(); // delete the channel
         // remove the channel from the members 
@@ -55,7 +50,6 @@ const removeChannel = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             }
             yield Member.save();
         }
-        logger_client_1.default.debug(`Channel ${Channel} has been deleted`);
         emitter_client_1.default.emit("deleteChannel", Channel);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
@@ -63,6 +57,7 @@ const removeChannel = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             .setData(Channel));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

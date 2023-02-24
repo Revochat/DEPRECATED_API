@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMessages = void 0;
 const controller_1 = require("../../controller");
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const getMessages = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -22,29 +21,25 @@ const getMessages = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const token = req.token;
     if (!token || !channel_id || !limit || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
         token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        limit.length > utils_1.default.CONSTANTS.SERVER.MESSAGE.MAX_FETCH_LIMIT || limit.length < utils_1.default.CONSTANTS.SERVER.MESSAGE.MIN_FETCH_LIMIT) { //type check
-        res.json(new controller_1.RouteResponse()
-            .setStatus(controller_1.Status.error)
-            .setMessage("Badly formatted"));
-        return;
-    }
+        limit.length > utils_1.default.CONSTANTS.SERVER.MESSAGE.MAX_FETCH_LIMIT || limit.length < utils_1.default.CONSTANTS.SERVER.MESSAGE.MIN_FETCH_LIMIT)
+        throw "Badly formatted";
     try {
-        utils_1.default.FUNCTIONS.find.user.token(token); // Find the user
-        if (!limit)
-            throw "Limit not provided";
-        if (parseInt(limit) > 100)
-            throw "Limit is too high";
+        var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token);
+        if (!User)
+            throw "User not found";
         var Channel = yield database_1.default.channels.find.id(parseInt(channel_id));
         if (!Channel)
             throw "Channel not found";
-        logger_client_1.default.debug(`Getting messages of channel ${Channel}`);
-        var Messages = yield database_1.default.channels.find.messages(channel_id, parseInt(limit)); // needs testing (not sure if it works)
+        if (!Channel.members.includes(User.user_id))
+            throw "You are not a member of this channel";
+        var Messages = yield database_1.default.channels.find.messages(channel_id, parseInt(limit));
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
             .setMessage(`Channel messages`)
             .setData(Messages));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

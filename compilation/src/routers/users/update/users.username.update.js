@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.usernameUpdate = void 0;
 const database_1 = __importDefault(require("../../../database"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
 const utils_1 = __importDefault(require("../../../utils"));
@@ -29,10 +28,11 @@ const usernameUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function*
         var User = yield database_1.default.users.find.token(token);
         if (!User)
             throw "User not found";
+        if (User.username == newusername)
+            throw "Username is the same";
         User.username = newusername;
         User.updated_at = new Date().toLocaleString();
-        User.save(); //update the username of the user in the database
-        logger_client_1.default.debug(`User ${User} has been updated`);
+        yield User.save();
         emitter_client_1.default.emit("updateUsername", User);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
@@ -40,6 +40,7 @@ const usernameUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function*
             .setData(User));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

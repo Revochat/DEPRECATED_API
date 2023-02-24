@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getRole = void 0;
 const controller_1 = require("../controller");
 const emitter_client_1 = __importDefault(require("../../client/emitter.client"));
-const logger_client_1 = __importDefault(require("../../client/logger.client"));
 const database_1 = __importDefault(require("../../database"));
 const utils_1 = __importDefault(require("../../utils"));
 const getRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -26,12 +25,8 @@ const getRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         //type checking
         if (!role_id || !token || !token || server_id.length < utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH ||
             role_id_input < utils_1.default.CONSTANTS.ROLE.ID.MIN_LENGTH || role_id_input > utils_1.default.CONSTANTS.ROLE.ID.MAX_LENGTH ||
-            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH) { //type check
-            res.json(new controller_1.RouteResponse()
-                .setStatus(controller_1.Status.error)
-                .setMessage("Badly formatted"));
-            return;
-        }
+            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH)
+            throw "Badly formatted";
         var User = yield database_1.default.users.find.token(token);
         if (!User)
             throw "User not found";
@@ -41,7 +36,6 @@ const getRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         // check if user is in the server
         if (!User.servers.includes(server_id))
             throw "User is not in the server";
-        logger_client_1.default.debug(`Role ${Role} has been found`);
         emitter_client_1.default.emit("getRole", Role);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
@@ -49,6 +43,7 @@ const getRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             .setData(Role));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

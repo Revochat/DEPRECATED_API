@@ -23,12 +23,8 @@ const inviteUse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.token;
     logger_client_1.default.debug(`Using invite ${invite_id}`);
     if (!invite_id || !token || invite_id.length < utils_1.default.CONSTANTS.INVITE.ID.MIN_LENGTH || invite_id.length > utils_1.default.CONSTANTS.INVITE.ID.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH) { //type check
-        res.json(new controller_1.RouteResponse()
-            .setStatus(controller_1.Status.error)
-            .setMessage("Badly formatted"));
-        return;
-    }
+        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
+        throw "Badly formatted";
     try {
         var User = yield database_1.default.users.find.token(token); // Find the user
         if (!User)
@@ -40,7 +36,7 @@ const inviteUse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!Server)
             throw "Server not found";
         // check permissions
-        if (!utils_1.default.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, utils_1.default.CONSTANTS.SERVER.PERMISSIONS.ADMIN))
+        if (!utils_1.default.FUNCTIONS.CHECK.SERVER.PERMISSIONS(User, Server, utils_1.default.CONSTANTS.SERVER.PERMISSIONS.ADMIN))
             throw "You do not have permission to create invites";
         // increment max count of invite (if max count is not -1)
         if (Invite.uses != -1) { // if max count is not -1, decrement it
@@ -58,6 +54,7 @@ const inviteUse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             .setMessage("Invite removed"));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

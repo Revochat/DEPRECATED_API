@@ -21,28 +21,23 @@ const getUserbyID = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const { user_id } = req.params;
         const token = req.token;
         // if token or user_id badly formatted
-        if (!token || !user_id || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-            !utils_1.default.CONSTANTS.USER.ID)
+        if (!token || !user_id || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || !utils_1.default.CONSTANTS.USER.ID)
             throw "Badly formatted";
         var User = yield database_1.default.users.find.token(token);
-        if (User) {
+        if (User) { // if user token is valid
             if (User.id == parseInt(user_id)) {
+                res.status(200);
                 res.json(new controller_1.RouteResponse()
                     .setStatus(controller_1.Status.success)
                     .setMessage(`User found`)
                     .setData(User));
                 return;
             }
-            User = yield database_1.default.users.find.id(parseInt(user_id));
-            if (!User)
-                throw "User not found";
-            res.json(new controller_1.RouteResponse()
-                .setStatus(controller_1.Status.success)
-                .setMessage(`User found`)
-                .setData(User));
         }
+        throw "User not found";
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

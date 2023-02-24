@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.remove = void 0;
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,12 +23,8 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.token;
     if (!channel_id || !token || !user_id || !member_id || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
         token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || user_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH ||
-        member_id.length !== utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || member_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH) {
-        res.json(new controller_1.RouteResponse()
-            .setStatus(controller_1.Status.error)
-            .setMessage("Badly formatted"));
-        return;
-    }
+        member_id.length !== utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || member_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH)
+        throw "Badly formatted";
     try {
         var User = yield database_1.default.users.find.token(token);
         if (!User)
@@ -59,7 +54,6 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (Member.channels)
             Member.channels.splice(Member.channels.indexOf(parseInt(channel_id)), 1);
         yield Member.save();
-        logger_client_1.default.debug(`Member ${Member} has been kicked from channel ${Channel}`);
         emitter_client_1.default.emit("channel_kick", {
             channel_id: channel_id,
             member_id: member_id,
@@ -70,6 +64,7 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             .setMessage("Member kicked"));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

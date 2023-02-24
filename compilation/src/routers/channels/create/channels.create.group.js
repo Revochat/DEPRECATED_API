@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.create_group = void 0;
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const create_group = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,17 +23,12 @@ const create_group = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     if (!token || !friend_id_1 || !friend_id_2 ||
         token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
         friend_id_1.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_1.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH ||
-        friend_id_2.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_2.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH) {
-        res.json(new controller_1.RouteResponse()
-            .setStatus(controller_1.Status.error)
-            .setMessage("Badly formatted"));
-        return;
-    }
+        friend_id_2.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_2.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH)
+        throw "Badly formatted";
     try {
-        var User = yield utils_1.default.FUNCTIONS.find.user.token(token);
-        var Friend_1 = yield utils_1.default.FUNCTIONS.find.user.id(parseInt(friend_id_1));
-        var Friend_2 = yield utils_1.default.FUNCTIONS.find.user.id(parseInt(friend_id_2));
-        logger_client_1.default.log("Creating private channel between " + User.username + " and " + Friend_1.username + " and " + Friend_2.username);
+        var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token);
+        var Friend_1 = yield utils_1.default.FUNCTIONS.FIND.USER.id(parseInt(friend_id_1));
+        var Friend_2 = yield utils_1.default.FUNCTIONS.FIND.USER.id(parseInt(friend_id_2));
         if (User.channels.length >= utils_1.default.CONSTANTS.CHANNEL.MAX_PRIVATE_CHANNELS)
             throw "You have reached the maximum number of private channels";
         var Channel = yield database_1.default.channels.create({
@@ -52,14 +46,14 @@ const create_group = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (!Channel)
             throw "Failed to create channel";
         User.channels.push(Channel.channel_id); // save the channel id to the user
+        yield User.save(); // Save the user
         if (!Friend_1.channels)
-            Friend_1.channels = []; // this should never happen but typescript is annoying
+            Friend_1.channels = []; // this should never happen but typesafe..
+        Friend_1.channels.push(Channel.channel_id);
+        yield Friend_1.save();
         if (!Friend_2.channels)
             Friend_2.channels = [];
-        Friend_1.channels.push(Channel.channel_id);
         Friend_2.channels.push(Channel.channel_id);
-        yield User.save(); // Save the user
-        yield Friend_1.save();
         yield Friend_2.save();
         emitter_client_1.default.emit("channel.create", Channel); // Emit the event to the client
         emitter_client_1.default.emit("channel.join", Channel, User);
@@ -71,6 +65,7 @@ const create_group = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             .setData(Channel));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

@@ -14,9 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserCreate = void 0;
 const User_1 = __importDefault(require("../models/User"));
+const logger_client_1 = __importDefault(require("../../client/logger.client"));
 function UserCreate(user) {
     return __awaiter(this, void 0, void 0, function* () {
-        return User_1.default.create(user);
+        try {
+            return User_1.default.create(user);
+        }
+        catch (err) {
+            logger_client_1.default.error(err);
+        }
     });
 }
 exports.UserCreate = UserCreate;

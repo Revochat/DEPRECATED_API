@@ -31,6 +31,7 @@ const getUserbyToken = (req, res) => __awaiter(void 0, void 0, void 0, function*
             .setData(User));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

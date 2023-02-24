@@ -29,7 +29,7 @@ const UserSchema = new mongoose_1.Schema({
     token: { type: String, required: true, unique: true, index: true },
     discriminator: { type: String, required: true, index: true },
     wallet_token: { type: String, required: false, unique: true, index: true, sparse: true },
-    username: { type: String, required: true, unique: true, index: true },
+    username: { type: String, required: true, unique: false, index: true },
     password: { type: String, required: true },
     premium_expiration: { type: String, required: true, default: null },
     avatar: { type: String, data: Buffer, contentType: String, default: "default_img_01.png" },

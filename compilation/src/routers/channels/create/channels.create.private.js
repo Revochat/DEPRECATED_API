@@ -15,39 +15,33 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.create_private = void 0;
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const create_private = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { friend_id } = req.params;
+    const token = req.token;
+    if (!token || !friend_id || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
+        friend_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH)
+        throw "Badly formatted";
     try {
-        const { friend_id } = req.params;
-        const token = req.token;
-        if (!token || !friend_id || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-            friend_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH) {
-            res.json(new controller_1.RouteResponse()
-                .setStatus(controller_1.Status.error)
-                .setMessage("Badly formatted"));
-            return;
-        }
-        var User = yield utils_1.default.FUNCTIONS.find.user.token(token);
-        var Friend = yield utils_1.default.FUNCTIONS.find.user.id(parseInt(friend_id));
-        logger_client_1.default.log("Creating private channel between " + User.username + " and " + Friend.username);
+        var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token);
+        var Friend = yield utils_1.default.FUNCTIONS.FIND.USER.id(parseInt(friend_id));
         if (User.channels.length >= utils_1.default.CONSTANTS.CHANNEL.MAX_PRIVATE_CHANNELS)
             throw "You have reached the maximum number of private channels";
         // check if friend is blocked by user or user is blocked by friend 
-        if (yield utils_1.default.FUNCTIONS.find.user.blocked(User.user_id, Friend.user_id))
+        if (yield utils_1.default.FUNCTIONS.FIND.USER.blocked(User.user_id, Friend.user_id))
             throw "Friend is blocked";
-        if (yield utils_1.default.FUNCTIONS.find.user.blocked(Friend.user_id, User.user_id))
+        if (yield utils_1.default.FUNCTIONS.FIND.USER.blocked(Friend.user_id, User.user_id))
             throw "You are blocked";
         //if friend has message_privacy set to everyone or friends only
         if (Friend.message_privacy === utils_1.default.CONSTANTS.MESSAGE.PROPERTIES.MESSAGE_PRIVACY_FRIENDS) {
-            if (!utils_1.default.FUNCTIONS.find.user.friend(User, Friend))
+            if (!utils_1.default.FUNCTIONS.FIND.USER.friend(User, Friend))
                 throw "Friend not found";
         }
         if (User.user_id === Friend.user_id)
             throw "You cannot create a private channel with yourself";
         // check if channel already exists between users 
-        var Channel_Exists = yield utils_1.default.FUNCTIONS.find.channel.friend(User, Friend);
+        var Channel_Exists = yield utils_1.default.FUNCTIONS.FIND.CHANNEL.friend(User, Friend);
         if (Channel_Exists)
             throw "Channel already exists";
         // create channel
@@ -74,20 +68,19 @@ const create_private = (req, res) => __awaiter(void 0, void 0, void 0, function*
         else
             Friend.channels = [Channel.channel_id];
         yield Friend.save();
-        logger_client_1.default.log("Created private channel between " + User.username + " and " + Friend.username);
         // send channel to user and friend
         emitter_client_1.default.emit("channelCreatePrivate", {
             user_id: User.user_id,
             friend_id: Friend.user_id,
             channel: Channel
         });
-        logger_client_1.default.log("Sent private channel between " + User.username + " and " + Friend.username);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
             .setMessage("Private channel created")
             .setData({ channel: Channel }));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

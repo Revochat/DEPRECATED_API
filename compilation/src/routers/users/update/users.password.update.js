@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.passwordUpdate = void 0;
 const database_1 = __importDefault(require("../../../database"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -31,12 +30,10 @@ const passwordUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function*
         var User = yield database_1.default.users.find.token(token);
         if (!User)
             throw "User not found";
-        // refresh the token of the user to avoid the token to be the same as the previous one
         User.token = ((0, uuid_1.v5)(User.username + Date.now(), (0, uuid_1.v4)()).split("-").join("") + Date.now()).toUpperCase(); // generate a new token
         User.password = yield bcrypt_1.default.hash(newpassword, 10);
         User.updated_at = new Date().toLocaleString();
-        User.save();
-        logger_client_1.default.debug(`User ${User} has been updated`);
+        yield User.save();
         emitter_client_1.default.emit("updatePassword", User);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
@@ -44,6 +41,7 @@ const passwordUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function*
             .setData(User));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

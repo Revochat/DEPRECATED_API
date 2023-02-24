@@ -30,6 +30,10 @@ class SocketEvents {
         delete __1.default.users[this.socket.id];
         logger_client_1.default.debug("User disconnected from " + this.socket.id);
     }
+    kickUser(user_id) {
+        const user = this.getUserByID(user_id);
+        return;
+    }
     callUser(candidate_id) {
         const call = new rtc_1.CallEvent(this.socket);
         call.run(candidate_id);
@@ -45,6 +49,25 @@ class SocketEvents {
     roleCreate() {
         const roleCreate = new roles_1.RoleCreateEvent(this.socket);
         //roleCreate.run();
+    }
+    getUserByID(user_id) {
+        for (let user in __1.default.users) {
+            if (__1.default.users[user].user_id == user_id) {
+                return user;
+            }
+        }
+        return null;
+    }
+    getUserByToken(token) {
+        for (let user in __1.default.users) {
+            if (__1.default.users[user].token == token) {
+                return user;
+            }
+        }
+        return null;
+    }
+    getUserBySocketID(socket_id) {
+        return __1.default.users[socket_id];
     }
     roleDelete(roleID) {
         const roleDelete = new roles_1.RoleDeleteEvent(this.socket);

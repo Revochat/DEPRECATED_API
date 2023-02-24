@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.send = void 0;
 const controller_1 = require("../controller");
-const logger_client_1 = __importDefault(require("../../client/logger.client"));
 const database_1 = __importDefault(require("../../database"));
 const emitter_client_1 = __importDefault(require("../../client/emitter.client"));
 const utils_1 = __importDefault(require("../../utils"));
@@ -24,15 +23,11 @@ const send = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { channel_id } = req.params;
         const token = req.token;
         if (!channel_id || !token || !message || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-            token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH) { //type check
-            res.json(new controller_1.RouteResponse()
-                .setStatus(controller_1.Status.error)
-                .setMessage("Badly formatted"));
-            return;
-        }
+            token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH)
+            throw "Badly formatted";
         // Check if the user is banned
         // Check if the user is muted
-        var User = yield utils_1.default.FUNCTIONS.find.user.token(token); // Find the user
+        var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token); // Find the user
         if (!User)
             throw "User not found";
         // check length of message
@@ -47,16 +42,28 @@ const send = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         var Channel = yield database_1.default.channels.find.id(parseInt(channel_id));
         if (!Channel)
             throw "Channel not found";
-        // check if channel is a text channel
-        if (Channel.channel_type == utils_1.default.CONSTANTS.CHANNEL.TYPE.VOICE)
-            throw "Channel is not a text channel";
-        // Check if the user has permission to send messages
-        if (!utils_1.default.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, utils_1.default.CONSTANTS.CHANNEL.PERMISSIONS.MESSAGE.SEND))
-            throw "You do not have permission to send messages in this channel";
-        logger_client_1.default.debug(`Sending message to channel ${Channel.channel_id}`);
         // Check if the user is in the channel
         if (!Channel.members.includes(User.user_id))
             throw "You are not in this channel";
+        // check if channel is a text channel
+        if (Channel.channel_type == utils_1.default.CONSTANTS.CHANNEL.TYPE.VOICE)
+            throw "Channel is not a text channel";
+        // if channel has a server id check if the user is in the server
+        if (Channel.server_id) {
+            var Server = yield database_1.default.servers.find.id(Channel.server_id);
+            if (!Server)
+                throw "Server not found";
+            if (!Server.members.includes(User.user_id))
+                throw "You are not in this server";
+            // Is the user in timeout
+            if (!Server.timeouts)
+                Server.timeouts = [];
+            if (Server.timeouts.includes(User.user_id))
+                throw "You are in timeout";
+        }
+        // Check if the user has permission to send messages
+        if (!utils_1.default.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, utils_1.default.CONSTANTS.CHANNEL.PERMISSIONS.MESSAGE.SEND))
+            throw "You do not have permission to send messages in this channel";
         var Message = yield database_1.default.messages.create({
             message_id: Date.now() + Math.floor(Math.random() * 1000),
             channel_id: parseInt(channel_id),
@@ -74,6 +81,7 @@ const send = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             .setData(Message));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

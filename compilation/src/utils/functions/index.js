@@ -2,28 +2,21 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FUNCTIONS = void 0;
 const find_1 = require("./find");
-const permissions_1 = require("./permissions");
 class FUNCTIONS {
 }
 exports.FUNCTIONS = FUNCTIONS;
-FUNCTIONS.PERMISSIONS = {
-    checkIntegrity: permissions_1.PERMISSIONS.checkIntegrity,
-    checkChannelPermissions: permissions_1.PERMISSIONS.checkChannelPermissions,
-    hasChannelPermission: permissions_1.PERMISSIONS.hasChannelPermission,
-    hasServerPermission: permissions_1.PERMISSIONS.hasServerPermission
-};
-FUNCTIONS.find = {
-    channel: {
+FUNCTIONS.FIND = {
+    CHANNEL: {
         id: find_1.findChannelID,
         friend: find_1.findChannelFriend
     },
-    user: {
+    USER: {
         blocked: find_1.findUserBlocked,
         token: find_1.findUserbyToken,
         id: find_1.findUserbyID,
         friend: find_1.findFriendbyUser
     },
-    server: {
+    SERVER: {
         id: find_1.findServer,
         member: find_1.findUserInServer
     }

@@ -14,9 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageDelete = void 0;
 const Message_1 = __importDefault(require("../models/Message"));
+const logger_client_1 = __importDefault(require("../../client/logger.client"));
 function MessageDelete() {
     return __awaiter(this, void 0, void 0, function* () {
-        return Message_1.default.deleteMany();
+        try {
+            return Message_1.default.deleteMany();
+        }
+        catch (err) {
+            logger_client_1.default.error(err);
+        }
     });
 }
 exports.MessageDelete = MessageDelete;

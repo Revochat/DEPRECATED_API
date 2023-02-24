@@ -68,7 +68,8 @@ exports.default = {
         create: roles_1.RoleCreate,
         remove: roles_1.RoleDelete,
         find: {
-            id: roles_1.RoleFindOne
+            id: roles_1.RoleFindOne,
+            server_id: roles_1.RolesFindServer
         },
         update: roles_1.RoleUpdate
     },

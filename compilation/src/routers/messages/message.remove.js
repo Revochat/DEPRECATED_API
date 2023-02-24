@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.remove = void 0;
 const controller_1 = require("../controller");
-const logger_client_1 = __importDefault(require("../../client/logger.client"));
 const database_1 = __importDefault(require("../../database"));
 const emitter_client_1 = __importDefault(require("../../client/emitter.client"));
 const utils_1 = __importDefault(require("../../utils"));
@@ -24,13 +23,9 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const token = req.token;
         if (!channel_id || !token || !message_id || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
             message_id.length < utils_1.default.CONSTANTS.MESSAGE.ID.MIN_LENGTH || message_id.length > utils_1.default.CONSTANTS.MESSAGE.ID.MAX_LENGTH ||
-            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH) { //type check
-            res.json(new controller_1.RouteResponse()
-                .setStatus(controller_1.Status.error)
-                .setMessage("Badly formatted"));
-            return;
-        }
-        var User = yield utils_1.default.FUNCTIONS.find.user.token(token); // Find the user
+            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH)
+            throw "Badly formatted";
+        var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token); // Find the user
         var Channel = yield database_1.default.channels.find.id(parseInt(channel_id));
         if (!Channel)
             throw "Channel not found";
@@ -47,10 +42,9 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!Message)
             throw "Message not found";
         if (Message.user_id != User.user_id) { // If the message is not his own message
-            if (!utils_1.default.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, utils_1.default.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN))
+            if (!utils_1.default.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, utils_1.default.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN))
                 throw "You do not have permission to delete others messages in this channel";
         }
-        logger_client_1.default.debug(`Deleting message from channel ${Channel}`);
         // Delete the message
         var Message = yield database_1.default.messages.find.id(message_id);
         if (!Message)
@@ -63,6 +57,7 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             .setData(Message));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

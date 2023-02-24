@@ -23,7 +23,8 @@ const userLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, password } = req.body;
         // if username or password badly formatted
-        if (!username || !password || username.length >= utils_1.default.CONSTANTS.USER.USERNAME.MAX_LENGTH || username.length <= utils_1.default.CONSTANTS.USER.USERNAME.MIN_LENGTH || password.length >= utils_1.default.CONSTANTS.USER.PASSWORD.MAX_LENGTH || password.length <= utils_1.default.CONSTANTS.USER.PASSWORD.MIN_LENGTH)
+        if (!username || !password || username.length >= utils_1.default.CONSTANTS.USER.USERNAME.MAX_LENGTH || username.length <= utils_1.default.CONSTANTS.USER.USERNAME.MIN_LENGTH ||
+            password.length >= utils_1.default.CONSTANTS.USER.PASSWORD.MAX_LENGTH || password.length <= utils_1.default.CONSTANTS.USER.PASSWORD.MIN_LENGTH)
             throw "Badly formatted";
         var User = yield database_1.default.users.find.username(username);
         var match = false;

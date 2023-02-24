@@ -16,11 +16,9 @@ exports.getChannels = void 0;
 const database_1 = __importDefault(require("../../../database"));
 const controller_1 = require("../../controller");
 const utils_1 = __importDefault(require("../../../utils"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const getChannels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const token = req.token;
-        logger_client_1.default.log("Getting user channels");
         // if token badly formatted
         if (!token || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
             throw "Badly formatted";
@@ -29,6 +27,8 @@ const getChannels = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             throw "User not found";
         // fetch the user's channels from the database
         const channels = yield database_1.default.users.find.channels(User.user_id);
+        if (!channels)
+            throw "Failed to fetch channels";
         for (let i = 0; i < channels.length; i++) {
             channels[i] = utils_1.default.FUNCTIONS.REMOVE_OVERFLOW_INFO_CHANNEL(channels[i]);
         }
@@ -38,6 +38,7 @@ const getChannels = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             .setData(channels));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeBlocked = void 0;
 const database_1 = __importDefault(require("../../../database"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
 const utils_1 = __importDefault(require("../../../utils"));
@@ -36,7 +35,6 @@ const removeBlocked = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         User.blocked.splice(User.blocked.indexOf(blocked_id), 1);
         User.updated_at = new Date().toLocaleString();
         User.save();
-        logger_client_1.default.debug(`User ${User} has been updated`);
         emitter_client_1.default.emit("removeBlocked", User);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
@@ -44,6 +42,7 @@ const removeBlocked = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             .setData(User));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

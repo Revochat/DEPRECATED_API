@@ -14,9 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ServerCreate = void 0;
 const Server_1 = __importDefault(require("../models/Server"));
+const logger_client_1 = __importDefault(require("../../client/logger.client"));
 function ServerCreate(server) {
     return __awaiter(this, void 0, void 0, function* () {
-        return Server_1.default.create(server); // Create server
+        try {
+            return Server_1.default.create(server);
+        }
+        catch (err) {
+            logger_client_1.default.error(err);
+        }
     });
 }
 exports.ServerCreate = ServerCreate;

@@ -14,9 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoleCreate = void 0;
 const Role_1 = __importDefault(require("../models/Role"));
+const logger_client_1 = __importDefault(require("../../client/logger.client"));
 function RoleCreate(role) {
     return __awaiter(this, void 0, void 0, function* () {
-        return Role_1.default.create(role);
+        try {
+            return Role_1.default.create(role);
+        }
+        catch (err) {
+            logger_client_1.default.error(err);
+        }
     });
 }
 exports.RoleCreate = RoleCreate;

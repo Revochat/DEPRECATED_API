@@ -26,12 +26,8 @@ const removeRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         //type checking
         if (!role_id || !token || !token ||
             role_id_input < utils_1.default.CONSTANTS.ROLE.ID.MIN_LENGTH || role_id_input > utils_1.default.CONSTANTS.ROLE.ID.MAX_LENGTH ||
-            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH) { //type check
-            res.json(new controller_1.RouteResponse()
-                .setStatus(controller_1.Status.error)
-                .setMessage("Badly formatted"));
-            return;
-        }
+            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH)
+            throw "Badly formatted";
         var User = yield database_1.default.users.find.token(token);
         if (!User)
             throw "User not found";
@@ -50,6 +46,7 @@ const removeRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             .setData(Role));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

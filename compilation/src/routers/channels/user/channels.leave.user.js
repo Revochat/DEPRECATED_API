@@ -15,19 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.leave = void 0;
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const leave = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { channel_id } = req.params;
     const token = req.token;
     if (!channel_id || !token || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH) { //type check
-        res.json(new controller_1.RouteResponse()
-            .setStatus(controller_1.Status.error)
-            .setMessage("Badly formatted"));
-        return;
-    }
+        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
+        throw "Badly formatted";
     try {
         // Check if the channel exists
         var Channel = yield database_1.default.channels.find.id(parseInt(channel_id));
@@ -45,7 +40,6 @@ const leave = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         Channel.members = Channel.members.filter((member) => member !== User.user_id);
         Channel.members_count = Channel.members.length;
         yield Channel.save();
-        logger_client_1.default.debug(`User ${User.user_id} has left channel ${Channel}`);
         emitter_client_1.default.emit("leaveChannel", Channel);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
@@ -53,6 +47,7 @@ const leave = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             .setData(Channel));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updatePermissions = void 0;
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const updatePermissions = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -23,12 +22,8 @@ const updatePermissions = (req, res) => __awaiter(void 0, void 0, void 0, functi
     const { channel_id } = req.params;
     const token = req.token;
     if (!channel_id || !token || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH) { //type check
-        res.json(new controller_1.RouteResponse()
-            .setStatus(controller_1.Status.error)
-            .setMessage("Badly formatted"));
-        return;
-    }
+        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
+        throw "Badly formatted";
     try {
         var User = yield database_1.default.users.find.token(token); // Find the user
         if (!User)
@@ -37,15 +32,15 @@ const updatePermissions = (req, res) => __awaiter(void 0, void 0, void 0, functi
         if (!Channel)
             throw "Channel not found"; // Check if the channel exists
         // check the integrity of permissions
-        // if (!UTILS.FUNCTIONS.PERMISSIONS.checkIntegrity(permissions)) throw "Badly formatted permissions"
+        if (yield utils_1.default.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, permissions))
+            throw "Badly formatted permissions";
         if (Channel.server_id) { // If the channel is a server channel = no permissions editing in private channels
-            if (!utils_1.default.FUNCTIONS.PERMISSIONS.checkChannelPermissions(User, Channel, utils_1.default.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN))
+            if (!utils_1.default.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, utils_1.default.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN))
                 throw "You do not have permission to update this channel";
         }
         Channel.permissions = permissions; // Update the channel permissions
         Channel.updated_at = Date.toLocaleString();
         yield Channel.save(); // Save the channel
-        logger_client_1.default.debug(`Channel ${Channel} has been updated`);
         emitter_client_1.default.emit("updateChannel", Channel);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
@@ -53,6 +48,7 @@ const updatePermissions = (req, res) => __awaiter(void 0, void 0, void 0, functi
             .setData(Channel));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

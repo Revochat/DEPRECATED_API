@@ -14,9 +14,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ServerFindUser = void 0;
 const Server_1 = __importDefault(require("../models/Server"));
+const logger_client_1 = __importDefault(require("../../client/logger.client"));
 function ServerFindUser(user_id, server_id) {
     return __awaiter(this, void 0, void 0, function* () {
-        return Server_1.default.findOne({ where: { id: server_id, user_id: user_id } }); // find the server with the user id and server id in the server table
+        try {
+            return Server_1.default.findOne({ where: { id: server_id, user_id: user_id } }); // find the server with the user id and server id in the server table
+        }
+        catch (err) {
+            logger_client_1.default.error(err);
+            return null;
+        }
     });
 }
 exports.ServerFindUser = ServerFindUser;

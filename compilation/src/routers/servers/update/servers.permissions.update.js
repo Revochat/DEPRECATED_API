@@ -26,12 +26,8 @@ const permissionsUpdate = (req, res) => __awaiter(void 0, void 0, void 0, functi
     // TYPE CHECK FOR THE PERMISSIONS !!!
     if (!server_id || !user_id || !permissions || !token || server_id.length < utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH ||
         token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        user_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH) { //type check
-        res.json(new controller_1.RouteResponse()
-            .setStatus(controller_1.Status.error)
-            .setMessage("Badly formatted"));
-        return;
-    }
+        user_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH)
+        throw "Badly formatted";
     try {
         var User = yield database_1.default.users.find.token(token); // Find the user
         if (!User)
@@ -41,7 +37,7 @@ const permissionsUpdate = (req, res) => __awaiter(void 0, void 0, void 0, functi
             throw "Server not found";
         if (Server.owner_id !== User.user_id)
             throw "You are not the owner of this server";
-        if (!utils_1.default.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, utils_1.default.CONSTANTS.SERVER.PERMISSIONS.ADMIN))
+        if (!utils_1.default.FUNCTIONS.CHECK.SERVER.PERMISSIONS(User, Server, utils_1.default.CONSTANTS.SERVER.PERMISSIONS.ADMIN))
             throw "You do not have permission to change the server icon";
         emitter_client_1.default.emit("updateServerPermissions", Server);
         res.json(new controller_1.RouteResponse()
@@ -49,6 +45,7 @@ const permissionsUpdate = (req, res) => __awaiter(void 0, void 0, void 0, functi
             .setMessage("Server permissions updated"));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

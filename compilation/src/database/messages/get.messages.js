@@ -14,21 +14,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageFindChannel = exports.MessageFindUser = exports.MessageFindOne = void 0;
 const Message_1 = __importDefault(require("../models/Message"));
+const logger_client_1 = __importDefault(require("../../client/logger.client"));
 function MessageFindOne(message_id) {
     return __awaiter(this, void 0, void 0, function* () {
-        return Message_1.default.findOne({ message_id: message_id });
+        try {
+            return Message_1.default.findOne({ message_id: message_id });
+        }
+        catch (err) {
+            logger_client_1.default.error(err);
+        }
     });
 }
 exports.MessageFindOne = MessageFindOne;
 function MessageFindUser(user_id) {
     return __awaiter(this, void 0, void 0, function* () {
-        return Message_1.default.find({ user_id: user_id });
+        try {
+            return Message_1.default.find({ user_id: user_id });
+        }
+        catch (err) {
+            logger_client_1.default.error(err);
+        }
     });
 }
 exports.MessageFindUser = MessageFindUser;
 function MessageFindChannel(channel_id) {
     return __awaiter(this, void 0, void 0, function* () {
-        return Message_1.default.find({ channel_id: channel_id });
+        try {
+            return Message_1.default.find({ channel_id: channel_id });
+        }
+        catch (err) {
+            logger_client_1.default.error(err);
+        }
     });
 }
 exports.MessageFindChannel = MessageFindChannel;

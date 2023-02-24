@@ -25,12 +25,18 @@ const getBlocked = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         var User = yield database_1.default.users.find.token(token);
         if (!User)
             throw "User not found";
+        // fetch blocked users from the database
+        User.blocked = yield database_1.default.users.find.many(User.blocked);
+        for (let i = 0; i < User.blocked.length; i++) {
+            User.blocked[i] = utils_1.default.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.blocked[i]);
+        }
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
             .setMessage(`User found`)
             .setData(User.blocked));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

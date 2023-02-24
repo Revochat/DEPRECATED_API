@@ -25,15 +25,13 @@ const getServers = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         var User = yield database_1.default.users.find.token(token);
         if (!User)
             throw "User not found";
-        for (let i = 0; i < User.servers.length; i++) {
-            User.servers[i] = utils_1.default.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.servers[i]);
-        }
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
             .setMessage(`Servers found`)
             .setData(User.servers));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

@@ -12,11 +12,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RoleFindOne = void 0;
+exports.RolesFindServer = exports.RoleFindOne = void 0;
 const Role_1 = __importDefault(require("../models/Role"));
+const logger_client_1 = __importDefault(require("../../client/logger.client"));
 function RoleFindOne(role_id) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield Role_1.default.findOne({ role_id: role_id });
+        try {
+            return yield Role_1.default.findOne({ role_id: role_id });
+        }
+        catch (err) {
+            logger_client_1.default.error(err);
+            return null;
+        }
     });
 }
 exports.RoleFindOne = RoleFindOne;
+function RolesFindServer(server_id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            return Role_1.default.find({ role_server_id: server_id });
+        }
+        catch (err) {
+            logger_client_1.default.error(err);
+            return null;
+        }
+    });
+}
+exports.RolesFindServer = RolesFindServer;

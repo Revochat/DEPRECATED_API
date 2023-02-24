@@ -28,9 +28,9 @@ class ServerSocket {
             try {
                 ServerSocket.io.on("connection", (socket) => __awaiter(this, void 0, void 0, function* () {
                     logger_client_1.default.debug("New connection from " + socket.id);
-                    const EventHandler = new events_1.SocketEvents(socket);
+                    ServerSocket.EventHandler = new events_1.SocketEvents(socket);
                     for (let event of ServerSocket.events) {
-                        socket.on(event, EventHandler[event].bind(EventHandler));
+                        socket.on(event, ServerSocket.EventHandler[event].bind(ServerSocket.EventHandler));
                     }
                 }));
             }

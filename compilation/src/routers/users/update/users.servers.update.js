@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.serversUpdate = void 0;
 const database_1 = __importDefault(require("../../../database"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
 const utils_1 = __importDefault(require("../../../utils"));
@@ -37,8 +36,7 @@ const serversUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         User.servers = newservers;
         User.updated_at = new Date().toLocaleString();
-        User.save();
-        logger_client_1.default.debug(`User ${User.username} has updated his channels`);
+        yield User.save();
         emitter_client_1.default.emit("updateChannels", User);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
@@ -46,6 +44,7 @@ const serversUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             .setData(User));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

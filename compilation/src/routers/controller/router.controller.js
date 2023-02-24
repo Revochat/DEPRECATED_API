@@ -49,12 +49,12 @@ class Controller {
             logger_client_1.default.beautifulSpace();
         });
     }
-    reload() {
+    static reload() {
         Controller.server.close();
         Controller.server = Controller.app.listen(Controller.port);
         Controller.start();
     }
-    stop() {
+    static stop() {
         Controller.server.close();
     }
 }
@@ -64,7 +64,7 @@ Controller.rateLimiter = (0, express_rate_limit_1.default)({
     windowMs: utils_1.default.CONSTANTS.API.RATELIMIT.TIME,
     max: utils_1.default.CONSTANTS.API.RATELIMIT.MAX_REQUEST,
     standardHeaders: utils_1.default.CONSTANTS.API.RATELIMIT.STANDARD_REQUEST === 1 ? true : false,
-    legacyHeaders: utils_1.default.CONSTANTS.API.RATELIMIT.TIME === 1 ? true : false,
+    legacyHeaders: utils_1.default.CONSTANTS.API.RATELIMIT.LEGACY_HEADERS === 1 ? true : false,
 });
 Controller.iterate = (obj, name = "", path = "", socketing = false, description = "", params = []) => {
     let method = "GET";

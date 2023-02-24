@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeFriend = void 0;
 const database_1 = __importDefault(require("../../../database"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
 const utils_1 = __importDefault(require("../../../utils"));
@@ -45,13 +44,12 @@ const removeFriend = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                     Friend.friends_requests_sent.splice(Friend.friends_requests_sent.indexOf(Friend.user_id), 1);
                 Friend.updated_at = new Date().toLocaleString();
                 Friend.save();
-                logger_client_1.default.debug(`User ${User} has been updated`);
-                logger_client_1.default.debug(`User ${Friend} has been updated`);
                 emitter_client_1.default.emit("removeFriend", User);
                 res.json(new controller_1.RouteResponse()
                     .setStatus(controller_1.Status.success)
                     .setMessage(`Friend Request_received removed`)
                     .setData(User));
+                return;
             }
             else if (User.friends_requests_sent.includes(friend_id)) { // Check if the user has sent a friend request to the friend
                 // Remove the friend request from the user
@@ -66,17 +64,14 @@ const removeFriend = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                     Friend.friends_requests_received.splice(Friend.friends_requests_received.indexOf(User.id.toString()), 1);
                 Friend.updated_at = new Date().toLocaleString();
                 Friend.save();
-                logger_client_1.default.debug(`User ${User} has been updated`);
-                logger_client_1.default.debug(`User ${Friend} has been updated`);
                 emitter_client_1.default.emit("removeFriend", User);
                 res.json(new controller_1.RouteResponse()
                     .setStatus(controller_1.Status.success)
                     .setMessage(`Friend Request_sent removed`)
                     .setData(User));
+                return;
             }
-            res.json(new controller_1.RouteResponse()
-                .setStatus(controller_1.Status.success)
-                .setMessage(`Error removing friend`));
+            throw "Friend not found";
         }
         else { // If the friend is added, remove the friend from the user
             User.friends.splice(User.friends.indexOf(friend_id), 1);
@@ -90,7 +85,6 @@ const removeFriend = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 Friend.friends.splice(Friend.friends.indexOf(User.id.toString()), 1);
             Friend.updated_at = new Date().toLocaleString();
             Friend.save();
-            logger_client_1.default.debug(`User ${User} has been updated`);
             emitter_client_1.default.emit("removeFriend", User);
             res.json(new controller_1.RouteResponse()
                 .setStatus(controller_1.Status.success)

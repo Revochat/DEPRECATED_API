@@ -32,6 +32,8 @@ module.exports = (command: string, args: Array<string>) => {
                 case "user_id":
                   
                     break;
+            }
+            break;
         case "kick":
             if(args.length < 2) return Logger.error("Specify a user to kick")
             break;

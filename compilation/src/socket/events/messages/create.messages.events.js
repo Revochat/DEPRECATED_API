@@ -32,7 +32,6 @@ class MessageCreateEvent {
                 }, utils_1.utils.set.bearer(__1.default.users[this.socket.id].token));
                 __1.default.io.to(channelID.toString()).emit("messageCreate", response.data);
                 console.log("Message sent in channel: " + channelID);
-                __1.default.io.to(this.socket.id).emit("messageCreate", response.data);
                 logger_client_1.default.info("Message sent from: " + this.socket.id);
             }
             catch (err) {

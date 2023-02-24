@@ -25,12 +25,8 @@ const channelsUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function*
     logger_client_1.default.debug(`Updating channel order ${server_id}`);
     if (!server_id || !new_channel_order || !token || server_id.length < utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH ||
         token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        !Array.isArray(new_channel_order) || new_channel_order.length <= utils_1.default.CONSTANTS.SERVER.MIN_CHANNELS || new_channel_order.length > utils_1.default.CONSTANTS.SERVER.MAX_CHANNELS) { //type check
-        res.json(new controller_1.RouteResponse()
-            .setStatus(controller_1.Status.error)
-            .setMessage("Badly formatted"));
-        return;
-    }
+        !Array.isArray(new_channel_order) || new_channel_order.length <= utils_1.default.CONSTANTS.SERVER.MIN_CHANNELS || new_channel_order.length > utils_1.default.CONSTANTS.SERVER.MAX_CHANNELS)
+        throw "Badly formatted";
     try {
         var User = yield database_1.default.users.find.token(token); // Find the user
         if (!User)
@@ -40,7 +36,7 @@ const channelsUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function*
             throw "Server not found";
         if (Server.owner_id !== User.user_id)
             throw "You are not the owner of this server";
-        if (!utils_1.default.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, utils_1.default.CONSTANTS.SERVER.PERMISSIONS.ADMIN))
+        if (!utils_1.default.FUNCTIONS.CHECK.SERVER.PERMISSIONS(User, Server, utils_1.default.CONSTANTS.SERVER.PERMISSIONS.ADMIN))
             throw "You do not have permission to change the server icon";
         Server.channels = new_channel_order;
         yield Server.save();
@@ -50,6 +46,7 @@ const channelsUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function*
             .setMessage("Server Channels order updated"));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

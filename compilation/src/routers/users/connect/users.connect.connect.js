@@ -19,11 +19,9 @@ const emitter_client_1 = __importDefault(require("../../../client/emitter.client
 const utils_1 = __importDefault(require("../../../utils"));
 const userConnect = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (!req.token)
-            throw "Badly formatted";
         const token = req.token;
         // if username or password badly formatted
-        if (token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
+        if (!token || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
             throw "Badly formatted";
         var User = yield database_1.default.users.find.token(token);
         if (!User)

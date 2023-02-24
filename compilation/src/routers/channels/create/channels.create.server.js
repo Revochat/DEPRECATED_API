@@ -26,15 +26,11 @@ const create_server = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
         server_id.length !== utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH ||
         channel_name.length < utils_1.default.CONSTANTS.CHANNEL.NAME.MIN_LENGTH || channel_name.length > utils_1.default.CONSTANTS.CHANNEL.NAME.MAX_LENGTH ||
-        channel_type == utils_1.default.CONSTANTS.CHANNEL.TYPE.TEXT || channel_type == utils_1.default.CONSTANTS.CHANNEL.TYPE.VOICE) {
-        res.json(new controller_1.RouteResponse()
-            .setStatus(controller_1.Status.error)
-            .setMessage("Badly formatted"));
-        return;
-    }
+        channel_type == utils_1.default.CONSTANTS.CHANNEL.TYPE.TEXT || channel_type == utils_1.default.CONSTANTS.CHANNEL.TYPE.VOICE)
+        throw "Badly formatted";
     try {
-        var User = yield utils_1.default.FUNCTIONS.find.user.token(token);
-        var Server = yield utils_1.default.FUNCTIONS.find.server.id(parseInt(server_id));
+        var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token);
+        var Server = yield utils_1.default.FUNCTIONS.FIND.SERVER.id(parseInt(server_id));
         logger_client_1.default.log("Creating server channel for " + User.username + " in " + channel_name);
         if (User.channels.length >= utils_1.default.CONSTANTS.CHANNEL.MAX_SERVER_CHANNELS)
             throw "You have reached the maximum number of server channels";
@@ -71,11 +67,12 @@ const create_server = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             .setMessage("Channel created")
             .setData(Channel));
     }
-    catch (error) {
-        logger_client_1.default.error(error);
+    catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
-            .setMessage("Could not create channel"));
+            .setMessage(err));
+        return;
     }
 });
 exports.create_server = create_server;

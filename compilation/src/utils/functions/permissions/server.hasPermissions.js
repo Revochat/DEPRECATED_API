@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.hasServerPermission = void 0;
-const hasServerPermission = (user, server, permission) => {
+exports.hasServerPermissions = void 0;
+const hasServerPermissions = (user, server, permission) => {
     if (user.user_id === server.owner_id)
         return true; // If the user is the
     // fetch roles of user and test if they have the permission
@@ -26,4 +26,4 @@ const hasServerPermission = (user, server, permission) => {
     }
     return false;
 };
-exports.hasServerPermission = hasServerPermission;
+exports.hasServerPermissions = hasServerPermissions;

@@ -17,67 +17,91 @@ const User_1 = __importDefault(require("../models/User"));
 const Channel_1 = __importDefault(require("../models/Channel"));
 function UserGetAllChannels(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        return Channel_1.default.find({ members: id }); // Find all channels where the user id is in the members array
+        try {
+            return Channel_1.default.find({ members: id }); // Find all channels where the user id is in the members array
+        }
+        catch (err) {
+            return null;
+        }
     });
 }
 exports.UserGetAllChannels = UserGetAllChannels;
 function UserGetMany(array_id) {
     return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((resolve, reject) => {
-            User_1.default.find({ user_id: { $in: array_id } }, null, (err, users) => {
-                if (err)
-                    resolve(null);
-                resolve(users);
-            });
-        });
+        try {
+            return User_1.default.find({ user_id: { $in: array_id } });
+        }
+        catch (err) {
+            return null;
+        }
     });
 }
 exports.UserGetMany = UserGetMany;
 function UserGetOne(query, options = { projection: { _id: 0 } }) {
     return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((resolve, reject) => {
-            User_1.default.findOne(query, options, (err, user) => {
-                if (err)
-                    reject(err);
-                resolve(user);
+        try {
+            return new Promise((resolve, reject) => {
+                User_1.default.findOne(query, options, (err, user) => {
+                    if (err)
+                        reject(err);
+                    resolve(user);
+                });
             });
-        });
+        }
+        catch (err) {
+            return null;
+        }
     });
 }
 exports.UserGetOne = UserGetOne;
 function UserFindByUsername(username) {
     return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((resolve, reject) => {
-            User_1.default.findOne({ username }, null, (err, user) => {
-                if (err)
-                    reject(err);
-                resolve(user);
+        try {
+            return new Promise((resolve, reject) => {
+                User_1.default.findOne({ username }, null, (err, user) => {
+                    if (err)
+                        reject(err);
+                    resolve(user);
+                });
             });
-        });
+        }
+        catch (err) {
+            return null;
+        }
     });
 }
 exports.UserFindByUsername = UserFindByUsername;
 function UserFindByToken(token) {
     return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((resolve, reject) => {
-            User_1.default.findOne({ token }, null, (err, user) => {
-                if (err)
-                    reject(err);
-                resolve(user);
+        try {
+            return new Promise((resolve, reject) => {
+                User_1.default.findOne({ token }, null, (err, user) => {
+                    if (err)
+                        reject(err);
+                    resolve(user);
+                });
             });
-        });
+        }
+        catch (err) {
+            return null;
+        }
     });
 }
 exports.UserFindByToken = UserFindByToken;
 function UserFindByID(ID) {
     return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((resolve, reject) => {
-            User_1.default.findOne({ user_id: ID }, null, (err, user) => {
-                if (err)
-                    reject(err);
-                resolve(user);
+        try {
+            return new Promise((resolve, reject) => {
+                User_1.default.findOne({ user_id: ID }, null, (err, user) => {
+                    if (err)
+                        reject(err);
+                    resolve(user);
+                });
             });
-        });
+        }
+        catch (err) {
+            return null;
+        }
     });
 }
 exports.UserFindByID = UserFindByID;

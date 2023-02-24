@@ -25,12 +25,18 @@ const getFriendsRequestsReceived = (req, res) => __awaiter(void 0, void 0, void 
         var User = yield database_1.default.users.find.token(token);
         if (!User)
             throw "User not found";
+        // fetch the user's info from the database
+        User.friends_requests_received = yield database_1.default.users.find.many(User.friends_requests_received);
+        for (let i = 0; i < User.friends_requests_received.length; i++) {
+            User.friends_requests_received[i] = utils_1.default.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.friends_requests_received[i]);
+        }
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
             .setMessage(`User found`)
             .setData(User.friends_requests_received));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

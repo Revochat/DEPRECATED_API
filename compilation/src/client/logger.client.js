@@ -7,6 +7,7 @@ const chalk_1 = __importDefault(require("chalk"));
 class Logger {
 }
 exports.default = Logger;
+Logger.normal = (args) => (console.log(typeof args === "string" ? chalk_1.default.yellow(args) : args));
 Logger.info = (args) => console.log(chalk_1.default.blueBright(`[${new Date().toLocaleString()}] [INFO]`), typeof args === "string" ? chalk_1.default.blueBright(args) : args);
 Logger.warn = (args) => console.log(chalk_1.default.yellowBright(`[${new Date().toLocaleString()}] [WARN]`), typeof args === "string" ? chalk_1.default.yellowBright(args) : args);
 Logger.error = (args) => console.log(chalk_1.default.redBright(`[${new Date().toLocaleString()}] [ERROR]`), typeof args === "string" ? chalk_1.default.redBright(args) : args);

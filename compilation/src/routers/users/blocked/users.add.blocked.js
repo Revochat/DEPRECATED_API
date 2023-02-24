@@ -21,16 +21,21 @@ const addBlocked = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const { blocked_id } = req.params;
         const token = req.token;
-        // if token or blocked_id badly formatted
         if (!token || !blocked_id || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
             blocked_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || blocked_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH)
             throw "Badly formatted";
         var User = yield database_1.default.users.find.token(token);
         if (!User)
-            throw "Invalid token";
+            throw "User not found";
         // check if the user is already blocked
         if (User.blocked.includes(blocked_id))
             throw "User already blocked";
+        // check if the user is trying to block himself
+        if (User.user_id == blocked_id)
+            throw "You can't block yourself";
+        // check if the user is trying to block a friend
+        if (User.friends.includes(blocked_id))
+            throw "You can't block a friend";
         // check if the user exists
         if (!(yield database_1.default.users.find.id(parseInt(blocked_id))))
             throw "User doesn't exist";
@@ -45,6 +50,7 @@ const addBlocked = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             .setData(User));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

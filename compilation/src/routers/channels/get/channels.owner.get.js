@@ -20,12 +20,8 @@ const getChannelOwnerID = (req, res) => __awaiter(void 0, void 0, void 0, functi
     const { channel_id } = req.params;
     const token = req.token;
     if (!token || !channel_id || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH) { //type check
-        res.json(new controller_1.RouteResponse()
-            .setStatus(controller_1.Status.error)
-            .setMessage("Badly formatted"));
-        return;
-    }
+        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
+        throw "Badly formatted";
     try {
         const User = yield database_1.default.users.find.token(token);
         if (!User)
@@ -48,6 +44,7 @@ const getChannelOwnerID = (req, res) => __awaiter(void 0, void 0, void 0, functi
             .setData(Channel.owner_id));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

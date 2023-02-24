@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createRole = void 0;
 const controller_1 = require("../controller");
 const emitter_client_1 = __importDefault(require("../../client/emitter.client"));
-const logger_client_1 = __importDefault(require("../../client/logger.client"));
 const database_1 = __importDefault(require("../../database"));
 const utils_1 = __importDefault(require("../../utils"));
 const createRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,26 +26,34 @@ const createRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         //type checking
         if (!token || !position || !name || !color || !permissions ||
             server_id.length < utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH) { //type check
-            res.json(new controller_1.RouteResponse()
-                .setStatus(controller_1.Status.error)
-                .setMessage("Badly formatted"));
-            return;
-        }
+            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH)
+            throw "Badly formatted";
         var User = yield database_1.default.users.find.token(token);
         if (!User)
             throw "User not found";
         var Server = yield database_1.default.servers.find.id(parseInt(server_id));
         if (!Server)
             throw "Server not found";
-        // // check that position is not already taken
-        // var Role = await DB.roles.find.position(parseInt(server_id), position)
-        // if (Role) throw "Position already taken"
-        // // check that role name is not already taken
-        // var Role = await DB.roles.find.name(parseInt(server_id), name)
-        // if (Role) throw "Role name already taken"
-        // // check that role color is valid hex color code
-        // if (!UTILS.ROLES.isColorValid(color)) throw "Invalid color"
+        // check if user is in server
+        if (!Server.members.includes(User.user_id))
+            throw "User not in server";
+        // check if user has permission to create role
+        if (!utils_1.default.FUNCTIONS.CHECK.SERVER.PERMISSIONS(User, Server, utils_1.default.CONSTANTS.SERVER.PERMISSIONS.ROLES.MANAGE))
+            throw "User does not have permission to create role";
+        // check that position is not already taken
+        var Roles = yield database_1.default.roles.find.server_id(parseInt(server_id));
+        if (!Roles)
+            throw "No roles found";
+        Roles.forEach((role) => __awaiter(void 0, void 0, void 0, function* () {
+            if (role.role_position >= position) {
+                role.role_position++;
+                role.updated_at = new Date().toString();
+                yield role.save();
+            }
+        }));
+        // check that role color is valid hex color code
+        if (!utils_1.default.FUNCTIONS.CHECK.ROLE.COLOR(color))
+            throw "Invalid color";
         // create role
         var Role = yield database_1.default.roles.create({
             role_id: Date.now() + Math.floor(Math.random() * 1000),
@@ -59,9 +66,10 @@ const createRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             created_at: new Date().toString(),
             updated_at: new Date().toString()
         });
+        if (!Role)
+            throw "Failed to create role";
         // add id to server roles
         Server.roles.push(Role.role_id);
-        logger_client_1.default.debug(`Role ${Role} has been created`);
         emitter_client_1.default.emit("createRole", Role);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
@@ -69,6 +77,7 @@ const createRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             .setData(Role));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

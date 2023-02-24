@@ -25,12 +25,8 @@ const iconUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     logger_client_1.default.debug(`Updating server avatar ${server_id}`);
     // CHECK FOR THE AVATAR SIZE !!!
     if (!server_id || !server_icon || !token || server_id.length < utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH) { //type check
-        res.json(new controller_1.RouteResponse()
-            .setStatus(controller_1.Status.error)
-            .setMessage("Badly formatted"));
-        return;
-    }
+        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
+        throw "Badly formatted";
     try {
         var User = yield database_1.default.users.find.token(token); // Find the user
         if (!User)
@@ -40,7 +36,7 @@ const iconUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             throw "Server not found";
         if (Server.owner_id !== User.user_id)
             throw "You are not the owner of this server";
-        if (!utils_1.default.FUNCTIONS.PERMISSIONS.hasServerPermission(User, Server, utils_1.default.CONSTANTS.SERVER.PERMISSIONS.ADMIN))
+        if (!utils_1.default.FUNCTIONS.CHECK.SERVER.PERMISSIONS(User, Server, utils_1.default.CONSTANTS.SERVER.PERMISSIONS.ADMIN))
             throw "You do not have permission to change the server icon";
         Server.server_icon = server_icon;
         yield Server.save();
@@ -50,6 +46,7 @@ const iconUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             .setMessage("Server avatar updated"));
     }
     catch (err) {
+        res.status(400);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));
