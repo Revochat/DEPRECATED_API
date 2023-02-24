@@ -1,8 +1,9 @@
 import Client from "./client/emitter.client"
+import Logger from "./client/logger.client"
 import { config }from "./config"
 import Database from "./database"
 import Controller from "./routers/controller/router.controller"
-
+import "./console"
 
 export * from "./routers"
 export * from "./config"

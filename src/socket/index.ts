@@ -9,8 +9,10 @@ export default class ServerSocket {
     static channels: any = {};
     static id: any;
     static socket: Socket;
+    static EventHandler: any;
+    
 
-    static events = [
+    static events: Array<string> = [
         "login", 
         "messageCreate", 
         "messageDelete", 
@@ -43,10 +45,10 @@ export default class ServerSocket {
             ServerSocket.io.on("connection", async (socket: Socket) => {
                 Logger.debug("New connection from " + socket.id)
                 
-                const EventHandler = new SocketEvents(socket) as any
+                 ServerSocket.EventHandler = new SocketEvents(socket);
 
                 for(let event of ServerSocket.events){
-                    socket.on(event, EventHandler[event].bind(EventHandler))
+                    socket.on(event, ServerSocket.EventHandler[event].bind(ServerSocket.EventHandler))
                 }
             })
         } catch(err) {

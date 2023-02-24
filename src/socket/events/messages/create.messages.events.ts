@@ -22,7 +22,6 @@ export class MessageCreateEvent {
             },  utils.set.bearer(ServerSocket.users[this.socket.id].token))
             ServerSocket.io.to(channelID.toString()).emit("messageCreate", response.data)
             console.log("Message sent in channel: " + channelID)
-            ServerSocket.io.to(this.socket.id).emit("messageCreate", response.data)
             Logger.info("Message sent from: " + this.socket.id)
         } catch(err) {
             console.log("Error while sending message from: " + this.socket.id + " " + err)

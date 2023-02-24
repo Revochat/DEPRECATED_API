@@ -21,6 +21,11 @@ export class SocketEvents {
         Logger.debug("User disconnected from " + this.socket.id);
     }
 
+    public kickUser(user_id: number) {
+        const user = this.getUserByID(user_id);
+        return
+    }
+
     public callUser(candidate_id: number) {
         const call = new CallEvent(this.socket);
         call.run(candidate_id);
@@ -40,6 +45,29 @@ export class SocketEvents {
         const roleCreate = new RoleCreateEvent(this.socket);
         //roleCreate.run();
     }
+
+    public getUserByID(user_id: number) {
+        for(let user in ServerSocket.users) {
+            if(ServerSocket.users[user].user_id == user_id) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public getUserByToken(token: string) {
+        for(let user in ServerSocket.users) {
+            if(ServerSocket.users[user].token == token) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public getUserBySocketID(socket_id: string) {
+        return ServerSocket.users[socket_id];
+    }
+        
 
     public roleDelete(roleID: number){ // ToDo
         const roleDelete = new RoleDeleteEvent(this.socket);

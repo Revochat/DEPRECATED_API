@@ -1,6 +1,7 @@
 import chalk from "chalk";
 
 export default class Logger {
+    public static normal = (args: any) => (console.log(typeof args === "string" ? chalk.yellow(args) : args));
     public static info = (args: any) => console.log(chalk.blueBright(`[${new Date().toLocaleString()}] [INFO]`), typeof args === "string" ? chalk.blueBright(args) : args);
     public static warn = (args: any) => console.log(chalk.yellowBright(`[${new Date().toLocaleString()}] [WARN]`), typeof args === "string" ? chalk.yellowBright(args) : args);
     public static error = (args: any) => console.log(chalk.redBright(`[${new Date().toLocaleString()}] [ERROR]`), typeof args === "string" ? chalk.redBright(args) : args);

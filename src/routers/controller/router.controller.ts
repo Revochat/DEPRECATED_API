@@ -4,14 +4,13 @@ import { Server } from "http"
 import bearerToken from "express-bearer-token";
 import rateLimit from 'express-rate-limit'
 import Emitter from "../../client/emitter.client"
-import { RouterInterface, Status } from "./interfaces.controller";
 import { config } from "../../config";
 import Logger from "../../client/logger.client";
 import DB_Connect from "../../database/connect.database";
 import ServerSocket from "../../socket";
 import UTILS from "../../utils";
 
-export default class Controller implements RouterInterface { // This is the class that starts the server
+export default class Controller { // This is the class that starts the server
     static app: express.Express;
     static port: number;
     static server: Server;
@@ -81,12 +80,12 @@ export default class Controller implements RouterInterface { // This is the clas
             Logger.beautifulSpace()
         })
     }
-    public reload(){ // This is the function that reloads the server
+    public static reload(){ // This is the function that reloads the server
         Controller.server.close()
         Controller.server = Controller.app.listen(Controller.port)
         Controller.start()
     }
-    public stop(){ // This is the function that stops the server
+    public static stop(){ // This is the function that stops the server
         Controller.server.close()
     }
 }
