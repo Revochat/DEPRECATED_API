@@ -33,8 +33,9 @@ export default class Controller { // This is the class that starts the server
         Logger.success("Server started on port "+Controller.port)
     }
 
-    private static logInfo = () => {
+    public static logInfo = () => {
         Logger.normal(`
+        ${config.application.description}
         ${config.ascii.art}
 
         Version: ${config.api.version}

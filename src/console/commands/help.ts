@@ -23,11 +23,15 @@ module.exports =  (command: string, args: string) => {
             description: "Clear the console",
         },
         {
-            name: "reload",
-            description: "Reload the console",
+            name: "routes",
+            description: "Manage routes",
         },
         {
-            name: "restart",
-            description: "Restart the console",
+            name: "execute",
+            description: "Execute code or commands",
         },
+        {
+            name: "info",
+            description: "Show info about the application",
+        }
     ]
