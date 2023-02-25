@@ -31,7 +31,7 @@ exports.config = {
     },
     api: {
         url: BASE_URI,
-        version: "v1",
+        version: "0.6.9",
     },
     ascii: {
         art: `

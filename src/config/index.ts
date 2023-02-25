@@ -27,7 +27,7 @@ export const config = { // This is the config file for the RevoAPI. You can chan
     },
     api : {
         url : BASE_URI,
-        version : "v1",
+        version : "0.6.9",
     },
     ascii: {
         art: `

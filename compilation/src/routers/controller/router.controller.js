@@ -47,6 +47,8 @@ class Controller {
             Controller.socket.run();
             emitter_client_1.default.emit("readyRoute", this);
             logger_client_1.default.beautifulSpace();
+            Controller.logInfo();
+            logger_client_1.default.beautifulSpace();
         });
     }
     static reload() {
@@ -66,6 +68,15 @@ Controller.rateLimiter = (0, express_rate_limit_1.default)({
     standardHeaders: utils_1.default.CONSTANTS.API.RATELIMIT.STANDARD_REQUEST === 1 ? true : false,
     legacyHeaders: utils_1.default.CONSTANTS.API.RATELIMIT.LEGACY_HEADERS === 1 ? true : false,
 });
+Controller.logInfo = () => {
+    logger_client_1.default.normal(`
+        ${config_1.config.ascii.art}
+
+        Version: ${config_1.config.api.version}
+        Port: ${config_1.config.properties.port}
+        Owners: ${config_1.config.application.owners.join(", ")}
+        `);
+};
 Controller.iterate = (obj, name = "", path = "", socketing = false, description = "", params = []) => {
     let method = "GET";
     Object.keys(obj).forEach(key => {

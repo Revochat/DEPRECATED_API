@@ -52,8 +52,8 @@ class LoginEvent {
                 }
                 __1.default.io.to(this.socket.id).emit("login", User.data); // Send user data to client
             }
-            catch (err) {
-                logger_client_1.default.error(err);
+            catch (_a) {
+                __1.default.io.to(this.socket.id).emit("login", null); // Send null to client if user not found 
             }
         });
     }

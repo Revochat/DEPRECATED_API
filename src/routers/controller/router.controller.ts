@@ -33,6 +33,18 @@ export default class Controller { // This is the class that starts the server
         Logger.success("Server started on port "+Controller.port)
     }
 
+    private static logInfo = () => {
+        Logger.normal(`
+        ${config.ascii.art}
+
+        Version: ${config.api.version}
+        Port: ${config.properties.port}
+        Owners: ${config.application.owners.join(", ")}
+        `)
+
+        
+    }
+
     protected static iterate = (obj: any, name: string = "", path: string = "", socketing: boolean = false, description: string = "", params: string[] = []): void => { // This is the function that iterates through the routes
         let method = "GET"
         Object.keys(obj).forEach(key => {
@@ -77,6 +89,8 @@ export default class Controller { // This is the class that starts the server
             Controller.iterate(Intercept)
             Controller.socket.run()
             Emitter.emit("readyRoute", this)
+            Logger.beautifulSpace()
+            Controller.logInfo()
             Logger.beautifulSpace()
         })
     }

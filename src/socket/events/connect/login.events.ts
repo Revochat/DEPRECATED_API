@@ -39,8 +39,8 @@ export class LoginEvent {
             }
             ServerSocket.io.to(this.socket.id).emit("login", User.data) // Send user data to client
         }
-        catch(err) {
-            Logger.error(err)
+        catch {
+            ServerSocket.io.to(this.socket.id).emit("login", null) // Send null to client if user not found 
         }
     }
 }
