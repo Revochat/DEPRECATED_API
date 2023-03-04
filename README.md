@@ -1,4 +1,4 @@
-# RUN
+# Run the project
 TO LAUNCH THE PROJECT RUN:
 
 to install all the dependencies
@@ -6,6 +6,9 @@ to install all the dependencies
 <br />
 to run the project
 ``` npx nodemon ```
+
+# Contributing
+Check CONTRIBUTING.md before contributing to fully understand how to contribute to the project.
 
 # Organisation of the API
 
