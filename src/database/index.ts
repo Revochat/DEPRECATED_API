@@ -2,7 +2,7 @@ import { MessageCreate, MessageFindOne, MessageDelete, MessageFindUser, MessageF
 import { UserCreate, UserConnect, UserGetOne, UserGetMany, UserFindByUsername, UserFindByToken, UserFindByID, UserGetAllChannels } from './users'
 import { ChannelCreate, ChannelFindOne, ChannelDelete, GetXNumberofMessages, ChannelFindUser, ChannelGetMany } from './channels'
 import { RoleCreate, RoleFindOne, RoleDelete, RoleUpdate, RolesFindServer } from './roles'
-import { ServerCreate, ServerFindOne, ServerDelete, ServerFindUser} from './servers'
+import { ServerCreate, ServerFindOne, ServerDelete, ServerFindUser, ServerFindMany} from './servers'
 import { InviteCreate, InviteRemove, InviteFindOne } from './invites'
 
 export * from './interface.database'
@@ -46,7 +46,8 @@ export default {
         create: ServerCreate,
         find: {
             id: ServerFindOne,
-            userInServer: ServerFindUser
+            userInServer: ServerFindUser,
+            many: ServerFindMany
         },
         delete: ServerDelete
     },

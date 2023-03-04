@@ -34,14 +34,14 @@ export default class Controller { // This is the class that starts the server
     }
 
     public static logInfo = () => {
+        // ${config.application.description}
         Logger.normal(`
-        ${config.application.description}
         ${config.ascii.art}
 
         Version: ${config.api.version}
         Port: ${config.properties.port}
-        Owners: ${config.application.owners.join(", ")}
         `)
+        // Owners: ${config.application.owners.join(", ")}
 
         
     }

@@ -9,3 +9,12 @@ export async function ServerFindOne(server_id: number) {
         return null;
     }
 }
+
+export async function ServerFindMany(server_ids: number[]) { // Find many servers by their ids and return them
+    try {
+        return Server.find({server_id: {$in: server_ids}});
+    } catch (err) {
+        Logger.error(err);
+        return null;
+    }
+}

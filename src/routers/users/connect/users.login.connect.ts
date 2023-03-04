@@ -44,6 +44,11 @@ export const userLogin = async (req: express.Request, res: express.Response) => 
             User.friends_requests_received[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.friends_requests_received[i])
         }
 
+        User.servers = await DB.servers.find.many(User.servers)
+        for (let i = 0; i < User.servers.length; i++) {
+            User.servers[i] = UTILS.FUNCTIONS.REMOVE_OVERFLOW_INFO_SERVER(User.servers[i])
+        }
+
         Emitter.emit("connect", User, null)
 
         res.json(
