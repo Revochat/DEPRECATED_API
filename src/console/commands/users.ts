@@ -34,7 +34,8 @@ module.exports = (command: string, args: Array<string>) => {
                     if(args.length < 3) return Logger.error("Specify a user to lookup")
                     DB.users.find.id(parseInt(args[2])).then((user) => {
                         if(!user) return Logger.error("User not found with id: " + args[2])
-                        Logger.normal("User found: " + user)
+                        Logger.normal("User found: ")
+                        Logger.normal(user.toJSON().toString())
                     })
                     break;
                 case "token":
@@ -47,7 +48,7 @@ module.exports = (command: string, args: Array<string>) => {
                 case "socket_id":
                     if(args.length < 3) return Logger.error("Specify a user to lookup")
                     ServerSocket.users[args[2]]
-                        ? Logger.normal("User found: " + ServerSocket.users[args[2]])
+                        ? Logger.normal("User found: " + JSON.stringify(ServerSocket.users[args[2]], null, 2))
                         : Logger.error("User not found")
                     break;
                 default:
@@ -70,13 +71,13 @@ module.exports = (command: string, args: Array<string>) => {
                 case "list":
                     Logger.normal("Listing sockets...")
                     for(let socket in ServerSocket.users) {
-                        Logger.normal("Socket: " + socket)
+                        Logger.normal("Socket: \n\n" + JSON.stringify(socket, null, 4))
                     }
                     break;
                 case "get":
                     if(args.length < 3) return Logger.error("Specify a socket to get")
                     if(ServerSocket.users[args[2]])
-                        return Logger.normal("Socket found: "), Logger.normal(Array.from(ServerSocket.users[args[2]].sockets).forEach((socket) => Logger.normal(socket)))
+                        return Logger.normal("Socket found: "), Logger.normal(JSON.stringify(ServerSocket.users[args[2]], null, 4))
                     else Logger.error("Socket not found") 
                     break;
                 }

@@ -1,11 +1,12 @@
 import { Socket } from "socket.io"
 import Logger from "../client/logger.client"
 import { SocketEvents } from "./events";
+import { ISocketUsers } from "./socket.interfaces";
 import { utils } from "./utils";
 
 export default class ServerSocket {
     static io: Socket;
-    static users: any = {};
+    static users: ISocketUsers = {};
     static channels: any = {};
     static id: any;
     static socket: Socket;
@@ -48,6 +49,7 @@ export default class ServerSocket {
                  ServerSocket.EventHandler = new SocketEvents(socket);
 
                 for(let event of ServerSocket.events){
+                    if(typeof event !== "string") break;
                     socket.on(event, ServerSocket.EventHandler[event].bind(ServerSocket.EventHandler))
                 }
             })

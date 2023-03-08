@@ -3,6 +3,7 @@ import { Socket } from "socket.io"
 import ServerSocket from "../.."
 import Logger from "../../../client/logger.client"
 import DB from "../../../database"
+import { IChannelModel } from "../../../database/models/Channel"
 import UTILS from "../../../utils"
 import { utils } from "../../utils"
 
@@ -21,9 +22,7 @@ export class LoginEvent {
             if(!User) return ServerSocket.io.to(this.socket.id).emit("login", null) // Send null to client if user not found
             if(!User.data) return ServerSocket.io.to(this.socket.id).emit("login", null) // Send null to client if user not found
             ServerSocket.users[this.socket.id] = User.data
-            if(ServerSocket.users[this.socket.id].channels) { 
-                ServerSocket.users[this.socket.id].channels.forEach(async (channel: any) => {
-
+                ServerSocket.users[this.socket.id].channels.forEach(async (channel: IChannelModel) => {
                     this.socket.join(channel.channel_id.toString()) // Join all channels the user is in (convert channel id to string using toString())
                     console.log("Joined channel " + channel.channel_id)
                     var members = await DB.users.find.many(channel.members)
@@ -32,7 +31,7 @@ export class LoginEvent {
                         channel.members[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(members[i])
                     }
                 })
-            }
+            
             
             if(ServerSocket.users[this.socket.id].servers) { 
                 this.socket.join(ServerSocket.users[this.socket.id].servers.map(String)) // Join all channels the user is in (convert channel id to string using map)
