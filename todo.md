@@ -11,6 +11,7 @@ TO DO LIST:
 
 - test/security routes
 - encryption system
+- make a dockerfile
 
 ==================== 1.0.0 ====================
 
