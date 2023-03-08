@@ -17,7 +17,7 @@ const __1 = __importDefault(require("../../.."));
 function get() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const response = yield axios_1.default.get(`/api/v1/client/get/user/`, __1.default.users[__1.default.socket.id].token);
+            const response = yield axios_1.default.get(`/api/v1/client/get/user/` + __1.default.users[__1.default.socket.id].token);
             if (response.data.error)
                 throw new Error(response.data.error);
         }

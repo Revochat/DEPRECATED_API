@@ -20,7 +20,7 @@ const getPremiumExpiration = (req, res) => __awaiter(void 0, void 0, void 0, fun
     try {
         const { user_id } = req.params;
         // if user_id badly formatted
-        if (!user_id || user_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH)
+        if (!user_id || user_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(user_id)))
             throw "Badly formatted";
         var User = yield database_1.default.users.find.id(parseInt(user_id));
         if (!User)

@@ -23,7 +23,7 @@ const send = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { channel_id } = req.params;
         const token = req.token;
         if (!channel_id || !token || !message || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-            token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH)
+            token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || isNaN(parseInt(channel_id)))
             throw "Badly formatted";
         // Check if the user is banned
         // Check if the user is muted

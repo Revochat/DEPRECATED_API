@@ -21,7 +21,7 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var { server_id } = req.params;
     const token = req.token;
     if (!server_id || !token || server_id.length < utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
+        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(server_id)))
         throw "Badly formatted";
     try {
         var User = yield database_1.default.users.find.token(token); // Find the user
@@ -32,7 +32,7 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             throw "Server not found";
         if (Server.owner_id != User.user_id)
             throw "You are not the owner of this server";
-        yield Server.delete(); // delete the server
+        yield Server.deleteOne(); // delete the server
         emitter_client_1.default.emit("server", User.id, Server); // send the server to the user
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)

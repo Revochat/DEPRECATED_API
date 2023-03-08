@@ -50,6 +50,10 @@ const userLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         for (let i = 0; i < User.friends_requests_received.length; i++) {
             User.friends_requests_received[i] = utils_1.default.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(User.friends_requests_received[i]);
         }
+        User.servers = yield database_1.default.servers.find.many(User.servers);
+        for (let i = 0; i < User.servers.length; i++) {
+            User.servers[i] = utils_1.default.FUNCTIONS.REMOVE_OVERFLOW_INFO_SERVER(User.servers[i]);
+        }
         emitter_client_1.default.emit("connect", User, null);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)

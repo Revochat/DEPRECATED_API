@@ -22,12 +22,12 @@ const removeRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const { role_id_input } = req.body;
         const token = req.token;
-        const role_id = parseInt(role_id_input); //type checking
         //type checking
-        if (!role_id || !token || !token ||
+        if (!role_id_input || !token || !token ||
             role_id_input < utils_1.default.CONSTANTS.ROLE.ID.MIN_LENGTH || role_id_input > utils_1.default.CONSTANTS.ROLE.ID.MAX_LENGTH ||
-            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH)
+            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || isNaN(parseInt(role_id_input)))
             throw "Badly formatted";
+        const role_id = parseInt(role_id_input); //type checking
         var User = yield database_1.default.users.find.token(token);
         if (!User)
             throw "User not found";

@@ -20,7 +20,7 @@ const inviteGet = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var { invite_id } = req.params;
     const token = req.token;
     if (!invite_id || !token || invite_id.length < utils_1.default.CONSTANTS.INVITE.ID.MIN_LENGTH || invite_id.length > utils_1.default.CONSTANTS.INVITE.ID.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
+        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(invite_id)))
         throw "Badly formatted";
     try {
         var User = yield database_1.default.users.find.token(token);

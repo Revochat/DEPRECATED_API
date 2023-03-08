@@ -21,7 +21,7 @@ const getMessages = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const token = req.token;
     if (!token || !channel_id || !limit || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
         token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        limit.length > utils_1.default.CONSTANTS.SERVER.MESSAGE.MAX_FETCH_LIMIT || limit.length < utils_1.default.CONSTANTS.SERVER.MESSAGE.MIN_FETCH_LIMIT)
+        limit.length > utils_1.default.CONSTANTS.SERVER.MESSAGE.MAX_FETCH_LIMIT || limit.length < utils_1.default.CONSTANTS.SERVER.MESSAGE.MIN_FETCH_LIMIT || isNaN(parseInt(channel_id)))
         throw "Badly formatted";
     try {
         var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token);

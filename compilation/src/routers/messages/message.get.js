@@ -23,7 +23,7 @@ const get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const token = req.token;
         if (!message_id || !token || !token ||
             message_id.length < utils_1.default.CONSTANTS.MESSAGE.ID.MIN_LENGTH || message_id.length > utils_1.default.CONSTANTS.MESSAGE.ID.MAX_LENGTH ||
-            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH)
+            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || isNaN(parseInt(message_id)))
             throw "Badly formatted";
         var User = yield database_1.default.users.find.token(token);
         if (!User)

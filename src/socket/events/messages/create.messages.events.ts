@@ -25,7 +25,6 @@ export class MessageCreateEvent {
             Logger.info("Message sent from: " + this.socket.id)
         } catch(err) {
             console.log("Error while sending message from: " + this.socket.id + " " + err)
-            console.log(ServerSocket.users)
         }
     }
 }

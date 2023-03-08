@@ -60,7 +60,8 @@ exports.default = {
         create: servers_1.ServerCreate,
         find: {
             id: servers_1.ServerFindOne,
-            userInServer: servers_1.ServerFindUser
+            userInServer: servers_1.ServerFindUser,
+            many: servers_1.ServerFindMany
         },
         delete: servers_1.ServerDelete
     },

@@ -29,6 +29,7 @@ exports.UserGetAllChannels = UserGetAllChannels;
 function UserGetMany(array_id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            console.log(array_id);
             return User_1.default.find({ user_id: { $in: array_id } });
         }
         catch (err) {
@@ -40,13 +41,7 @@ exports.UserGetMany = UserGetMany;
 function UserGetOne(query, options = { projection: { _id: 0 } }) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return new Promise((resolve, reject) => {
-                User_1.default.findOne(query, options, (err, user) => {
-                    if (err)
-                        reject(err);
-                    resolve(user);
-                });
-            });
+            return User_1.default.findOne(query, options);
         }
         catch (err) {
             return null;
@@ -57,13 +52,7 @@ exports.UserGetOne = UserGetOne;
 function UserFindByUsername(username) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return new Promise((resolve, reject) => {
-                User_1.default.findOne({ username }, null, (err, user) => {
-                    if (err)
-                        reject(err);
-                    resolve(user);
-                });
-            });
+            return User_1.default.findOne({ username });
         }
         catch (err) {
             return null;
@@ -74,13 +63,7 @@ exports.UserFindByUsername = UserFindByUsername;
 function UserFindByToken(token) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return new Promise((resolve, reject) => {
-                User_1.default.findOne({ token }, null, (err, user) => {
-                    if (err)
-                        reject(err);
-                    resolve(user);
-                });
-            });
+            return User_1.default.findOne({ token });
         }
         catch (err) {
             return null;
@@ -91,13 +74,7 @@ exports.UserFindByToken = UserFindByToken;
 function UserFindByID(ID) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return new Promise((resolve, reject) => {
-                User_1.default.findOne({ user_id: ID }, null, (err, user) => {
-                    if (err)
-                        reject(err);
-                    resolve(user);
-                });
-            });
+            return User_1.default.findOne({ user_id: ID });
         }
         catch (err) {
             return null;

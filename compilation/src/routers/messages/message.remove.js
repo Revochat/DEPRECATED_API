@@ -23,7 +23,7 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const token = req.token;
         if (!channel_id || !token || !message_id || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
             message_id.length < utils_1.default.CONSTANTS.MESSAGE.ID.MIN_LENGTH || message_id.length > utils_1.default.CONSTANTS.MESSAGE.ID.MAX_LENGTH ||
-            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH)
+            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || isNaN(parseInt(message_id)) || isNaN(parseInt(channel_id)))
             throw "Badly formatted";
         var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token); // Find the user
         var Channel = yield database_1.default.channels.find.id(parseInt(channel_id));
@@ -49,7 +49,7 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         var Message = yield database_1.default.messages.find.id(message_id);
         if (!Message)
             throw "Message not found";
-        yield Message.delete();
+        yield Message.deleteOne();
         emitter_client_1.default.emit("deleteMessage", Message);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)

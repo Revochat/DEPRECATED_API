@@ -23,7 +23,7 @@ const updateName = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const token = req.token;
     if (!channel_id || !token || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
         token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        channel_name.length >= utils_1.default.CONSTANTS.CHANNEL.NAME.MAX_LENGTH || channel_name.length < utils_1.default.CONSTANTS.CHANNEL.NAME.MIN_LENGTH)
+        channel_name.length >= utils_1.default.CONSTANTS.CHANNEL.NAME.MAX_LENGTH || channel_name.length < utils_1.default.CONSTANTS.CHANNEL.NAME.MIN_LENGTH || isNaN(parseInt(channel_id)))
         throw "Badly formatted";
     try {
         var User = yield database_1.default.users.find.token(token); // Find the user

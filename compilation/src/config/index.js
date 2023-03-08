@@ -14,7 +14,9 @@ exports.config = {
     application: {
         name: "RevochatAPI",
         version: "1.2.0",
-        description: "Revochat is a project that aims at providing a secure and decentralised way to communicate via private messages, group chat and servers.",
+        description: `Revochat is a chat application that allows you to chat with your friends securely and privately.
+        Let's hope one day we can make it big!
+        `,
         owners: [
             "ByLife",
             "Thomas78125",

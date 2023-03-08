@@ -36,7 +36,6 @@ class MessageCreateEvent {
             }
             catch (err) {
                 console.log("Error while sending message from: " + this.socket.id + " " + err);
-                console.log(__1.default.users);
             }
         });
     }

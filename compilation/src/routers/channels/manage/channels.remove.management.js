@@ -21,7 +21,7 @@ const removeChannel = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const { channel_id } = req.params;
     const token = req.token;
     if (!channel_id || !token || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
+        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(channel_id)))
         throw "Badly formatted";
     try {
         var Channel = yield database_1.default.channels.find.id(parseInt(channel_id)); // Find the channel
@@ -37,7 +37,8 @@ const removeChannel = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             throw "Channel is not a server channel"; // only server channels can be deleted
         if (!utils_1.default.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, utils_1.default.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN))
             throw "You do not have permission to delete this channel";
-        yield Channel.delete(); // delete the channel
+        // delete the channel
+        Channel.deleteOne();
         // remove the channel from the members 
         for (let i = 0; i < Channel.members.length; i++) {
             const member_id = Channel.members[i];

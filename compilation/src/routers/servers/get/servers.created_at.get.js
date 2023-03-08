@@ -19,7 +19,7 @@ const getCreatedAt = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const { server_id } = req.params;
     const token = req.token;
     if (!token || !server_id || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        server_id.length < utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH)
+        server_id.length < utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH || isNaN(parseInt(server_id)))
         throw "Badly formatted";
     try {
         var Server = yield utils_1.default.FUNCTIONS.FIND.SERVER.id(parseInt(server_id));

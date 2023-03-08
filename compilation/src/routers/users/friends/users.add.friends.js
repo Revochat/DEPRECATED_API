@@ -22,7 +22,7 @@ const addFriend = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { friend_id } = req.params;
         const token = req.token;
         if (!token || !friend_id || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-            friend_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH)
+            friend_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(friend_id)))
             throw "Badly formatted";
         var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token); // Find the user
         if (!User)

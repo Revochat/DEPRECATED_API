@@ -31,29 +31,29 @@ class LoginEvent {
                 logger_client_1.default.debug("Login event from " + this.socket);
                 const User = (yield axios_1.default.get(`${process.env.BASE_URI}/api/v1/client/connect`, utils_2.utils.set.bearer(token))).data; // Get user data from API
                 if (!User)
-                    return __1.default.io.to(this.socket.id).emit("login", null); // Send null to client if user not found
+                    return __1.default.io.to(this.socket.id).emit("login", null), this.socket.disconnect(true); // Send null to client if user not found
                 if (!User.data)
-                    return __1.default.io.to(this.socket.id).emit("login", null); // Send null to client if user not found
+                    return __1.default.io.to(this.socket.id).emit("login", null), this.socket.disconnect(true); // Send null to client if user not found and stop user socket from connecting
+                console.log(User);
                 __1.default.users[this.socket.id] = User.data;
-                if (__1.default.users[this.socket.id].channels) {
-                    __1.default.users[this.socket.id].channels.forEach((channel) => __awaiter(this, void 0, void 0, function* () {
-                        this.socket.join(channel.channel_id.toString()); // Join all channels the user is in (convert channel id to string using toString())
-                        console.log("Joined channel " + channel.channel_id);
-                        var members = yield database_1.default.users.find.many(channel.members);
-                        if (!members)
-                            return __1.default.io.to(this.socket.id).emit("login", null);
+                __1.default.users[this.socket.id].channels.forEach((channel) => __awaiter(this, void 0, void 0, function* () {
+                    this.socket.join(channel.channel_id.toString()); // Join all channels the user is in (convert channel id to string using toString())
+                    console.log("Joined channel " + channel.channel_id);
+                    var members = yield database_1.default.users.find.many(channel.members);
+                    if (members) {
                         for (let i = 0; i < channel.members_count; i++) {
                             channel.members[i] = utils_1.default.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(members[i]);
                         }
-                    }));
-                }
+                    }
+                }));
                 if (__1.default.users[this.socket.id].servers) {
                     this.socket.join(__1.default.users[this.socket.id].servers.map(String)); // Join all channels the user is in (convert channel id to string using map)
                 }
-                __1.default.io.to(this.socket.id).emit("login", User.data); // Send user data to client
+                return __1.default.io.to(this.socket.id).emit("login", User.data); // Send user data to client
             }
             catch (_a) {
-                __1.default.io.to(this.socket.id).emit("login", null); // Send null to client if user not found 
+                console.log("Error while logging in user");
+                return __1.default.io.to(this.socket.id).emit("login", null), this.socket.disconnect(true); // Send null to client if user not found 
             }
         });
     }

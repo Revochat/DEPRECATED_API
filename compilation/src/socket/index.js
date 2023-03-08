@@ -30,6 +30,8 @@ class ServerSocket {
                     logger_client_1.default.debug("New connection from " + socket.id);
                     ServerSocket.EventHandler = new events_1.SocketEvents(socket);
                     for (let event of ServerSocket.events) {
+                        if (typeof event !== "string")
+                            break;
                         socket.on(event, ServerSocket.EventHandler[event].bind(ServerSocket.EventHandler));
                     }
                 }));

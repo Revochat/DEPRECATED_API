@@ -15,13 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.create = void 0;
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var { name } = req.params;
     const token = req.token;
-    logger_client_1.default.debug(`Creating server ${name}`);
     if (!name || !token || name.length < utils_1.default.CONSTANTS.SERVER.NAME.MIN_LENGTH || name.length > utils_1.default.CONSTANTS.SERVER.NAME.MAX_LENGTH ||
         token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
         throw "Badly formatted";

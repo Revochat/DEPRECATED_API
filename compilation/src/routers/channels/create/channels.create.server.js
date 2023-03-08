@@ -26,7 +26,7 @@ const create_server = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
         server_id.length !== utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH ||
         channel_name.length < utils_1.default.CONSTANTS.CHANNEL.NAME.MIN_LENGTH || channel_name.length > utils_1.default.CONSTANTS.CHANNEL.NAME.MAX_LENGTH ||
-        channel_type == utils_1.default.CONSTANTS.CHANNEL.TYPE.TEXT || channel_type == utils_1.default.CONSTANTS.CHANNEL.TYPE.VOICE)
+        channel_type == utils_1.default.CONSTANTS.CHANNEL.TYPE.TEXT || channel_type == utils_1.default.CONSTANTS.CHANNEL.TYPE.VOICE || isNaN(parseInt(server_id)))
         throw "Badly formatted";
     try {
         var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token);

@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userConnect = void 0;
 const database_1 = __importDefault(require("../../../database"));
+const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
 const utils_1 = __importDefault(require("../../../utils"));
@@ -23,9 +24,11 @@ const userConnect = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         // if username or password badly formatted
         if (!token || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
             throw "Badly formatted";
+        logger_client_1.default.info(`User with token ${token} is connecting`);
         var User = yield database_1.default.users.find.token(token);
         if (!User)
             throw "Invalid token";
+        logger_client_1.default.info(`User ${User.username} is connected`);
         User.last_connection = new Date().toLocaleString();
         User.save(); //update the last connection date of the user in the database
         // fetch the user's friends info from the database

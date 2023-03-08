@@ -23,7 +23,7 @@ const create_group = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     if (!token || !friend_id_1 || !friend_id_2 ||
         token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
         friend_id_1.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_1.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH ||
-        friend_id_2.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_2.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH)
+        friend_id_2.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_2.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(friend_id_1)) || isNaN(parseInt(friend_id_2)))
         throw "Badly formatted";
     try {
         var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token);

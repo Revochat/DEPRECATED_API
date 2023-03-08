@@ -69,13 +69,14 @@ Controller.rateLimiter = (0, express_rate_limit_1.default)({
     legacyHeaders: utils_1.default.CONSTANTS.API.RATELIMIT.LEGACY_HEADERS === 1 ? true : false,
 });
 Controller.logInfo = () => {
+    // ${config.application.description}
     logger_client_1.default.normal(`
         ${config_1.config.ascii.art}
 
         Version: ${config_1.config.api.version}
         Port: ${config_1.config.properties.port}
-        Owners: ${config_1.config.application.owners.join(", ")}
         `);
+    // Owners: ${config.application.owners.join(", ")}
 };
 Controller.iterate = (obj, name = "", path = "", socketing = false, description = "", params = []) => {
     let method = "GET";

@@ -22,7 +22,7 @@ const addBlocked = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const { blocked_id } = req.params;
         const token = req.token;
         if (!token || !blocked_id || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-            blocked_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || blocked_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH)
+            blocked_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || blocked_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(blocked_id)))
             throw "Badly formatted";
         var User = yield database_1.default.users.find.token(token);
         if (!User)

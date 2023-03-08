@@ -15,15 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.inviteUse = void 0;
 const controller_1 = require("../controller");
 const emitter_client_1 = __importDefault(require("../../client/emitter.client"));
-const logger_client_1 = __importDefault(require("../../client/logger.client"));
 const database_1 = __importDefault(require("../../database"));
 const utils_1 = __importDefault(require("../../utils"));
 const inviteUse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var { invite_id } = req.params;
     const token = req.token;
-    logger_client_1.default.debug(`Using invite ${invite_id}`);
     if (!invite_id || !token || invite_id.length < utils_1.default.CONSTANTS.INVITE.ID.MIN_LENGTH || invite_id.length > utils_1.default.CONSTANTS.INVITE.ID.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
+        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(invite_id)))
         throw "Badly formatted";
     try {
         var User = yield database_1.default.users.find.token(token); // Find the user
@@ -42,7 +40,7 @@ const inviteUse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (Invite.uses != -1) { // if max count is not -1, decrement it
             Invite.uses--;
             if (Invite.uses == 0) { // if max count is 0, remove the invite
-                yield Invite.remove();
+                yield Invite.deleteOne();
             }
             else { // else, save the invite with the new max count
                 yield Invite.save();

@@ -12,6 +12,7 @@ export async function UserGetAllChannels(id: number) { // Get all channels a use
 
 export async function UserGetMany(array_id: number[]): Promise<((IUserModel & {_id: Types.ObjectId})[]) | null> {
     try {
+        console.log(array_id)
         return User.find({user_id: {$in: array_id}})
     } catch(err) {
         return null;

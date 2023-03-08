@@ -42,7 +42,8 @@ module.exports = (command, args) => {
                     database_1.default.users.find.id(parseInt(args[2])).then((user) => {
                         if (!user)
                             return logger_client_1.default.error("User not found with id: " + args[2]);
-                        logger_client_1.default.normal("User found: " + user);
+                        logger_client_1.default.normal("User found: ");
+                        logger_client_1.default.normal(user.toJSON().toString());
                     });
                     break;
                 case "token":
@@ -58,7 +59,7 @@ module.exports = (command, args) => {
                     if (args.length < 3)
                         return logger_client_1.default.error("Specify a user to lookup");
                     socket_1.default.users[args[2]]
-                        ? logger_client_1.default.normal("User found: " + socket_1.default.users[args[2]])
+                        ? logger_client_1.default.normal("User found: " + JSON.stringify(socket_1.default.users[args[2]], null, 2))
                         : logger_client_1.default.error("User not found");
                     break;
                 default:
@@ -85,14 +86,14 @@ module.exports = (command, args) => {
                 case "list":
                     logger_client_1.default.normal("Listing sockets...");
                     for (let socket in socket_1.default.users) {
-                        logger_client_1.default.normal("Socket: " + socket);
+                        logger_client_1.default.normal("Socket: \n\n" + JSON.stringify(socket, null, 4));
                     }
                     break;
                 case "get":
                     if (args.length < 3)
                         return logger_client_1.default.error("Specify a socket to get");
                     if (socket_1.default.users[args[2]])
-                        return logger_client_1.default.normal("Socket found: "), logger_client_1.default.normal(Array.from(socket_1.default.users[args[2]].sockets).forEach((socket) => logger_client_1.default.normal(socket)));
+                        return logger_client_1.default.normal("Socket found: "), logger_client_1.default.normal(JSON.stringify(socket_1.default.users[args[2]], null, 4));
                     else
                         logger_client_1.default.error("Socket not found");
                     break;

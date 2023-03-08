@@ -30,7 +30,7 @@ export const inviteUse = async (req: express.Request, res: express.Response) => 
         if (Invite.uses != -1) { // if max count is not -1, decrement it
             Invite.uses--
             if (Invite.uses == 0) { // if max count is 0, remove the invite
-                await Invite.remove()
+                await Invite.deleteOne()
             } else { // else, save the invite with the new max count
                 await Invite.save()
             }

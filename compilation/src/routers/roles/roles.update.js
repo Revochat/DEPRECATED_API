@@ -24,7 +24,7 @@ const updateRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const token = req.token;
         //type checking
         if (!token || !name || !role_id || !permissions || !color ||
-            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH)
+            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || isNaN(parseInt(role_id)))
             throw "Badly formatted";
         var User = yield database_1.default.users.find.token(token);
         if (!User)

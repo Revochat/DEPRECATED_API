@@ -23,7 +23,7 @@ const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.token;
     if (!channel_id || !token || !user_id || !member_id || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
         token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || user_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH ||
-        member_id.length !== utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || member_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH)
+        member_id.length !== utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || member_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(channel_id)) || isNaN(parseInt(member_id)) || isNaN(parseInt(user_id)))
         throw "Badly formatted";
     try {
         var User = yield database_1.default.users.find.token(token);
