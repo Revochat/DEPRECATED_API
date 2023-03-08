@@ -19,7 +19,7 @@ const Message_1 = __importDefault(require("../models/Message"));
 function ChannelFindOne(channel_id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return Channel_1.default.findOne({ channel_id: channel_id });
+            return Channel_1.default.findOne({ channel_id });
         }
         catch (err) {
             logger_client_1.default.error(err);
@@ -30,7 +30,7 @@ exports.ChannelFindOne = ChannelFindOne;
 function GetXNumberofMessages(channel_id, number) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return Message_1.default.find({ channel_id: channel_id }).sort({ date: -1 }).limit(number);
+            return Message_1.default.find({ channel_id }).sort({ date: -1 }).limit(number);
         }
         catch (err) {
             logger_client_1.default.error(err);

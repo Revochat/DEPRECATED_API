@@ -31,6 +31,7 @@ export const send = async (req: express.Request, res: express.Response) => { // 
         }
 
         var Channel = await DB.channels.find.id(parseInt(channel_id))
+        console.log(Channel)
         if(!Channel) throw "Channel not found"
 
         // Check if the user is in the channel
@@ -52,7 +53,8 @@ export const send = async (req: express.Request, res: express.Response) => { // 
         }
 
         // Check if the user has permission to send messages
-        if (!UTILS.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.MESSAGE.SEND)) throw "You do not have permission to send messages in this channel"
+        
+        //if (!UTILS.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.MESSAGE.SEND)) throw "You do not have permission to send messages in this channel"
 
         var Message = await DB.messages.create({ // Create the message
             message_id: Date.now() + Math.floor(Math.random() * 1000),
@@ -77,6 +79,7 @@ export const send = async (req: express.Request, res: express.Response) => { // 
 
     catch (err) {
         res.status(400)
+        console.log(err)
         res.json(
             new RouteResponse()
                 .setStatus(Status.error)

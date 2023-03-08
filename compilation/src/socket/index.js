@@ -17,7 +17,24 @@ const events_1 = require("./events");
 class ServerSocket {
     constructor(server) {
         try {
-            ServerSocket.io = require("socket.io")(server);
+            ServerSocket.io = require("socket.io")(server, {
+                cors: {
+                    origin: "*",
+                    methods: ["GET", "PUT", "POST", "DELETE"],
+                    allowedHeaders: [
+                        "Access-Control-Allow-Headers",
+                        "X-Requested-With",
+                        "X-Access-Token",
+                        "Content-Type",
+                        "Host",
+                        "Accept",
+                        "Connection",
+                        "Cache-Control",
+                    ],
+                    credentials: true,
+                    optionsSuccessStatus: 200,
+                }
+            });
         }
         catch (err) {
             logger_client_1.default.error(err);

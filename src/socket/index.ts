@@ -34,7 +34,26 @@ export default class ServerSocket {
 
     constructor(server: any){
         try{
-            ServerSocket.io = require("socket.io")(server)
+            ServerSocket.io = require("socket.io")(server, {
+                cors: {
+                    origin: "*",
+                    methods: ["GET", "PUT", "POST", "DELETE"],
+                    allowedHeaders: [
+                        "Access-Control-Allow-Headers",
+                        "X-Requested-With",
+                        "X-Access-Token",
+                        "Content-Type",
+                        "Host",
+                        "Accept",
+                        "Connection",
+                        "Cache-Control",
+                        ],
+                    credentials: true,
+                    optionsSuccessStatus: 200,
+                }
+            })
+
+            
         } catch(err) {
             Logger.error(err)
         }

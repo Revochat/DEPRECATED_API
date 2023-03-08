@@ -40,6 +40,7 @@ const send = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 throw "Message is too long or too short";
         }
         var Channel = yield database_1.default.channels.find.id(parseInt(channel_id));
+        console.log(Channel);
         if (!Channel)
             throw "Channel not found";
         // Check if the user is in the channel
@@ -62,8 +63,7 @@ const send = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 throw "You are in timeout";
         }
         // Check if the user has permission to send messages
-        if (!utils_1.default.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, utils_1.default.CONSTANTS.CHANNEL.PERMISSIONS.MESSAGE.SEND))
-            throw "You do not have permission to send messages in this channel";
+        //if (!UTILS.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.MESSAGE.SEND)) throw "You do not have permission to send messages in this channel"
         var Message = yield database_1.default.messages.create({
             message_id: Date.now() + Math.floor(Math.random() * 1000),
             channel_id: parseInt(channel_id),
@@ -82,6 +82,7 @@ const send = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (err) {
         res.status(400);
+        console.log(err);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.error)
             .setMessage(err));

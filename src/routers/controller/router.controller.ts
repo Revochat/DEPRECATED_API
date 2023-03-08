@@ -70,11 +70,11 @@ export default class Controller { // This is the class that starts the server
 
     protected static rules() { // This is the function that sets the API rules
         Controller.app.use((req, res, next) => {
-            res.header("Access-Control-Allow-Origin", "*")
+            res.setHeader('Access-Control-Request-Method', '*');
             res.header('Content-Type', 'application/json')
-            res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+            res.setHeader('Access-Control-Allow-Headers', '*');
             if (req.method === 'OPTIONS') {
-                res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
+                res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
                 return res.status(200).json({})
             }
             next()
