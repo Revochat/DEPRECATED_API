@@ -36,7 +36,7 @@ export const remove = async (req: express.Request, res: express.Response) => { /
         // Delete the message
         var Message = await DB.messages.find.id(message_id)
         if(!Message) throw "Message not found"
-        await Message.delete()
+        await Message.deleteOne()
 
         Emitter.emit("deleteMessage", Message)
 

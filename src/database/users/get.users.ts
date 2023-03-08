@@ -13,20 +13,14 @@ export async function UserGetAllChannels(id: number) { // Get all channels a use
 export async function UserGetMany(array_id: number[]): Promise<((IUserModel & {_id: Types.ObjectId})[]) | null> {
     try {
         return User.find({user_id: {$in: array_id}})
-    }
-    catch(err) {
+    } catch(err) {
         return null;
     }
 }
 
 export async function UserGetOne(query: FilterQuery<IUserModel>, options: QueryOptions<unknown> | null = {projection: {_id: 0}}): Promise<null | QueryWithHelpers<any, any>> {
     try {
-        return new Promise((resolve, reject) => {
-            User.findOne(query, options, (err, user) => {
-                if(err) reject(err);
-                resolve(user);
-            })
-        })
+        return User.findOne(query, options)
     } catch (err) {
         return null;
     }
@@ -34,12 +28,7 @@ export async function UserGetOne(query: FilterQuery<IUserModel>, options: QueryO
 
 export async function UserFindByUsername(username: string): Promise<null | QueryWithHelpers<any, any>> {
     try {
-        return new Promise((resolve, reject) => {
-            User.findOne({username}, null, (err, user) => {
-                if(err) reject(err);
-                resolve(user);
-            })
-        })
+        return User.findOne({username})
     } catch (err) {
         return null;
     }
@@ -47,25 +36,15 @@ export async function UserFindByUsername(username: string): Promise<null | Query
 
 export async function UserFindByToken(token: string): Promise<null | QueryWithHelpers<any, any>> {
     try {
-        return new Promise((resolve, reject) => {
-            User.findOne({token}, null, (err, user) => {
-                if(err) reject(err);
-                resolve(user);
-            })
-        })
+        return User.findOne({token})
     } catch (err) {
         return null;
     }
 }
 
-export async function UserFindByID(ID: number): Promise<(IUserModel & {_id: Types.ObjectId}) | null> {
+export async function UserFindByID(ID: number): Promise<(IUserModel) | null> {
     try {
-        return new Promise((resolve, reject) => {
-            User.findOne({user_id: ID}, null, (err, user) => {
-                if(err) reject(err);
-                resolve(user);
-            })
-        })
+        return User.findOne({user_id: ID})
     } catch (err) {
         return null;
     }

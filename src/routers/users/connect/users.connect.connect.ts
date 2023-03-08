@@ -3,9 +3,6 @@ import DB from "../../../database"
 import Logger from "../../../client/logger.client"
 import { RouteResponse, Status } from "../../controller"
 import Emitter from "../../../client/emitter.client"
-import bcrypt from "bcrypt"
-import { v4, v5 } from "uuid"
-import Controller from "../../controller/router.controller"
 import UTILS from "../../../utils"
 
 export const userConnect = async (req: express.Request, res: express.Response) => { // Connect a user
@@ -13,10 +10,12 @@ export const userConnect = async (req: express.Request, res: express.Response) =
         const token = req.token
 
         // if username or password badly formatted
-       if(!token || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH|| token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH) throw "Badly formatted"
-
+       if(!token || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH) throw "Badly formatted"
+        Logger.info(`User with token ${token} is connecting`)
         var User = await DB.users.find.token(token)
         if(!User) throw "Invalid token"
+
+        Logger.info(`User ${User.username} is connected`)
 
         User.last_connection = new Date().toLocaleString()
         User.save() //update the last connection date of the user in the database

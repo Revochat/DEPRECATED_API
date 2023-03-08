@@ -19,7 +19,7 @@ export const remove = async (req: express.Request, res: express.Response) => { /
 
         if(Server.owner_id != User.user_id) throw "You are not the owner of this server"
 
-        await Server.delete() // delete the server
+        await Server.deleteOne() // delete the server
 
         Emitter.emit("server", User.id, Server) // send the server to the user
 

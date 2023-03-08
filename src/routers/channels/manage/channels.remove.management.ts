@@ -26,7 +26,8 @@ export const removeChannel = async (req: express.Request, res: express.Response)
         
         if (!UTILS.FUNCTIONS.CHECK.CHANNEL.PERMISSIONS(User, Channel, UTILS.CONSTANTS.CHANNEL.PERMISSIONS.ADMIN)) throw "You do not have permission to delete this channel"
 
-        await Channel.delete() // delete the channel
+        // delete the channel
+        Channel.deleteOne()
 
         // remove the channel from the members 
         for (let i = 0; i < Channel.members.length; i++) {
