@@ -12,7 +12,7 @@ export const removeBlocked = async (req: express.Request, res: express.Response)
 
         // if token or blocked_id badly formatted
         if(!token || !blocked_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-            blocked_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || blocked_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
+            blocked_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || blocked_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(blocked_id))) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
         if(!User) throw "Invalid token"

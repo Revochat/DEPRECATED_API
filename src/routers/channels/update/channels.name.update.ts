@@ -12,7 +12,7 @@ export const updateName = async (req: express.Request, res: express.Response) =>
 
     if (!channel_id || !token || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        channel_name.length >= UTILS.CONSTANTS.CHANNEL.NAME.MAX_LENGTH || channel_name.length < UTILS.CONSTANTS.CHANNEL.NAME.MIN_LENGTH) throw "Badly formatted"
+        channel_name.length >= UTILS.CONSTANTS.CHANNEL.NAME.MAX_LENGTH || channel_name.length < UTILS.CONSTANTS.CHANNEL.NAME.MIN_LENGTH || isNaN(parseInt(channel_id))) throw "Badly formatted"
 
     try {
         var User = await DB.users.find.token(token) // Find the user

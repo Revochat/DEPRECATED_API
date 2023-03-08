@@ -9,7 +9,7 @@ export interface IInvite {
     inviter_id: number;
 }
 
-export interface IInviteModel extends IInvite {}
+export interface IInviteModel extends IInvite, Document {}
 
 const InviteSchema = new Schema({
     server_id: { type: Number, required: true, index: true },

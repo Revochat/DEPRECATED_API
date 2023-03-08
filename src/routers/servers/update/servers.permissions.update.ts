@@ -15,7 +15,7 @@ export const permissionsUpdate = async (req: express.Request, res: express.Respo
     // TYPE CHECK FOR THE PERMISSIONS !!!
     if (!server_id || !user_id || !permissions || !token || server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH ) throw "Badly formatted"
+        user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(server_id)) || isNaN(parseInt(user_id))) throw "Badly formatted"
 
     try {
         var User = await DB.users.find.token(token) // Find the user

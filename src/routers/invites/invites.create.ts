@@ -12,7 +12,7 @@ export const inviteCreate = async (req: express.Request, res: express.Response) 
 
     if (!server_id || !token || !uses || !expires_at || 
         server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || expires_at instanceof Date || uses instanceof Number
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || expires_at instanceof Date || uses instanceof Number || isNaN(parseInt(server_id))
         ) throw "Badly formatted"
 
     try {

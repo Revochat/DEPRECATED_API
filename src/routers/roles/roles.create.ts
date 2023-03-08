@@ -16,7 +16,7 @@ export const createRole = async (req: express.Request, res: express.Response) =>
         //type checking
         if (!token || !position || !name || !color || !permissions || 
             server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH) throw "Badly formatted"
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || isNaN(parseInt(server_id))) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
         if (!User) throw "User not found"

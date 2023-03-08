@@ -14,7 +14,7 @@ export const updateRole = async (req: express.Request, res: express.Response) =>
         
         //type checking
         if (!token || !name || !role_id || !permissions || !color ||
-            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH) throw "Badly formatted"
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || isNaN(parseInt(role_id))) throw "Badly formatted"
 
         var User = await DB.users.find.token(token)
         if (!User) throw "User not found"

@@ -12,7 +12,7 @@ export const create_group = async (req: express.Request, res: express.Response) 
     if (!token || !friend_id_1 || !friend_id_2 ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
         friend_id_1.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_1.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH ||
-        friend_id_2.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_2.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
+        friend_id_2.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_2.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(friend_id_1)) || isNaN(parseInt(friend_id_2))) throw "Badly formatted"
 
     try {
         var User = await UTILS.FUNCTIONS.FIND.USER.token(token)

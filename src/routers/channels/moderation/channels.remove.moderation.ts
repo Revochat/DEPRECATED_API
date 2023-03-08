@@ -12,7 +12,7 @@ export const remove = async (req: express.Request, res: express.Response) => { /
 
     if (!channel_id || !token || !user_id || !member_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || 
-        member_id.length !== UTILS.CONSTANTS.USER.ID.MIN_LENGTH || member_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
+        member_id.length !== UTILS.CONSTANTS.USER.ID.MIN_LENGTH || member_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(channel_id)) || isNaN(parseInt(member_id)) || isNaN(parseInt(user_id))) throw "Badly formatted"
 
     try {
         var User = await DB.users.find.token(token)

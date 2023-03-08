@@ -10,11 +10,9 @@ export const channelsUpdate = async (req: express.Request, res: express.Response
     var {new_channel_order} = req.body
     const token = req.token
 
-    Logger.debug(`Updating channel order ${server_id}`)
-
     if (!server_id || !new_channel_order || !token || server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
         token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        !Array.isArray(new_channel_order) || new_channel_order.length <= UTILS.CONSTANTS.SERVER.MIN_CHANNELS || new_channel_order.length > UTILS.CONSTANTS.SERVER.MAX_CHANNELS
+        !Array.isArray(new_channel_order) || new_channel_order.length <= UTILS.CONSTANTS.SERVER.MIN_CHANNELS || new_channel_order.length > UTILS.CONSTANTS.SERVER.MAX_CHANNELS || isNaN(parseInt(server_id))
         ) throw "Badly formatted"
 
     try {

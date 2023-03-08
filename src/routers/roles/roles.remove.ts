@@ -9,13 +9,13 @@ export const removeRole = async (req: express.Request, res: express.Response) =>
     try {
         const {role_id_input} = req.body
         const token = req.token
-
-        const role_id = parseInt(role_id_input) //type checking
         
         //type checking
-        if (!role_id || !token || !token ||
+        if (!role_id_input || !token || !token ||
             role_id_input  < UTILS.CONSTANTS.ROLE.ID.MIN_LENGTH || role_id_input > UTILS.CONSTANTS.ROLE.ID.MAX_LENGTH ||
-            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH) throw "Badly formatted"
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || isNaN(parseInt(role_id_input))) throw "Badly formatted"
+
+        const role_id = parseInt(role_id_input) //type checking
 
         var User = await DB.users.find.token(token)
         if (!User) throw "User not found"

@@ -10,7 +10,7 @@ export const create_private = async (req: express.Request, res: express.Response
     const token = req.token
 
     if (!token || !friend_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-            friend_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
+            friend_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(friend_id))) throw "Badly formatted"
             
     try {
         var User = await UTILS.FUNCTIONS.FIND.USER.token(token)

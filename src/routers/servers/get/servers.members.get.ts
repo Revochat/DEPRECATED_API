@@ -8,7 +8,7 @@ export const getMembers = async (req: express.Request, res: express.Response) =>
     const token = req.token
 
     if (!token || !server_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH) throw "Badly formatted"
+        server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH || isNaN(parseInt(server_id))) throw "Badly formatted"
 
     try {
         var Server = await UTILS.FUNCTIONS.FIND.SERVER.id(parseInt(server_id))

@@ -8,7 +8,7 @@ export const getLastConnection = async (req: express.Request, res: express.Respo
         const {user_id} = req.params
 
         // if user_id badly formatted
-        if(!user_id || user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH) throw "Badly formatted"
+        if(!user_id || user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(user_id))) throw "Badly formatted"
 
         var User = await DB.users.find.id(parseInt(user_id))
         if(!User) throw "User not found"

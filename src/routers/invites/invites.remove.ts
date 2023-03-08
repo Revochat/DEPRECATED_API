@@ -12,7 +12,7 @@ export const inviteRemove = async (req: express.Request, res: express.Response) 
     Logger.debug(`Removing invite ${invite_id}`)
 
     if (!invite_id || !token || invite_id.length < UTILS.CONSTANTS.INVITE.ID.MIN_LENGTH || invite_id.length > UTILS.CONSTANTS.INVITE.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH) throw "Badly formatted"
+        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(invite_id))) throw "Badly formatted"
 
     try {
         var User = await DB.users.find.token(token) // Find the user
