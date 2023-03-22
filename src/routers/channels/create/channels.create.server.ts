@@ -6,11 +6,11 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const create_server = async (req: express.Request, res: express.Response) => {
-    const {channel_name, channel_type} = req.body
-    const {server_id} = req.params
-    const token = req.token
-
     try {
+        const {channel_name, channel_type} = req.body
+        const {server_id} = req.params
+        const token = req.token
+    
         if (!token || !server_id || !channel_name || !channel_type ||
             token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
             server_id.length !== UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||

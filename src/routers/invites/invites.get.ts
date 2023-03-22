@@ -6,13 +6,13 @@ import DB from "../../database"
 import UTILS from "../../utils"
 
 export const inviteGet = async (req: express.Request, res: express.Response) => { // Get an invite
-    var {invite_id} = req.params
-    const token = req.token
-
-    if (!invite_id || !token || invite_id.length < UTILS.CONSTANTS.INVITE.ID.MIN_LENGTH || invite_id.length > UTILS.CONSTANTS.INVITE.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(invite_id))) throw "Badly formatted"
-
     try {
+        var {invite_id} = req.params
+        const token = req.token
+    
+        if (!invite_id || !token || invite_id.length < UTILS.CONSTANTS.INVITE.ID.MIN_LENGTH || invite_id.length > UTILS.CONSTANTS.INVITE.ID.MAX_LENGTH ||
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(invite_id))) throw "Badly formatted"
+    
         var User = await DB.users.find.token(token)
         if (!User) throw "User not found"
 

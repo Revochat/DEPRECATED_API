@@ -6,14 +6,14 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const join = async (req: express.Request, res: express.Response) => { // Add a user to a channel
-    const {channel_id, user_id} = req.params
-    const token = req.token
-
-    if (!channel_id || !token || !user_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH 
-        || user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(channel_id)) || isNaN(parseInt(user_id))) throw "Badly formatted"
-
     try {
+        const {channel_id, user_id} = req.params
+        const token = req.token
+
+        if (!channel_id || !token || !user_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH 
+            || user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(channel_id)) || isNaN(parseInt(user_id))) throw "Badly formatted"
+
         var Channel = await DB.channels.find.id(parseInt(channel_id)) // Find the channel
         if(!Channel) throw "Channel not found" // Check if the channel exists
 

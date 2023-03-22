@@ -4,13 +4,13 @@ import express from 'express';
 import UTILS from '../../../utils';
 
 export const getMembersCount = async (req: express.Request, res: express.Response) => {
-    const {server_id} = req.params
-    const token = req.token
-
-    if (!token || !server_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH || isNaN(parseInt(server_id))) throw "Badly formatted"
-
     try {
+        const {server_id} = req.params
+        const token = req.token
+    
+        if (!token || !server_id || token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
+            server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH || isNaN(parseInt(server_id))) throw "Badly formatted"
+    
         var Server = await UTILS.FUNCTIONS.FIND.SERVER.id(parseInt(server_id))
         if (!Server) throw "Server not found"
 

@@ -6,17 +6,15 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const iconUpdate = async (req: express.Request, res: express.Response) => { // Update a server avatar
-    var {server_id} = req.params
-    var {server_icon} = req.body
-    const token = req.token
-
-    Logger.debug(`Updating server avatar ${server_id}`)
-
-    // CHECK FOR THE AVATAR SIZE !!!
-    if (!server_id || !server_icon || !token || server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(server_id))) throw "Badly formatted"
-
     try {
+        var {server_id} = req.params
+        var {server_icon} = req.body
+        const token = req.token
+    
+        // CHECK FOR THE AVATAR SIZE !!!
+        if (!server_id || !server_icon || !token || server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(server_id))) throw "Badly formatted"
+    
         var User = await DB.users.find.token(token) // Find the user
         if(!User) throw "User not found"
 
