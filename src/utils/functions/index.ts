@@ -1,18 +1,17 @@
 import {findUserbyToken, findServer, findUserbyID, findFriendbyUser, findChannelID, findChannelFriend, findUserBlocked, findUserInServer} from "./find"
-import {RouteResponse, Status} from "../../routers/controller"
 import {PERMISSIONS} from "./permissions"
 
 export class FUNCTIONS {
-    static CHECK: {
+    static CHECK = {
         CHANNEL: {
-            PERMISSIONS: PERMISSIONS["hasChannelPermissions"],
-            INTEGRITY: PERMISSIONS["checkIntegrity"],
+            PERMISSIONS: PERMISSIONS.hasChannelPermissions,
+            INTEGRITY: PERMISSIONS.checkIntegrity,
         },
         SERVER: {
-            PERMISSIONS: PERMISSIONS["hasServerPermissions"]
+            PERMISSIONS: PERMISSIONS.hasServerPermissions
         },
         ROLE: {
-            COLOR: PERMISSIONS["checkRoleColor"]
+            COLOR: PERMISSIONS.checkRoleColor
         }
     }
     
