@@ -21,9 +21,7 @@ export class ChannelsGetEvent {
         try {
             const channels = ServerSocket.users[this.socket.id].channels
             
-            Logger.debug(`Channels: ${channels}`)
-            await channels.forEach(async (channel: any) => {
-                console.log(channel)
+            channels.forEach(async (channel: any) => {
                 var members = await DB.users.find.many(channel.members)
                 if(!members) return
                 for(let i = 0; i < channel.members_count; i++) {
