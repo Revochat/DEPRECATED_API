@@ -1,6 +1,9 @@
 # Run the project
 TO LAUNCH THE PROJECT RUN:
 
+```require NodeJS version > 16.5```
+
+
 to install all the dependencies
 ``` npm i ```
 <br />
