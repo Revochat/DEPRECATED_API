@@ -79,4 +79,6 @@ ServerSocket.events = [
     "disconnect",
     "callUser",
     "callChannel",
+    "userBlockedAdd",
+    "userBlockedRemove",
 ];

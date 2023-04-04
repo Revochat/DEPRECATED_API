@@ -30,6 +30,8 @@ export default class ServerSocket {
         "disconnect",
         "callUser",
         "callChannel",
+        "userBlockedAdd",
+        "userBlockedRemove",
     ]
 
     constructor(server: any){

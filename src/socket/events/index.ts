@@ -9,6 +9,7 @@ import { RoleCreateEvent, RoleDeleteEvent, RoleGetEvent } from "./roles";
 import { IMessage } from "../../database/models/Message";
 import Logger from "../../client/logger.client";
 import { CallEvent, ChannelRTCEvent } from "./rtc";
+import { BlockedAddEvent, BlockedRemoveEvent } from "./users/blocked";
 
 export class SocketEvents {
     private socket: Socket;
@@ -122,6 +123,16 @@ export class SocketEvents {
     public friendsRequestsReceived(){
         const friendsRequestsReceived = new FriendRequestsReceivedEvent(this.socket);
         friendsRequestsReceived.run();
+    }
+
+    public userBlockedAdd(userID: number) {
+        const userBlockedAdd = new BlockedAddEvent(this.socket);
+        userBlockedAdd.run(userID);
+    }
+
+    public userBlockedRemove(userID: number) {
+        const userBlockedRemove = new BlockedRemoveEvent(this.socket);
+        userBlockedRemove.run(userID);
     }
 
 
