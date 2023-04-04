@@ -2,9 +2,22 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FUNCTIONS = void 0;
 const find_1 = require("./find");
+const permissions_1 = require("./permissions");
 class FUNCTIONS {
 }
 exports.FUNCTIONS = FUNCTIONS;
+FUNCTIONS.CHECK = {
+    CHANNEL: {
+        PERMISSIONS: permissions_1.PERMISSIONS.hasChannelPermissions,
+        INTEGRITY: permissions_1.PERMISSIONS.checkIntegrity,
+    },
+    SERVER: {
+        PERMISSIONS: permissions_1.PERMISSIONS.hasServerPermissions
+    },
+    ROLE: {
+        COLOR: permissions_1.PERMISSIONS.checkRoleColor
+    }
+};
 FUNCTIONS.FIND = {
     CHANNEL: {
         id: find_1.findChannelID,

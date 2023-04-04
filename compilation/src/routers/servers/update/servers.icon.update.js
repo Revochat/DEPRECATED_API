@@ -15,19 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.iconUpdate = void 0;
 const controller_1 = require("../../controller");
 const emitter_client_1 = __importDefault(require("../../../client/emitter.client"));
-const logger_client_1 = __importDefault(require("../../../client/logger.client"));
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const iconUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var { server_id } = req.params;
-    var { server_icon } = req.body;
-    const token = req.token;
-    logger_client_1.default.debug(`Updating server avatar ${server_id}`);
-    // CHECK FOR THE AVATAR SIZE !!!
-    if (!server_id || !server_icon || !token || server_id.length < utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(server_id)))
-        throw "Badly formatted";
     try {
+        var { server_id } = req.params;
+        var { server_icon } = req.body;
+        const token = req.token;
+        // CHECK FOR THE AVATAR SIZE !!!
+        if (!server_id || !server_icon || !token || server_id.length < utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH ||
+            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(server_id)))
+            throw "Badly formatted";
         var User = yield database_1.default.users.find.token(token); // Find the user
         if (!User)
             throw "User not found";

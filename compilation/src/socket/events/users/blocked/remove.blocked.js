@@ -25,7 +25,7 @@ class BlockedRemoveEvent {
     run(userID) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const response = yield axios_1.default.get(`${process.env.API_URL}/api/v1/client/remove/blocked/${userID}`, utils_1.utils.set.bearer(__1.default.users[this.socket.id].token));
+                const response = yield axios_1.default.get(`${process.env.BASE_URI}/api/v1/client/blocked/remove/${userID}`, utils_1.utils.set.bearer(__1.default.users[this.socket.id].token));
                 __1.default.io.to(this.socket.id).emit("user", response.data);
             }
             catch (err) {

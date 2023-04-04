@@ -15,9 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.findUserbyToken = void 0;
 const database_1 = __importDefault(require("../../../../database"));
 const findUserbyToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
-    var User = yield database_1.default.users.find.token(token); // Find the user in the database
-    if (!User)
-        throw "User not found"; // If the user is not found, throw an error
-    return User; // Return the user
+    try {
+        var User = yield database_1.default.users.find.token(token); // Find the user in the database
+        if (!User)
+            throw "User not found"; // If the user is not found, throw an error
+        return User; // Return the user
+    }
+    catch (error) {
+        throw error; // Throw the error
+    }
 });
 exports.findUserbyToken = findUserbyToken;

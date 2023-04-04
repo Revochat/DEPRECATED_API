@@ -51,17 +51,12 @@ class MessageCreateEvent {
             try {
                 // Use this to get socket id  
                 __1.default.io.to(this.socket.id).emit("messageCreate", "Sending message in channel: " + channelID + " with message: " + message + "");
-                const response = axios_1.default.post(`${process.env.BASE_URI}/api/v1/message/send/${channelID}`, {
+                const response = yield axios_1.default.post(`${process.env.BASE_URI}/api/v1/message/send/${channelID}`, {
                     message: message
-                }, utils_1.utils.set.bearer(__1.default.users[this.socket.id].token)).then((response) => {
-                    __1.default.io.to(channelID.toString()).emit("messageCreate", response.data.data);
-                }).catch((err) => {
-                    var _a;
-                    __1.default.io.to(this.socket.id).emit("messageCreate", (_a = err.response) === null || _a === void 0 ? void 0 : _a.data);
-                });
+                }, utils_1.utils.set.bearer(__1.default.users[this.socket.id].token));
+                __1.default.io.to(channelID.toString()).emit("messageCreate", response.data.data);
             }
             catch (err) {
-                console.log("Error while sending message from: " + this.socket.id + " " + err);
                 if (err instanceof axios_1.AxiosError)
                     __1.default.io.to(this.socket.id).emit("messageCreate", (_a = err.response) === null || _a === void 0 ? void 0 : _a.data);
                 else

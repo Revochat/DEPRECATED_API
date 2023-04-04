@@ -18,12 +18,12 @@ const emitter_client_1 = __importDefault(require("../../../client/emitter.client
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var { server_id } = req.params;
-    const token = req.token;
-    if (!server_id || !token || server_id.length < utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(server_id)))
-        throw "Badly formatted";
     try {
+        var { server_id } = req.params;
+        const token = req.token;
+        if (!server_id || !token || server_id.length < utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH ||
+            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(server_id)))
+            throw "Badly formatted";
         var User = yield database_1.default.users.find.token(token); // Find the user
         if (!User)
             throw "User not found";

@@ -16,12 +16,12 @@ exports.getMembersCount = void 0;
 const controller_1 = require("../../controller");
 const utils_1 = __importDefault(require("../../../utils"));
 const getMembersCount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { server_id } = req.params;
-    const token = req.token;
-    if (!token || !server_id || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        server_id.length < utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH || isNaN(parseInt(server_id)))
-        throw "Badly formatted";
     try {
+        const { server_id } = req.params;
+        const token = req.token;
+        if (!token || !server_id || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
+            server_id.length < utils_1.default.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > utils_1.default.CONSTANTS.SERVER.ID.MAX_LENGTH || isNaN(parseInt(server_id)))
+            throw "Badly formatted";
         var Server = yield utils_1.default.FUNCTIONS.FIND.SERVER.id(parseInt(server_id));
         if (!Server)
             throw "Server not found";

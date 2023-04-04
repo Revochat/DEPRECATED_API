@@ -17,12 +17,12 @@ const controller_1 = require("../../controller");
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const getChannelMembersCount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { channel_id } = req.params;
-    const token = req.token;
-    if (!token || !channel_id || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(channel_id)))
-        throw "Badly formatted";
     try {
+        const { channel_id } = req.params;
+        const token = req.token;
+        if (!token || !channel_id || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
+            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(channel_id)))
+            throw "Badly formatted";
         const User = yield database_1.default.users.find.token(token);
         if (!User)
             throw "User not found";

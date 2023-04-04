@@ -81,4 +81,5 @@ ServerSocket.events = [
     "callChannel",
     "userBlockedAdd",
     "userBlockedRemove",
+    "userGet",
 ];

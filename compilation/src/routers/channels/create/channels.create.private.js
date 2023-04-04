@@ -18,12 +18,12 @@ const emitter_client_1 = __importDefault(require("../../../client/emitter.client
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const create_private = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { friend_id } = req.params;
-    const token = req.token;
-    if (!token || !friend_id || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        friend_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(friend_id)))
-        throw "Badly formatted";
     try {
+        const { friend_id } = req.params;
+        const token = req.token;
+        if (!token || !friend_id || token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
+            friend_id.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(friend_id)))
+            throw "Badly formatted";
         var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token);
         var Friend = yield utils_1.default.FUNCTIONS.FIND.USER.id(parseInt(friend_id));
         if (User.channels.length >= utils_1.default.CONSTANTS.CHANNEL.MAX_PRIVATE_CHANNELS)

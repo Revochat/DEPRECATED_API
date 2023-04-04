@@ -18,12 +18,12 @@ const emitter_client_1 = __importDefault(require("../../../client/emitter.client
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var { name } = req.params;
-    const token = req.token;
-    if (!name || !token || name.length < utils_1.default.CONSTANTS.SERVER.NAME.MIN_LENGTH || name.length > utils_1.default.CONSTANTS.SERVER.NAME.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
-        throw "Badly formatted";
     try {
+        var { name } = req.params;
+        const token = req.token;
+        if (!name || !token || name.length < utils_1.default.CONSTANTS.SERVER.NAME.MIN_LENGTH || name.length > utils_1.default.CONSTANTS.SERVER.NAME.MAX_LENGTH ||
+            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH)
+            throw "Badly formatted";
         var User = yield database_1.default.users.find.token(token); // Find the user
         if (!User)
             throw "User not found";

@@ -11,10 +11,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findFriendbyUser = void 0;
 const findFriendbyUser = (User, Friend) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!User.friends)
-        throw "Friend not found";
-    if (User.friends.includes(Friend.user_id))
-        return true;
-    return false;
+    try {
+        if (!User.friends)
+            throw "Friend not found";
+        if (User.friends.includes(Friend.user_id))
+            return true;
+        return false;
+    }
+    catch (error) {
+        throw error;
+    }
 });
 exports.findFriendbyUser = findFriendbyUser;

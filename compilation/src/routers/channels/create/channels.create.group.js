@@ -18,14 +18,14 @@ const emitter_client_1 = __importDefault(require("../../../client/emitter.client
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const create_group = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { friend_id_1, friend_id_2 } = req.params;
-    const token = req.token;
-    if (!token || !friend_id_1 || !friend_id_2 ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        friend_id_1.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_1.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH ||
-        friend_id_2.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_2.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(friend_id_1)) || isNaN(parseInt(friend_id_2)))
-        throw "Badly formatted";
     try {
+        const { friend_id_1, friend_id_2 } = req.params;
+        const token = req.token;
+        if (!token || !friend_id_1 || !friend_id_2 ||
+            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
+            friend_id_1.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_1.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH ||
+            friend_id_2.length < utils_1.default.CONSTANTS.USER.ID.MIN_LENGTH || friend_id_2.length > utils_1.default.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(friend_id_1)) || isNaN(parseInt(friend_id_2)))
+            throw "Badly formatted";
         var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token);
         var Friend_1 = yield utils_1.default.FUNCTIONS.FIND.USER.id(parseInt(friend_id_1));
         var Friend_2 = yield utils_1.default.FUNCTIONS.FIND.USER.id(parseInt(friend_id_2));

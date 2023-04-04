@@ -27,9 +27,7 @@ class ChannelsGetEvent {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const channels = __1.default.users[this.socket.id].channels;
-                logger_client_1.default.debug(`Channels: ${channels}`);
-                yield channels.forEach((channel) => __awaiter(this, void 0, void 0, function* () {
-                    console.log(channel);
+                channels.forEach((channel) => __awaiter(this, void 0, void 0, function* () {
                     var members = yield database_1.default.users.find.many(channel.members);
                     if (!members)
                         return;

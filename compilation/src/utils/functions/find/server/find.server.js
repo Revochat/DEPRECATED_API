@@ -17,10 +17,15 @@ const database_1 = __importDefault(require("../../../../database"));
 // Find server by server_id and return server object if found or throw error if not found
 function findServer(server_id) {
     return __awaiter(this, void 0, void 0, function* () {
-        var Server = yield database_1.default.servers.find.id(server_id); // Find server in database
-        if (!Server)
-            throw "Server not found"; // If server is not found, throw an error
-        return Server; // Return server
+        try {
+            var Server = yield database_1.default.servers.find.id(server_id); // Find server in database
+            if (!Server)
+                throw "Server not found"; // If server is not found, throw an error
+            return Server; // Return server
+        }
+        catch (error) {
+            throw error; // Throw error
+        }
     });
 }
 exports.findServer = findServer;

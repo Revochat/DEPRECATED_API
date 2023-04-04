@@ -12,17 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserGetEvent = void 0;
 const axios_1 = __importDefault(require("axios"));
 const __1 = __importDefault(require("../../.."));
-function get() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const response = yield axios_1.default.get(`/api/v1/client/get/user/` + __1.default.users[__1.default.socket.id].token);
-            if (response.data.error)
-                throw new Error(response.data.error);
-        }
-        catch (err) {
-            console.log("Error resolving user");
-        }
-    });
+const dotenv_1 = __importDefault(require("dotenv"));
+const utils_1 = require("../../../utils");
+dotenv_1.default.config();
+class UserGetEvent {
+    constructor(socket) {
+        this.socket = socket;
+    }
+    run() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield axios_1.default.get(`${process.env.BASE_URI}/api/v1/client/get/user/token`, utils_1.utils.set.bearer(__1.default.users[this.socket.id].token));
+                __1.default.io.to(this.socket.id).emit("userGet", response.data.data);
+            }
+            catch (err) {
+                console.log("Error resolving user" + err);
+            }
+        });
+    }
 }
+exports.UserGetEvent = UserGetEvent;

@@ -17,13 +17,13 @@ const controller_1 = require("../../controller");
 const database_1 = __importDefault(require("../../../database"));
 const utils_1 = __importDefault(require("../../../utils"));
 const getMessages = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { channel_id, limit } = req.params;
-    const token = req.token;
-    if (!token || !channel_id || !limit || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        limit.length > utils_1.default.CONSTANTS.SERVER.MESSAGE.MAX_FETCH_LIMIT || limit.length < utils_1.default.CONSTANTS.SERVER.MESSAGE.MIN_FETCH_LIMIT || isNaN(parseInt(channel_id)))
-        throw "Badly formatted";
     try {
+        const { channel_id, limit } = req.params;
+        const token = req.token;
+        if (!token || !channel_id || !limit || channel_id.length < utils_1.default.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > utils_1.default.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
+            token.length < utils_1.default.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > utils_1.default.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
+            limit.length > utils_1.default.CONSTANTS.SERVER.MESSAGE.MAX_FETCH_LIMIT || limit.length < utils_1.default.CONSTANTS.SERVER.MESSAGE.MIN_FETCH_LIMIT || isNaN(parseInt(channel_id)))
+            throw "Badly formatted";
         var User = yield utils_1.default.FUNCTIONS.FIND.USER.token(token);
         if (!User)
             throw "User not found";

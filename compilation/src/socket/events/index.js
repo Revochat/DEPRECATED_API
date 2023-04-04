@@ -27,6 +27,10 @@ class SocketEvents {
     constructor(socket) {
         this.socket = socket;
     }
+    userGet() {
+        const user = new user_1.UserGetEvent(this.socket);
+        user.run();
+    }
     disconnect() {
         delete __1.default.users[this.socket.id];
         logger_client_1.default.debug("User disconnected from " + this.socket.id);

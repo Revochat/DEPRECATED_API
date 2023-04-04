@@ -15,26 +15,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkIntegrity = void 0;
 const __1 = __importDefault(require("../.."));
 const checkIntegrity = (permissions) => __awaiter(void 0, void 0, void 0, function* () {
-    const PERMISSIONS = __1.default.CONSTANTS.CHANNEL.PERMISSIONS.ALL;
-    const keys = Object.keys(permissions);
-    if (keys.length !== PERMISSIONS.length)
-        return false;
-    for (let i = 0; i < keys.length; i++) {
-        if (!PERMISSIONS.includes(keys[i]))
+    try {
+        const PERMISSIONS = __1.default.CONSTANTS.CHANNEL.PERMISSIONS.ALL;
+        const keys = Object.keys(permissions);
+        if (keys.length !== PERMISSIONS.length)
             return false;
-        const permission = permissions[keys[i]];
-        const permissionKeys = Object.keys(permission);
-        for (let j = 0; j < permissionKeys.length; j++) {
-            if (!["roles_id", "user_id"].includes(permissionKeys[j]))
+        for (let i = 0; i < keys.length; i++) {
+            if (!PERMISSIONS.includes(keys[i]))
                 return false;
-            if (!Array.isArray(permission[permissionKeys[j]]))
-                return false;
-            for (let k = 0; k < permission[permissionKeys[j]].length; k++) {
-                if (typeof permission[permissionKeys[j]][k] !== "number")
+            const permission = permissions[keys[i]];
+            const permissionKeys = Object.keys(permission);
+            for (let j = 0; j < permissionKeys.length; j++) {
+                if (!["roles_id", "user_id"].includes(permissionKeys[j]))
                     return false;
+                if (!Array.isArray(permission[permissionKeys[j]]))
+                    return false;
+                for (let k = 0; k < permission[permissionKeys[j]].length; k++) {
+                    if (typeof permission[permissionKeys[j]][k] !== "number")
+                        return false;
+                }
             }
         }
+        return true;
     }
-    return true;
+    catch (error) {
+        throw error;
+    }
 });
 exports.checkIntegrity = checkIntegrity;

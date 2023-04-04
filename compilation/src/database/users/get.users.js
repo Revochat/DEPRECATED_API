@@ -29,7 +29,6 @@ exports.UserGetAllChannels = UserGetAllChannels;
 function UserGetMany(array_id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            console.log(array_id);
             return User_1.default.find({ user_id: { $in: array_id } });
         }
         catch (err) {
