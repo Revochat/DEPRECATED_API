@@ -5,13 +5,13 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const getChannelUpdatedAt = async (req: express.Request, res: express.Response) => { // Get a channel
-    const {channel_id} = req.params
-    const token = req.token
-
-    if (!token || !channel_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(channel_id))) throw "Badly formatted"
-
     try {
+        const {channel_id} = req.params
+        const token = req.token
+    
+        if (!token || !channel_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(channel_id))) throw "Badly formatted"
+    
         const User = await DB.users.find.token(token)
         if (!User) throw "User not found"
 

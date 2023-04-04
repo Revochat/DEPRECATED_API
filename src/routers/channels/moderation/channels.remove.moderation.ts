@@ -6,15 +6,16 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const remove = async (req: express.Request, res: express.Response) => { // kick a member from a channel
-    const { user_id, member_id } = req.body
-    const { channel_id } = req.params
-    const token = req.token
-
-    if (!channel_id || !token || !user_id || !member_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || 
-        member_id.length !== UTILS.CONSTANTS.USER.ID.MIN_LENGTH || member_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(channel_id)) || isNaN(parseInt(member_id)) || isNaN(parseInt(user_id))) throw "Badly formatted"
-
     try {
+        const { user_id, member_id } = req.body
+        const { channel_id } = req.params
+        const token = req.token
+    
+        if (!channel_id || !token || !user_id || !member_id || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || 
+            member_id.length !== UTILS.CONSTANTS.USER.ID.MIN_LENGTH || member_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(channel_id)) || isNaN(parseInt(member_id)) || isNaN(parseInt(user_id))) throw "Badly formatted"
+
+            
         var User = await DB.users.find.token(token)
         if(!User) throw "User not found"
 

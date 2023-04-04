@@ -5,13 +5,13 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const getMembers = async (req: express.Request, res: express.Response) => { // Get the members of a channel
-    const {channel_id} = req.params
-    const token = req.token
-
-    if (!channel_id || !token || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(channel_id))) throw "Badly formatted"
-
     try {
+        const {channel_id} = req.params
+        const token = req.token
+    
+        if (!channel_id || !token || channel_id.length < UTILS.CONSTANTS.CHANNEL.ID.MIN_LENGTH || channel_id.length > UTILS.CONSTANTS.CHANNEL.ID.MAX_LENGTH ||
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH || isNaN(parseInt(channel_id))) throw "Badly formatted"
+    
         var Channel = await DB.channels.find.id(parseInt(channel_id))
         if(!Channel) throw "Channel not found"
 

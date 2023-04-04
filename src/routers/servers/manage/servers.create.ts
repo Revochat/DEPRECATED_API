@@ -6,13 +6,13 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const create = async (req: express.Request, res: express.Response) => { // Create a server channel 
-    var {name} = req.params
-    const token = req.token
-
-    if (!name || !token || name.length < UTILS.CONSTANTS.SERVER.NAME.MIN_LENGTH || name.length > UTILS.CONSTANTS.SERVER.NAME.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH) throw "Badly formatted"
-
     try {
+        var {name} = req.params
+        const token = req.token
+    
+        if (!name || !token || name.length < UTILS.CONSTANTS.SERVER.NAME.MIN_LENGTH || name.length > UTILS.CONSTANTS.SERVER.NAME.MAX_LENGTH ||
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH) throw "Badly formatted"
+    
         var User = await DB.users.find.token(token) // Find the user
         if(!User) throw "User not found"
 

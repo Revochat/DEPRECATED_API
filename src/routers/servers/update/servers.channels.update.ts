@@ -6,16 +6,16 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const channelsUpdate = async (req: express.Request, res: express.Response) => { // Update order of channels in a server
-    var {server_id} = req.params
-    var {new_channel_order} = req.body
-    const token = req.token
-
-    if (!server_id || !new_channel_order || !token || server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        !Array.isArray(new_channel_order) || new_channel_order.length <= UTILS.CONSTANTS.SERVER.MIN_CHANNELS || new_channel_order.length > UTILS.CONSTANTS.SERVER.MAX_CHANNELS || isNaN(parseInt(server_id))
-        ) throw "Badly formatted"
-
     try {
+        var {server_id} = req.params
+        var {new_channel_order} = req.body
+        const token = req.token
+    
+        if (!server_id || !new_channel_order || !token || server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
+            !Array.isArray(new_channel_order) || new_channel_order.length <= UTILS.CONSTANTS.SERVER.MIN_CHANNELS || new_channel_order.length > UTILS.CONSTANTS.SERVER.MAX_CHANNELS || isNaN(parseInt(server_id))
+            ) throw "Badly formatted"
+    
         var User = await DB.users.find.token(token) // Find the user
         if(!User) throw "User not found"
 

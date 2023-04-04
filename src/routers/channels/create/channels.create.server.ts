@@ -6,17 +6,17 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const create_server = async (req: express.Request, res: express.Response) => {
-    const {channel_name, channel_type} = req.body
-    const {server_id} = req.params
-    const token = req.token
-
-    if (!token || !server_id || !channel_name || !channel_type ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        server_id.length !== UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-        channel_name.length < UTILS.CONSTANTS.CHANNEL.NAME.MIN_LENGTH || channel_name.length > UTILS.CONSTANTS.CHANNEL.NAME.MAX_LENGTH ||
-        channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.TEXT || channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.VOICE || isNaN(parseInt(server_id))) throw "Badly formatted"
-
     try {
+        const {channel_name, channel_type} = req.body
+        const {server_id} = req.params
+        const token = req.token
+    
+        if (!token || !server_id || !channel_name || !channel_type ||
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
+            server_id.length !== UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
+            channel_name.length < UTILS.CONSTANTS.CHANNEL.NAME.MIN_LENGTH || channel_name.length > UTILS.CONSTANTS.CHANNEL.NAME.MAX_LENGTH ||
+            channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.TEXT || channel_type == UTILS.CONSTANTS.CHANNEL.TYPE.VOICE || isNaN(parseInt(server_id))) throw "Badly formatted"
+
         var User = await UTILS.FUNCTIONS.FIND.USER.token(token)
         var Server = await UTILS.FUNCTIONS.FIND.SERVER.id(parseInt(server_id))
 

@@ -9,7 +9,7 @@ TO DO LIST:
 - captcha (for the login, register, and rate limit)
 - self destruct system for messages (auto delete messages function)
 
-- test/security routes
+- test/security routes (invite creation expires_at string but is it a date?)
 - encryption system
 - make a dockerfile
 
@@ -40,7 +40,7 @@ Future Updates ? :
    (server boosts ?)
    chiffrer nom de serveur et nom de channel et friends ?
    slowmode client side ? timeout client side too, push to talk (client side?)
-   plugins for servers (shop, music, youtube together, spotify together, etc..)
+   plugins for servers (shop, calendar(plan a session?)/events, music, youtube together, spotify together, etc..)
    custom emojis
    server and user profile customization (background, color, banners..)
    activity, games ?

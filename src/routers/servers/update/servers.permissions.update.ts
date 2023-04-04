@@ -6,18 +6,16 @@ import DB from "../../../database"
 import UTILS from "../../../utils"
 
 export const permissionsUpdate = async (req: express.Request, res: express.Response) => { // Update a server permissions
-    var {server_id, user_id} = req.params
-    var {permissions} = req.body
-    const token = req.token
-
-    Logger.debug(`Updating server permissions ${server_id}`)
-
-    // TYPE CHECK FOR THE PERMISSIONS !!!
-    if (!server_id || !user_id || !permissions || !token || server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
-        token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
-        user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(server_id)) || isNaN(parseInt(user_id))) throw "Badly formatted"
-
     try {
+        var {server_id, user_id} = req.params
+        var {permissions} = req.body
+        const token = req.token
+    
+        // TYPE CHECK FOR THE PERMISSIONS !!!
+        if (!server_id || !user_id || !permissions || !token || server_id.length < UTILS.CONSTANTS.SERVER.ID.MIN_LENGTH || server_id.length > UTILS.CONSTANTS.SERVER.ID.MAX_LENGTH ||
+            token.length < UTILS.CONSTANTS.USER.TOKEN.MIN_LENGTH || token.length > UTILS.CONSTANTS.USER.TOKEN.MAX_LENGTH ||
+            user_id.length < UTILS.CONSTANTS.USER.ID.MIN_LENGTH || user_id.length > UTILS.CONSTANTS.USER.ID.MAX_LENGTH || isNaN(parseInt(server_id)) || isNaN(parseInt(user_id))) throw "Badly formatted"
+    
         var User = await DB.users.find.token(token) // Find the user
         if(!User) throw "User not found"
 
