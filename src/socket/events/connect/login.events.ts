@@ -24,6 +24,7 @@ export class LoginEvent {
             ServerSocket.users[this.socket.id] = User.data
                 ServerSocket.users[this.socket.id].channels.forEach(async (channel: IChannelModel) => {
                     this.socket.join(channel.channel_id.toString()) // Join all channels the user is in (convert channel id to string using toString())
+                    Logger.debug("Joining channel " + channel.channel_id)
                     var members = await DB.users.find.many(channel.members)
                     if(members) {
                         for(let i = 0; i < channel.members_count; i++) {

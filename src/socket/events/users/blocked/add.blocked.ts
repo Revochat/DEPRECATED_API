@@ -15,7 +15,7 @@ export class BlockedAddEvent {
 
     public async run(userID: number) {
         try {
-            const response = await axios.get(`${process.env.API_URL}/api/v1/client/remove/blocked/${userID}`, utils.set.bearer(ServerSocket.users[this.socket.id].token))
+            const response = await axios.get(`${process.env.BASE_URI}/api/v1/client/blocked/add/${userID}`, utils.set.bearer(ServerSocket.users[this.socket.id].token))
             ServerSocket.io.to(this.socket.id).emit("user", response.data)
         } catch(err) {
             console.log(err)

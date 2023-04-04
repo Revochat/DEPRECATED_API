@@ -3,7 +3,7 @@ import { MessageCreateEvent, MessageDeleteEvent } from "./messages";
 import { Socket } from "socket.io";
 import ServerSocket from "..";
 import { ChannelDeleteChannel, ChannelPrivateCreateEvent, ChannelsGetEvent } from "./channels";
-import { ActivityEvent, PingEvent } from "./users/user";
+import { ActivityEvent, PingEvent, UserGetEvent } from "./users/user";
 import { FriendAddEvent, FriendRemoveEvent, FriendRequestsReceivedEvent } from "./users/friends";
 import { RoleCreateEvent, RoleDeleteEvent, RoleGetEvent } from "./roles";
 import { IMessage } from "../../database/models/Message";
@@ -15,6 +15,11 @@ export class SocketEvents {
     private socket: Socket;
     constructor(socket: Socket) {
         this.socket = socket;
+    }
+
+    public userGet(){
+        const user = new UserGetEvent(this.socket);
+        user.run();
     }
 
     public disconnect() {

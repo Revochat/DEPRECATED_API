@@ -32,6 +32,7 @@ export default class ServerSocket {
         "callChannel",
         "userBlockedAdd",
         "userBlockedRemove",
+        "userGet",
     ]
 
     constructor(server: any){
