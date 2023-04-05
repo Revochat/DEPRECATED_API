@@ -1,5 +1,5 @@
 import {LoginEvent} from "./connect/login.events";
-import { MessageCreateEvent, MessageDeleteEvent } from "./messages";
+import { MessageCreateEvent, MessageDeleteEvent, MessageGetEvent } from "./messages";
 import { Socket } from "socket.io";
 import ServerSocket from "..";
 import { ChannelDeleteChannel, ChannelPrivateCreateEvent, ChannelsGetEvent } from "./channels";
@@ -116,6 +116,11 @@ export class SocketEvents {
         messageDelete.run(channelID, messageID);
     }
 
+    public messageGet(channelID: number) {
+        const messageGet = new MessageGetEvent(this.socket);
+        messageGet.run(channelID);
+    }
+
     public friendAdd(friendID: number) {
         const friendAdd = new FriendAddEvent(this.socket);
         friendAdd.run(friendID);
@@ -156,6 +161,7 @@ export class SocketEvents {
         const Friends = new FriendGetEvent(this.socket);
         Friends.run();
     }
+    
     
     public get SocketUsers() {
         return ServerSocket.users

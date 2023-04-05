@@ -16,7 +16,8 @@ export default class ServerSocket {
     static events: Array<string> = [
         "login", 
         "messageCreate", 
-        "messageDelete", 
+        "messageDelete",
+        "messageGet", 
         "friendAdd", 
         "friendRemove", 
         //"friendRequestsReceived", 
