@@ -3,6 +3,8 @@ import { RouteResponse, Status } from "../../controller"
 import Logger from "../../../client/logger.client"
 import DB from "../../../database"
 import UTILS from "../../../utils"
+import { Types, Document } from "mongoose"
+import { IMessageModel } from "../../../database/models/Message"
 
 export const getMessages = async (req: express.Request, res: express.Response) => { // Get the x number of last messages of a channel
     try {
@@ -28,18 +30,19 @@ export const getMessages = async (req: express.Request, res: express.Response) =
         var Authors = await DB.users.find.many(Messages.map(message => message.user_id))
         if (!Authors) throw "Authors not found"
 
+        var BuiltMessages: any = []
         // replace user_id with user object
         for (var message of Messages) {
             var Author = Authors.find(author => author.user_id == message.user_id)
             if (!Author) throw "Author not found"
-            Object.assign(message, Author)
+            BuiltMessages.push({message, author: UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(Author)})
         }
 
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
                 .setMessage(`Channel messages`)
-                .setData(Messages)
+                .setData(BuiltMessages)
         )
     }
     catch (err) {
