@@ -18,17 +18,9 @@ export class ChannelsGetEvent {
     
 
     public async run() {
-        try {
-            const channels = ServerSocket.users[this.socket.id].channels
-            
-            channels.forEach(async (channel: any) => {
-                var members = await DB.users.find.many(channel.members)
-                if(!members) return
-                for(let i = 0; i < channel.members_count; i++) {
-                    channel.members[i] = UTILS.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(members[i])
-                }
-            })
-            ServerSocket.io.to(this.socket.id).emit("channelsGet",  channels)
+        try {            
+            const response = await axios.get(`${process.env.BASE_URI}/api/v1/client/get/channels`, utils.set.bearer(ServerSocket.users[this.socket.id].token))
+            ServerSocket.io.to(this.socket.id).emit("channelsGet",  response.data.data)
         } catch(err) {
             Logger.error(err)
         }
