@@ -16,3 +16,4 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./create.messages.events"), exports);
 __exportStar(require("./delete.messages.events"), exports);
+__exportStar(require("./get.messages.events"), exports);

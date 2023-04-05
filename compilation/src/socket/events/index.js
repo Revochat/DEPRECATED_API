@@ -107,6 +107,10 @@ class SocketEvents {
         const messageDelete = new messages_1.MessageDeleteEvent(this.socket);
         messageDelete.run(channelID, messageID);
     }
+    messageGet(channelID) {
+        const messageGet = new messages_1.MessageGetEvent(this.socket);
+        messageGet.run(channelID);
+    }
     friendAdd(friendID) {
         const friendAdd = new friends_1.FriendAddEvent(this.socket);
         friendAdd.run(friendID);

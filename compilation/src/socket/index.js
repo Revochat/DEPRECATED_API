@@ -66,6 +66,7 @@ ServerSocket.events = [
     "login",
     "messageCreate",
     "messageDelete",
+    "messageGet",
     "friendAdd",
     "friendRemove",
     //"friendRequestsReceived", 
