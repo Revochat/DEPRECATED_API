@@ -13,11 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChannelsGetEvent = void 0;
+const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const __1 = __importDefault(require("../.."));
-const database_1 = __importDefault(require("../../../database"));
+const utils_1 = require("../../utils");
 const logger_client_1 = __importDefault(require("../../../client/logger.client"));
-const utils_1 = __importDefault(require("../../../utils"));
 dotenv_1.default.config();
 class ChannelsGetEvent {
     constructor(socket) {
@@ -26,16 +26,8 @@ class ChannelsGetEvent {
     run() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const channels = __1.default.users[this.socket.id].channels;
-                channels.forEach((channel) => __awaiter(this, void 0, void 0, function* () {
-                    var members = yield database_1.default.users.find.many(channel.members);
-                    if (!members)
-                        return;
-                    for (let i = 0; i < channel.members_count; i++) {
-                        channel.members[i] = utils_1.default.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(members[i]);
-                    }
-                }));
-                __1.default.io.to(this.socket.id).emit("channelsGet", channels);
+                const response = yield axios_1.default.get(`${process.env.BASE_URI}/api/v1/client/get/channels`, utils_1.utils.set.bearer(__1.default.users[this.socket.id].token));
+                __1.default.io.to(this.socket.id).emit("channelsGet", response.data.data);
             }
             catch (err) {
                 logger_client_1.default.error(err);
