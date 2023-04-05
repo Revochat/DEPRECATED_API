@@ -22,6 +22,18 @@ export const getMessages = async (req: express.Request, res: express.Response) =
         if (!Channel.members.includes(User.user_id)) throw "You are not a member of this channel"
 
         var Messages = await DB.channels.find.messages(channel_id, parseInt(limit))
+        if (!Messages) throw "Messages not found"
+
+        // fetch user's info
+        var Authors = await DB.users.find.many(Messages.map(message => message.user_id))
+        if (!Authors) throw "Authors not found"
+
+        // replace user_id with user object
+        for (var message of Messages) {
+            var Author = Authors.find(author => author.user_id == message.user_id)
+            if (!Author) throw "Author not found"
+            Object.assign(message, Author)
+        }
 
         res.json(
             new RouteResponse()

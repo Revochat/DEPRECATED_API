@@ -26,13 +26,17 @@ export const get = async (req: express.Request, res: express.Response) => {
         // check if user is in the channel
         if (!User.channels.includes(Channel.channel_id)) throw "User is not in the channel"
 
+        // fetch user's info
+        var Author = await DB.users.find.id(Message.user_id)
+        if (!Author) throw "Author not found"
+
         Emitter.emit("getMessage", Message)
 
         res.json(
             new RouteResponse()
                 .setStatus(Status.success)
                 .setMessage(`Message found`)
-                .setData(Message)
+                .setData(Object.assign(Message, Author))
         )
     }
 
