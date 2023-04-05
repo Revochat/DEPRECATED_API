@@ -10,6 +10,7 @@ import { IMessage } from "../../database/models/Message";
 import Logger from "../../client/logger.client";
 import { CallEvent, ChannelRTCEvent } from "./rtc";
 import { BlockedAddEvent, BlockedRemoveEvent } from "./users/blocked";
+import { FriendGetRequestsReceivedEvent, FriendGetEvent} from "./users/friends"
 
 export class SocketEvents {
     private socket: Socket;
@@ -145,9 +146,18 @@ export class SocketEvents {
         const Login = new LoginEvent(this.socket);
         Login.run(token);
     }
+
+    public async friendGetRequestsReceived() {
+        const Friends = new FriendGetRequestsReceivedEvent(this.socket);
+        Friends.run();
+    }
+
+    public async friendGet(){
+        const Friends = new FriendGetEvent(this.socket);
+        Friends.run();
+    }
     
     public get SocketUsers() {
         return ServerSocket.users
     }
-
 }

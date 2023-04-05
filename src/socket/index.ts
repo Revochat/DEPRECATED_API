@@ -33,6 +33,8 @@ export default class ServerSocket {
         "userBlockedAdd",
         "userBlockedRemove",
         "userGet",
+        "friendGetRequestsReceived",
+        "friendGet"
     ]
 
     constructor(server: any){

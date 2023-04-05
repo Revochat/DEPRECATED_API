@@ -82,4 +82,6 @@ ServerSocket.events = [
     "userBlockedAdd",
     "userBlockedRemove",
     "userGet",
+    "FriendGetRequestsReceivedEvent",
+    "FriendGetEvent"
 ];

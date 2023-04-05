@@ -17,3 +17,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./add.friends.events"), exports);
 __exportStar(require("./receive.friends.events"), exports);
 __exportStar(require("./remove.friends.events"), exports);
+__exportStar(require("./get.friends.received.events"), exports);
+__exportStar(require("./get.friends.events"), exports);

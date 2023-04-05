@@ -23,6 +23,7 @@ const roles_1 = require("./roles");
 const logger_client_1 = __importDefault(require("../../client/logger.client"));
 const rtc_1 = require("./rtc");
 const blocked_1 = require("./users/blocked");
+const friends_2 = require("./users/friends");
 class SocketEvents {
     constructor(socket) {
         this.socket = socket;
@@ -130,6 +131,18 @@ class SocketEvents {
         return __awaiter(this, void 0, void 0, function* () {
             const Login = new login_events_1.LoginEvent(this.socket);
             Login.run(token);
+        });
+    }
+    FriendGetRequestsReceivedEvent() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const Friends = new friends_2.FriendGetRequestsReceivedEvent(this.socket);
+            Friends.run();
+        });
+    }
+    FriendGetEvent() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const Friends = new friends_2.FriendGetEvent(this.socket);
+            Friends.run();
         });
     }
     get SocketUsers() {
