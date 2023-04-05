@@ -25,8 +25,9 @@ class FriendGetRequestsReceivedEvent {
     run() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                console.log("FriendGetRequestsReceivedEvent");
                 const response = yield axios_1.default.get(`${process.env.BASE_URI}/api/v1/client/get/friends_requests_received/`, utils_1.utils.set.bearer(__1.default.users[this.socket.id].token));
-                __1.default.io.to(this.socket.id).emit("friendRemove", response.data.data);
+                __1.default.io.to(this.socket.id).emit("friendGetRequestsReceived", response.data.data);
             }
             catch (err) {
                 console.log(err);

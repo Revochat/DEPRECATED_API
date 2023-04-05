@@ -133,13 +133,13 @@ class SocketEvents {
             Login.run(token);
         });
     }
-    FriendGetRequestsReceivedEvent() {
+    friendGetRequestsReceived() {
         return __awaiter(this, void 0, void 0, function* () {
             const Friends = new friends_2.FriendGetRequestsReceivedEvent(this.socket);
             Friends.run();
         });
     }
-    FriendGetEvent() {
+    friendGet() {
         return __awaiter(this, void 0, void 0, function* () {
             const Friends = new friends_2.FriendGetEvent(this.socket);
             Friends.run();
