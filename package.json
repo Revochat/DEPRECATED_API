@@ -4,7 +4,7 @@
     "@types/uuid": "^9.0.1",
     "install": "^0.13.0",
     "nodemon": "^2.0.22",
-    "npm": "^9.6.3",
+    "npm": "^9.6.4",
     "socket.io": "^4.6.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.3"
