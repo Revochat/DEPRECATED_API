@@ -5,7 +5,6 @@ const find_1 = require("./find");
 const permissions_1 = require("./permissions");
 class FUNCTIONS {
 }
-exports.FUNCTIONS = FUNCTIONS;
 FUNCTIONS.CHECK = {
     CHANNEL: {
         PERMISSIONS: permissions_1.PERMISSIONS.hasChannelPermissions,
@@ -61,3 +60,4 @@ FUNCTIONS.REMOVE_OVERFLOW_INFO_CHANNEL = (channel) => {
     channel.permissions = undefined;
     return channel;
 };
+exports.FUNCTIONS = FUNCTIONS;

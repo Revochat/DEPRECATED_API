@@ -33,10 +33,24 @@ const getMessages = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         if (!Channel.members.includes(User.user_id))
             throw "You are not a member of this channel";
         var Messages = yield database_1.default.channels.find.messages(channel_id, parseInt(limit));
+        if (!Messages)
+            throw "Messages not found";
+        // fetch user's info
+        var Authors = yield database_1.default.users.find.many(Messages.map(message => message.user_id));
+        if (!Authors)
+            throw "Authors not found";
+        var BuiltMessages = [];
+        // replace user_id with user object
+        for (var message of Messages) {
+            var Author = Authors.find(author => author.user_id == message.user_id);
+            if (!Author)
+                throw "Author not found";
+            BuiltMessages.push({ message, author: utils_1.default.FUNCTIONS.REMOVE_PRIVATE_INFO_USER(Author) });
+        }
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
             .setMessage(`Channel messages`)
-            .setData(Messages));
+            .setData(BuiltMessages));
     }
     catch (err) {
         res.status(400);

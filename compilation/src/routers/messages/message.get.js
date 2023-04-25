@@ -38,11 +38,15 @@ const get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         // check if user is in the channel
         if (!User.channels.includes(Channel.channel_id))
             throw "User is not in the channel";
+        // fetch user's info
+        var Author = yield database_1.default.users.find.id(Message.user_id);
+        if (!Author)
+            throw "Author not found";
         emitter_client_1.default.emit("getMessage", Message);
         res.json(new controller_1.RouteResponse()
             .setStatus(controller_1.Status.success)
             .setMessage(`Message found`)
-            .setData(Message));
+            .setData(Object.assign(Message, Author)));
     }
     catch (err) {
         res.status(400);

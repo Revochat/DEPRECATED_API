@@ -5,7 +5,6 @@ const constants_1 = require("./constants");
 const functions_1 = require("./functions");
 class UTILS {
 }
-exports.default = UTILS;
 UTILS.CONSTANTS = constants_1.CONSTANTS;
 UTILS.FUNCTIONS = functions_1.FUNCTIONS;
 UTILS.BASE = {
@@ -14,3 +13,4 @@ UTILS.BASE = {
     58: base_1.BASE58,
     36: base_1.BASE36
 };
+exports.default = UTILS;

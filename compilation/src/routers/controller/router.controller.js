@@ -60,7 +60,6 @@ class Controller {
         Controller.server.close();
     }
 }
-exports.default = Controller;
 _a = Controller;
 Controller.rateLimiter = (0, express_rate_limit_1.default)({
     windowMs: utils_1.default.CONSTANTS.API.RATELIMIT.TIME,
@@ -108,3 +107,4 @@ Controller.iterate = (obj, name = "", path = "", socketing = false, description 
         }
     });
 };
+exports.default = Controller;

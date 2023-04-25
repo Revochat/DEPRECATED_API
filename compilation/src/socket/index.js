@@ -59,7 +59,6 @@ class ServerSocket {
         });
     }
 }
-exports.default = ServerSocket;
 ServerSocket.users = {};
 ServerSocket.channels = {};
 ServerSocket.events = [
@@ -86,3 +85,4 @@ ServerSocket.events = [
     "friendGetRequestsReceived",
     "friendGet"
 ];
+exports.default = ServerSocket;
