@@ -1,7 +1,10 @@
 # Use an official Node.js runtime as a parent image
 FROM alpine
 
+# Install Node.js and npm
 RUN apk add --update nodejs npm
+# Install the musl library for Alpine (required to not get an error when running the application)
+RUN ln -s /lib/libc.musl-x86_64.so.1 /lib/ld-linux-x86-64.so.2
 
 # Set the working directory to /app
 WORKDIR /app
