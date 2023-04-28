@@ -13,6 +13,11 @@ to run the project
 # Contributing
 Check CONTRIBUTING.md before contributing to fully understand how to contribute to the project.
 
+# Run the project
+To compile the project just go the root of the project and type
+``` tsc ```
+the project will compile, you can find it in /compilation
+
 # Organisation of the API
 
 - id's are usually sent in the URL
