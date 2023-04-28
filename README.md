@@ -28,7 +28,7 @@ Request is usually:
    - GET for small and non sensitive requests (get friends, get channels, get servers)
    - POST when you are sending a lot of data and/or is sensitive (login, register, create channel, create server)
 
-revochat.fr/api/
+/api/
 -> /v1/ 
    -> /client/get/friends/:friend_id
    -> /channel/create/private/:friend_id
