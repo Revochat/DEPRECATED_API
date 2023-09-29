@@ -23,5 +23,5 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DB = void 0;
-exports.DB = __importStar(require("./connect.database"));
+exports.STRING = void 0;
+exports.STRING = __importStar(require("./string"));

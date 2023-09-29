@@ -4,21 +4,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-const logger_client_1 = __importDefault(require("../client/logger.client"));
-const config_1 = require("../config");
+const logger_1 = __importDefault(require("../logger"));
+const config_1 = require("../../config");
 mongoose_1.default.set('strictQuery', false);
 function DB_Connect() {
     return new Promise((resolve) => {
         mongoose_1.default
             .connect(config_1.config.mongo.url, { retryWrites: true, w: 'majority' })
             .then(() => {
-            logger_client_1.default.success(`Connected to the database called ${config_1.config.mongo.username}.`);
-            logger_client_1.default.beautifulSpace();
+            logger_1.default.success(`Connected to the database called ${config_1.config.mongo.username}.`);
+            logger_1.default.beautifulSpace();
             resolve();
         })
             .catch(() => {
-            logger_client_1.default.fatal("Failed to connect to the database, exiting... ");
-            logger_client_1.default.warn("Please check your database configuration in the environment file (.env)");
+            logger_1.default.fatal("Failed to connect to the database, exiting... ");
+            logger_1.default.warn("Please check your database configuration in the environment file (.env)");
             process.exit(1);
         });
     });

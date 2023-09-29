@@ -1,6 +1,0 @@
-export enum FILE {
-    MAX_FILE_SIZE = 10000000, // 10MB
-    MIN_FILE_SIZE = 0,
-
-    PREMIUM_MAX_FILE_SIZE = 50000000, // 50MB
-}

@@ -1,5 +1,0 @@
-export * from "./add.friends.events"
-export * from "./receive.friends.events"
-export * from "./remove.friends.events"
-export * from "./get.friends.received.events"
-export * from "./get.friends.events"

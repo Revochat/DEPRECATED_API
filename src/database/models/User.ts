@@ -1,55 +1,55 @@
 import mongoose, {Document, Schema} from "mongoose";
 
-export interface IUser { // This is the interface for the user in the database
+export interface RevoUser {
     user_id: number;
-    discriminator: string;
+    identifier: string;
     token: string;
 
-    wallet_token?: number | null;
+    wallet_token: number | null;
     username: string;
     password: string;
-    premium_expiration: string;
-    avatar?: string;
+    premium_expiration: Date | null;
+    avatar: string;
 
-    message_privacy?: "everyone" | "friends";
-    status?: "online" | "offline" | "idle" | "dnd";
-    updated_at?: string;
-    created_at?: string;
-    last_connection?: string;
+    message_privacy: "everyone" | "friends";
+    status: "online" | "offline" | "idle" | "dnd";
+    updated_at: Date;
+    created_at: Date;
+    last_connection: Date;
 
-    servers?: number[];
-    channels?: number[];
-    friends?: number[];
-    friends_requests_received?: number[];
-    friends_requests_sent?: number[];
-    blocked?: number[];
+    servers: number[];
+    channels: number[];
+    friends: number[];
+    friends_requests_received: number[];
+    friends_requests_sent: number[];
+    blocked: number[];
 }
 
-export interface IUserModel extends IUser, Document {}
+export interface RevoUserDocument extends RevoUser, Document {}
 
-const UserSchema = new Schema({
-    user_id: { type: Number, required: true, unique: true, index: true },
-    token: { type: String, required: true, unique: true, index: true },
-    discriminator: { type: String, required: true, index: true },
+const RevoUserSchema = new Schema({
+    user_id: {type: Number, required: true},
+    identifier: {type: String, required: true},
+    token: {type: String, required: true},
 
-    wallet_token: { type: String, required: false, unique: true, index: true, sparse: true },
-    username: { type: String, required: true, unique: false, index: true },
-    password: { type: String, required: true },
-    premium_expiration: { type: String, required: true, default: null },
-    avatar: {type: String, data: Buffer, contentType: String, default: "default_img_01.png" },
+    wallet_token: {type: Number, required: false},
+    username: {type: String, required: true},
+    password: {type: String, required: true},
+    premium_expiration: {type: Date, required: false, default: null},
+    avatar: {type: String, required: false, default: "default"},
 
-    message_privacy: { type: String, required: true, default: "friends" }, // can people send messages to you? or only friends?
-    status: { type: String, required: true, default: "online" },
-    updated_at: { type: String, required: true, default: new Date().toLocaleString() },
-    created_at: { type: String, required: true, default: new Date().toLocaleString() },
-    last_connection: { type: String, required: true, default: new Date().toLocaleString() },
+    message_privacy: {type: String, required: true, default: "everyone"},
+    status: {type: String, required: true, default: "offline"},
+    updated_at: {type: Date, required: true, default: new Date()},
+    created_at: {type: Date, required: true, default: new Date()},
+    last_connection: {type: Date, required: true, default: new Date()},
 
-    servers: { type: Array, required: false, default: [] },
-    channels: { type: Array, required: false, default: [] },
-    friends: { type: Array, required: false, default: [] },
-    friends_requests_received: { type: Array, required: false, default: [] },
-    friends_requests_sent: { type: Array, required: false, default: [] },
-    blocked: { type: Array, required: false, default: [] }
+    servers: {type: Array, required: true, default: []},
+    channels: {type: Array, required: true, default: []},
+    friends: {type: Array, required: true, default: []},
+    friends_requests_received: {type: Array, required: true, default: []},
+    friends_requests_sent: {type: Array, required: true, default: []},
+    blocked: {type: Array, required: true, default: []},
 });
 
-export default mongoose.model<IUserModel>("User", UserSchema);
+export default mongoose.model<RevoUserDocument>("RevoUser", RevoUserSchema);
